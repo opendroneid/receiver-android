@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+!-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drone_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@mipmap/ic_plane_icon"
+        android:layout_gravity="center"
+        android:contentDescription="@string/drone_icon_content_description"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            tools:text="text"
+            android:id="@+id/aircraftName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="16dp" />
+
+        <TextView
+            tools:text="small"
+            android:id="@+id/aircraftFun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12dp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/last_seen"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="10dp" />
+
+    <Button
+        android:id="@+id/modButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="info"
+        />
+</LinearLayout>

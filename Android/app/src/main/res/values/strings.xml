@@ -1,0 +1,45 @@
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+!-->
+<resources>
+    <string name="app_name">OpenDroneID</string>
+    <string name="bt_ads_not_supported">Bluetooth Advertisements are not supported on this device.</string>
+    <string name="bt_not_supported">Bluetooth is not supported on this device.</string>
+    <string name="bt_not_enabled_leaving">APP will not work properly without enabling Bluetooth.</string>
+    <string name="empty_list">No devices found - refresh to try again.</string>
+    <string name="seconds">seconds.</string>
+    <string name="scan_start_toast">Scanning Drone advertising</string>
+    <string name="already_scanning">Scanning already started.</string>
+    <string name="no_name">(no name)</string>
+    <string name="start_error_unknown">unknown error</string>
+    <string name="advertising_timedout">Advertising stopped due to timeout.</string>
+    <string name="last_seen">Last Seen:</string>
+    <string name="just_now">just now</string>
+    <string name="minute_ago">minute ago</string>
+    <string name="hour_ago">hour ago</string>
+    <string name="seconds_ago">seconds ago</string>
+    <string name="minutes_ago">minutes ago</string>
+    <string name="hours_ago">hours ago</string>
+    <string name="info">info</string>
+
+    <string name="coded_phy_not_supported">Coded Phy not supported</string>
+    <string name="coded_phy_supported">Coded Phy supported</string>
+    <string name="ea_not_supported">Extended Advertising not supported</string>
+    <string name="ea_supported">Extended Advertising supported</string>
+
+    <string name="map_not_ready">Map is not ready yet</string>
+
+    <!--    Permissions    -->
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast">Location permission is required for Bluetooth advertising scanning.</string>
+
+    <string name="drone_icon_content_description">Drone icon</string>
+
+    <string name="accept_button">Accept</string>
+    <string name="accept_content">For Intel internal usage only\n\nThis application uses a Google Maps key paid for by Intel\n\nDO NOT DISTRIBUTE\n\nAccept</string>
+
+</resources>

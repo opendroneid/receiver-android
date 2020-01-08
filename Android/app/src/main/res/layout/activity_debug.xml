@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+!-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/mapView"
+        class="org.opendroneid.android.app.AircraftMapView"
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <FrameLayout
+        android:id="@+id/holder"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_gravity="bottom"
+        android:background="#eee"
+        android:minHeight="150dp"
+        android:elevation="2dp"
+        >
+
+    </FrameLayout>
+</LinearLayout>

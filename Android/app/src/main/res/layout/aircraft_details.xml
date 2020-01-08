@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+!-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Connection" />
+
+            <TextView
+                android:id="@+id/receiveTime"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="RSSI" />
+
+                    <TextView
+                        android:id="@+id/conRssi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="MAC" />
+
+                    <TextView
+                        android:id="@+id/conMac"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Started" />
+
+                    <TextView
+                        android:id="@+id/conStarted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Last seen" />
+
+                    <TextView
+                        android:id="@+id/conLastUpdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Basic ID" />
+
+            <TextView
+                android:id="@+id/infoLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/infoType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="ID Type" />
+
+                    <TextView
+                        android:id="@+id/infoIdType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="UAS ID" />
+
+                    <TextView
+                        android:id="@+id/infoUasId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–"
+                        android:layout_span="3" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:text="Location" />
+
+            <TextView
+                android:id="@+id/posLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Latitude" />
+
+                    <TextView
+                        android:id="@+id/lat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Longitude" />
+
+                    <TextView
+                        android:id="@+id/lon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Altitude Press." />
+
+                    <TextView
+                        android:id="@+id/altitudePressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Alt. Geod." />
+
+                    <TextView
+                        android:id="@+id/altitudeGeodetic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Direction" />
+
+                    <TextView
+                        android:id="@+id/direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Status" />
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Hori. Speed" />
+
+                    <TextView
+                        android:id="@+id/horiSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Vert. Speed" />
+
+                    <TextView
+                        android:id="@+id/vertSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Height" />
+
+                    <TextView
+                        android:id="@+id/height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Height Over" />
+
+                    <TextView
+                        android:id="@+id/heightType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Hori. Accuracy" />
+
+                    <TextView
+                        android:id="@+id/horizontalAccuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Vert. Acc." />
+
+                    <TextView
+                        android:id="@+id/verticalAccuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Baro Acc." />
+
+                    <TextView
+                        android:id="@+id/baroAccuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Speed Acc." />
+
+                    <TextView
+                        android:id="@+id/speedAccuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Time Acc." />
+
+                    <TextView
+                        android:id="@+id/timeAccuracy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Timestamp" />
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Self ID" />
+
+            <TextView
+                android:id="@+id/selfIdLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Operation" />
+
+                    <TextView
+                        android:id="@+id/selfIdDescription"
+                        android:layout_width="162dp"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/selfIdType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Operator" />
+
+            <TextView
+                android:id="@+id/systemLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Latitude" />
+
+                    <TextView
+                        android:id="@+id/systemLatitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Longitude" />
+
+                    <TextView
+                        android:id="@+id/systemLongitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Loc. source" />
+
+                    <TextView
+                        android:id="@+id/systemFlags"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Area Count" />
+
+                    <TextView
+                        android:id="@+id/systemAreaCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Area Radius" />
+
+                    <TextView
+                        android:id="@+id/systemAreaRadius"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Area Ceiling" />
+
+                    <TextView
+                        android:id="@+id/systemAreaCeiling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Area Floor" />
+
+                    <TextView
+                        android:id="@+id/systemAreaFloor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Authentication" />
+
+            <TextView
+                android:id="@+id/authLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/authType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Length" />
+
+                    <TextView
+                        android:id="@+id/authLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Timestamp" />
+
+                    <TextView
+                        android:id="@+id/authTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Authentication" />
+
+                    <TextView
+                        android:id="@+id/authData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–"
+                        android:layout_span="3" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Operator ID" />
+
+            <TextView
+                android:id="@+id/operatorIdLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Operator ID" />
+
+                    <TextView
+                        android:id="@+id/operatorId"
+                        android:layout_width="162dp"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/operatorIdType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

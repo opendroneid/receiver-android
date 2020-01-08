@@ -1,0 +1,13 @@
+Intel Open Drone ID example receiver application for Android
+Third Party Components Attributions
+
+
+This attributions file specifies all 3rd party SW components used for the Intel Open Drone ID example receiver application for Android, and the inbound license for each of these 3rd party components. 
+
+***********
+FastAdapter
+***********
+
+https://github.com/mikepenz/FastAdapter
+
+Licensed under the Apache 2.0 license. See the "LICENSE-2.0.txt" file.

@@ -1,0 +1,8 @@
+In Android Studio, open settings (CTRL + ALT + S). Select plugins. Find Code Iris and install this. Restart Android Studio
+Android Studio no longer starts up
+Download the zip file from https://plugins.jetbrains.com/plugin/7324-code-iris/versions
+Us Beyond Compare or similar on the zip file against “.AndroidStudio3.5\config\plugins\CodeIris-Idea\lib”
+Copy over all jars from the zip file except for the CodeIris-Idea.jar. Leave that from what Android Studio installed. Delete additional jars from the Android Studio plugin folder
+Android Studio should start up
+Right click at the top of the project directory structure and select “Create Graph”
+The graph is now available on the right side of the IDE (Hidden. You need to expand it)

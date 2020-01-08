@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+!-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/device_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="test" />
+
+    <TextView
+        android:id="@+id/device_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/last_seen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/device_name" />
+
+    <TextView
+        android:id="@+id/last_seen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/device_address" />
+</androidx.constraintlayout.widget.ConstraintLayout>
