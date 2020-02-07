@@ -119,9 +119,9 @@ public class LocationData extends MessageData {
         return String.format(Locale.US,"%3.7f", latitude);
     }
     public void setLatitude(double latitude) {
-        if (latitude < 0 || latitude > 180) {
+        if (latitude < -90 || latitude > 90) {
             latitude = 0;
-            longitude = 0; // both equal zero is defined in the specification as the Invalid value
+            this.longitude = 0; // both equal to zero is defined in the specification as the Invalid value
         }
         this.latitude = latitude;
     }
@@ -133,9 +133,9 @@ public class LocationData extends MessageData {
         return String.format(Locale.US,"%3.7f", longitude);
     }
     public void setLongitude(double longitude) {
-        if (longitude < 0 || longitude > 180) {
-            latitude = 0;
-            longitude = 0; // both equal zero is defined in the specification as the Invalid value
+        if (longitude < -180 || longitude > 180) {
+            this.latitude = 0;
+            longitude = 0; // both equal to zero is defined in the specification as the Invalid value
         }
         this.longitude = longitude;
     }

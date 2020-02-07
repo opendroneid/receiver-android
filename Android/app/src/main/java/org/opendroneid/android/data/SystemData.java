@@ -42,7 +42,13 @@ public class SystemData extends MessageData {
             this.flags = systemFlagsEnum.TakeOff;
     }
 
-    public void setOperatorLatitude(double operatorLatitude) { this.operatorLatitude = operatorLatitude; }
+    public void setOperatorLatitude(double operatorLatitude) {
+        if (operatorLatitude < -90 || operatorLatitude > 90) {
+            operatorLatitude = 0;
+            this.operatorLongitude = 0; // both equal to zero is defined in the specification as the Invalid value
+        }
+        this.operatorLatitude = operatorLatitude;
+    }
     public double getOperatorLatitude() { return operatorLatitude; }
     public String getOperatorLatitudeAsString() {
         if (operatorLatitude == 0 && operatorLongitude == 0)
@@ -50,7 +56,13 @@ public class SystemData extends MessageData {
         return String.format(Locale.US,"%3.7f", operatorLatitude);
     }
 
-    public void setOperatorLongitude(double operatorLongitude) { this.operatorLongitude = operatorLongitude; }
+    public void setOperatorLongitude(double operatorLongitude) {
+        if (operatorLongitude < -180 || operatorLongitude > 180) {
+            this.operatorLatitude = 0;
+            operatorLongitude = 0; // both equal to zero is defined in the specification as the Invalid value
+        }
+        this.operatorLongitude = operatorLongitude;
+    }
     public double getOperatorLongitude() { return operatorLongitude; }
     public String getOperatorLongitudeAsString() {
         if (operatorLatitude == 0 && operatorLongitude == 0)
