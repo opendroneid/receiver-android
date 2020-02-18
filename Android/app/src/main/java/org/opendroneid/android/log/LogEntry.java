@@ -40,7 +40,9 @@ public class LogEntry {
                 + callbackType + DELIM
                 + rssi;
         if (withData) {
-            s += DELIM + toHexString(data, 32);
+            // The first byte in the data array contains the length of the subsequent data
+            int length = ((int) data[0] & 0xFF) + 1;
+            s += DELIM + toHexString(data, length);
         }
         s += DELIM + csvLog;
         return s;
@@ -71,11 +73,12 @@ public class LogEntry {
         StringBuilder sb = new StringBuilder((len) * 3);
         int i = 0;
         for (byte b : bytes) {
-            if (i++ > len) break;
+            i++;
+            if (i > len)
+                break;
             int val = b & 0xFF;
             sb.append(String.format("%02X ", val));
         }
-
         return sb.toString();
     }
 

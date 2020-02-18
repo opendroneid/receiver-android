@@ -73,7 +73,7 @@ public class BluetoothScanner {
     }
 
     private static String dumpBytes(byte[] bytes) {
-        return LogEntry.toHexString(bytes, bytes.length + 1);
+        return LogEntry.toHexString(bytes, bytes.length);
     }
 
     public BluetoothAdapter getBluetoothAdapter() {
