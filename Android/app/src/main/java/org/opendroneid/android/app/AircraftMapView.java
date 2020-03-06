@@ -83,8 +83,8 @@ private static final String TAG = "AircraftMapView";
 
         model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
 
-        model.getAllAircraft().observe(this, allAircraftObserver);
-        model.getActiveAircraft().observe(this, new Observer<AircraftObject>() {
+        model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
+        model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
             MapObserver last = null;
             @Override
             public void onChanged(@Nullable AircraftObject object) {

@@ -85,7 +85,7 @@ public class DeviceDetailFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
 
-        model.connection.observe(this, connection -> {
+        model.connection.observe(getViewLifecycleOwner(), connection -> {
             if (connection == null) return;
             conRssi.setText(String.valueOf(connection.rssi));
             conMac.setText(connection.macAddress);
@@ -94,7 +94,7 @@ public class DeviceDetailFragment extends DialogFragment {
             conLastUpdate.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.lastSeen)));
         });
 
-        model.identification.observe(this, identification -> {
+        model.identification.observe(getViewLifecycleOwner(), identification -> {
             if (identification == null) return;
 
             receiveTime.setText(identification.getTimestampAsString());
@@ -104,7 +104,7 @@ public class DeviceDetailFragment extends DialogFragment {
             infoUasId.setText(identification.getUasIdAsString());
         });
 
-        model.location.observe(this, locationData -> {
+        model.location.observe(getViewLifecycleOwner(), locationData -> {
             if (locationData == null) return;
 
             receiveTime.setText(locationData.getTimestampAsString());
@@ -127,7 +127,7 @@ public class DeviceDetailFragment extends DialogFragment {
             timeAccuracy.setText(locationData.getTimeAccuracyAsString());
         });
 
-        model.authentication.observe(this, authenticationData -> {
+        model.authentication.observe(getViewLifecycleOwner(), authenticationData -> {
             if (authenticationData == null) return;
 
             receiveTime.setText(authenticationData.getTimestampAsString());
@@ -138,7 +138,7 @@ public class DeviceDetailFragment extends DialogFragment {
             authData.setText(authenticationData.getAuthenticationDataAsString());
         });
 
-        model.selfid.observe(this, selfIdData -> {
+        model.selfid.observe(getViewLifecycleOwner(), selfIdData -> {
             if (selfIdData == null) return;
 
             receiveTime.setText(selfIdData.getTimestampAsString());
@@ -147,7 +147,7 @@ public class DeviceDetailFragment extends DialogFragment {
             selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
         });
 
-        model.system.observe(this, systemData -> {
+        model.system.observe(getViewLifecycleOwner(), systemData -> {
             if (systemData == null) return;
 
             receiveTime.setText(systemData.getTimestampAsString());
@@ -161,7 +161,7 @@ public class DeviceDetailFragment extends DialogFragment {
             systemAreaFloor.setText(systemData.getAreaFloorAsString());
         });
 
-        model.operatorid.observe(this, operatorIdData -> {
+        model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {
             if (operatorIdData == null) return;
 
             receiveTime.setText(operatorIdData.getTimestampAsString());

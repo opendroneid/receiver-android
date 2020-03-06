@@ -63,7 +63,7 @@ public class DeviceList extends Fragment {
             mItemAdapter.setNewList(new ArrayList<>(aircraftList));
         };
 
-        model.getActiveAircraft().observe(this, object -> {
+        model.getActiveAircraft().observe(getViewLifecycleOwner(), object -> {
             SelectExtension<ListItem> selectExtension = mAdapter.getSelectExtension();
             if (object == null) {
                 selectExtension.deselect();
@@ -71,7 +71,7 @@ public class DeviceList extends Fragment {
                 selectExtension.selectByIdentifier(object.getMacAddress(), false, false);
             }
         });
-        mModel.getAllAircraft().observe(this, listObserver);
+        mModel.getAllAircraft().observe(getViewLifecycleOwner(), listObserver);
     }
 
     @Override
