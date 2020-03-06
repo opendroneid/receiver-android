@@ -25,16 +25,16 @@ public class Identification extends MessageData {
     public enum UaTypeEnum {
         None,
         Aeroplane,
-        Rotorcraft,
+        Helicopter_or_Multirotor,
         Gyroplane,
-        VTOL,
+        Hybrid_Lift, // VTOL. Fixed wing aircraft that can take off vertically
         Ornithopter,
         Glider,
         Kite,
         Free_balloon,
         Captive_balloon,
         Airship,
-        Free_fall_parachute,
+        Free_fall_parachute, // Unpowered
         Rocket,
         Tethered_powered_aircraft,
         Ground_obstacle,
@@ -52,9 +52,9 @@ public class Identification extends MessageData {
     public void setUaType(int uaType) {
         switch(uaType) {
             case 1: this.uaType = UaTypeEnum.Aeroplane; break;
-            case 2: this.uaType = UaTypeEnum.Rotorcraft; break;
+            case 2: this.uaType = UaTypeEnum.Helicopter_or_Multirotor; break;
             case 3: this.uaType = UaTypeEnum.Gyroplane; break;
-            case 4: this.uaType = UaTypeEnum.VTOL; break;
+            case 4: this.uaType = UaTypeEnum.Hybrid_Lift; break;
             case 5: this.uaType = UaTypeEnum.Ornithopter; break;
             case 6: this.uaType = UaTypeEnum.Glider; break;
             case 7: this.uaType = UaTypeEnum.Kite; break;
