@@ -294,8 +294,8 @@ public class LocationData extends MessageData {
     public void setLocationTimestamp(double locationTimestamp) {
         if (locationTimestamp < 0)
             locationTimestamp = 0;
-        if (locationTimestamp > 3600)
-            locationTimestamp = 3600; // Max one hour is allowed
+        if (locationTimestamp > 36000)
+            locationTimestamp = 36000; // Max one hour is allowed. Unit is 0.1s
         this.locationTimestamp = locationTimestamp;
     }
 
