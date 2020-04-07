@@ -301,7 +301,10 @@ public class LocationData extends MessageData {
 
     public double getTimeAccuracy() { return timeAccuracy; }
     public String getTimeAccuracyAsString() {
-        return String.format(Locale.US,"< %1.1f s", timeAccuracy);
+        if (timeAccuracy == 0)
+            return "Unknown";
+        else
+            return String.format(Locale.US,"<= %1.1f s", timeAccuracy);
     }
     public void setTimeAccuracy(double timeAccuracy) {
         if (timeAccuracy < 0)
