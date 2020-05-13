@@ -209,7 +209,8 @@ public class DeviceList extends Fragment {
             public void onChanged(@Nullable LocationData locationData) {
                 if (locationData != null)
                     textView2.setText(String.format(Locale.US, "%s, %s",
-                                      locationData.getHeightAsString(),
+                                      locationData.getHeightAsString() +
+                                              " over " + locationData.getHeightType().toString(),
                                       locationData.getSpeedHorizontalAsString()));
             }
         };
