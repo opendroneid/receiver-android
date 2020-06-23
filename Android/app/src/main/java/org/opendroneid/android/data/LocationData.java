@@ -51,12 +51,14 @@ public class LocationData extends MessageData {
         Undeclared,
         Ground,
         Airborne,
+        Emergency,
     }
     public StatusEnum getStatus() { return status; }
     public void setStatus(int status) {
         switch(status) {
             case 1: this.status = StatusEnum.Ground; break;
             case 2: this.status = StatusEnum.Airborne; break;
+            case 3: this.status = StatusEnum.Emergency; break;
             default: this.status = StatusEnum.Undeclared; break;
         }
     }
