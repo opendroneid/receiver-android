@@ -461,9 +461,9 @@
 
             <TextView
                 style="@style/Details.Heading"
-                android:layout_width="99dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Operator" />
+                android:text="System/Operator" />
 
             <TextView
                 android:id="@+id/systemLastUpdate"
@@ -511,7 +511,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Loc. source" />
+                        android:text="Location" />
 
                     <TextView
                         android:id="@+id/operatorLocationType"
@@ -565,6 +565,62 @@
 
                     <TextView
                         android:id="@+id/systemAreaFloor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Operator ID" />
+
+            <TextView
+                android:id="@+id/operatorIdLastUpdate"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Operator ID" />
+
+                    <TextView
+                        android:id="@+id/operatorId"
+                        android:layout_width="162dp"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/operatorIdType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
@@ -656,62 +712,6 @@
                         android:layout_height="wrap_content"
                         android:text="–"
                         android:layout_span="3" />
-                </TableRow>
-
-            </TableLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            app:cardElevation="1dp"
-            app:contentPadding="8dp">
-
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
-                android:layout_height="wrap_content"
-                android:text="Operator ID" />
-
-            <TextView
-                android:id="@+id/operatorIdLastUpdate"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="–"
-                android:textAlignment="viewEnd" />
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Operator ID" />
-
-                    <TextView
-                        android:id="@+id/operatorId"
-                        android:layout_width="162dp"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Type" />
-
-                    <TextView
-                        android:id="@+id/operatorIdType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
                 </TableRow>
 
             </TableLayout>
