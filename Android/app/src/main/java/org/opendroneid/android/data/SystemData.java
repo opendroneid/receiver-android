@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class SystemData extends MessageData {
 
-    private systemFlagsEnum flags;
+    private operatorLocationTypeEnum operatorLocationType;
     private double operatorLatitude;
     private double operatorLongitude;
     private int areaCount;
@@ -20,7 +20,7 @@ public class SystemData extends MessageData {
 
     public SystemData() {
         super();
-        flags = systemFlagsEnum.TakeOff;
+        operatorLocationType = operatorLocationTypeEnum.Invalid;
         operatorLatitude = 0;
         operatorLongitude = 0;
         areaCount = 0;
@@ -29,17 +29,21 @@ public class SystemData extends MessageData {
         areaFloor = -1000; // -1000 is the Invalid value in the specification
     }
 
-    public enum systemFlagsEnum {
+    public enum operatorLocationTypeEnum {
         TakeOff,
         LiveGNSS,
+        FixedLocation,
+        Invalid,
     }
 
-    public systemFlagsEnum getFlags() { return flags; }
-    public void setFlags(int flags) {
-        if (flags == 1)
-            this.flags = systemFlagsEnum.LiveGNSS;
-        else
-            this.flags = systemFlagsEnum.TakeOff;
+    public operatorLocationTypeEnum getOperatorLocationType() { return operatorLocationType; }
+    public void setOperatorLocationType(int operatorLocationType) {
+        switch(operatorLocationType) {
+            case 0: this.operatorLocationType = operatorLocationTypeEnum.TakeOff; break;
+            case 1: this.operatorLocationType = operatorLocationTypeEnum.LiveGNSS; break;
+            case 2: this.operatorLocationType = operatorLocationTypeEnum.FixedLocation; break;
+            default: this.operatorLocationType = operatorLocationTypeEnum.Invalid; break;
+        }
     }
 
     public void setOperatorLatitude(double operatorLatitude) {

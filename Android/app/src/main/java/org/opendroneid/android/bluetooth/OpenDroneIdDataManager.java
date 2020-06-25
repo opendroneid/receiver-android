@@ -21,7 +21,6 @@ import org.opendroneid.android.log.LogMessageEntry;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
@@ -184,7 +183,7 @@ public class OpenDroneIdDataManager {
         data.setADCounter(message.adCounter);
         data.setTimestamp(message.timestamp);
 
-        data.setFlags(raw.flags);
+        data.setOperatorLocationType(raw.operatorLocationType);
         data.setOperatorLatitude(raw.getLatitude());
         data.setOperatorLongitude(raw.getLongitude());
         data.setAreaCount(raw.areaCount);

@@ -61,7 +61,7 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView selfIdDescription;
 
     private TextView systemLastUpdate;
-    private TextView systemFlags;
+    private TextView operatorLocationType;
     private TextView systemLatitude;
     private TextView systemLongitude;
     private TextView systemAreaCount;
@@ -152,7 +152,7 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(systemData.getTimestampAsString());
             systemLastUpdate.setText(systemData.getADCounterAsString());
-            systemFlags.setText(systemData.getFlags().name());
+            operatorLocationType.setText(systemData.getOperatorLocationType().name());
             systemLatitude.setText(systemData.getOperatorLatitudeAsString());
             systemLongitude.setText(systemData.getOperatorLongitudeAsString());
             systemAreaCount.setText(String.valueOf(systemData.getAreaCount()));
@@ -216,7 +216,7 @@ public class DeviceDetailFragment extends DialogFragment {
         selfIdDescription = view.findViewById(R.id.selfIdDescription);
 
         systemLastUpdate = view.findViewById(R.id.systemLastUpdate);
-        systemFlags = view.findViewById(R.id.systemFlags);
+        operatorLocationType = view.findViewById(R.id.operatorLocationType);
         systemLatitude = view.findViewById(R.id.systemLatitude);
         systemLongitude = view.findViewById(R.id.systemLongitude);
         systemAreaCount = view.findViewById(R.id.systemAreaCount);

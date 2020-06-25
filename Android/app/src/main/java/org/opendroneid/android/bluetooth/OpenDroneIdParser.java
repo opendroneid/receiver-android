@@ -287,7 +287,7 @@ public class OpenDroneIdParser {
     }
 
     public static class SystemMsg implements Payload {
-        int flags;
+        int operatorLocationType;
         int operatorLatitude;
         int operatorLongitude;
         int areaCount;
@@ -308,7 +308,7 @@ public class OpenDroneIdParser {
         double getAreaFloor() { return calcAltitude(areaFloor); }
 
         public static String csvHeader() {
-            return "flags" + DELIM
+            return "operatorLocationType" + DELIM
                     + "operatorLatitude" + DELIM
                     + "operatorLongitude" + DELIM
                     + "areaCount" + DELIM
@@ -319,7 +319,7 @@ public class OpenDroneIdParser {
 
         @Override
         public String toCsvString() {
-            return flags + DELIM
+            return operatorLocationType + DELIM
                     + operatorLatitude + DELIM
                     + operatorLongitude + DELIM
                     + areaCount + DELIM
@@ -331,7 +331,7 @@ public class OpenDroneIdParser {
         @Override @NonNull
         public String toString() {
             return "PilotLocation{" +
-                    "flags=" + flags +
+                    "operatorLocationType=" + operatorLocationType +
                     ", operatorLatitude=" + operatorLatitude +
                     ", operatorLongitude=" + operatorLongitude +
                     ", areaCount=" + areaCount +
@@ -541,7 +541,7 @@ public class OpenDroneIdParser {
 
     private static SystemMsg parseSystem(ByteBuffer byteBuffer) {
         SystemMsg s = new SystemMsg();
-        s.flags = byteBuffer.get();
+        s.operatorLocationType = byteBuffer.get();
         s.operatorLatitude = byteBuffer.getInt();
         s.operatorLongitude = byteBuffer.getInt();
         s.areaCount = byteBuffer.getShort() & 0xFFFF;

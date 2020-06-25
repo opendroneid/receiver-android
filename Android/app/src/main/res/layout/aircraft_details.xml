@@ -514,7 +514,7 @@
                         android:text="Loc. source" />
 
                     <TextView
-                        android:id="@+id/systemFlags"
+                        android:id="@+id/operatorLocationType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
