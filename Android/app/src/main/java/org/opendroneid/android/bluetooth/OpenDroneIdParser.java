@@ -288,12 +288,15 @@ public class OpenDroneIdParser {
 
     public static class SystemMsg implements Payload {
         int operatorLocationType;
+        int classificationType;
         int operatorLatitude;
         int operatorLongitude;
         int areaCount;
         int areaRadius;
         int areaCeiling;
         int areaFloor;
+        int category;
+        int classValue;
 
         double getLatitude() {
             return LAT_LONG_MULTIPLIER * operatorLatitude;
@@ -309,35 +312,44 @@ public class OpenDroneIdParser {
 
         public static String csvHeader() {
             return "operatorLocationType" + DELIM
+                    + "classificationType" + DELIM
                     + "operatorLatitude" + DELIM
                     + "operatorLongitude" + DELIM
                     + "areaCount" + DELIM
                     + "areaRadius" + DELIM
                     + "areaCeiling" + DELIM
-                    + "areaFloor" + DELIM;
+                    + "areaFloor" + DELIM
+                    + "category" + DELIM
+                    + "classValue" + DELIM;
         }
 
         @Override
         public String toCsvString() {
             return operatorLocationType + DELIM
+                    + classificationType + DELIM
                     + operatorLatitude + DELIM
                     + operatorLongitude + DELIM
                     + areaCount + DELIM
                     + areaRadius + DELIM
                     + areaCeiling + DELIM
-                    + areaFloor + DELIM;
+                    + areaFloor + DELIM
+                    + category + DELIM
+                    + classValue + DELIM;
         }
 
         @Override @NonNull
         public String toString() {
             return "PilotLocation{" +
                     "operatorLocationType=" + operatorLocationType +
+                    ", classificationType=" + classificationType +
                     ", operatorLatitude=" + operatorLatitude +
                     ", operatorLongitude=" + operatorLongitude +
                     ", areaCount=" + areaCount +
                     ", areaRadius=" + areaRadius +
                     ", areaCeiling=" + areaCeiling +
                     ", areaFloor=" + areaFloor +
+                    ", category=" + category +
+                    ", class=" + classValue +
                     '}';
         }
     }
@@ -541,13 +553,19 @@ public class OpenDroneIdParser {
 
     private static SystemMsg parseSystem(ByteBuffer byteBuffer) {
         SystemMsg s = new SystemMsg();
-        s.operatorLocationType = byteBuffer.get();
+
+        int b = byteBuffer.get();
+        s.operatorLocationType = b & 0x03;
+        s.classificationType = (b & 0x1C) >> 2;
         s.operatorLatitude = byteBuffer.getInt();
         s.operatorLongitude = byteBuffer.getInt();
         s.areaCount = byteBuffer.getShort() & 0xFFFF;
         s.areaRadius = byteBuffer.get() & 0xFF;
         s.areaCeiling = byteBuffer.getShort();
         s.areaFloor = byteBuffer.getShort();
+        b = byteBuffer.get();
+        s.category = (b & 0xF0) >> 4;
+        s.classValue = b & 0x0F;
         return s;
     }
 

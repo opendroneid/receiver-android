@@ -62,12 +62,15 @@ public class DeviceDetailFragment extends DialogFragment {
 
     private TextView systemLastUpdate;
     private TextView operatorLocationType;
+    private TextView classificationType;
     private TextView systemLatitude;
     private TextView systemLongitude;
     private TextView systemAreaCount;
     private TextView systemAreaRadius;
     private TextView systemAreaCeiling;
     private TextView systemAreaFloor;
+    private TextView category;
+    private TextView classValue;
 
     private TextView operatorIdLastUpdate;
     private TextView operatorIdType;
@@ -153,12 +156,15 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(systemData.getTimestampAsString());
             systemLastUpdate.setText(systemData.getADCounterAsString());
             operatorLocationType.setText(systemData.getOperatorLocationType().name());
+            classificationType.setText(systemData.getclassificationType().name());
             systemLatitude.setText(systemData.getOperatorLatitudeAsString());
             systemLongitude.setText(systemData.getOperatorLongitudeAsString());
             systemAreaCount.setText(String.valueOf(systemData.getAreaCount()));
             systemAreaRadius.setText(systemData.getAreaRadiusAsString());
             systemAreaCeiling.setText(systemData.getAreaCeilingAsString());
             systemAreaFloor.setText(systemData.getAreaFloorAsString());
+            category.setText(systemData.getCategory().name());
+            classValue.setText(systemData.getClassValue().name());
         });
 
         model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {
@@ -217,12 +223,15 @@ public class DeviceDetailFragment extends DialogFragment {
 
         systemLastUpdate = view.findViewById(R.id.systemLastUpdate);
         operatorLocationType = view.findViewById(R.id.operatorLocationType);
+        classificationType = view.findViewById(R.id.classificationType);
         systemLatitude = view.findViewById(R.id.systemLatitude);
         systemLongitude = view.findViewById(R.id.systemLongitude);
         systemAreaCount = view.findViewById(R.id.systemAreaCount);
         systemAreaRadius = view.findViewById(R.id.systemAreaRadius);
         systemAreaCeiling = view.findViewById(R.id.systemAreaCeiling);
         systemAreaFloor = view.findViewById(R.id.systemAreaFloor);
+        category = view.findViewById(R.id.category);
+        classValue = view.findViewById(R.id.classValue);
 
         operatorIdLastUpdate = view.findViewById(R.id.operatorIdLastUpdate);
         operatorIdType = view.findViewById(R.id.operatorIdType);

@@ -11,22 +11,28 @@ import java.util.Locale;
 public class SystemData extends MessageData {
 
     private operatorLocationTypeEnum operatorLocationType;
+    private classificationTypeEnum classificationType;
     private double operatorLatitude;
     private double operatorLongitude;
     private int areaCount;
     private int areaRadius;
     private double areaCeiling;
     private double areaFloor;
+    private categoryEnum category;
+    private classValueEnum classValue;
 
     public SystemData() {
         super();
         operatorLocationType = operatorLocationTypeEnum.Invalid;
+        classificationType = classificationTypeEnum.Undeclared;
         operatorLatitude = 0;
         operatorLongitude = 0;
         areaCount = 0;
         areaRadius = 0;
         areaCeiling = -1000; // -1000 is the Invalid value in the specification
         areaFloor = -1000; // -1000 is the Invalid value in the specification
+        category = categoryEnum.Undeclared;
+        classValue = classValueEnum.Undeclared;
     }
 
     public enum operatorLocationTypeEnum {
@@ -43,6 +49,20 @@ public class SystemData extends MessageData {
             case 1: this.operatorLocationType = operatorLocationTypeEnum.LiveGNSS; break;
             case 2: this.operatorLocationType = operatorLocationTypeEnum.FixedLocation; break;
             default: this.operatorLocationType = operatorLocationTypeEnum.Invalid; break;
+        }
+    }
+
+    public enum classificationTypeEnum {
+        Undeclared,
+        EU, // European Union
+    }
+
+    public classificationTypeEnum getclassificationType() { return classificationType; }
+    public void setClassificationType(int classificationType) {
+        if (classificationType == 1) {
+            this.classificationType = classificationTypeEnum.EU;
+        } else {
+            this.classificationType = classificationTypeEnum.Undeclared;
         }
     }
 
@@ -96,5 +116,55 @@ public class SystemData extends MessageData {
     public void setAreaFloor(double areaFloor) { this.areaFloor = areaFloor; }
     public double getAreaFloor() { return areaFloor; }
     public String getAreaFloorAsString() { return getAltitudeAsString(areaFloor); }
+
+    public enum categoryEnum {
+        Undeclared,
+        EU_Open,
+        EU_Specific,
+        EU_Certified,
+    }
+
+    public categoryEnum getCategory() { return category; }
+    public void setCategory(int category) {
+        if (classificationType == classificationTypeEnum.EU) {
+            switch(category) {
+                case 1: this.category = categoryEnum.EU_Open; break;
+                case 2: this.category = categoryEnum.EU_Specific; break;
+                case 3: this.category = categoryEnum.EU_Certified; break;
+                default: this.category = categoryEnum.Undeclared; break;
+            }
+        } else {
+            this.category = categoryEnum.Undeclared;
+        }
+    }
+
+    public enum classValueEnum {
+        Undeclared,
+        EU_Class_0,
+        EU_Class_1,
+        EU_Class_2,
+        EU_Class_3,
+        EU_Class_4,
+        EU_Class_5,
+        EU_Class_6,
+    }
+
+    public classValueEnum getClassValue() { return classValue; }
+    public void setClassValue(int classValue) {
+        if (classificationType == classificationTypeEnum.EU) {
+            switch(classValue) {
+                case 1: this.classValue = classValueEnum.EU_Class_0; break;
+                case 2: this.classValue = classValueEnum.EU_Class_1; break;
+                case 3: this.classValue = classValueEnum.EU_Class_2; break;
+                case 4: this.classValue = classValueEnum.EU_Class_3; break;
+                case 5: this.classValue = classValueEnum.EU_Class_4; break;
+                case 6: this.classValue = classValueEnum.EU_Class_5; break;
+                case 7: this.classValue = classValueEnum.EU_Class_6; break;
+                default: this.classValue = classValueEnum.Undeclared; break;
+            }
+        } else {
+            this.classValue = classValueEnum.Undeclared;
+        }
+    }
 }
 

@@ -184,12 +184,15 @@ public class OpenDroneIdDataManager {
         data.setTimestamp(message.timestamp);
 
         data.setOperatorLocationType(raw.operatorLocationType);
+        data.setClassificationType(raw.classificationType);
         data.setOperatorLatitude(raw.getLatitude());
         data.setOperatorLongitude(raw.getLongitude());
         data.setAreaCount(raw.areaCount);
         data.setAreaRadius(raw.getAreaRadius());
         data.setAreaCeiling(raw.getAreaCeiling());
         data.setAreaFloor(raw.getAreaFloor());
+        data.setCategory(raw.category);
+        data.setClassValue(raw.classValue);
         ac.system.postValue(data);
     }
 
