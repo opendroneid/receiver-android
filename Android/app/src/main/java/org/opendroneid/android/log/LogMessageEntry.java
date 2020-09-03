@@ -19,9 +19,11 @@ public class LogMessageEntry {
     private static final String DELIM_LOCATION = DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
                                                  DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
                                                  DELIM + DELIM + DELIM + DELIM + DELIM + DELIM;
-    private static final String DELIM_AUTHENTICATION =  DELIM + DELIM + DELIM +  DELIM + DELIM + DELIM;
+    private static final String DELIM_AUTHENTICATION = DELIM + DELIM + DELIM + DELIM + DELIM +
+                                                       DELIM;
     private static final String DELIM_SELF_ID = DELIM + DELIM;
-    private static final String DELIM_SYSTEM = DELIM + DELIM + DELIM +  DELIM + DELIM + DELIM +  DELIM;
+    private static final String DELIM_SYSTEM = DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
+                                               DELIM + DELIM + DELIM + DELIM;
     private static final String DELIM_OPERATOR = DELIM + DELIM;
 
     private ArrayList<OpenDroneIdParser.Message> messages;
