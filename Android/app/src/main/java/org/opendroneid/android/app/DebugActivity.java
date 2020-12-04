@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -36,6 +35,7 @@ import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
 import org.opendroneid.android.log.LogWriter;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
+import org.opendroneid.android.bluetooth.WiFiNaNScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.data.AircraftObject;
 
@@ -48,6 +48,7 @@ import java.util.Set;
 
 public class DebugActivity extends AppCompatActivity {
     BluetoothScanner btScanner;
+    WiFiNaNScanner wiFiNaNScanner;
 
     private AircraftViewModel mModel;
     OpenDroneIdDataManager dataManager;
@@ -68,21 +69,29 @@ public class DebugActivity extends AppCompatActivity {
         mMenuLogItem = menu.findItem(R.id.menu_log);
         mMenuLogItem.setChecked(getLogEnabled());
         checkBluetoothSupport(menu);
+        checkNaNSupport(menu);
         return true;
     }
 
-    @TargetApi(26)
+    @TargetApi(Build.VERSION_CODES.O)
     private void checkBluetoothSupport(Menu menu) {
         Object object = getSystemService(BLUETOOTH_SERVICE);
         if (object == null)
             return;
         BluetoothAdapter bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
 
-        if (Build.VERSION.SDK_INT >= 26 && bluetoothAdapter.isLeCodedPhySupported()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeCodedPhySupported()) {
             menu.findItem(R.id.coded_phy).setTitle(R.string.coded_phy_supported);
         }
-        if (Build.VERSION.SDK_INT >= 26 && bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
             menu.findItem(R.id.extended_advertising).setTitle(R.string.ea_supported);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void checkNaNSupport(Menu menu) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
+            menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
         }
     }
 
@@ -121,7 +130,6 @@ public class DebugActivity extends AppCompatActivity {
         if (!file.mkdirs()) {
             file = getExternalFilesDir(null);
         }
-
         String pattern = "yyyy-MM-dd_HH-mm-ss.SSS";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
         return new File(file, "log_" + Build.MODEL + "_" + name + "_" + simpleDateFormat.format(new Date()) + ".csv");
@@ -146,7 +154,7 @@ public class DebugActivity extends AppCompatActivity {
 
         try {
             logger = new LogWriter(loggerFile);
-            //Toast.makeText(context, "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,7 +162,6 @@ public class DebugActivity extends AppCompatActivity {
 
         BluetoothAdapter bluetoothAdapter = btScanner.getBluetoothAdapter();
         if (bluetoothAdapter != null) {
-
             // Is Bluetooth turned on?
             if (!bluetoothAdapter.isEnabled()) {
                 // Prompt user to turn on Bluetooth (logic continues in onActivityResult()).
@@ -189,6 +196,11 @@ public class DebugActivity extends AppCompatActivity {
 
         btScanner.startScan();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            wiFiNaNScanner = new WiFiNaNScanner(this);
+            wiFiNaNScanner.startScan();
+        }
+
         addDeviceList();
     }
 
@@ -221,11 +233,13 @@ public class DebugActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         //btScanner.stopScan();
         super.onPause();
     }

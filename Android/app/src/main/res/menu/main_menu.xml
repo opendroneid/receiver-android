@@ -26,6 +26,9 @@
         android:id="@+id/extended_advertising"
         android:title="@string/ea_not_supported" />
     <item
+        android:id="@+id/wifi_nan"
+        android:title="@string/nan_not_supported" />
+    <item
         android:id="@+id/version"
         android:title="@string/app_version" />
 </menu>

@@ -16,7 +16,6 @@ import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.os.Build;
-import android.os.Environment;
 import android.os.ParcelUuid;
 import android.util.Log;
 
@@ -24,11 +23,7 @@ import org.opendroneid.android.log.LogEntry;
 import org.opendroneid.android.log.LogMessageEntry;
 import org.opendroneid.android.log.LogWriter;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -108,7 +103,7 @@ public class BluetoothScanner {
     private static final ParcelUuid SERVICE_pUUID = new ParcelUuid(SERVICE_UUID);
     private static final byte[] OPEN_DRONE_ID_AD_CODE = new byte[]{(byte) 0x0D};
 
-    @TargetApi(26)
+    @TargetApi(Build.VERSION_CODES.O)
     public void startScan() {
         if (bluetoothAdapter == null)
             return;
@@ -124,7 +119,7 @@ public class BluetoothScanner {
         ScanSettings scanSettings = new ScanSettings.Builder()
                                     .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                                     .build();
-        if (Build.VERSION.SDK_INT >= 26 &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
             bluetoothAdapter.isLeCodedPhySupported() &&
             bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
             // Enable scanning also for devices advertising on an LE Coded PHY S2 or S8

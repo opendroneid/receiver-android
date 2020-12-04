@@ -29,6 +29,8 @@
     <string name="coded_phy_supported">Coded Phy supported</string>
     <string name="ea_not_supported">Extended Advertising not supported</string>
     <string name="ea_supported">Extended Advertising supported</string>
+    <string name="nan_not_supported">WiFi NaN not supported</string>
+    <string name="nan_supported">WiFi NaN supported</string>
 
     <string name="map_not_ready">Map is not ready yet</string>
 
