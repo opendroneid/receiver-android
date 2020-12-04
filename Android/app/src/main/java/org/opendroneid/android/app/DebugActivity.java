@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,11 +40,14 @@ import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.data.AircraftObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
 public class DebugActivity extends AppCompatActivity {
-    BluetoothScanner manager;
+    BluetoothScanner btScanner;
 
     private AircraftViewModel mModel;
     OpenDroneIdDataManager dataManager;
@@ -53,6 +59,7 @@ public class DebugActivity extends AppCompatActivity {
     private MenuItem mMenuLogItem;
 
     private File loggerFile;
+    private LogWriter logger;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +116,17 @@ public class DebugActivity extends AppCompatActivity {
         pref.edit().putBoolean(SHARED_PREF_ENABLE_LOG, enabled).apply();
     }
 
+    private File getLoggerFileDir(String name) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "OpenDroneID");
+        if (!file.mkdirs()) {
+            file = getExternalFilesDir(null);
+        }
+
+        String pattern = "yyyy-MM-dd_HH-mm-ss.SSS";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
+        return new File(file, "log_" + Build.MODEL + "_" + name + "_" + simpleDateFormat.format(new Date()) + ".csv");
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,10 +140,19 @@ public class DebugActivity extends AppCompatActivity {
                 mModel.setAllAircraft(dataManager.getAircraft());
             }
         });
-        manager = new BluetoothScanner(this, dataManager);
-        loggerFile = manager.getLoggerFile();
 
-        BluetoothAdapter bluetoothAdapter = manager.getBluetoothAdapter();
+        btScanner = new BluetoothScanner(this, dataManager);
+        loggerFile = getLoggerFileDir(btScanner.getBluetoothAdapter().getName());
+
+        try {
+            logger = new LogWriter(loggerFile);
+            //Toast.makeText(context, "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        btScanner.setLogger(logger);
+
+        BluetoothAdapter bluetoothAdapter = btScanner.getBluetoothAdapter();
         if (bluetoothAdapter != null) {
 
             // Is Bluetooth turned on?
@@ -160,7 +187,7 @@ public class DebugActivity extends AppCompatActivity {
 
         mModel.getAllAircraft().observe(this, listObserver);
 
-        manager.startScan();
+        btScanner.startScan();
 
         addDeviceList();
     }
@@ -199,7 +226,7 @@ public class DebugActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        //manager.stopScan();
+        //btScanner.stopScan();
         super.onPause();
     }
 

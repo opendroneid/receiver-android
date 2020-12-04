@@ -40,37 +40,17 @@ public class BluetoothScanner {
     private LogWriter logger;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothLeScanner bluetoothLeScanner;
-    private File loggerFile;
 
-    private File getLoggerFileDir(String name, Context context) {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS), "OpenDroneID");
-        if (!file.mkdirs()) {
-            file = context.getExternalFilesDir(null);
-        }
-
-        String pattern = "yyyy-MM-dd_HH-mm-ss.SSS";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
-        return new File(file, "log_" + Build.MODEL + "_" + name + "_" + simpleDateFormat.format(new Date()) + ".csv");
-    }
-
-    public BluetoothScanner(Context context, OpenDroneIdDataManager parser) {
-        this.dataManager = parser;
+    public BluetoothScanner(Context context, OpenDroneIdDataManager dataManager) {
+        this.dataManager = dataManager;
 
         Object object = context.getSystemService(Context.BLUETOOTH_SERVICE);
         if (object == null)
             return;
         bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
-
-        loggerFile = getLoggerFileDir(bluetoothAdapter.getName(), context);
-
-        try {
-            logger = new LogWriter(loggerFile);
-            //Toast.makeText(context, "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+
+    public void setLogger(LogWriter logger) { this.logger = logger; }
 
     private static String dumpBytes(byte[] bytes) {
         return LogEntry.toHexString(bytes, bytes.length);
@@ -78,10 +58,6 @@ public class BluetoothScanner {
 
     public BluetoothAdapter getBluetoothAdapter() {
         return bluetoothAdapter;
-    }
-
-    public File getLoggerFile() {
-        return loggerFile;
     }
 
     private ScanCallback scanCallback = new ScanCallback() {
