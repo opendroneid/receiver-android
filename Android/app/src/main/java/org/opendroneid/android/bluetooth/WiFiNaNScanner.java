@@ -71,7 +71,7 @@ public class WiFiNaNScanner {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (wifiAwareManager.isAvailable()) {
-                    Toast.makeText(context, "WiFi Aware became available. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "WiFi Aware became available.", Toast.LENGTH_LONG).show();
                     startScan();
                 } else {
                     Toast.makeText(context, "WiFi Aware was lost. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();

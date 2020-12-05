@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -160,6 +163,19 @@ public class DebugActivity extends AppCompatActivity {
         }
         btScanner.setLogger(logger);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            if (!wifiManager.isWifiEnabled()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Intent panelIntent = new Intent(Settings.Panel.ACTION_WIFI);
+                    startActivityForResult(panelIntent, Constants.REQUEST_ENABLE_WIFI);
+                } else {
+                    wifiManager.setWifiEnabled(true);
+                }
+            }
+        }
+
         BluetoothAdapter bluetoothAdapter = btScanner.getBluetoothAdapter();
         if (bluetoothAdapter != null) {
             // Is Bluetooth turned on?
@@ -221,6 +237,12 @@ public class DebugActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
                     finish();
                 }
+        } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            if (!wifiManager.isWifiEnabled()) {
+                Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                finish();
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
