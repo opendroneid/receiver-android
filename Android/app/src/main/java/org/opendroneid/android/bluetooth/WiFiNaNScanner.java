@@ -22,19 +22,23 @@ import android.net.wifi.aware.WifiAwareManager;
 import android.net.wifi.aware.WifiAwareSession;
 import android.os.Build;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import org.opendroneid.android.app.DebugActivity;
+import org.opendroneid.android.log.LogMessageEntry;
+import org.opendroneid.android.log.LogWriter;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class WiFiNaNScanner {
 
+    private final OpenDroneIdDataManager dataManager;
+    private final LogWriter logger;
     private boolean wifiAwareSupported = false;
     private WifiAwareManager wifiAwareManager;
     private WifiAwareSession wifiAwareSession;
@@ -44,7 +48,9 @@ public class WiFiNaNScanner {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public WiFiNaNScanner(Context context) {
+    public WiFiNaNScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
+        this.dataManager = dataManager;
+        this.logger = logger;
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ||
             !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
@@ -57,7 +63,7 @@ public class WiFiNaNScanner {
 
         wifiAwareManager = (WifiAwareManager) context.getSystemService(Context.WIFI_AWARE_SERVICE);
         if (wifiAwareManager != null && !wifiAwareManager.isAvailable()) {
-            Toast.makeText(context, "WiFi Aware is currently not available", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "WiFi Aware is currently not available. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
         }
 
         IntentFilter filter = new IntentFilter(WifiAwareManager.ACTION_WIFI_AWARE_STATE_CHANGED);
@@ -65,10 +71,10 @@ public class WiFiNaNScanner {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (wifiAwareManager.isAvailable()) {
-                    Toast.makeText(context, "WiFi Aware became available", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "WiFi Aware became available. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
                     startScan();
                 } else {
-                    Toast.makeText(context, "WiFi Aware was lost", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "WiFi Aware was lost. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -90,19 +96,27 @@ public class WiFiNaNScanner {
             wifiAwareSession.subscribe(config, new DiscoverySessionCallback() {
                 @Override
                 public void onSubscribeStarted(@NonNull SubscribeDiscoverySession session) {
-                    Toast.makeText(context, "onSubscribeStarted", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, "onSubscribeStarted", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onServiceDiscovered(PeerHandle peerHandle, byte[] serviceSpecificInfo, List<byte[]> matchFilter) {
                     Log.i(TAG, "onServiceDiscovered: " + serviceSpecificInfo.length +": " + Arrays.toString(serviceSpecificInfo));
+
+                    LogMessageEntry logMessageEntry = new LogMessageEntry();
+                    long timeNano = SystemClock.elapsedRealtimeNanos();
+                    dataManager.receiveDataNaN(serviceSpecificInfo, peerHandle.hashCode(), timeNano, logMessageEntry);
+
+                    StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
+                    if (logger != null)
+                        logger.logNaN(timeNano, peerHandle.hashCode(), serviceSpecificInfo, csvLog);
                 }
             }, null);
         }
 
         @Override
         public void onAttachFailed() {
-            Toast.makeText(context, "wifiAware onAttachFailed", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "wifiAware onAttachFailed. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -122,7 +136,7 @@ public class WiFiNaNScanner {
     public void startScan() {
         if (!wifiAwareSupported)
             return;
-        Toast.makeText(context, "WiFi NaN attaching", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "WiFi NaN attaching", Toast.LENGTH_LONG).show();
         if (wifiAwareManager.isAvailable())
             wifiAwareManager.attach(attachCallback, identityChangedListener, handler);
     }
@@ -131,7 +145,7 @@ public class WiFiNaNScanner {
     public void stopScan() {
         if (!wifiAwareSupported)
             return;
-        Toast.makeText(context, "WiFi NaN stopping scanning", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "WiFi NaN stopping scanning. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
         if (wifiAwareManager.isAvailable() && wifiAwareSession != null)
             wifiAwareSession.close();
     }

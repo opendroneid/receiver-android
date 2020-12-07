@@ -26,11 +26,11 @@ public class LogMessageEntry {
                                                DELIM + DELIM + DELIM + DELIM;
     private static final String DELIM_OPERATOR = DELIM + DELIM;
 
-    private ArrayList<OpenDroneIdParser.Message> messages;
+    private final ArrayList<OpenDroneIdParser.Message> messages;
 
     public LogMessageEntry() { this.messages = new ArrayList<>(); }
 
-    public void add(OpenDroneIdParser.Message message) { messages.add(message); }
+    public void add(OpenDroneIdParser.Message<?> message) { messages.add(message); }
 
     @SuppressWarnings("unchecked")
     public StringBuilder getMessageLogEntry() {

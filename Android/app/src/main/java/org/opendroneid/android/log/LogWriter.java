@@ -27,7 +27,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class LogWriter {
     private static final String TAG = "LogWriter";
 
-    private BufferedWriter writer;
+    private final BufferedWriter writer;
 
     private volatile static int session = 0;
 
@@ -85,7 +85,7 @@ public class LogWriter {
         });
     }
 
-    public void log(int callbackType, ScanResult result, StringBuilder csvLog) {
+    public void logBluetooth(int callbackType, ScanResult result, StringBuilder csvLog) {
         LogEntry entry = new LogEntry();
         entry.session = session;
         entry.timestamp = result.getTimestampNanos();
@@ -94,6 +94,19 @@ public class LogWriter {
         entry.rssi = result.getRssi();
         if (result.getScanRecord() != null)
             entry.data = result.getScanRecord().getBytes();
+        entry.csvLog = csvLog;
+        logQueue.add(entry.toString());
+    }
+
+    public void logNaN(Long timeNano, int peerHash, byte[] serviceSpecificInfo, StringBuilder csvLog) {
+        LogEntry entry = new LogEntry();
+        entry.session = session;
+        entry.timestamp = timeNano;
+        entry.macAddress = Integer.toString(peerHash);
+        entry.callbackType = 0;
+        entry.rssi = 0;
+        if (serviceSpecificInfo != null)
+            entry.data = serviceSpecificInfo;
         entry.csvLog = csvLog;
         logQueue.add(entry.toString());
     }

@@ -40,25 +40,38 @@ public class OpenDroneIdDataManager {
         return aircraft;
     }
 
-    @SuppressWarnings("unchecked")
-    void receiveData(byte[] data, ScanResult result, LogMessageEntry logMessageEntry) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, result.getTimestampNanos(), logMessageEntry);
-        if (message == null)
-            return;
-
-        // Handle connection
-        boolean newAircraft = false;
+    void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry) {
         String macAddress = result.getDevice().getAddress();
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
+
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 6, result.getTimestampNanos(), logMessageEntry);
+        if (message == null)
+            return;
+        receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(), message, logMessageEntry);
+    }
+
+    void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry) {
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry);
+        if (message == null)
+            return;
+        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry);
+    }
+
+    @SuppressWarnings("unchecked")
+    void receiveData(long timeNano, String macAddress, long macAddressLong, int rssi,
+                     OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry) {
+
+        // Handle connection
+        boolean newAircraft = false;
         AircraftObject ac = aircraft.get(macAddressLong);
         if (ac == null) {
             ac = createNewAircraft(macAddress, macAddressLong);
             newAircraft = true;
         }
         ac.getConnection().lastSeen = System.currentTimeMillis();
-        ac.getConnection().rssi = result.getRssi();
-        ac.getConnection().setTimestamp(result.getTimestampNanos());
+        ac.getConnection().rssi = rssi;
+        ac.getConnection().setTimestamp(timeNano);
         ac.connection.setValue(ac.connection.getValue());
 
         if (newAircraft) {
@@ -67,7 +80,7 @@ public class OpenDroneIdDataManager {
         }
 
         if (message.header.type == OpenDroneIdParser.Type.MESSAGE_PACK)
-            handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, result.getTimestampNanos(), logMessageEntry, message.adCounter);
+            handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, timeNano, logMessageEntry, message.adCounter);
         else
             handleMessages(ac, message);
     }

@@ -31,7 +31,7 @@ import java.util.UUID;
 public class BluetoothScanner {
     private static final String TAG = "BluetoothManager";
 
-    private OpenDroneIdDataManager dataManager;
+    private final OpenDroneIdDataManager dataManager;
     private LogWriter logger;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothLeScanner bluetoothLeScanner;
@@ -55,7 +55,7 @@ public class BluetoothScanner {
         return bluetoothAdapter;
     }
 
-    private ScanCallback scanCallback = new ScanCallback() {
+    private final ScanCallback scanCallback = new ScanCallback() {
 
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
@@ -71,11 +71,11 @@ public class BluetoothScanner {
                     addr, advertiseFlags, rssi, bytes != null ? bytes.length : -1);
 
             LogMessageEntry logMessageEntry = new LogMessageEntry();
-            dataManager.receiveData(bytes, result, logMessageEntry);
+            dataManager.receiveDataBluetooth(bytes, result, logMessageEntry);
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.log(callbackType, result, csvLog);
+                logger.logBluetooth(callbackType, result, csvLog);
 
             Log.w(TAG, "onScanResult: " + string);
             if (bytes != null) {

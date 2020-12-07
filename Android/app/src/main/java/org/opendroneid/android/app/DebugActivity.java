@@ -197,7 +197,7 @@ public class DebugActivity extends AppCompatActivity {
         btScanner.startScan();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            wiFiNaNScanner = new WiFiNaNScanner(this);
+            wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
             wiFiNaNScanner.startScan();
         }
 

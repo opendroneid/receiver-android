@@ -394,7 +394,7 @@ public class OpenDroneIdParser {
         @Override public String toCsvString() { return null; }
     }
 
-    public static class Message<T extends Payload> implements Comparable<Message> {
+    public static class Message<T extends Payload> implements Comparable<Message<T>> {
         final int adCounter;
         final long timestamp;
         public final Header header;
@@ -420,12 +420,12 @@ public class OpenDroneIdParser {
         }
     }
 
-    static Message<Payload> parseAdvertisingData(byte[] payload, long timestamp, LogMessageEntry logMessageEntry) {
-        if (payload.length < 6 + 25)
+    static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp, LogMessageEntry logMessageEntry) {
+        if (offset <= 0 || payload.length < offset + 25)
             return null;
 
-        int adCounter = payload[5] & 0xFF;
-        return parseMessage(payload, 6, timestamp, logMessageEntry, adCounter);
+        int adCounter = payload[offset - 1] & 0xFF;
+        return parseMessage(payload, offset, timestamp, logMessageEntry, adCounter);
     }
 
     static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp, LogMessageEntry logMessageEntry, int adCounter) {
@@ -467,7 +467,7 @@ public class OpenDroneIdParser {
                 payloadObj = parseOperatorID(byteBuffer);
                 break;
             case MESSAGE_PACK:
-                payloadObj = parseMessagePack(payload);
+                payloadObj = parseMessagePack(payload, offset);
                 break;
             default:
                 Log.w(TAG, "Received unhandled message type: id=" + type);
@@ -576,8 +576,9 @@ public class OpenDroneIdParser {
         return operatorID;
     }
 
-    private static MessagePack parseMessagePack(byte[] payload) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(payload, 6 + 1, 2);
+
+    private static MessagePack parseMessagePack(byte[] payload, int offset) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(payload, offset + 1, 2);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         MessagePack messagePack = new MessagePack();
@@ -587,11 +588,11 @@ public class OpenDroneIdParser {
         if (messagePack.messageSize != Constants.MAX_MESSAGE_SIZE ||
             messagePack.messagesInPack <= 0 ||
             messagePack.messagesInPack > Constants.MAX_MESSAGES_IN_PACK ||
-            payload.length < 6 + 1 + 2 + messagePack.messageSize*messagePack.messagesInPack)
+            payload.length < offset + 1 + 2 + messagePack.messageSize*messagePack.messagesInPack)
             return null;
 
         // Now that we know how much data is in the message, re-wrap and extract the data
-        byteBuffer = ByteBuffer.wrap(payload, 6 + 1 + 2, messagePack.messageSize*messagePack.messagesInPack);
+        byteBuffer = ByteBuffer.wrap(payload, offset + 1 + 2, messagePack.messageSize*messagePack.messagesInPack);
         byteBuffer.get(messagePack.messages, 0, messagePack.messageSize * messagePack.messagesInPack);
         return messagePack;
     }
