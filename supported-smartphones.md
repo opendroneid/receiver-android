@@ -24,8 +24,8 @@ Testing is now defined only for Android phones, since iOS devices up until versi
 Testing the Bluetooth 4 Legacy Advertising support is irrelevant, since all existing Android and iOS models support it and no devices have been found to behave unexpectedly.
 
 Please note that there should also be an advanced testing methodology, covering some hidden pitfalls of receiver implementations.
-One of the examples is the Bluetooth Long Range feature (Extended Advertisements on Coded PHY S8), since this is an optional part of the Bluetooth 5.0 specification.
-Some Android phones claim to support Long Range and Extended Advertising via the Android feature flags, but in reality, they only support advertising from the phone to the others, not reading the Remote ID information (scanning).
+One of the examples is the Bluetooth Long Range feature, since it is an optional part of the Bluetooth 5.0 specification.
+Some Android phones claim to support Long Range via the Android feature flags, but in reality, they only support advertising from the phone to the others, not reading the Remote ID information (scanning).
 Another known pitfall for Bluetooth is that even if the phone supports scanning the Long Range advertisements, a power-saving feature will cause the loss of the majority of the Remote ID messages.
 The work on the advanced testing methodology is now in progress.
 
@@ -38,7 +38,7 @@ However, it doesn’t provide all the necessary information to prove the Long Ra
 2. Open the side menu and go to Device information.
 3. Check if the rows for the Long Range (PHY Coded) and Extended advertisement are both labeled YES.
 
-Both of the rows must say YES, in order for the device to be able to receive the Remote ID Bluetooth Long Range broadcast signals.
+Both of the rows must say <span style="color:lightgreen">**YES**</span>, in order for the device to be able to receive the Remote ID Bluetooth Long Range broadcast signals.
 
 ### Bluetooth 5 Long Range Support - the Ability to Receive Data
 
@@ -47,13 +47,13 @@ In that case, it is now necessary to test the target device’s basic receiving 
 At the moment, this information cannot be read from the OS information and must be verified by using another device that supports the Long Range.
 
 1. Prepare the Device Under Test (DUT) for the Long Range receiving support by running [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
-  * In the Settings menu of the app, select Scanner and set the Scanning period to 5 minutes
+  * In the Settings menu of the app, select Scanner and set the Scanning period to at least 5 minutes
 2. Use another device (Master) that passed the Elimination Criteria and run [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
   * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)).
 3. On the Master, go to the Advertiser tab and create a New advertising packet.
   * In options, select Advertising Extensions and in both Primary and Secondary PHY, select LE Coded (Long Range).
   * Press the "Add Record" and select "Complete Local Name".
-  * Set the Interval to 160 (	resulting in 100 ms).
+  * Set the Interval to 160 (resulting in 100 ms).
   * Set the Tx power to 1 dBm (the maximum).
   * Leave the other fields at default.
 4. On the Master, run the Advertisement by toggling the switch. Select "Until manually turned off" and "No maximum options".
@@ -64,14 +64,14 @@ At the moment, this information cannot be read from the OS information and must 
   * Click the found device and verify that the Advertising type is Advertising Extension and that both the Primary and Secondary PHYs are LE Coded.
   * Click the round icon on the left to add the device as a favorite (that adds a small star banner under the round icon).
 	Then click the filter at the top and select the "Only favorites" checkbox.
-  * Drag the device to the right in order to reveal the RSSI chart.
-	Notice the color of the device.
+  * Swipe on the device to the right in order to reveal the RSSI chart.
+	If you have more favorites devices present, notice the color of the DUT.
 	Find the correct color in the chart and observe whether there are gaps in the chart or whether the signals are received continuously.
 	Add this information to the report for the device.
 
 ### Wi-Fi Beacon Broadcast
 
-TBD
+The only testing solution so far seems to be to have a drone or add-on device that transmits the Wi-Fi Beacon messages and test their reception on the smartphone in OpenDroneID receiver app. 
 
 ### Wi-Fi NAN Broadcast
 
