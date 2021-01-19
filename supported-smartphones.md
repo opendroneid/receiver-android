@@ -5,7 +5,7 @@ This document contains a list of compatible smartphones that have been tested fo
 It is part of the documentation for the example Android Remote ID receiver application available [here](https://github.com/opendroneid/receiver-android)
 
 The current specification of both the ASD-STAN prEN4709-02 (EU version) and the ASTM F3411-19 (US version) standards rely on wireless protocols in the unlicensed spectrum to broadcast the desired identification and telemetry data from UAs to ground observers.
-Particularly, they define transport methods over Bluetooth 4 Legacy Advertising, Bluetooth 5 Long Range (Advertising Extensions over Coded PHY S8), WiFi Beacon and WiFi Neighbor Awareness Network (NAN).
+Particularly, they define transport methods over Bluetooth 4 Legacy Advertising, Bluetooth 5 Long Range (Advertising Extensions over Coded PHY S8), Wi-Fi Beacon and Wi-Fi Neighbor Awareness Network (NAN).
 The main reason for choosing these wireless technologies is that they meet the requirement of being supported on ordinary mobile devices.
 
 Neither of the above standards cover the receiver side of the Direct Remote ID.
@@ -22,12 +22,12 @@ If you find any incomplete, inconsistent, or wrong information, please feel free
 ## Testing Methodology
 
 To determine if your smartphone can receive the Direct Remote ID messages, a simple test methodology is described below.
-Testing is now defined only for Android phones, since iOS devices up until version 14 do not support Bluetooth 5 Long Range, WiFi NAN and the situation about WiFi Beacon support is unclear.
+Testing is now defined only for Android phones, since iOS devices up until version 14 do not support Bluetooth 5 Long Range, Wi-Fi NAN and the situation about Wi-Fi Beacon support is unclear.
 Testing the Bluetooth 4 Legacy Advertising support is irrelevant, since all existing Android and iOS models support it and no devices have been found to behave unexpectedly.
 
 Please note that there should also be an advanced testing methodology, covering some hidden pitfalls of receiver implementations.
-One of the examples is the Bluetooth Long Range feature, since it is an optional part of the Bluetooth 5.0 specification.
-Some Android phones claim to support Long Range via the Android feature flags, but in reality, they only support advertising from the phone to the others, not reading the Remote ID information (scanning).
+One of the examples is the Bluetooth Long Range feature (Extended Advertisements on Coded PHY S8), since this is an optional part of the Bluetooth 5.0 specification.
+Some Android phones claim to support Long Range and Extended Advertising via the Android feature flags, but in reality, they only support advertising from the phone to the others, not reading the Remote ID information (scanning).
 Another known pitfall for Bluetooth is that even if the phone supports scanning the Long Range advertisements, a power-saving feature will cause the loss of the majority of the Remote ID messages.
 The work on the advanced testing methodology is now in progress.
 
@@ -40,7 +40,11 @@ However, it doesn’t provide all the necessary information to prove the Long Ra
 2. Open the side menu and go to Device information.
 3. Check if the rows for the Long Range (PHY Coded) and Extended advertisement are both labeled YES.
 
-Both of the rows must say <span style="color:lightgreen">**YES**</span>, in order for the device to be able to receive the Remote ID Bluetooth Long Range broadcast signals.
+Both of the rows must say YES, in order for the device to be able to receive the Remote ID Bluetooth Long Range broadcast signals.
+
+<img src="images/screen_nrf_connect_device_information.jpg" width="200">
+
+<p style="text-align: center;"> Figure 1: Example of OnePlus 8T smartphone passing the elimination criteria</p>
 
 ### Bluetooth 5 Long Range Support - the Ability to Receive Data
 
@@ -49,7 +53,7 @@ In that case, it is now necessary to test the target device’s basic receiving 
 At the moment, this information cannot be read from the OS information and must be verified by using another device that supports the Long Range.
 
 1. Prepare the Device Under Test (DUT) for the Long Range receiving support by running [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
-  * In the Settings menu of the app, select Scanner and set the Scanning period to at least 5 minutes
+  * In the Settings menu of the app, select Scanner and set the Scanning period to 5 minutes (or to manual if needed).
 2. Use another device (Master) that passed the Elimination Criteria and run [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
   * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)).
 3. On the Master, go to the Advertiser tab and create a New advertising packet.
@@ -71,6 +75,12 @@ At the moment, this information cannot be read from the OS information and must 
 	Find the correct color in the chart and observe whether there are gaps in the chart or whether the signals are received continuously.
 	Add this information to the report for the device.
 
+<p align="center"> <img src="images/screen_nrf_connect_new_advertising_packet.jpg" width="200"> <img src="images/screen_nrf_connect_scanning.jpg" width="200"><img src="images/screen_nrf_connect_scanning_rssi.jpg" width="200"> </p>
+
+<p style="text-align: center;"> Figure 2: Screenshots clarifying the testing steps above</p>
+
+
+
 ### Wi-Fi Beacon Broadcast
 
 The only testing solution so far seems to be to have a drone or add-on device that transmits the Wi-Fi Beacon messages and test their reception on the smartphone in OpenDroneID receiver app.
@@ -81,7 +91,7 @@ The easiest way to verify support is to read the Android Feature flags.
 
 1. Install the [AIDA64](https://play.google.com/store/apps/details?id=com.finalwire.aida64) diagnostic app.
 2. Open the Network menu.
-3. Scroll down to the bottom and check the WiFi Aware flag.
+3. Scroll down to the bottom and check the Wi-Fi Aware flag.
 
 ### Contributing to the Repository
 
@@ -102,7 +112,7 @@ Any contribution is welcome! Feel free to open an Issue so we can discuss it fur
 
 ### List of Devices and Their Capabilities
 
-You can find the list of tested devices in the table below. For each device, we provide either ✅ if it passed or ❌ if it failed. Each test contains the approximate date it happened.
+You can find the list of tested devices in the table below. For each device, we provide either ✅ if it passed or ❌ if it failed. Each test contains the approximate date it happened. It is assumed that the device was tested with the latest OS version.
 
 Please note that most smartphones were tested in Q1 2020 and they do not contain proof screenshots. Therefore, their functionality may have changed since. We plan to continuously update this list and increase the reliability of information by adding screenshot evidence.
 
@@ -127,7 +137,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | OnePlus 8T                                       | Snapdragon 865    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  |      | Long Range receive is active only part of the time |
 | One Plus 7 Pro                                   | Snapdragon 855    | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 7T                                      | Snapdragon 855+   | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
-| One Plus 6 / 6T                                  | Snapdragon 845    | ✅ 1/2020  | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2020  |      | Long Range receive is active only part of the time |
+| One Plus 6 / 6T                                  | Snapdragon 845    | ✅ 1/2021 | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2020  |      | Long Range receive is active only part of the time |
 | One Plus Nord 5G                                 | Snapdragon 765G   | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  |      | Receives Long Range continuously |
 | Huawei Mate 20 Pro                               | Kirin 980         | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Receives Long Range continuously |
 | Huawei Mate 20                                   | Kirin 980         | ✅ 11/2019 | ✅ 11/2019 |             |             |      | |
