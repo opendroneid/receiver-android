@@ -164,7 +164,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Huawei Honor View 10                             | Kirin 970         |            |             | ✅ 1/2020  |             |      | |
 | Huawei Honor 8S                                  | MT 6761 Helio A22 | ✅ 1/2020  |             |            | ❌ 1/2020   | [Link](receiver_proofs/Huawei_Honor_8S) | Not tested but expect the same behavior as the Nokia 2.2 |
 | Huawei Y6 Pro                                    | MT 6761 Helio A22 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020   |      | |
-| Huawei MediaPad M5                               | Kirin 960s        | ❌ 1/2021  |             | ✅ 1/2020  | ❌ 1/2021 |        | |
+| Huawei MediaPad M5                               | Kirin 960s        | ❌ 1/2021  |             | ✅ 1/2020  | ❌ 1/2021 | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Huawei Nexus 6P                                  | Snapdragon 810    |            |             | ✅ 1/2020  |             |      | |
 | Xiaomi Note 10                                   | Snapdragon 730G   | ✅ 1/2020  |             |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_Note_10) | |
 | Xiaomi Mi 9T Pro                                 | Snapdragon 855    | ✅ 1/2020  |             |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9T_Pro) | |
