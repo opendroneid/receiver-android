@@ -202,4 +202,4 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | LG V60                                           | Snapdragon 865    |             |            |            | ✅ 1/2020  |      | |
 | LG Nexus 5X                                      | Snapdragon 808    |             |            | ✅ 1/2020  |            |      | |
 | LG X Cam                                         | MT 6735           |             |            | ❌ 1/2020  |            |      | |
-| Asus Zenfone 6                                   | Snapdragon 855    | ✅ 1/2021  |            |             | ✅ 1/2021  |      | |
+| Asus Zenfone 6                                   | Snapdragon 855    | ✅ 1/2021  |            |             | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | |
