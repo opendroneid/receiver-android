@@ -87,9 +87,17 @@ The easiest way to verify support is to read the Android Feature flags.
 
 #### I have a phone that isn’t listed and I want to add it.
 
-That’s great! Please follow the methodology to verify its capabilities and create a Pull Request with additional information and screenshots from the tests proving the support.
+That’s great! Please follow the methodology to verify its capabilities and create a Pull Request with additional information and screenshots from the tests proving the support. 
 
-Alternatively, create an Issue with the necessary information and we will add it to the list.
+For the Pull Request, please upload the screenshots to the `receiver_proofs/xxx_yyy` folder in the repository where `xxx` is the lowercase smartphone manufacturer (e.g. samsung) and `yyy` is the lowercase smartphone model (e.g. `galaxy_note_10`). Name the screenshots in the folder accordingly to tested capabilities. We recommend to use the following template:
+
+- `bt_basic.jpg` showing the result of passing the elimination criteria - screenshot from the nRF Connect Device information.
+- `bt_lr_adv.jpg` showing the reception of the LR advertisements - screenshot from the nRF Connect scanning.
+- `bt_lr_rssi.jpg` showing the LR messages’ continuous reception - screenshot from the nRF Connect RSSI graph with the Favorites filter turned on.
+- `wifi_beacon.jpg` showing the reception of the Wi-Fi Beacon DRI messages - screenshot from the OpenDroneID app.
+- `wifi_nan.jpg` showing the capabilities to receive the Wi-Fi NAN signals - screenshot from the AIDA64 app.
+
+Then edit the table listing the devices with pass or fail icons, add the month and year of the test, and lastly put the link to the folder in the Proof column. Alternatively, create an Issue with the necessary information and we will add it to the list.
 
 #### I found misleading information in the list.
 
