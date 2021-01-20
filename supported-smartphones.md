@@ -198,7 +198,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | HTC one M9                                       | Snapdragon 810    | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  |      | |
 | LG velvet 5G                                     | Snapdragon 765G   |             |            |            | ✅ 1/2021  |      | |
 | LG G8X                                           | Snapdragon 855    |             |            |            | ✅ 1/2021  |      | |
-| LG G5                                            | Snapdragon 820    | ❌ 1/2021  |            | ✅ 1/2020  | ❌ 1/2021  |      | |
+| LG G5                                            | Snapdragon 820    | ❌ 1/2021  |            | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/LG_G5) | |
 | LG V60                                           | Snapdragon 865    |             |            |            | ✅ 1/2020  |      | |
 | LG Nexus 5X                                      | Snapdragon 808    |             |            | ✅ 1/2020  |            |      | |
 | LG X Cam                                         | MT 6735           |             |            | ❌ 1/2020  |            |      | |
