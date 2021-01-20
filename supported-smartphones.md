@@ -97,9 +97,9 @@ The easiest way to verify support is to read the Android Feature flags.
 
 #### I have a phone that isn’t listed and I want to add it.
 
-That’s great! Please follow the methodology to verify its capabilities and create a Pull Request with additional information and screenshots from the tests proving the support. 
+That’s great! Please follow the methodology to verify its capabilities and create a Pull Request with additional information and screenshots from the tests proving the support.
 
-For the Pull Request, please upload the screenshots to the `receiver_proofs/xxx_yyy` folder in the repository where `xxx` is the lowercase smartphone manufacturer (e.g. samsung) and `yyy` is the lowercase smartphone model (e.g. `galaxy_note_10`). Name the screenshots in the folder accordingly to tested capabilities. We recommend to use the following template:
+For the Pull Request, please upload the screenshots to the `receiver_proofs/xxx_yyy` folder in the repository where `xxx` is the smartphone manufacturer (e.g. Samsung) and `yyy` is the smartphone model (e.g. `Galaxy_Note_10`). Name the screenshots in the folder accordingly to tested capabilities. We recommend to use the following template:
 
 - `bt_basic.jpg` showing the result of passing the elimination criteria - screenshot from the nRF Connect Device information.
 - `bt_lr_adv.jpg` showing the reception of the LR advertisements - screenshot from the nRF Connect scanning.
@@ -133,7 +133,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |             |            |             |            |      | |
 | Samsung S20, S20+, S20 ultra (Global)            | Exynos 990        | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    |             |            |            |             |      | |
-| Samsung Galaxy S10, S10e, S10+, S10 5G           | Exynos 9820       | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  |      | Receives Long Range continuously |
+| Samsung Galaxy S10, S10e, S10+, S10 5G           | Exynos 9820       | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S10_Exynos) | Receives Long Range continuously |
 | Samsung Galaxy S9, S9+ (Global)                  | Exynos 9810       | ❌ 1/2020  | ❌ 1/2020  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung Galaxy S8                                | Exynos 8895       |             |            | ✅ 1/2020  |             |      | |
 | Samsung Galaxy A5                                | Snapdragon 410    |             |            | ✅ 1/2020  |             |      | |
@@ -142,11 +142,13 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    |             |            |             | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |             |            |             | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    | ✅ 6/2020  |            |             |             |      | |
-| OnePlus 8T                                       | Snapdragon 865    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  | [Link](receiver_proofs/oneplus_8t) | Long Range receive is active only part of the time |
+| Samsung Galaxy A3                                | Exynos 7870       | ❌ 1/2021  | ❌ 1/2021  |             | ❌ 1/2021  |      | |
+| OnePlus 8T                                       | Snapdragon 865    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_8T) | Long Range receive is active only part of the time |
 | One Plus 7 Pro                                   | Snapdragon 855    | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 7T                                      | Snapdragon 855+   | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
-| One Plus 6 / 6T                                  | Snapdragon 845    | ✅ 1/2021 | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2020  |      | Long Range receive is active only part of the time |
-| One Plus Nord 5G                                 | Snapdragon 765G   | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  |      | Receives Long Range continuously |
+| One Plus 6 / 6T                                  | Snapdragon 845    | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_6T) | Long Range receive is active only part of the time |
+| One Plus Nord 5G                                 | Snapdragon 765G   | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
+| One Plus N10 5G                                  | Snapdragon 690    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
 | Huawei Mate 20 Pro                               | Kirin 980         | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Receives Long Range continuously |
 | Huawei Mate 20                                   | Kirin 980         | ✅ 11/2019 | ✅ 11/2019 |             |             |      | |
 | Huawei Mate 10 Pro                               | Kirin 970         |             |            | ✅ 1/2020  |             |      | |
