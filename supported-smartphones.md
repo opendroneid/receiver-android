@@ -132,7 +132,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    |             |            |             | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |             |            |             | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    | ✅ 6/2020  |            |             |             |      | |
-| OnePlus 8T                                       | Snapdragon 865    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  |      | Long Range receive is active only part of the time |
+| OnePlus 8T                                       | Snapdragon 865    | ✅ 1/2021  | ✅ 1/2021  |             | ❌ 1/2021  | [Link](receiver_proofs/oneplus_8t) | Long Range receive is active only part of the time |
 | One Plus 7 Pro                                   | Snapdragon 855    | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 7T                                      | Snapdragon 855+   | ✅ 1/2020  | ✅ 1/2020  |             | ❌ 1/2020  |      | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 6 / 6T                                  | Snapdragon 845    | ✅ 1/2020  | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2020  |      | Long Range receive is active only part of the time |
