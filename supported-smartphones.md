@@ -137,7 +137,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Samsung Galaxy S9, S9+ (Global)                  | Exynos 9810       | ❌ 1/2020  | ❌ 1/2020  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung Galaxy S8                                | Exynos 8895       |             |            | ✅ 1/2020  |             |      | |
 | Samsung Galaxy A5                                | Snapdragon 410    |             |            | ✅ 1/2020  |             |      | |
-| Samsung Galaxy A71                               | Snapdragon 730    | ❌ 1/2021  |            |             | ✅ 1/2021  |       | |
+| Samsung Galaxy A71                               | Snapdragon 730    | ❌ 1/2021  |            |             | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | ❌ 1/2020  | ❌ 1/2020  |             | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    |             |            |             | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |             |            |             | ✅ 1/2021  |      | |
