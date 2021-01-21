@@ -137,7 +137,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Samsung Galaxy S9, S9+ (Global)                  | Exynos 9810       | ❌ 1/2020  | ❌ 1/2020  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung Galaxy S8                                | Exynos 8895       |             |            | ✅ 1/2020  |             |      | |
 | Samsung Galaxy A5                                | Snapdragon 410    |             |            | ✅ 1/2020  |             |      | |
-| Samsung Galaxy A71                               | Snapdragon 730    | ❌ 1/2021  |            |             | ✅ 1/2021  |       | |
+| Samsung Galaxy A71                               | Snapdragon 730    | ❌ 1/2021  |            |             | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | ❌ 1/2020  | ❌ 1/2020  |             | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    |             |            |             | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |             |            |             | ✅ 1/2021  |      | |
@@ -164,7 +164,7 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | Huawei Honor View 10                             | Kirin 970         |            |             | ✅ 1/2020  |             |      | |
 | Huawei Honor 8S                                  | MT 6761 Helio A22 | ✅ 1/2020  |             |            | ❌ 1/2020   | [Link](receiver_proofs/Huawei_Honor_8S) | Not tested but expect the same behavior as the Nokia 2.2 |
 | Huawei Y6 Pro                                    | MT 6761 Helio A22 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020   |      | |
-| Huawei MediaPad M5                               | Kirin 960s        | ❌ 1/2021  |             | ✅ 1/2020  | ❌ 1/2021 |        | |
+| Huawei MediaPad M5                               | Kirin 960s        | ❌ 1/2021  |             | ✅ 1/2020  | ❌ 1/2021 | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Huawei Nexus 6P                                  | Snapdragon 810    |            |             | ✅ 1/2020  |             |      | |
 | Xiaomi Note 10                                   | Snapdragon 730G   | ✅ 1/2020  |             |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_Note_10) | |
 | Xiaomi Mi 9T Pro                                 | Snapdragon 855    | ✅ 1/2020  |             |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9T_Pro) | |
@@ -198,8 +198,8 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 | HTC one M9                                       | Snapdragon 810    | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  |      | |
 | LG velvet 5G                                     | Snapdragon 765G   |             |            |            | ✅ 1/2021  |      | |
 | LG G8X                                           | Snapdragon 855    |             |            |            | ✅ 1/2021  |      | |
-| LG G5                                            | Snapdragon 820    | ❌ 1/2021  |            | ✅ 1/2020  | ❌ 1/2021  |      | |
+| LG G5                                            | Snapdragon 820    | ❌ 1/2021  |            | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/LG_G5) | |
 | LG V60                                           | Snapdragon 865    |             |            |            | ✅ 1/2020  |      | |
 | LG Nexus 5X                                      | Snapdragon 808    |             |            | ✅ 1/2020  |            |      | |
 | LG X Cam                                         | MT 6735           |             |            | ❌ 1/2020  |            |      | |
-| Asus Zenfone 6                                   | Snapdragon 855    | ✅ 1/2021  |            |             | ✅ 1/2021  |      | |
+| Asus Zenfone 6                                   | Snapdragon 855    | ✅ 1/2021  |            |             | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | |
