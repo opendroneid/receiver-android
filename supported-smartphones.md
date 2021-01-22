@@ -1,6 +1,6 @@
 ## Introduction
 
-This document contains a list of compatible smartphones that have been tested for receiving the Direct Remote ID signals from an Unmanned Aircraft (UA) or add-on device following the European and US standards.
+This document contains a list of compatible smartphones that have been tested for receiving the Broadcast Remote ID signals from an Unmanned Aircraft (UA) or add-on device following the European and US standards.
 
 It is part of the documentation for the example Android Remote ID receiver application available [here](https://github.com/opendroneid/receiver-android)
 
@@ -8,7 +8,7 @@ The current specification of both the ASD-STAN prEN4709-02 (EU version) and the 
 Particularly, they define transport methods over Bluetooth 4 Legacy Advertising, Bluetooth 5 Long Range (Advertising Extensions over Coded PHY S8), Wi-Fi Beacon and Wi-Fi Neighbor Awareness Network (NAN).
 The main reason for choosing these wireless technologies is that they meet the requirement of being supported on ordinary mobile devices.
 
-Neither of the above standards cover the receiver side of the Direct Remote ID.
+Neither of the above standards cover the receiver side of the Broadcast Remote ID.
 This document provides a quick overview of the compatibility of community tested smartphones with the specified broadcast Remote ID technologies.
 
 The current stage of the prEN4709-02 (per January 2021) is a finished draft at CEN Enquiry, and the final version will be published in the upcoming months.
@@ -21,7 +21,7 @@ If you find any incomplete, inconsistent, or wrong information, please feel free
 
 ## Testing Methodology
 
-To determine if your smartphone can receive the Direct Remote ID messages, a simple test methodology is described below.
+To determine if your smartphone can receive the Broadcast Remote ID messages, a simple test methodology is described below.
 Testing is now defined only for Android phones, since iOS devices up until version 14 do not support Bluetooth 5 Long Range, Wi-Fi NAN and the situation about Wi-Fi Beacon support is unclear.
 Testing the Bluetooth 4 Legacy Advertising support is irrelevant, since all existing Android and iOS models support it and no devices have been found to behave unexpectedly.
 
@@ -114,7 +114,7 @@ Then edit the table listing the devices with pass or fail icons, add the month a
 Well, that might happen.
 Please create an Issue for that and we will do our best to inspect it.
 
-#### Found a better way to test smartphones for Direct Remote ID capabilities?
+#### Found a better way to test smartphones for Broadcast Remote ID capabilities?
 
 Any contribution is welcome! Feel free to open an Issue so we can discuss it further.
 
