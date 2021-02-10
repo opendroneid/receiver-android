@@ -34,6 +34,8 @@
     <string name="nan_supported">WiFi NaN supported</string>
 
     <string name="map_not_ready">Map is not ready yet</string>
+    <string name="wifi_beacon_scan_not_supported">WiFi Beacon Scan not supported</string>
+    <string name="wifi_beacon_scan_supported">WiFi Beacon Scan supported</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>

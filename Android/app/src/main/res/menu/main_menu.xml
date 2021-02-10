@@ -29,6 +29,9 @@
         android:id="@+id/wifi_nan"
         android:title="@string/nan_not_supported" />
     <item
+        android:id="@+id/wifi_beacon_scan"
+        android:title="@string/wifi_beacon_scan_not_supported" />
+    <item
         android:id="@+id/version"
         android:title="@string/app_version" />
 </menu>
