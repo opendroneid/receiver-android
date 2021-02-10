@@ -10,13 +10,13 @@ android {
     def versionMinor = 0
     def versionPatch = 0
 
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion = '29.0.3'
 
     defaultConfig {
         applicationId "org.opendroneid.android"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

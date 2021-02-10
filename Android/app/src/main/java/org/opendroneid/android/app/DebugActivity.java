@@ -39,6 +39,7 @@ import org.opendroneid.android.R;
 import org.opendroneid.android.log.LogWriter;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.WiFiNaNScanner;
+import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.data.AircraftObject;
 
@@ -52,6 +53,7 @@ import java.util.Set;
 public class DebugActivity extends AppCompatActivity {
     BluetoothScanner btScanner;
     WiFiNaNScanner wiFiNaNScanner;
+    WiFiBeaconScanner wiFiBeaconScanner;
 
     private AircraftViewModel mModel;
     OpenDroneIdDataManager dataManager;
@@ -73,6 +75,7 @@ public class DebugActivity extends AppCompatActivity {
         mMenuLogItem.setChecked(getLogEnabled());
         checkBluetoothSupport(menu);
         checkNaNSupport(menu);
+        checkWiFiSupport(menu);
         return true;
     }
 
@@ -95,6 +98,12 @@ public class DebugActivity extends AppCompatActivity {
     private void checkNaNSupport(Menu menu) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
             menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
+        }
+    }
+    @TargetApi(Build.VERSION_CODES.R)
+    private void checkWiFiSupport(Menu menu) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            menu.findItem(R.id.wifi_beacon_scan).setTitle(R.string.wifi_beacon_scan_supported);
         }
     }
 
@@ -215,6 +224,12 @@ public class DebugActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
             wiFiNaNScanner.startScan();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
+            if (wiFiBeaconScanner != null) {
+                wiFiBeaconScanner.startScan();
+            }
         }
 
         addDeviceList();
