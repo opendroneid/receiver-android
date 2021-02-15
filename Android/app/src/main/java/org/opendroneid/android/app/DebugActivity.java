@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
@@ -206,6 +212,29 @@ public class DebugActivity extends AppCompatActivity {
             // Bluetooth is not supported.
             showErrorText(R.string.bt_not_supported);
         }
+
+        dataManager.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        dataManager.locationRequest = LocationRequest.create();
+        dataManager.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        dataManager.locationRequest.setInterval(10 * 1000); // 10 seconds
+        dataManager.locationRequest.setFastestInterval(5 * 1000); // 5 seconds
+
+        dataManager.locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        dataManager.receiverLocation = location;
+                    }
+                }
+            }
+        };
+        dataManager.activity = this;
+        dataManager.getReceiverLocation();
     }
 
     private void initialize() {

@@ -26,6 +26,7 @@ public class LocationData extends MessageData {
     private SpeedAccuracyEnum speedAccuracy;
     private double locationTimestamp;
     private double timeAccuracy;
+    private float distance;
 
     public LocationData() {
         super();
@@ -92,6 +93,12 @@ public class LocationData extends MessageData {
     public String getSpeedHorizontalAsString() {
         if (speedHorizontal != 255)
             return String.format(Locale.US,"%3.2f m/s", speedHorizontal);
+        else
+            return ("Unknown");
+    }
+    public String getSpeedHorizontalLessPreciseAsString() {
+        if (speedHorizontal != 255)
+            return String.format(Locale.US,"%3.0fm/s", speedHorizontal);
         else
             return ("Unknown");
     }
@@ -163,6 +170,11 @@ public class LocationData extends MessageData {
     }
     public double getHeight() { return height; }
     public String getHeightAsString() { return getAltitudeAsString(height); }
+    public String getHeightLessPreciseAsString() {
+        if (height == -1000)
+            return "Unknown";
+        return String.format(Locale.US,"%3.0fm", height);
+    }
     public void setHeight(double height) {
         if (height < -1000 || height > 31767)
             height = -1000; // -1000 is defined in the specification as the Invalid value
@@ -315,4 +327,8 @@ public class LocationData extends MessageData {
             timeAccuracy = 1.5; // 1.5s is the maximum value in the specification
         this.timeAccuracy = timeAccuracy;
     }
+
+    public String getDistanceAsString() { return String.format(Locale.US,"~%.0f m", distance); }
+    public float getDistance() { return distance; }
+    public void setDistance(float distance) { this.distance = distance; }
 }

@@ -7,6 +7,7 @@
 package org.opendroneid.android.bluetooth;
 
 import androidx.annotation.NonNull;
+
 import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -118,6 +119,7 @@ public class OpenDroneIdParser {
         int speedAccuracy;
         int timestamp;
         int timeAccuracy;
+        float distance;
 
         static double calcSpeed(int value, int mult) {
             if (mult == 0)
@@ -170,7 +172,8 @@ public class OpenDroneIdParser {
                     + "baroAccuracy" + DELIM
                     + "speedAccuracy" + DELIM
                     + "timestamp" + DELIM
-                    + "timeAccuracy" + DELIM;
+                    + "timeAccuracy" + DELIM
+                    + "distance" + DELIM;
         }
 
         @Override
@@ -192,7 +195,8 @@ public class OpenDroneIdParser {
                     + baroAccuracy + DELIM
                     + speedAccuracy + DELIM
                     + timestamp + DELIM
-                    + timeAccuracy + DELIM;
+                    + timeAccuracy + DELIM
+                    + distance + DELIM;
         }
         
         @Override @NonNull
@@ -216,6 +220,7 @@ public class OpenDroneIdParser {
                     ", speedAccuracy=" + speedAccuracy +
                     ", timestamp=" + timestamp +
                     ", timeAccuracy=" + timeAccuracy +
+                    ", distance=" + distance +
                     '}';
         }
     }
@@ -420,15 +425,19 @@ public class OpenDroneIdParser {
         }
     }
 
-    static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp, LogMessageEntry logMessageEntry) {
+    static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp,
+                                                 LogMessageEntry logMessageEntry,
+                                                 android.location.Location receiverLocation) {
         if (offset <= 0 || payload.length < offset + 25)
             return null;
 
         int adCounter = payload[offset - 1] & 0xFF;
-        return parseMessage(payload, offset, timestamp, logMessageEntry, adCounter);
+        return parseMessage(payload, offset, timestamp, logMessageEntry, receiverLocation, adCounter);
     }
 
-    static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp, LogMessageEntry logMessageEntry, int adCounter) {
+    static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp,
+                                         LogMessageEntry logMessageEntry,
+                                         android.location.Location receiverLocation, int adCounter) {
         if (payload.length < offset + 25)
             return null;
 
@@ -452,7 +461,7 @@ public class OpenDroneIdParser {
                 payloadObj = parseBasicId(byteBuffer);
                 break;
             case LOCATION:
-                payloadObj = parseLocation(byteBuffer);
+                payloadObj = parseLocation(byteBuffer, receiverLocation);
                 break;
             case AUTH:
                 payloadObj = parseAuthentication(byteBuffer);
@@ -489,7 +498,8 @@ public class OpenDroneIdParser {
         return basicId;
     }
 
-    private static Location parseLocation(ByteBuffer byteBuffer) {
+    private static Location parseLocation(ByteBuffer byteBuffer,
+                                          android.location.Location receiverLocation) {
         Location location = new Location();
 
         int b = byteBuffer.get();
@@ -518,6 +528,16 @@ public class OpenDroneIdParser {
         location.speedAccuracy = speedBaroAccuracy & 0x0F;
         location.timestamp = byteBuffer.getShort() & 0xFFFF;
         location.timeAccuracy = byteBuffer.get() & 0x0F;
+
+        // Use an older retrieved receiver location to calculate the distance to the drone
+        if (location.droneLat != 0 && location.droneLon != 0) {
+            android.location.Location droneLoc = new android.location.Location("");
+            droneLoc.setLatitude(location.getLatitude());
+            droneLoc.setLongitude(location.getLongitude());
+            if (receiverLocation != null)
+                location.distance = receiverLocation.distanceTo(droneLoc);
+        }
+
         return location;
     }
 

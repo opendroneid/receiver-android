@@ -18,7 +18,8 @@ public class LogMessageEntry {
     private static final String DELIM_BASIC_ID = DELIM + DELIM + DELIM;
     private static final String DELIM_LOCATION = DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
                                                  DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
-                                                 DELIM + DELIM + DELIM + DELIM + DELIM + DELIM;
+                                                 DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
+                                                 DELIM;
     private static final String DELIM_AUTHENTICATION = DELIM + DELIM + DELIM + DELIM + DELIM +
                                                        DELIM;
     private static final String DELIM_SELF_ID = DELIM + DELIM;

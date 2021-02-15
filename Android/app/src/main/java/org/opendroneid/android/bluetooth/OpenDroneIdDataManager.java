@@ -6,7 +6,16 @@
  */
 package org.opendroneid.android.bluetooth;
 
+import android.Manifest;
+import android.app.Activity;
 import android.bluetooth.le.ScanResult;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
 
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.data.AircraftObject;
@@ -25,6 +34,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
     private final ConcurrentHashMap<Long, AircraftObject> aircraft = new ConcurrentHashMap<>();
+
+    public Activity activity;
+    public android.location.Location receiverLocation;
+    public LocationRequest locationRequest;
+    public LocationCallback locationCallback;
+    public FusedLocationProviderClient mFusedLocationClient;
 
     private final Callback callback;
 
@@ -45,24 +60,30 @@ public class OpenDroneIdDataManager {
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
 
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 6, result.getTimestampNanos(), logMessageEntry);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(), message, logMessageEntry);
+
+        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
     void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry);
+
+        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
     void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry);
+
+        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
     @SuppressWarnings("unchecked")
@@ -166,6 +187,7 @@ public class OpenDroneIdDataManager {
         data.setSpeedAccuracy(raw.speedAccuracy);
         data.setLocationTimestamp(raw.timestamp);
         data.setTimeAccuracy(raw.getTimeAccuracy());
+        data.setDistance(raw.distance);
         ac.location.postValue(data);
     }
 
@@ -240,11 +262,29 @@ public class OpenDroneIdDataManager {
         for (int i = 0; i < raw.messagesInPack; i++) {
             int offset = i*raw.messageSize;
             byte[] data = Arrays.copyOfRange(raw.messages, offset, offset + raw.messageSize);
-            OpenDroneIdParser.Message<?> subMessage = OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, adCounter);
+            OpenDroneIdParser.Message<?> subMessage = OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, receiverLocation, adCounter);
             if (subMessage == null)
                 return;
 
             handleMessages(ac, subMessage);
         }
     }
+
+    public void getReceiverLocation() {
+        if (activity == null)
+            return;
+
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(activity, location -> {
+                if (location != null) {
+                    receiverLocation = location;
+                } else {
+                    mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                }
+            });
+        }
+    }
+
 }
+

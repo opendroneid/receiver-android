@@ -26,6 +26,7 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView conRssi;
     private TextView conStarted;
     private TextView conLastUpdate;
+    private TextView distance;
 
     private TextView infoLastUpdate;
     private TextView infoType;
@@ -128,6 +129,7 @@ public class DeviceDetailFragment extends DialogFragment {
             speedAccuracy.setText(locationData.getSpeedAccuracyAsString());
             timestamp.setText(locationData.getLocationTimestampAsString());
             timeAccuracy.setText(locationData.getTimeAccuracyAsString());
+            distance.setText(locationData.getDistanceAsString());
         });
 
         model.authentication.observe(getViewLifecycleOwner(), authenticationData -> {
@@ -187,6 +189,7 @@ public class DeviceDetailFragment extends DialogFragment {
         conRssi = view.findViewById(R.id.conRssi);
         conStarted = view.findViewById(R.id.conStarted);
         conLastUpdate = view.findViewById(R.id.conLastUpdate);
+        distance = view.findViewById(R.id.distance);
 
         infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
         infoType = view.findViewById(R.id.infoType);

@@ -208,10 +208,11 @@ public class DeviceList extends Fragment {
             @Override
             public void onChanged(@Nullable LocationData locationData) {
                 if (locationData != null)
-                    textView2.setText(String.format(Locale.US, "%s, %s",
-                                      locationData.getHeightAsString() +
-                                              " over " + locationData.getHeightType().toString(),
-                                      locationData.getSpeedHorizontalAsString()));
+                    textView2.setText(String.format(Locale.US, "%s over %s, %s, %s away",
+                            locationData.getHeightLessPreciseAsString(),
+                            locationData.getHeightType().toString(),
+                            locationData.getSpeedHorizontalLessPreciseAsString(),
+                            locationData.getDistanceAsString()));
             }
         };
 

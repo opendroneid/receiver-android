@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.Manifest;
 import androidx.core.app.ActivityCompat;
 import android.content.pm.PackageManager;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -35,19 +34,17 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
-
 import java.util.Collection;
 import java.util.HashMap;
 
 public class AircraftMapView extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
-private static final String TAG = "AircraftMapView";
-
+    private static final String TAG = "AircraftMapView";
     private GoogleMap googleMap;
     private AircraftViewModel model;
 
-    private HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
+    private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
 
-    private Util.DiffObserver<AircraftObject> allAircraftObserver = new Util.DiffObserver<AircraftObject>() {
+    private final Util.DiffObserver<AircraftObject> allAircraftObserver = new Util.DiffObserver<AircraftObject>() {
         @Override
         public void onAdded(Collection<AircraftObject> added) {
             for (AircraftObject aircraftObject : added) {
@@ -86,6 +83,7 @@ private static final String TAG = "AircraftMapView";
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
         model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
             MapObserver last = null;
+
             @Override
             public void onChanged(@Nullable AircraftObject object) {
                 if (object == null || object.getLocation() == null || googleMap == null)
@@ -98,7 +96,7 @@ private static final String TAG = "AircraftMapView";
                     return;
 
                 LatLng ll = new LatLng(object.getLocation().getLatitude(), object.getLocation().getLongitude());
-                Log.i(TAG, "centering on "+object+" at "+ll);
+                Log.i(TAG, "centering on " + object + " at " + ll);
 
                 if (last != null && last.marker != null) {
                     last.marker.setAlpha(0.5f);
@@ -113,8 +111,7 @@ private static final String TAG = "AircraftMapView";
                 last = observer;
 
                 CameraPosition position = googleMap.getCameraPosition();
-                if (position.zoom < DESIRED_ZOOM - ALLOWED_ZOOM_MARGIN ||
-                    position.zoom > DESIRED_ZOOM + ALLOWED_ZOOM_MARGIN)
+                if (position.zoom < DESIRED_ZOOM - ALLOWED_ZOOM_MARGIN || position.zoom > DESIRED_ZOOM + ALLOWED_ZOOM_MARGIN)
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, DESIRED_ZOOM));
                 else
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(ll));
@@ -220,7 +217,7 @@ private static final String TAG = "AircraftMapView";
                         new MarkerOptions()
                                 .alpha(0.5f)
                                 .position(latLng)
-                        .title("aircraft " + id));
+                                .title("aircraft " + id));
                 marker.setTag(aircraft);
                 zoom = true;
             }
