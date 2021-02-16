@@ -125,9 +125,20 @@ public class DebugActivity extends AppCompatActivity {
                 boolean enabled = !getLogEnabled();
                 setLogEnabled(enabled);
                 mMenuLogItem.setChecked(enabled);
+                if (enabled) {
+                    createNewLogfile();
+                    wiFiNaNScanner.setLogger(logger);
+                } else {
+                    logger.close();
+                    btScanner.setLogger(null);
+                    wiFiNaNScanner.setLogger(null);
+                }
                 return true;
             case R.id.log_location:
-                Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+                if (getLogEnabled())
+                    Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
                 return true;
         }
         return false;
@@ -153,6 +164,17 @@ public class DebugActivity extends AppCompatActivity {
         return new File(file, "log_" + Build.MODEL + "_" + name + "_" + simpleDateFormat.format(new Date()) + ".csv");
     }
 
+    private void createNewLogfile() {
+        loggerFile = getLoggerFileDir(btScanner.getBluetoothAdapter().getName());
+
+        try {
+            logger = new LogWriter(loggerFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        btScanner.setLogger(logger);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,15 +190,7 @@ public class DebugActivity extends AppCompatActivity {
         });
 
         btScanner = new BluetoothScanner(this, dataManager);
-        loggerFile = getLoggerFileDir(btScanner.getBluetoothAdapter().getName());
-
-        try {
-            logger = new LogWriter(loggerFile);
-            //Toast.makeText(this, "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        btScanner.setLogger(logger);
+        createNewLogfile();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                 getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {

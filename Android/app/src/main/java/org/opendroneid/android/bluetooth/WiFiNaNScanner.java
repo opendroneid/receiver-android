@@ -38,7 +38,7 @@ import java.util.List;
 public class WiFiNaNScanner {
 
     private final OpenDroneIdDataManager dataManager;
-    private final LogWriter logger;
+    private LogWriter logger;
     private boolean wifiAwareSupported = false;
     private WifiAwareManager wifiAwareManager;
     private WifiAwareSession wifiAwareSession;
@@ -46,6 +46,7 @@ public class WiFiNaNScanner {
     Context context;
     private static final String TAG = WiFiNaNScanner.class.getSimpleName();
 
+    public void setLogger(LogWriter logger) { this.logger = logger; }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public WiFiNaNScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {

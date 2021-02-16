@@ -26,16 +26,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class LogWriter {
     private static final String TAG = "LogWriter";
-
     private final BufferedWriter writer;
-
-    private volatile static int session = 0;
-
-    public static void bumpSession() {
-        session++;
-    }
-
+    private static int session = 0;
+    public static void bumpSession() { session++; }
     private final BlockingQueue<String> logQueue = new LinkedBlockingQueue<>();
+    private boolean loggingActive = false;
 
     public LogWriter(File file) throws IOException {
         writer = new BufferedWriter(
@@ -45,6 +40,7 @@ public class LogWriter {
         Log.i(TAG, "starting logging to " + file);
         exec.submit(() -> {
             try {
+                loggingActive = true;
                 long last = System.currentTimeMillis();
 
                 // write header
@@ -57,7 +53,7 @@ public class LogWriter {
                 writer.write(OpenDroneIdParser.SystemMsg.csvHeader());
                 writer.write(OpenDroneIdParser.OperatorID.csvHeader());
                 writer.newLine();
-                for (; ; ) {
+                while (loggingActive) {
                     String log;
                     try {
                         log = logQueue.take();
@@ -125,7 +121,13 @@ public class LogWriter {
     }
 
     public void close() {
-        logQueue.add(null);
+        loggingActive = false;
+        try {
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
