@@ -8,6 +8,7 @@ package org.opendroneid.android.bluetooth;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
@@ -70,12 +71,18 @@ public class BluetoothScanner {
             String string = String.format(Locale.US, "scan: addr=%s flags=0x%02X rssi=% d, len=%d",
                     addr, advertiseFlags, rssi, bytes != null ? bytes.length : -1);
 
+            String transportType = "BT4";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeCodedPhySupported()) {
+                if (result.getPrimaryPhy() == BluetoothDevice.PHY_LE_CODED)
+                    transportType = "BT5";
+            }
+
             LogMessageEntry logMessageEntry = new LogMessageEntry();
-            dataManager.receiveDataBluetooth(bytes, result, logMessageEntry);
+            dataManager.receiveDataBluetooth(bytes, result, logMessageEntry, transportType);
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.logBluetooth(callbackType, result, csvLog);
+                logger.logBluetooth(callbackType, result, transportType, csvLog);
 
             Log.w(TAG, "onScanResult: " + string);
             if (bytes != null) {

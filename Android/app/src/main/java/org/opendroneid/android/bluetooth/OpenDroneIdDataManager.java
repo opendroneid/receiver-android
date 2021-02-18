@@ -55,7 +55,7 @@ public class OpenDroneIdDataManager {
         return aircraft;
     }
 
-    void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry) {
+    void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry, String transportType) {
         String macAddress = result.getDevice().getAddress();
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
@@ -63,32 +63,34 @@ public class OpenDroneIdDataManager {
         OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(), message, logMessageEntry);
+        receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(),
+                    message, logMessageEntry, transportType);
 
         getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
-    void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry) {
+    void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
         OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry);
+        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message,
+                    logMessageEntry, transportType);
 
         getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
-    void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry) {
+    void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
         OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry);
+        receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry, transportType);
 
         getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
     @SuppressWarnings("unchecked")
     void receiveData(long timeNano, String macAddress, long macAddressLong, int rssi,
-                     OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry) {
+                     OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry, String transportType) {
 
         // Handle connection
         boolean newAircraft = false;
@@ -99,6 +101,7 @@ public class OpenDroneIdDataManager {
         }
         ac.getConnection().lastSeen = System.currentTimeMillis();
         ac.getConnection().rssi = rssi;
+        ac.getConnection().transportType = transportType;
         ac.getConnection().setTimestamp(timeNano);
         ac.connection.setValue(ac.connection.getValue());
 

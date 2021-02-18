@@ -201,7 +201,7 @@ public class DeviceList extends Fragment {
             @Override
             public void onChanged(@Nullable Connection connection) {
                 if (connection != null)
-                    lastSeen.setText(String.format(Locale.US, "%s dbm", connection.rssi));
+                    lastSeen.setText(String.format(Locale.US, "%s dBm", connection.rssi));
             }
         };
         final Observer<LocationData> locationObserver = new Observer<LocationData>() {

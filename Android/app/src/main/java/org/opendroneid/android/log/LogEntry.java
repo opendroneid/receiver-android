@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 public class LogEntry {
     int session;
     long timestamp;
+    String transportType;
     String macAddress;
     int callbackType;
     int rssi;
@@ -20,6 +21,7 @@ public class LogEntry {
     final static String[] HEADER = new String[]{
             "session",
             "timestamp (nanos)",
+            "transportType",
             "mac address",
             "callbackType",
             "rssi",
@@ -36,6 +38,7 @@ public class LogEntry {
     String toString(boolean withData) {
         String s = session + DELIM
                 + timestamp + DELIM
+                + transportType + DELIM
                 + macAddress + DELIM
                 + callbackType + DELIM
                 + rssi;
@@ -58,10 +61,11 @@ public class LogEntry {
             LogEntry entry = new LogEntry();
             entry.session = Integer.parseInt(fields[0]);
             entry.timestamp = Long.parseLong(fields[1]);
-            entry.macAddress = fields[2];
-            entry.callbackType = Integer.parseInt(fields[3]);
-            entry.rssi = Integer.parseInt(fields[4]);
-            entry.data = parseHexString(fields[5]);
+            entry.transportType = fields[2];
+            entry.macAddress = fields[3];
+            entry.callbackType = Integer.parseInt(fields[4]);
+            entry.rssi = Integer.parseInt(fields[5]);
+            entry.data = parseHexString(fields[6]);
             return entry;
         } catch (Exception e) {
             e.printStackTrace();

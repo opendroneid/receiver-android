@@ -91,7 +91,8 @@ public class DeviceDetailFragment extends DialogFragment {
 
         model.connection.observe(getViewLifecycleOwner(), connection -> {
             if (connection == null) return;
-            conRssi.setText(String.valueOf(connection.rssi));
+            String combo = connection.rssi + " dBm, " + connection.transportType;
+            conRssi.setText(combo);
             conMac.setText(connection.macAddress);
             receiveTime.setText(connection.getTimestampAsString());
             conStarted.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.firstSeen)));

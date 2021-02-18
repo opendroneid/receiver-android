@@ -104,13 +104,14 @@ public class WiFiNaNScanner {
                 public void onServiceDiscovered(PeerHandle peerHandle, byte[] serviceSpecificInfo, List<byte[]> matchFilter) {
                     Log.i(TAG, "onServiceDiscovered: " + serviceSpecificInfo.length +": " + Arrays.toString(serviceSpecificInfo));
 
+                    String transportType = "NAN";
                     LogMessageEntry logMessageEntry = new LogMessageEntry();
                     long timeNano = SystemClock.elapsedRealtimeNanos();
-                    dataManager.receiveDataNaN(serviceSpecificInfo, peerHandle.hashCode(), timeNano, logMessageEntry);
+                    dataManager.receiveDataNaN(serviceSpecificInfo, peerHandle.hashCode(), timeNano, logMessageEntry, transportType);
 
                     StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
                     if (logger != null)
-                        logger.logNaN(timeNano, peerHandle.hashCode(), serviceSpecificInfo, csvLog);
+                        logger.logNaN(timeNano, peerHandle.hashCode(), serviceSpecificInfo, transportType, csvLog);
                 }
             }, null);
         }

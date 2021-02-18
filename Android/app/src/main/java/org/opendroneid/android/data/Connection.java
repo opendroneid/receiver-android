@@ -8,7 +8,7 @@ package org.opendroneid.android.data;
 
 public class Connection extends MessageData {
     public int rssi;
-
+    public String transportType;
     public String macAddress;
     public long lastSeen;
     public long firstSeen;

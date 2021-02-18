@@ -107,12 +107,13 @@ public class WiFiBeaconScanner {
             buf.get(arr, 0, buf.remaining());
             LogMessageEntry logMessageEntry = new LogMessageEntry();
             long timeNano = SystemClock.elapsedRealtimeNanos();
+            String transportType = "Beacon";
             dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
-                    scanResult.level, timeNano, logMessageEntry);
+                    scanResult.level, timeNano, logMessageEntry, transportType);
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.logBeacon(timeNano, scanResult, arr, csvLog);
+                logger.logBeacon(timeNano, scanResult, arr, transportType, csvLog);
         }
     }
 
