@@ -98,6 +98,16 @@
 
                     <TextView
                         style="@style/Details.Label"
+                        android:text="Msg &#8710;" />
+
+                    <TextView
+                        android:id="@+id/conMsgDelta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
                         android:text="Distance" />
 
                     <TextView

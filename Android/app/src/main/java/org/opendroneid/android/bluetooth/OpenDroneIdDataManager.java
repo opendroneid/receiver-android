@@ -99,7 +99,9 @@ public class OpenDroneIdDataManager {
             ac = createNewAircraft(macAddress, macAddressLong);
             newAircraft = true;
         }
-        ac.getConnection().lastSeen = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
+        ac.getConnection().msgDelta = currentTime - ac.getConnection().lastSeen;
+        ac.getConnection().lastSeen = currentTime;
         ac.getConnection().rssi = rssi;
         ac.getConnection().transportType = transportType;
         ac.getConnection().setTimestamp(timeNano);

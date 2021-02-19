@@ -26,6 +26,7 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView conRssi;
     private TextView conStarted;
     private TextView conLastUpdate;
+    private TextView conMsgDelta;
     private TextView distance;
 
     private TextView infoLastUpdate;
@@ -97,6 +98,7 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(connection.getTimestampAsString());
             conStarted.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.firstSeen)));
             conLastUpdate.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.lastSeen)));
+            conMsgDelta.setText(connection.getMsgDeltaAsString());
         });
 
         model.identification.observe(getViewLifecycleOwner(), identification -> {
@@ -190,6 +192,7 @@ public class DeviceDetailFragment extends DialogFragment {
         conRssi = view.findViewById(R.id.conRssi);
         conStarted = view.findViewById(R.id.conStarted);
         conLastUpdate = view.findViewById(R.id.conLastUpdate);
+        conMsgDelta = view.findViewById(R.id.conMsgDelta);
         distance = view.findViewById(R.id.distance);
 
         infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
