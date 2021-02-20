@@ -127,13 +127,13 @@ public class DeviceList extends Fragment {
         );
     }
 
-    private void showDetails(AircraftObject aircraft){
-        if (getActivity() == null || getFragmentManager() == null)
+    private void showDetails(AircraftObject aircraft) {
+        if (getActivity() == null || getParentFragmentManager() == null)
             return;
         DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
         model.select(aircraft);
         DeviceDetailFragment newFragment = DeviceDetailFragment.newInstance();
-        newFragment.show(getFragmentManager(), "dialog");
+        newFragment.show(getParentFragmentManager(), "dialog");
     }
 
     /**

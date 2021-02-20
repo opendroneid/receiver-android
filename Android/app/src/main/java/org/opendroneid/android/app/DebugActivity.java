@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -72,6 +73,9 @@ public class DebugActivity extends AppCompatActivity {
 
     private File loggerFile;
     private LogWriter logger;
+
+    private Handler handler;
+    private Runnable runnableCode;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -314,6 +318,16 @@ public class DebugActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume");
+
+        // Wake up the main Activity thread once per second, in order to update time counters
+        handler = new Handler();
+        runnableCode = () -> {
+            for (AircraftObject aircraft : dataManager.aircraft.values()) {
+                aircraft.connection.setValue(aircraft.connection.getValue());
+            }
+            handler.postDelayed(runnableCode, 1000);
+        };
+        handler.post(runnableCode);
         super.onResume();
     }
 
@@ -321,6 +335,7 @@ public class DebugActivity extends AppCompatActivity {
     protected void onPause() {
         Log.d(TAG, "onPause");
         //btScanner.stopScan();
+        handler.removeCallbacks(runnableCode);
         super.onPause();
     }
 

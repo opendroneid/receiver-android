@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
-    private final ConcurrentHashMap<Long, AircraftObject> aircraft = new ConcurrentHashMap<>();
+    public final ConcurrentHashMap<Long, AircraftObject> aircraft = new ConcurrentHashMap<>();
 
     public Activity activity;
     public android.location.Location receiverLocation;
