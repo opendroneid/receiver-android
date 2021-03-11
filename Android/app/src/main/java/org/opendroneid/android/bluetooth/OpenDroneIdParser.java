@@ -244,6 +244,14 @@ public class OpenDroneIdParser {
                     + "authData" + DELIM;
         }
 
+        private String authDataToString() {
+            StringBuilder sb = new StringBuilder();
+            for (byte authDatum : authData) {
+                sb.append(String.format("%02X ", authDatum));
+            }
+            return sb.toString();
+        }
+
         @Override
         public String toCsvString() {
             return authType + DELIM
@@ -251,7 +259,7 @@ public class OpenDroneIdParser {
                     + authPageCount + DELIM
                     + authLength + DELIM
                     + authTimestamp + DELIM
-                    + new String(authData) + DELIM;
+                    + authDataToString() + DELIM;
         }
 
         @Override @NonNull
@@ -428,7 +436,7 @@ public class OpenDroneIdParser {
     static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp,
                                                  LogMessageEntry logMessageEntry,
                                                  android.location.Location receiverLocation) {
-        if (offset <= 0 || payload.length < offset + 25)
+        if (offset <= 0 || payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
         int adCounter = payload[offset - 1] & 0xFF;
@@ -438,10 +446,10 @@ public class OpenDroneIdParser {
     static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp,
                                          LogMessageEntry logMessageEntry,
                                          android.location.Location receiverLocation, int adCounter) {
-        if (payload.length < offset + 25)
+        if (payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
-        ByteBuffer byteBuffer = ByteBuffer.wrap(payload, offset, 25);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(payload, offset, Constants.MAX_MESSAGE_SIZE);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         Header header = new Header();
@@ -558,7 +566,7 @@ public class OpenDroneIdParser {
             offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE + (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
             amount = Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
         }
-        if (authentication.authDataPage >= 0 && authentication.authDataPage < 5)
+        if (authentication.authDataPage >= 0 && authentication.authDataPage < Constants.MAX_AUTH_DATA_PAGES)
             for (int i = offset; i < offset + amount; i++)
                 authentication.authData[i] = byteBuffer.get();
         return authentication;
