@@ -47,7 +47,7 @@ public class WiFiBeaconScanner {
     private static final int[] DRIOUI = { 0x90, 0x3A, 0xE6 };
     private boolean WiFiScanEnabled = true;
     private final OpenDroneIdDataManager dataManager;
-    private final LogWriter logger;
+    private LogWriter logger;
     private WifiManager wifiManager;
     Context context;
     int scanSuccess;
@@ -57,6 +57,8 @@ public class WiFiBeaconScanner {
     boolean beaconScanDebugEnable;
 
     private static final String TAG = WiFiBeaconScanner.class.getSimpleName();
+
+    public void setLogger(LogWriter logger) { this.logger = logger; }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public WiFiBeaconScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {

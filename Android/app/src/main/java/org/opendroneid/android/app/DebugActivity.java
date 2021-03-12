@@ -132,10 +132,12 @@ public class DebugActivity extends AppCompatActivity {
                 if (enabled) {
                     createNewLogfile();
                     wiFiNaNScanner.setLogger(logger);
+                    wiFiBeaconScanner.setLogger(logger);
                 } else {
                     logger.close();
                     btScanner.setLogger(null);
                     wiFiNaNScanner.setLogger(null);
+                    wiFiBeaconScanner.setLogger(null);
                 }
                 return true;
             case R.id.log_location:
