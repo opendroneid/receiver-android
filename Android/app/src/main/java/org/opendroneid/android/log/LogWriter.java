@@ -111,6 +111,19 @@ public class LogWriter {
         logQueue.add(entry.toString());
     }
 
+    public void logBeacon(Long timeNano, android.net.wifi.ScanResult scanResult, byte[] data, StringBuilder csvLog) {
+        LogEntry entry = new LogEntry();
+        entry.session = session;
+        entry.timestamp = timeNano;
+        entry.macAddress = scanResult.BSSID;
+        entry.callbackType = 0;
+        entry.rssi = scanResult.level;
+        if (data != null)
+            entry.data = data;
+        entry.csvLog = csvLog;
+        logQueue.add(entry.toString());
+    }
+
     public void close() {
         logQueue.add(null);
     }

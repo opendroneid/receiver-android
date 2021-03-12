@@ -58,12 +58,13 @@ public class OpenDroneIdDataManager {
         receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry);
     }
 
-    void receiveDataWiFi(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry) {
+    void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry) {
         OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry);
         if (message == null)
             return;
         receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry);
     }
+
     @SuppressWarnings("unchecked")
     void receiveData(long timeNano, String macAddress, long macAddressLong, int rssi,
                      OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry) {
