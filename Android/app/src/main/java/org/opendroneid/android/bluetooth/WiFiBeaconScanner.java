@@ -28,6 +28,7 @@ import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 
 import java.nio.ByteBuffer;
@@ -40,163 +41,165 @@ import org.opendroneid.android.log.LogMessageEntry;
 import org.opendroneid.android.log.LogWriter;
 
 public class WiFiBeaconScanner {
-  private static final int OUILen = 3;
-  private static final int DriStartByteOffset = 4;
-  private static final int ScanTimerInterval = 5;
-  private static final int[] DRIOUI = { 0x90, 0x3A, 0xE6 };
-  private boolean WiFiScanEnabled = true;
-  private final OpenDroneIdDataManager dataManager;
-  private final LogWriter logger;
-  private WifiManager wifiManager;
-  Context context;
-  int scanSuccess;
-  int scanFailed;
-  String startTime;
-  CountDownTimer countDownTimer;
-  boolean beaconScanDebugEnable;
+    private static final int OUILen = 3;
+    private static final int DriStartByteOffset = 4;
+    private static final int ScanTimerInterval = 5;
+    private static final int[] DRIOUI = { 0x90, 0x3A, 0xE6 };
+    private boolean WiFiScanEnabled = true;
+    private final OpenDroneIdDataManager dataManager;
+    private final LogWriter logger;
+    private WifiManager wifiManager;
+    Context context;
+    int scanSuccess;
+    int scanFailed;
+    String startTime;
+    CountDownTimer countDownTimer;
+    boolean beaconScanDebugEnable;
 
-  private static final String TAG = WiFiBeaconScanner.class.getSimpleName();
+    private static final String TAG = WiFiBeaconScanner.class.getSimpleName();
 
-  @RequiresApi(api = Build.VERSION_CODES.O)
-  public WiFiBeaconScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
-    this.dataManager = dataManager;
-    this.logger = logger;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public WiFiBeaconScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
+        this.dataManager = dataManager;
+        this.logger = logger;
 
-    this.startTime = getCurrTimeStr();
+        this.startTime = getCurrTimeStr();
 
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R ||
-        !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
-      Toast.makeText(context, "WiFi Scanning is not supported", Toast.LENGTH_LONG).show();
-      WiFiScanEnabled = false;
-      return;
-    }
-
-    this.context = context;
-    beaconScanDebugEnable = false;
-
-    wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    if (!wifiManager.isWifiEnabled()) {
-      Toast.makeText(context, "Turning WiFi ON...", Toast.LENGTH_LONG).show();
-      wifiManager.setWifiEnabled(true);
-    }
-    IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-    BroadcastReceiver myReceiver = new BroadcastReceiver() {
-      @Override
-      public void onReceive(Context context, Intent intent) {
-        handleScanResults(intent);
-      }
-    };
-    context.registerReceiver(myReceiver, filter);
-
-    startCountDownTimer();
-    // Kick off WiFi Scan
-    startScan();
-
-  }
-  @TargetApi(Build.VERSION_CODES.R)
-  void processRemoteIdVendorIE(ScanResult scanResult, ScanResult.InformationElement element) {
-    ByteBuffer buf = element.getBytes();
-    byte[] driOUI = new byte[OUILen];
-    byte[] arr = new byte[buf.remaining()];
-    buf.get(driOUI, 0, OUILen);
-    if ((driOUI[0] & 0xFF) == DRIOUI[0] && (driOUI[1] & 0xFF) == DRIOUI[1] &&
-            (driOUI[2] & 0xFF) == DRIOUI[2]) {
-      buf.position(DriStartByteOffset);
-      buf.get(arr, 0, buf.remaining());
-      LogMessageEntry logMessageEntry = new LogMessageEntry();
-      long timeNano = SystemClock.elapsedRealtimeNanos();
-      dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
-              scanResult.level, timeNano, logMessageEntry);
-
-      StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
-      if (logger != null)
-        logger.logBeacon(timeNano, scanResult, arr, csvLog);
-    }
-  }
-
-  @TargetApi(Build.VERSION_CODES.R)
-  void handleScanResults(Intent intent){
-    if (wifiManager == null) {
-      Toast.makeText(context, "WiFi beacon scanner attach failed.", Toast.LENGTH_LONG).show();
-      return;
-    }
-    boolean freshScanResult = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
-    String action = intent.getAction();
-    if (freshScanResult && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
-      List<ScanResult> wifiList = wifiManager.getScanResults();
-      for (ScanResult scanResult : wifiList) {
-        for (ScanResult.InformationElement element : scanResult.getInformationElements()) {
-          if (element != null && element.getId() == 221) {
-            processRemoteIdVendorIE(scanResult, element);
-          }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R ||
+                !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
+            Toast.makeText(context, "WiFi Scanning is not supported", Toast.LENGTH_LONG).show();
+            WiFiScanEnabled = false;
+            return;
         }
-      }
-      startScan();
-    }
-  }
 
-  @TargetApi(Build.VERSION_CODES.O)
-  public void startScan() {
-    if (!WiFiScanEnabled) {
-      return;
-    }
-    boolean ret = wifiManager.startScan();
-    if (ret) {
-      scanSuccess++;
-    } else {
-      scanFailed++;
-    }
-    Log.d(TAG, "start_scan:" + ret);
-    printScanStats(ret);
-  }
+        this.context = context;
+        beaconScanDebugEnable = false;
 
-  @TargetApi(Build.VERSION_CODES.O)
-  public void stopScan() {
-    if (!WiFiScanEnabled) {
-      return;
-    }
-    if (countDownTimer != null) {
-      countDownTimer.cancel();
-    }
-    Toast.makeText(context, "Stopping WiFi scanning.", Toast.LENGTH_LONG).show();
-  }
+        wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (!wifiManager.isWifiEnabled()) {
+            Toast.makeText(context, "Turning WiFi ON...", Toast.LENGTH_LONG).show();
+            wifiManager.setWifiEnabled(true);
+        }
+        IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+        BroadcastReceiver myReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleScanResults(intent);
+            }
+        };
+        context.registerReceiver(myReceiver, filter);
 
-  // There are 2 ways to control WiFi scan:
-  // Continuous scan: Calls startSCan() from scan completion callback
-  // Periodic scan: countdown timer triggers startScan after expiry of the timer.
-  // If phone is debug mode and scan throttling is off, scan is triggered from onReceive() callback.
-  // But if scan throttling is turned on on the phone(default setting on the phone), then scan throttling kick in.
-  // In case of throttling, startScan() fails. We need timer thread to periodically kick off scanning.
-  public void startCountDownTimer() {
-    countDownTimer = new CountDownTimer(Long.MAX_VALUE, ScanTimerInterval * 1000) {
-      // This is called after every ScanTimerInterval sec.
-      public void onTick(long millisUntilFinished) {
+        startCountDownTimer();
+        // Kick off WiFi Scan
         startScan();
-      }
-      public void onFinish() {
-      }
-    }.start();
-  }
 
-  private String getCurrTimeStr() {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-    return sdf.format(new Date());
-  }
-
-  private void printScanStats(boolean ret){
-    StringBuilder sb = new StringBuilder();
-    sb.append("Started:" + startTime + " ");
-    sb.append( "success:" + scanSuccess + ","
-            + "failed:" + scanFailed);
-    sb.append(" curr-time:" + getCurrTimeStr() + "," + " curr-status:" + ret);
-
-    Log.d(TAG, sb.toString());
-
-    if (beaconScanDebugEnable) {
-      Toast.makeText(context, sb, Toast.LENGTH_LONG).show();
     }
-  }
-  public void SetBeaconScanDebug(boolean enable){
-    beaconScanDebugEnable = enable;
-  }
+
+    @TargetApi(Build.VERSION_CODES.R)
+    void processRemoteIdVendorIE(ScanResult scanResult, ScanResult.InformationElement element) {
+        ByteBuffer buf = element.getBytes();
+        byte[] driOUI = new byte[OUILen];
+        byte[] arr = new byte[buf.remaining()];
+        buf.get(driOUI, 0, OUILen);
+        if ((driOUI[0] & 0xFF) == DRIOUI[0] && (driOUI[1] & 0xFF) == DRIOUI[1] &&
+                (driOUI[2] & 0xFF) == DRIOUI[2]) {
+            buf.position(DriStartByteOffset);
+            buf.get(arr, 0, buf.remaining());
+            LogMessageEntry logMessageEntry = new LogMessageEntry();
+            long timeNano = SystemClock.elapsedRealtimeNanos();
+            dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
+                    scanResult.level, timeNano, logMessageEntry);
+
+            StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
+            if (logger != null)
+                logger.logBeacon(timeNano, scanResult, arr, csvLog);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.R)
+    void handleScanResults(Intent intent) {
+        if (wifiManager == null) {
+            Toast.makeText(context, "WiFi beacon scanner attach failed.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        boolean freshScanResult = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
+        String action = intent.getAction();
+        if (freshScanResult && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+            List<ScanResult> wifiList = wifiManager.getScanResults();
+            for (ScanResult scanResult : wifiList) {
+                for (ScanResult.InformationElement element : scanResult.getInformationElements()) {
+                    if (element != null && element.getId() == 221) {
+                        processRemoteIdVendorIE(scanResult, element);
+                    }
+                }
+            }
+            startScan();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public void startScan() {
+        if (!WiFiScanEnabled) {
+            return;
+        }
+        boolean ret = wifiManager.startScan();
+        if (ret) {
+            scanSuccess++;
+        } else {
+            scanFailed++;
+        }
+        Log.d(TAG, "start_scan:" + ret);
+        printScanStats(ret);
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public void stopScan() {
+        if (!WiFiScanEnabled) {
+            return;
+        }
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        Toast.makeText(context, "Stopping WiFi scanning.", Toast.LENGTH_LONG).show();
+    }
+
+    // There are 2 ways to control WiFi scan:
+    // Continuous scan: Calls startSCan() from scan completion callback
+    // Periodic scan: countdown timer triggers startScan after expiry of the timer.
+    // If phone is debug mode and scan throttling is off, scan is triggered from onReceive() callback.
+    // But if scan throttling is turned on on the phone(default setting on the phone), then scan throttling kick in.
+    // In case of throttling, startScan() fails. We need timer thread to periodically kick off scanning.
+    public void startCountDownTimer() {
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, ScanTimerInterval * 1000) {
+            // This is called after every ScanTimerInterval sec.
+            public void onTick(long millisUntilFinished) {
+                startScan();
+            }
+
+            public void onFinish() {
+            }
+        }.start();
+    }
+
+    private String getCurrTimeStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+    private void printScanStats(boolean ret) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Started: " + startTime + " ");
+        sb.append("success: " + scanSuccess + ", " + "failed: " + scanFailed);
+        sb.append(" curr-time: " + getCurrTimeStr() + ", " + " curr-status: " + ret);
+
+        Log.d(TAG, sb.toString());
+
+        if (beaconScanDebugEnable) {
+            Toast.makeText(context, sb, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void SetBeaconScanDebug(boolean enable) {
+        beaconScanDebugEnable = enable;
+    }
 }
