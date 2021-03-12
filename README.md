@@ -1,12 +1,13 @@
 # OpenDroneID Android receiver application
 
-This project provides the source codes for an example receiver implementation for OpenDroneID Bluetooth and WiFi NaN (Neighbor aware Network) signals for Android phones.
-The application is compliant with the Bluetooth and WiFi NaN part of the ASTM Remote ID standard available at: https://www.astm.org/Standards/F3411.htm.
+This project provides the source codes for an example receiver implementation for OpenDroneID Bluetooth, WiFi NAN (Neighbor Aware Network) and WiFi Beacon signals for Android phones.
+The application is compliant with the Bluetooth and WiFi NAN part of the ASTM Remote ID standard.
+The application is also compliant with the Bluetooth, WiFi NAN and WiFi Beacon parts of the upcoming ASD-STAN Direct Remote ID standard.
 
 Please see the opendroneid-core-c project for more information: https://github.com/opendroneid/opendroneid-core-c
 
-The application continuously scans for Bluetooth advertising/WiFi NaN signals/beacons.
-If any is found matching the specifiers for OpenDroneID signals, it adds that beacon to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
+The application continuously scans for Bluetooth advertising/WiFi NAN signals/beacons.
+If any is found matching the specifiers for OpenDroneID signals, it adds that transmitter to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
 
 ![](Screenshot.jpg)
 
@@ -20,6 +21,7 @@ Import the project (File -> New -> Import Project) and point to the folder named
 Then Build -> Make Project.
 
 For full functionality, before building the source, you need to obtain a Google Maps API key.
+Without the key, the application can be started and will pick up transmitted signals and will show those in the list and detailed info views, but the map view will not work.
 The sources are on purpose not delivered with a key and for the same reason ready built apk files are not provided.
 Please generate your own key as detailed here:
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
@@ -27,11 +29,11 @@ https://developers.google.com/maps/documentation/android-sdk/get-api-key
 Your own generated key must be inserted in:
 `Android/app/src/main/res/values/google_maps_api.xml`
 
-The application has been tested to work on several devices:
+The Bluetooth reception of the application has been tested to work on several devices:
 - Huawei Y6 Pro (Android 5.1)
 - HTC one M9 (Android 5.1, 6.0, 7.0)
 - OnePlus 6T (Android 9 and 10)
-- Samsung Galaxy S10 (Android 9 and 10)
+- Samsung Galaxy S10 (Android 9, 10 and 11)
 - Huawei Mate 20 Pro (Android 9)
 - HMD Global Nokia 2.2 (Android 9)
 - Motorola One Vision (Android 9)
@@ -56,15 +58,23 @@ The Motorola One Vision and the HMD Global Nokia 2.2 are not recommended.
 Both have the Android feature flags for Long Range and Extended Advertising set to true, but in reality they never receive those signals.
 There seems to be a clear error in the driver implementations of those devices or maybe they don't listen to the coded PHY on the primary channel but only on the secondary channel?
 
-The rest of the tested phones support receiving only Legacy Advertising signals.
+The rest of the tested phones support receiving only Bluetooth Legacy Advertising signals.
 
-Reception of WiFi NaN signals have been successfully tested on the Samsung Galaxy S10 device.
-It should be possible to receive WiFi NaN signals on the following devices, but please be aware that this has not been verified using this OpenDroneID Receiver application:
+Reception of WiFi NAN signals have been successfully tested on the Samsung Galaxy S10 device.
+It should be possible to receive WiFi NAN signals on the following devices, but please be aware that this has not been verified using this OpenDroneID Receiver application:
 - Samsung Galaxy S9, S10, S20 (and the various +, note, ultra etc. variants of these)
 - Google Pixel 2, 3, 4 (and the various A, XL variants of these)
 - Xiaomi Mi 8, 9, Note 10, redmi K20 Pro/CC9 Pro/Note 10 Pro
 
-The values of the feature flags for BT/WiFi are listed in the settings menu of the application.
+Reception of WiFi Beacon signals have been tested only on a Google Pixel 3 device.
+WiFi Beacon reception in the current implementation is limited to devices running Android 11.
+It should be possible to get the WiFi Beacon reception working also on earlier Android versions, but this is still under investigation.
+
+Please note that WiFi Beacon reception is by default restricted by the [Android OS](https://developer.android.com/guide/topics/connectivity/wifi-scan).
+It will only scan for signals 4 times in a 2 minute period.
+The only way to increase this is to enable the [Android Developer Mode](https://developer.android.com/studio/debug/dev-options) and then disable the WiFi scan throttling option.
+
+The values of the feature flags for Bluetooth/WiFi are listed in the settings menu of the application.
 
 A more extensive list of the support in different phone models is maintained [here](supported-smartphones.md).
 
