@@ -25,7 +25,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
@@ -44,12 +43,11 @@ public class WiFiBeaconScanner {
   private static final int OUILen = 3;
   private static final int DriStartByteOffset = 4;
   private static final int ScanTimerInterval = 5;
-  private static final int DRIOUI[] = {0x90, 0x3A, 0xE6};
+  private static final int[] DRIOUI = { 0x90, 0x3A, 0xE6 };
   private boolean WiFiScanEnabled = true;
   private final OpenDroneIdDataManager dataManager;
   private final LogWriter logger;
   private WifiManager wifiManager;
-  private Handler handler;
   Context context;
   int scanSuccess;
   int scanFailed;
@@ -74,10 +72,9 @@ public class WiFiBeaconScanner {
     }
 
     this.context = context;
-    handler = new Handler();
     beaconScanDebugEnable = false;
 
-    wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+    wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     if (!wifiManager.isWifiEnabled()) {
       Toast.makeText(context, "Turning WiFi ON...", Toast.LENGTH_LONG).show();
       wifiManager.setWifiEnabled(true);
@@ -91,7 +88,7 @@ public class WiFiBeaconScanner {
     };
     context.registerReceiver(myReceiver, filter);
 
-    startCountDownTimer(context);
+    startCountDownTimer();
     // Kick off WiFi Scan
     startScan();
 
@@ -125,7 +122,7 @@ public class WiFiBeaconScanner {
     }
     boolean freshScanResult = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
     String action = intent.getAction();
-    if ((freshScanResult == true) && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+    if (freshScanResult && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
       List<ScanResult> wifiList = wifiManager.getScanResults();
       for (ScanResult scanResult : wifiList) {
         for (ScanResult.InformationElement element : scanResult.getInformationElements()) {
@@ -139,9 +136,9 @@ public class WiFiBeaconScanner {
   }
 
   @TargetApi(Build.VERSION_CODES.O)
-  public boolean startScan() {
+  public void startScan() {
     if (!WiFiScanEnabled) {
-      return false;
+      return;
     }
     boolean ret = wifiManager.startScan();
     if (ret) {
@@ -149,9 +146,8 @@ public class WiFiBeaconScanner {
     } else {
       scanFailed++;
     }
-    Log.d("Wifi", "start_scan:" + ret);
+    Log.d(TAG, "start_scan:" + ret);
     printScanStats(ret);
-    return ret;
   }
 
   @TargetApi(Build.VERSION_CODES.O)
@@ -171,10 +167,8 @@ public class WiFiBeaconScanner {
   // If phone is debug mode and scan throttling is off, scan is triggered from onReceive() callback.
   // But if scan throttling is turned on on the phone(default setting on the phone), then scan throttling kick in.
   // In case of throttling, startScan() fails. We need timer thread to periodically kick off scanning.
-  public void startCountDownTimer(Context ctx) {
+  public void startCountDownTimer() {
     countDownTimer = new CountDownTimer(Long.MAX_VALUE, ScanTimerInterval * 1000) {
-      Context context = ctx;
-
       // This is called after every ScanTimerInterval sec.
       public void onTick(long millisUntilFinished) {
         startScan();
@@ -186,8 +180,7 @@ public class WiFiBeaconScanner {
 
   private String getCurrTimeStr() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-    String currTime = sdf.format(new Date());
-    return currTime;
+    return sdf.format(new Date());
   }
 
   private void printScanStats(boolean ret){
@@ -197,7 +190,7 @@ public class WiFiBeaconScanner {
             + "failed:" + scanFailed);
     sb.append(" curr-time:" + getCurrTimeStr() + "," + " curr-status:" + ret);
 
-    Log.d("Wifi", sb.toString());
+    Log.d(TAG, sb.toString());
 
     if (beaconScanDebugEnable) {
       Toast.makeText(context, sb, Toast.LENGTH_LONG).show();
