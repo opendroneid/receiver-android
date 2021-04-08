@@ -176,7 +176,7 @@ We plan to continuously update this list and increase the reliability of informa
 | One Plus Nord 5G                                 | Snapdragon 765G   | 10 | ✅ 1/2021  | ✅ 1/2021  |            | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
 | One Plus N10 5G                                  | Snapdragon 690    | 10 | ✅ 1/2021  | ✅ 1/2021  |            | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
 | Razer phone 2                                    | Snapdragon 845    |    |            |            |            |            |      | |
-| Samsung Galaxy Note 10, Note 10+                 | Exynos 9825       |  9 |            |            |            | ✅ 1/2020  |      | |
+| Samsung Galaxy Note 10, Note 10+                 | Exynos 9825       |  9 |            |            | ✅ 4/2021 | ✅ 1/2020  |      | |
 | Samsung Galaxy Note 9 (Global)                   | Exynos 9810       |    |            |            |            |            |      | |
 | Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |            |            |      | |
 | Samsung Galaxy Note 8 (Global)                   | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
@@ -186,14 +186,18 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy S10, S10e, S10+, S10 5G           | Exynos 9820       | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S10_Exynos) | Receives Long Range continuously |
 | Samsung Galaxy S9, S9+ (Global)                  | Exynos 9810       |  9 | ❌ 1/2020  | ❌ 1/2020  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung Galaxy S8                                | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
+| Samsung Galaxy S7                                | Exynos 8890       |    |            |            | ✅ 4/2021  |            |      | |
+| Samsung Galaxy S6                                | Exynos 7420       |    |            |            | ✅ 4/2021  |            |      | |
 | Samsung Galaxy A5                                | Snapdragon 410    |    |            |            | ✅ 1/2020  |            |      | |
 | Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021  |            | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
+| Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            |      | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |            | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |            | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020  |            |            |            |      | |
 | Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021  | ❌ 1/2021  |            | ❌ 1/2021  |      | |
 | Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021  | ❌ 1/2021  |            | ❌ 1/2020  |      | |
+| Sony Xperia 5                                    | Snapdragon 855    |    |            |             | ✅ 4/2021 |             |      | |
 | Sony Xperia XA2                                  | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  |      | |
 | Sony Xperia XZ1 Compact                          | Snapdragon 835    |  8 |            |            | ✅ 1/2020  |            |      | |
 | Sony Xperia XZ2                                  | Snapdragon 845    | 10 |            |            | ✅ 1/2020  |            |      | |
