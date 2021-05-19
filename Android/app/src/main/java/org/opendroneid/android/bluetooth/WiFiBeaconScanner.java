@@ -41,10 +41,12 @@ import org.opendroneid.android.log.LogMessageEntry;
 import org.opendroneid.android.log.LogWriter;
 
 public class WiFiBeaconScanner {
-    private static final int OUILen = 3;
+    private static final int CIDLen = 3;
     private static final int DriStartByteOffset = 4;
     private static final int ScanTimerInterval = 5;
-    private static final int[] DRIOUI = { 0x90, 0x3A, 0xE6 };
+    private static final int[] DRI_CID = { 0xFA, 0x0B, 0xBC };
+    private static final int VendorTypeLen = 1;
+    private static final int VendorTypeValue = 0x0D;
     private boolean WiFiScanEnabled = true;
     private final OpenDroneIdDataManager dataManager;
     private LogWriter logger;
@@ -100,11 +102,13 @@ public class WiFiBeaconScanner {
     @TargetApi(Build.VERSION_CODES.R)
     void processRemoteIdVendorIE(ScanResult scanResult, ScanResult.InformationElement element) {
         ByteBuffer buf = element.getBytes();
-        byte[] driOUI = new byte[OUILen];
+        byte[] dri_CID = new byte[CIDLen];
         byte[] arr = new byte[buf.remaining()];
-        buf.get(driOUI, 0, OUILen);
-        if ((driOUI[0] & 0xFF) == DRIOUI[0] && (driOUI[1] & 0xFF) == DRIOUI[1] &&
-                (driOUI[2] & 0xFF) == DRIOUI[2]) {
+        buf.get(dri_CID, 0, CIDLen);
+        byte[] vendorType = new byte[VendorTypeLen];
+        buf.get(vendorType, CIDLen, VendorTypeLen);
+        if ((dri_CID[0] & 0xFF) == DRI_CID[0] && (dri_CID[1] & 0xFF) == DRI_CID[1] &&
+                (dri_CID[2] & 0xFF) == DRI_CID[2] && vendorType[0] == VendorTypeValue) {
             buf.position(DriStartByteOffset);
             buf.get(arr, 0, buf.remaining());
             LogMessageEntry logMessageEntry = new LogMessageEntry();
