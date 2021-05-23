@@ -106,7 +106,7 @@ public class WiFiBeaconScanner {
         byte[] arr = new byte[buf.remaining()];
         buf.get(dri_CID, 0, CIDLen);
         byte[] vendorType = new byte[VendorTypeLen];
-        buf.get(vendorType, CIDLen, VendorTypeLen);
+        buf.get(vendorType);
         if ((dri_CID[0] & 0xFF) == DRI_CID[0] && (dri_CID[1] & 0xFF) == DRI_CID[1] &&
                 (dri_CID[2] & 0xFF) == DRI_CID[2] && vendorType[0] == VendorTypeValue) {
             buf.position(DriStartByteOffset);
