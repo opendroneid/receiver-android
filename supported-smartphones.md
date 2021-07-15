@@ -42,9 +42,13 @@ However, it doesn’t provide all the necessary information to prove the Long Ra
 
 Both of the rows must say YES, in order for the device to be able to receive the Remote ID Bluetooth Long Range broadcast signals.
 
-<img src="images/screen_nrf_connect_device_information.jpg" width="200">
+<p align="center">
+    <img src="images/screen_nrf_connect_device_information.jpg" width="200">
+</p>
 
-<p style="text-align: center;"> Figure 1: Example of OnePlus 8T smartphone passing the elimination criteria</p>
+<p align="center">
+Figure 1: Example of OnePlus 8T smartphone passing the elimination criteria
+</p>
 
 ### Bluetooth 5 Long Range Support - the Ability to Receive Data
 
@@ -55,7 +59,8 @@ At the moment, this information cannot be read from the OS information and must 
 1. Prepare the Device Under Test (DUT) for the Long Range receiving support by running [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
   * In the Settings menu of the app, select Scanner and set the Scanning period to 5 minutes (or to manual if needed).
 2. Use another device (Master) that passed the Elimination Criteria and run [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
-  * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)).
+  * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)). 
+Please note that device must advertise only Long Range messages. Some add-on device might advertise also Legacy connectable messages so they cannot be used for the test.
 3. On the Master, go to the Advertiser tab and create a New advertising packet.
   * In options, select Advertising Extensions and in both Primary and Secondary PHY, select LE Coded (Long Range).
   * Press the "Add Record" and select "Complete Local Name".
@@ -66,18 +71,31 @@ At the moment, this information cannot be read from the OS information and must 
   * Alternatively: Start the add-on device or run the [Bluetooth Long Range sample](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/samples/bluetooth/central_hr_coded/README.html).
 5. On the DUT, run the scanning in the Scanner tab and try to find the Master device.
   * It will have the device name of the Master.
+
   * If the Master is close to the DUT, it should have significantly better RSSI than other devices in the list.
-  * Click the found device and verify that the Advertising type is Advertising Extension and that both the Primary and Secondary PHYs are LE Coded.
+
+  * Click the found device and verify that the Advertising type is Advertising Extension and that both the Primary and Secondary PHYs are LE Coded. 
+
   * Click the round icon on the left to add the device as a favorite (that adds a small star banner under the round icon).
 	Then click the filter at the top and select the "Only favorites" checkbox.
+	
   * Swipe on the device to the right in order to reveal the RSSI chart.
 	If you have more favorites devices present, notice the color of the DUT.
 	Find the correct color in the chart and observe whether there are gaps in the chart or whether the signals are received continuously.
-	Add this information to the report for the device.
+	
+  * If you are using other method than running nRF Connect on Master device, please ensure that you don't see any Legacy messages there. 
+If you do then your device also advertises simultaneously on Bluetooth 4 and it will not reveal the gaps in RSSI chart. 
+Testing with simultaneous Legacy and Long range advertisements is invalid and shouldn't be submitted.
 
-<p align="center"> <img src="images/screen_nrf_connect_new_advertising_packet.jpg" width="200"> <img src="images/screen_nrf_connect_scanning.jpg" width="200"><img src="images/screen_nrf_connect_scanning_rssi.jpg" width="200"> </p>
+  * Add this information to the report for the device.
 
-<p style="text-align: center;"> Figure 2: Screenshots clarifying the testing steps above</p>
+<p align="center"> 
+    <img src="images/screen_nrf_connect_new_advertising_packet.jpg" width="200"> 
+    <img src="images/screen_nrf_connect_scanning.jpg" width="200">
+    <img src="images/screen_nrf_connect_scanning_rssi.jpg" width="200"> 
+</p>
+
+<p align="center"> Figure 2: Screenshots clarifying the testing steps above</p>
 
 
 
