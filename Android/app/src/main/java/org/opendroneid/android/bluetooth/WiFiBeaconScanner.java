@@ -102,6 +102,8 @@ public class WiFiBeaconScanner {
     @TargetApi(Build.VERSION_CODES.R)
     void processRemoteIdVendorIE(ScanResult scanResult, ScanResult.InformationElement element) {
         ByteBuffer buf = element.getBytes();
+        if (buf.remaining() < 30)
+            return;
         byte[] dri_CID = new byte[CIDLen];
         byte[] arr = new byte[buf.remaining()];
         buf.get(dri_CID, 0, CIDLen);
