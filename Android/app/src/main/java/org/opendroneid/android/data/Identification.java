@@ -46,6 +46,7 @@ public class Identification extends MessageData {
         Serial_Number,
         CAA_Registration_ID,
         UTM_Assigned_ID,
+        Specific_Session_ID,
     }
 
     public UaTypeEnum getUaType() { return uaType; }
@@ -76,6 +77,7 @@ public class Identification extends MessageData {
             case 1: this.idType = IdTypeEnum.Serial_Number; break;
             case 2: this.idType = IdTypeEnum.CAA_Registration_ID; break;
             case 3: this.idType = IdTypeEnum.UTM_Assigned_ID; break;
+            case 4: this.idType = IdTypeEnum.Specific_Session_ID; break;
             default: this.idType = IdTypeEnum.None; break;
         }
     }
