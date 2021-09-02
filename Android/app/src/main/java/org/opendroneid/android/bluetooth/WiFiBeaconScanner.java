@@ -15,7 +15,6 @@
 
 package org.opendroneid.android.bluetooth;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -43,7 +42,7 @@ import org.opendroneid.android.log.LogWriter;
 public class WiFiBeaconScanner {
     private static final int CIDLen = 3;
     private static final int DriStartByteOffset = 4;
-    private static final int ScanTimerInterval = 5;
+    private static final int ScanTimerInterval = 2;
     private static final int[] DRI_CID = { 0xFA, 0x0B, 0xBC };
     private static final int VendorTypeLen = 1;
     private static final int VendorTypeValue = 0x0D;
@@ -62,14 +61,13 @@ public class WiFiBeaconScanner {
 
     public void setLogger(LogWriter logger) { this.logger = logger; }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public WiFiBeaconScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
         this.dataManager = dataManager;
         this.logger = logger;
 
         this.startTime = getCurrTimeStr();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R ||
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ||
                 !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI)) {
             Toast.makeText(context, "WiFi Scanning is not supported", Toast.LENGTH_LONG).show();
             WiFiScanEnabled = false;
@@ -85,12 +83,15 @@ public class WiFiBeaconScanner {
             wifiManager.setWifiEnabled(true);
         }
         IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+
         BroadcastReceiver myReceiver = new BroadcastReceiver() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onReceive(Context context, Intent intent) {
                 handleScanResults(intent);
             }
         };
+
         context.registerReceiver(myReceiver, filter);
 
         startCountDownTimer();
@@ -99,9 +100,7 @@ public class WiFiBeaconScanner {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.R)
-    void processRemoteIdVendorIE(ScanResult scanResult, ScanResult.InformationElement element) {
-        ByteBuffer buf = element.getBytes();
+    void processRemoteIdVendorIE(ScanResult scanResult, ByteBuffer buf) {
         if (buf.remaining() < 30)
             return;
         byte[] dri_CID = new byte[CIDLen];
@@ -125,7 +124,7 @@ public class WiFiBeaconScanner {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.R)
+    @RequiresApi(api = Build.VERSION_CODES.M)
     void handleScanResults(Intent intent) {
         if (wifiManager == null) {
             Toast.makeText(context, "WiFi beacon scanner attach failed.", Toast.LENGTH_LONG).show();
@@ -136,17 +135,49 @@ public class WiFiBeaconScanner {
         if (freshScanResult && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
             List<ScanResult> wifiList = wifiManager.getScanResults();
             for (ScanResult scanResult : wifiList) {
-                for (ScanResult.InformationElement element : scanResult.getInformationElements()) {
-                    if (element != null && element.getId() == 221) {
-                        processRemoteIdVendorIE(scanResult, element);
-                    }
+                try {
+                    handleResult(scanResult);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
             startScan();
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    void handleResult(ScanResult scanResult) throws NoSuchFieldException, IllegalAccessException {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            // On earlier Android APIs, the information element field is hidden.
+            // Use reflection to access it.
+            Object value = ScanResult.class.getField("informationElements").get(scanResult);
+            ScanResult.InformationElement[] elements = (ScanResult.InformationElement[]) value;
+            if (elements == null)
+                return;
+            for (ScanResult.InformationElement element : elements) {
+                if (element == null)
+                    continue;
+                Object valueId = element.getClass().getField("id").get(element);
+                if (valueId == null)
+                    continue;
+                int id = (int) valueId;
+                if (id == 221) {
+                    Object valueBytes = element.getClass().getField("bytes").get(element);
+                    if (valueBytes == null)
+                        continue;
+                    ByteBuffer buf = ByteBuffer.wrap(((byte[]) valueBytes)).asReadOnlyBuffer();
+                    processRemoteIdVendorIE(scanResult, buf);
+                }
+            }
+        } else {
+            for (ScanResult.InformationElement element : scanResult.getInformationElements()) {
+                if (element != null && element.getId() == 221) {
+                    ByteBuffer buf = element.getBytes();
+                    processRemoteIdVendorIE(scanResult, buf);
+                }
+            }
+        }
+    }
+
     public void startScan() {
         if (!WiFiScanEnabled) {
             return;
@@ -161,7 +192,6 @@ public class WiFiBeaconScanner {
         printScanStats(ret);
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     public void stopScan() {
         if (!WiFiScanEnabled) {
             return;
@@ -176,7 +206,7 @@ public class WiFiBeaconScanner {
     // Continuous scan: Calls startSCan() from scan completion callback
     // Periodic scan: countdown timer triggers startScan after expiry of the timer.
     // If phone is debug mode and scan throttling is off, scan is triggered from onReceive() callback.
-    // But if scan throttling is turned on on the phone(default setting on the phone), then scan throttling kick in.
+    // But if scan throttling is turned on on the phone (default setting on the phone), then scan throttling kick in.
     // In case of throttling, startScan() fails. We need timer thread to periodically kick off scanning.
     public void startCountDownTimer() {
         countDownTimer = new CountDownTimer(Long.MAX_VALUE, ScanTimerInterval * 1000) {

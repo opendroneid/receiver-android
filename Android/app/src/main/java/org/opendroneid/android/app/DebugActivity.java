@@ -110,9 +110,9 @@ public class DebugActivity extends AppCompatActivity {
             menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
         }
     }
-    @TargetApi(Build.VERSION_CODES.R)
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkWiFiSupport(Menu menu) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             menu.findItem(R.id.wifi_beacon_scan).setTitle(R.string.wifi_beacon_scan_supported);
         }
     }
@@ -274,7 +274,7 @@ public class DebugActivity extends AppCompatActivity {
             wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
             wiFiNaNScanner.startScan();
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
             if (wiFiBeaconScanner != null) {
                 wiFiBeaconScanner.startScan();

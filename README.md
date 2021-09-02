@@ -29,6 +29,16 @@ https://developers.google.com/maps/documentation/android-sdk/get-api-key
 Your own generated key must be inserted in:
 `Android/app/src/main/res/values/google_maps_api.xml`
 
+## Transmission method support on different Android smartphones
+
+An extensive list of the support in different phone models is [available here](supported-smartphones.md).
+
+The transmission methods supported on a specific device (as per the Android feature flags) are listed in the settings menu of the application.
+However, reception can still fail for various reasons.
+See further details below and in the description of the [device list](supported-smartphones.md).
+
+### Bluetooth
+
 The Bluetooth reception of the application has been tested to work on several devices:
 - Huawei Y6 Pro (Android 5.1)
 - HTC one M9 (Android 5.1, 6.0, 7.0)
@@ -60,23 +70,25 @@ There seems to be a clear error in the driver implementations of those devices o
 
 The rest of the tested phones support receiving only Bluetooth Legacy Advertising signals.
 
+### WiFi NAN
+
 Reception of WiFi NAN signals have been successfully tested on the Samsung Galaxy S10 device.
 It should be possible to receive WiFi NAN signals on the following devices, but please be aware that this has not been verified using this OpenDroneID Receiver application:
 - Samsung Galaxy S9, S10, S20 (and the various +, note, ultra etc. variants of these)
 - Google Pixel 2, 3, 4 (and the various A, XL variants of these)
 - Xiaomi Mi 8, 9, Note 10, redmi K20 Pro/CC9 Pro/Note 10 Pro
 
-Reception of WiFi Beacon signals have been tested only on a Google Pixel 3 device.
-WiFi Beacon reception in the current implementation is limited to devices running Android 11.
-It should be possible to get the WiFi Beacon reception working also on earlier Android versions, but this is still under investigation.
+### WiFi Beacon
 
-Please note that WiFi Beacon reception is by default restricted by the [Android OS](https://developer.android.com/guide/topics/connectivity/wifi-scan).
-It will only scan for signals 4 times in a 2 minute period.
+WiFi Beacon reception in the current implementation is limited to devices running Android 6 and higher.
+Reception has been tested on the following devices:
+- Google Pixel 3 (Android 11)
+- Samsung Galaxy S10 (Android 11)
+- OnePlus 6T (Android 10)
+- Samsung Galaxy A3 (Android 8) devices.
+
+Please note that On Android 8 and higher, by default the scanning frequency of Wi-Fi Beacons is [throttled](https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling).
 The only way to increase this is to enable the [Android Developer Mode](https://developer.android.com/studio/debug/dev-options) and then disable the WiFi scan throttling option.
-
-The values of the feature flags for Bluetooth/WiFi are listed in the settings menu of the application.
-
-A more extensive list of the support in different phone models is maintained [here](supported-smartphones.md).
 
 ## High level SW Architecture
 
