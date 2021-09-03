@@ -230,7 +230,7 @@ public class OpenDroneIdParser {
         int authDataPage;
         int authPageCount;
         int authLength;
-        int authTimestamp;
+        long authTimestamp;
         byte[] authData = new byte[Constants.MAX_AUTH_DATA];
 
         public int getAuthDataPage() { return authDataPage; }
@@ -511,7 +511,6 @@ public class OpenDroneIdParser {
         Location location = new Location();
 
         int b = byteBuffer.get();
-
         location.status = (b & 0xF0) >> 4;
         location.heightType = (b & 0x04) >> 2;
         location.EWDirection = (b & 0x02) >> 1;
@@ -524,9 +523,9 @@ public class OpenDroneIdParser {
         location.droneLat = byteBuffer.getInt();
         location.droneLon = byteBuffer.getInt();
 
-        location.altitudePressure = byteBuffer.getShort();
-        location.altitudeGeodetic = byteBuffer.getShort();
-        location.height = byteBuffer.getShort();
+        location.altitudePressure = byteBuffer.getShort() & 0xFFFF;
+        location.altitudeGeodetic = byteBuffer.getShort() & 0xFFFF;
+        location.height = byteBuffer.getShort() & 0xFFFF;
 
         int horiVertAccuracy = byteBuffer.get();
         location.horizontalAccuracy = horiVertAccuracy & 0x0F;
@@ -559,9 +558,9 @@ public class OpenDroneIdParser {
         int offset = 0;
         int amount = Constants.MAX_AUTH_PAGE_ZERO_SIZE;
         if (authentication.authDataPage == 0) {
-            authentication.authPageCount = byteBuffer.get();
-            authentication.authLength = byteBuffer.get();
-            authentication.authTimestamp = byteBuffer.getInt();
+            authentication.authPageCount = byteBuffer.get() & 0xFF;
+            authentication.authLength = byteBuffer.get() & 0xFF;
+            authentication.authTimestamp = byteBuffer.getInt() & 0xFFFFFFFFL;
         } else {
             offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE + (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
             amount = Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
@@ -574,7 +573,7 @@ public class OpenDroneIdParser {
 
     private static SelfID parseSelfID(ByteBuffer byteBuffer) {
         SelfID selfID = new SelfID();
-        selfID.descriptionType = byteBuffer.get();
+        selfID.descriptionType = byteBuffer.get() & 0xFF;
         byteBuffer.get(selfID.operationDescription, 0, Constants.MAX_STRING_BYTE_SIZE);
         return selfID;
     }
@@ -589,8 +588,8 @@ public class OpenDroneIdParser {
         s.operatorLongitude = byteBuffer.getInt();
         s.areaCount = byteBuffer.getShort() & 0xFFFF;
         s.areaRadius = byteBuffer.get() & 0xFF;
-        s.areaCeiling = byteBuffer.getShort();
-        s.areaFloor = byteBuffer.getShort();
+        s.areaCeiling = byteBuffer.getShort() & 0xFFFF;
+        s.areaFloor = byteBuffer.getShort() & 0xFFFF;
         b = byteBuffer.get();
         s.category = (b & 0xF0) >> 4;
         s.classValue = b & 0x0F;
@@ -599,7 +598,7 @@ public class OpenDroneIdParser {
 
     private static OperatorID parseOperatorID(ByteBuffer byteBuffer) {
         OperatorID operatorID = new OperatorID();
-        operatorID.operatorIdType = byteBuffer.get();
+        operatorID.operatorIdType = byteBuffer.get() & 0xFF;
         byteBuffer.get(operatorID.operatorId, 0, Constants.MAX_ID_BYTE_SIZE);
         return operatorID;
     }
@@ -610,8 +609,8 @@ public class OpenDroneIdParser {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         MessagePack messagePack = new MessagePack();
-        messagePack.messageSize = byteBuffer.get();
-        messagePack.messagesInPack = byteBuffer.get();
+        messagePack.messageSize = byteBuffer.get() & 0xFF;
+        messagePack.messagesInPack = byteBuffer.get() & 0xFF;
 
         if (messagePack.messageSize != Constants.MAX_MESSAGE_SIZE ||
             messagePack.messagesInPack <= 0 ||
