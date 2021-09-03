@@ -310,6 +310,7 @@ public class OpenDroneIdParser {
         int areaFloor;
         int category;
         int classValue;
+        int operatorAltitudeGeo;
 
         double getLatitude() {
             return LAT_LONG_MULTIPLIER * operatorLatitude;
@@ -322,6 +323,7 @@ public class OpenDroneIdParser {
         static double calcAltitude(int value) { return (double) value / 2 - 1000; }
         double getAreaCeiling() { return calcAltitude(areaCeiling); }
         double getAreaFloor() { return calcAltitude(areaFloor); }
+        double getOperatorAltitudeGeo() { return calcAltitude(operatorAltitudeGeo); }
 
         public static String csvHeader() {
             return "operatorLocationType" + DELIM
@@ -333,7 +335,8 @@ public class OpenDroneIdParser {
                     + "areaCeiling" + DELIM
                     + "areaFloor" + DELIM
                     + "category" + DELIM
-                    + "classValue" + DELIM;
+                    + "classValue" + DELIM
+                    + "operatorAltitudeGeo" + DELIM;
         }
 
         @Override
@@ -347,7 +350,8 @@ public class OpenDroneIdParser {
                     + areaCeiling + DELIM
                     + areaFloor + DELIM
                     + category + DELIM
-                    + classValue + DELIM;
+                    + classValue + DELIM
+                    + operatorAltitudeGeo + DELIM;
         }
 
         @Override @NonNull
@@ -363,6 +367,7 @@ public class OpenDroneIdParser {
                     ", areaFloor=" + areaFloor +
                     ", category=" + category +
                     ", class=" + classValue +
+                    ", operatorAltitudeGeo=" + operatorAltitudeGeo +
                     '}';
         }
     }
@@ -593,6 +598,7 @@ public class OpenDroneIdParser {
         b = byteBuffer.get();
         s.category = (b & 0xF0) >> 4;
         s.classValue = b & 0x0F;
+        s.operatorAltitudeGeo = byteBuffer.getShort() & 0xFFFF;
         return s;
     }
 

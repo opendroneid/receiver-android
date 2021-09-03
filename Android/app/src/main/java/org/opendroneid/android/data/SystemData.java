@@ -20,6 +20,7 @@ public class SystemData extends MessageData {
     private double areaFloor;
     private categoryEnum category;
     private classValueEnum classValue;
+    private double operatorAltitudeGeo;
 
     public SystemData() {
         super();
@@ -33,8 +34,10 @@ public class SystemData extends MessageData {
         areaFloor = -1000; // -1000 is the Invalid value in the specification
         category = categoryEnum.Undeclared;
         classValue = classValueEnum.Undeclared;
+        operatorAltitudeGeo = -1000; // -1000 is the Invalid value in the specification
     }
 
+    // These apply both to operator Latitude/Longitude and to AltitudeGeo
     public enum operatorLocationTypeEnum {
         TakeOff,
         LiveGNSS,
@@ -165,6 +168,14 @@ public class SystemData extends MessageData {
         } else {
             this.classValue = classValueEnum.Undeclared;
         }
+    }
+
+    public void setOperatorAltitudeGeo(double operatorAltitudeGeo) {
+        this.operatorAltitudeGeo = operatorAltitudeGeo;
+    }
+    public double getOperatorAltitudeGeo() { return operatorAltitudeGeo; }
+    public String getOperatorAltitudeGeoAsString() {
+        return getAltitudeAsString(operatorAltitudeGeo);
     }
 }
 

@@ -240,6 +240,7 @@ public class OpenDroneIdDataManager {
         data.setAreaFloor(raw.getAreaFloor());
         data.setCategory(raw.category);
         data.setClassValue(raw.classValue);
+        data.setOperatorAltitudeGeo(raw.getOperatorAltitudeGeo());
         ac.system.postValue(data);
     }
 
