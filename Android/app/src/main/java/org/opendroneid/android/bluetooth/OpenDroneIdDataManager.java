@@ -205,7 +205,7 @@ public class OpenDroneIdDataManager {
         data.setAuthType(raw.authType);
         data.setAuthDataPage(raw.authDataPage);
         if (raw.authDataPage == 0) {
-            data.setAuthPageCount(raw.authPageCount);
+            data.setAuthLastPageIndex(raw.authLastPageIndex);
             data.setAuthLength(raw.authLength);
             data.setAuthTimestamp(raw.authTimestamp);
         }

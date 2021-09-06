@@ -15,7 +15,7 @@ public class Constants {
 
     public static final int MAX_ID_BYTE_SIZE = 20;
     public static final int MAX_STRING_BYTE_SIZE = 23;
-    public static final int MAX_AUTH_DATA_PAGES = 5;
+    public static final int MAX_AUTH_DATA_PAGES = 16;
     public static final int MAX_AUTH_PAGE_ZERO_SIZE = 17;
     public static final int MAX_AUTH_PAGE_NON_ZERO_SIZE = 23;
     public static final int MAX_AUTH_DATA = MAX_AUTH_PAGE_ZERO_SIZE + (MAX_AUTH_DATA_PAGES - 1) * MAX_AUTH_PAGE_NON_ZERO_SIZE;

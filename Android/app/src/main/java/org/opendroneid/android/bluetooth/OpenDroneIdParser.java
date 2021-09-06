@@ -228,7 +228,7 @@ public class OpenDroneIdParser {
     public static class Authentication implements Payload {
         int authType;
         int authDataPage;
-        int authPageCount;
+        int authLastPageIndex;
         int authLength;
         long authTimestamp;
         byte[] authData = new byte[Constants.MAX_AUTH_DATA];
@@ -238,7 +238,7 @@ public class OpenDroneIdParser {
         public static String csvHeader() {
             return "authType" + DELIM
                     + "authDataPage" + DELIM
-                    + "authPageCount" + DELIM
+                    + "authLastPageIndex" + DELIM
                     + "authLength" + DELIM
                     + "authTimestamp" + DELIM
                     + "authData" + DELIM;
@@ -256,7 +256,7 @@ public class OpenDroneIdParser {
         public String toCsvString() {
             return authType + DELIM
                     + authDataPage + DELIM
-                    + authPageCount + DELIM
+                    + authLastPageIndex + DELIM
                     + authLength + DELIM
                     + authTimestamp + DELIM
                     + authDataToString() + DELIM;
@@ -267,7 +267,7 @@ public class OpenDroneIdParser {
             return "Authentication{" +
                     "authType=" + authType +
                     ", authDataPage=" + authDataPage +
-                    ", authPageCount=" + authPageCount +
+                    ", authLastPageIndex=" + authLastPageIndex +
                     ", authLength=" + authLength +
                     ", authTimestamp=" + authTimestamp +
                     ", authData='" + Arrays.toString(authData) + '\'' +
@@ -563,11 +563,26 @@ public class OpenDroneIdParser {
         int offset = 0;
         int amount = Constants.MAX_AUTH_PAGE_ZERO_SIZE;
         if (authentication.authDataPage == 0) {
-            authentication.authPageCount = byteBuffer.get() & 0xFF;
+            authentication.authLastPageIndex = byteBuffer.get() & 0xFF;
             authentication.authLength = byteBuffer.get() & 0xFF;
             authentication.authTimestamp = byteBuffer.getInt() & 0xFFFFFFFFL;
+
+            // For an explanation, please see the description for struct ODID_Auth_data in:
+            // https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h
+            int len = authentication.authLastPageIndex * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE +
+                    Constants.MAX_AUTH_PAGE_ZERO_SIZE;
+            if (authentication.authLastPageIndex >= Constants.MAX_AUTH_DATA_PAGES ||
+                    authentication.authLength > len) {
+                authentication.authLastPageIndex = 0;
+                authentication.authLength = 0;
+                authentication.authTimestamp = 0;
+            } else {
+                // Display both normal authentication data and any possible additional data
+                authentication.authLength = len;
+            }
         } else {
-            offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE + (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
+            offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE +
+                    (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
             amount = Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
         }
         if (authentication.authDataPage >= 0 && authentication.authDataPage < Constants.MAX_AUTH_DATA_PAGES)

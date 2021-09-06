@@ -36,13 +36,13 @@ public class AircraftObject {
     public OperatorIdData getOperatorID() { return operatorid.getValue(); }
 
     // Non-zero authentication data pages do not contain the following fields. Save them for displaying
-    private int authPageCountSave;
+    private int authLastPageIndexSave;
     private int authLengthSave;
     private long authTimestampSave;
 
     // Multiple authentication messages are possible, each transmitting a part of the
     // authentication signature. Collect the data into authDataCombined.
-    private byte[] authDataCombined = new byte[Constants.MAX_AUTH_DATA];
+    private final byte[] authDataCombined = new byte[Constants.MAX_AUTH_DATA];
 
     public AuthenticationData combineAuthentication(AuthenticationData newData) {
         AuthenticationData currData = authentication.getValue();
@@ -55,7 +55,7 @@ public class AircraftObject {
         int offset = 0;
         int amount = Constants.MAX_AUTH_PAGE_ZERO_SIZE;
         if (newData.getAuthDataPage() == 0)  {
-            authPageCountSave = newData.getAuthPageCount();
+            authLastPageIndexSave = newData.getAuthLastPageIndex();
             authLengthSave = newData.getAuthLength();
             authTimestampSave = newData.getAuthTimestamp();
         } else {
@@ -66,7 +66,7 @@ public class AircraftObject {
             authDataCombined[i] = newData.getAuthData()[i];
 
         currData.setAuthType(newData.getAuthType());
-        currData.setAuthPageCount(authPageCountSave);
+        currData.setAuthLastPageIndex(authLastPageIndexSave);
         currData.setAuthLength(authLengthSave);
         currData.setAuthTimestamp(authTimestampSave);
         currData.setAuthData(authDataCombined);
