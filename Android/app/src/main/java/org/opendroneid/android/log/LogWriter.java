@@ -47,11 +47,11 @@ public class LogWriter {
                 writer.write(TextUtils.join(",", LogEntry.HEADER));
                 writer.write("," + OpenDroneIdParser.BasicId.csvHeader());
                 writer.write(OpenDroneIdParser.Location.csvHeader());
-                for (int i = 0; i < Constants.MAX_AUTH_DATA_PAGES; i++)
-                    writer.write(OpenDroneIdParser.Authentication.csvHeader());
                 writer.write(OpenDroneIdParser.SelfID.csvHeader());
                 writer.write(OpenDroneIdParser.SystemMsg.csvHeader());
                 writer.write(OpenDroneIdParser.OperatorID.csvHeader());
+                for (int i = 0; i < Constants.MAX_AUTH_DATA_PAGES; i++)
+                    writer.write(OpenDroneIdParser.Authentication.csvHeader());
                 writer.newLine();
                 while (loggingActive) {
                     String log;

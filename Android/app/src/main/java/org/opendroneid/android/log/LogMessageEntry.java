@@ -51,6 +51,8 @@ public class LogMessageEntry {
         } else {
             entry.append(DELIM_BASIC_ID);
         }
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.BASIC_ID)
+            i++;
 
         if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.LOCATION) {
             OpenDroneIdParser.Message<OpenDroneIdParser.Location> message =
@@ -60,9 +62,51 @@ public class LogMessageEntry {
         } else {
             entry.append(DELIM_LOCATION);
         }
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.LOCATION)
+            i++;
 
-        for (int j = 0; j < Constants.MAX_AUTH_DATA_PAGES; j++)
-        {
+        // Skip all authentication messages. They are added at the end
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.AUTH)
+            i++;
+
+        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SELFID) {
+            OpenDroneIdParser.Message<OpenDroneIdParser.SelfID> message =
+                    (OpenDroneIdParser.Message<OpenDroneIdParser.SelfID>) messages.get(i);
+            entry.append(message.payload.toCsvString());
+            i++;
+        } else {
+            entry.append(DELIM_SELF_ID);
+        }
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SELFID)
+            i++;
+
+        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SYSTEM) {
+            OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg> message =
+                    (OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg>) messages.get(i);
+            entry.append(message.payload.toCsvString());
+            i++;
+        } else {
+            entry.append(DELIM_SYSTEM);
+        }
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SYSTEM)
+            i++;
+
+        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.OPERATOR_ID) {
+            OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID> message =
+                    (OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID>) messages.get(i);
+            entry.append(message.payload.toCsvString());
+        } else {
+            entry.append(DELIM_OPERATOR);
+        }
+
+        // Add the authentication data at the end. It is often not present but adds a lot of columns
+        // in the log file, which can make it hard to find the self ID, System and Operator ID data
+        i = 0;
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.BASIC_ID)
+            i++;
+        while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.LOCATION)
+            i++;
+        for (int j = 0; j < Constants.MAX_AUTH_DATA_PAGES; j++) {
             if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.AUTH) {
                 OpenDroneIdParser.Message<OpenDroneIdParser.Authentication> message =
                         (OpenDroneIdParser.Message<OpenDroneIdParser.Authentication>) messages.get(i);
@@ -75,32 +119,6 @@ public class LogMessageEntry {
             } else {
                 entry.append(DELIM_AUTHENTICATION);
             }
-        }
-
-        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SELFID) {
-            OpenDroneIdParser.Message<OpenDroneIdParser.SelfID> message =
-                    (OpenDroneIdParser.Message<OpenDroneIdParser.SelfID>) messages.get(i);
-            entry.append(message.payload.toCsvString());
-            i++;
-        } else {
-            entry.append(DELIM_SELF_ID);
-        }
-
-        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.SYSTEM) {
-            OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg> message =
-                    (OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg>) messages.get(i);
-            entry.append(message.payload.toCsvString());
-            i++;
-        } else {
-            entry.append(DELIM_SYSTEM);
-        }
-
-        if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.OPERATOR_ID) {
-            OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID> message =
-                    (OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID>) messages.get(i);
-            entry.append(message.payload.toCsvString());
-        } else {
-            entry.append(DELIM_OPERATOR);
         }
 
         return entry;
