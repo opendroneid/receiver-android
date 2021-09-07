@@ -12,24 +12,24 @@ import java.sql.Timestamp;
 import java.util.Locale;
 
 public class MessageData {
-    private int adCounter;
+    private int msgCounter;
     private long timestamp;
 
     MessageData() {
-        adCounter = 0;
+        msgCounter = 0;
         timestamp = 0;
     }
 
-    public void setADCounter(int adCounter) {
-        this.adCounter = adCounter;
+    public void setMsgCounter(int msgCounter) {
+        this.msgCounter = msgCounter;
     }
 
-    int getADCounter() {
-        return this.adCounter;
+    int getMsgCounter() {
+        return this.msgCounter;
     }
 
-    public String getADCounterAsString() {
-        return String.format(Locale.US ,"%3d", this.adCounter);
+    public String getMsgCounterAsString() {
+        return String.format(Locale.US ,"%3d", this.msgCounter);
     }
 
     public void setTimestamp(long timestamp) {

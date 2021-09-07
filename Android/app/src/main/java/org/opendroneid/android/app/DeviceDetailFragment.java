@@ -106,7 +106,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (identification == null) return;
 
             receiveTime.setText(identification.getTimestampAsString());
-            infoLastUpdate.setText(identification.getADCounterAsString());
+            infoLastUpdate.setText(identification.getMsgCounterAsString());
             infoType.setText(identification.getUaType().name());
             infoIdType.setText(identification.getIdType().name());
             infoUasId.setText(identification.getUasIdAsString());
@@ -116,7 +116,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (locationData == null) return;
 
             receiveTime.setText(locationData.getTimestampAsString());
-            posLastUpdate.setText(locationData.getADCounterAsString());
+            posLastUpdate.setText(locationData.getMsgCounterAsString());
             status.setText(locationData.getStatus().name());
             direction.setText(locationData.getDirectionAsString());
             horiSpeed.setText(locationData.getSpeedHorizontalAsString());
@@ -140,7 +140,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (authenticationData == null) return;
 
             receiveTime.setText(authenticationData.getTimestampAsString());
-            authLastUpdate.setText(authenticationData.getADCounterAsString());
+            authLastUpdate.setText(authenticationData.getMsgCounterAsString());
             authType.setText(authenticationData.getAuthType().name());
             authLength.setText(authenticationData.getAuthLengthAsString());
             authTimestamp.setText(authenticationData.getAuthTimestampAsString());
@@ -151,7 +151,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (selfIdData == null) return;
 
             receiveTime.setText(selfIdData.getTimestampAsString());
-            selfIdLastUpdate.setText(selfIdData.getADCounterAsString());
+            selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
             selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
             selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
         });
@@ -160,7 +160,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (systemData == null) return;
 
             receiveTime.setText(systemData.getTimestampAsString());
-            systemLastUpdate.setText(systemData.getADCounterAsString());
+            systemLastUpdate.setText(systemData.getMsgCounterAsString());
             operatorLocationType.setText(systemData.getOperatorLocationType().name());
             classificationType.setText(systemData.getclassificationType().name());
             systemLatitude.setText(systemData.getOperatorLatitudeAsString());
@@ -178,7 +178,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (operatorIdData == null) return;
 
             receiveTime.setText(operatorIdData.getTimestampAsString());
-            operatorIdLastUpdate.setText(operatorIdData.getADCounterAsString());
+            operatorIdLastUpdate.setText(operatorIdData.getMsgCounterAsString());
             operatorIdType.setText(String.valueOf(operatorIdData.getOperatorIdType()));
             operatorId.setText(new String(operatorIdData.getOperatorId()));
         });

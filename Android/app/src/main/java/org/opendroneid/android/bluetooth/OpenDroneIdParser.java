@@ -413,13 +413,13 @@ public class OpenDroneIdParser {
     }
 
     public static class Message<T extends Payload> implements Comparable<Message<T>> {
-        final int adCounter;
+        final int msgCounter;
         final long timestamp;
         public final Header header;
         public final T payload;
 
-        Message(Header header, T payload, long timestamp, int adCounter) {
-            this.adCounter = adCounter;
+        Message(Header header, T payload, long timestamp, int msgCounter) {
+            this.msgCounter = msgCounter;
             this.header = header;
             this.payload = payload;
             this.timestamp = timestamp;
@@ -438,19 +438,19 @@ public class OpenDroneIdParser {
         }
     }
 
-    static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp,
-                                                 LogMessageEntry logMessageEntry,
-                                                 android.location.Location receiverLocation) {
+    static Message<Payload> parseData(byte[] payload, int offset, long timestamp,
+                                      LogMessageEntry logMessageEntry,
+                                      android.location.Location receiverLocation) {
         if (offset <= 0 || payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
-        int adCounter = payload[offset - 1] & 0xFF;
-        return parseMessage(payload, offset, timestamp, logMessageEntry, receiverLocation, adCounter);
+        int msgCounter = payload[offset - 1] & 0xFF;
+        return parseMessage(payload, offset, timestamp, logMessageEntry, receiverLocation, msgCounter);
     }
 
     static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp,
                                          LogMessageEntry logMessageEntry,
-                                         android.location.Location receiverLocation, int adCounter) {
+                                         android.location.Location receiverLocation, int msgCounter) {
         if (payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
@@ -495,7 +495,7 @@ public class OpenDroneIdParser {
                 Log.w(TAG, "Received unhandled message type: id=" + type);
 
         }
-        Message<Payload> message = new Message<>(header, payloadObj, timestamp, adCounter);
+        Message<Payload> message = new Message<>(header, payloadObj, timestamp, msgCounter);
         if (header.type != Type.MESSAGE_PACK)
             logMessageEntry.add(message);
         return message;

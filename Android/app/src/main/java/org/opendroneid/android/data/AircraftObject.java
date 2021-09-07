@@ -49,7 +49,7 @@ public class AircraftObject {
         if (currData == null)
             currData = new AuthenticationData();
 
-        currData.setADCounter(newData.getADCounter());
+        currData.setMsgCounter(newData.getMsgCounter());
         currData.setTimestamp(newData.getTimestamp());
 
         int offset = 0;
