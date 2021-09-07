@@ -13,7 +13,7 @@ public class LogEntry {
     long timestamp;
     String transportType;
     String macAddress;
-    int callbackType;
+    int msgVersion;
     int rssi;
     byte[] data;
     StringBuilder csvLog;
@@ -22,8 +22,8 @@ public class LogEntry {
             "session",
             "timestamp (nanos)",
             "transportType",
-            "mac address",
-            "callbackType",
+            "macAddress",
+            "msgVersion",
             "rssi",
             "payload"
     };
@@ -40,7 +40,7 @@ public class LogEntry {
                 + timestamp + DELIM
                 + transportType + DELIM
                 + macAddress + DELIM
-                + callbackType + DELIM
+                + msgVersion + DELIM
                 + rssi;
         if (withData) {
             // The first byte in the data array contains the length of the subsequent data
@@ -63,7 +63,7 @@ public class LogEntry {
             entry.timestamp = Long.parseLong(fields[1]);
             entry.transportType = fields[2];
             entry.macAddress = fields[3];
-            entry.callbackType = Integer.parseInt(fields[4]);
+            entry.msgVersion = Integer.parseInt(fields[4]);
             entry.rssi = Integer.parseInt(fields[5]);
             entry.data = parseHexString(fields[6]);
             return entry;

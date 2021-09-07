@@ -51,6 +51,7 @@ public class AircraftObject {
 
         currData.setMsgCounter(newData.getMsgCounter());
         currData.setTimestamp(newData.getTimestamp());
+        currData.setMsgVersion(newData.getMsgVersion());
 
         int offset = 0;
         int amount = Constants.MAX_AUTH_PAGE_ZERO_SIZE;

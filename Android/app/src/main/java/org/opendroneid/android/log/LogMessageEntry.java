@@ -29,6 +29,10 @@ public class LogMessageEntry {
 
     private final ArrayList<OpenDroneIdParser.Message> messages;
 
+    private int msgVersion = 0;
+    public int getMsgVersion() { return msgVersion; }
+    public void setMsgVersion(int msgVersion) { this.msgVersion = msgVersion; }
+
     public LogMessageEntry() { this.messages = new ArrayList<>(); }
 
     public void add(OpenDroneIdParser.Message<?> message) { messages.add(message); }

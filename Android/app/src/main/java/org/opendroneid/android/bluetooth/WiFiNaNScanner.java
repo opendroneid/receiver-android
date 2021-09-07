@@ -111,7 +111,8 @@ public class WiFiNaNScanner {
 
                     StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
                     if (logger != null)
-                        logger.logNaN(timeNano, peerHandle.hashCode(), serviceSpecificInfo, transportType, csvLog);
+                        logger.logNaN(logMessageEntry.getMsgVersion(), timeNano, peerHandle.hashCode(),
+                                      serviceSpecificInfo, transportType, csvLog);
                 }
             }, null);
         }

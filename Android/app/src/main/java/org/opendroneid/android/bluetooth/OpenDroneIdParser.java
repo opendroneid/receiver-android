@@ -496,6 +496,7 @@ public class OpenDroneIdParser {
 
         }
         Message<Payload> message = new Message<>(header, payloadObj, timestamp, msgCounter);
+        logMessageEntry.setMsgVersion(message.header.version);
         if (header.type != Type.MESSAGE_PACK)
             logMessageEntry.add(message);
         return message;

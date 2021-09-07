@@ -120,7 +120,7 @@ public class WiFiBeaconScanner {
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.logBeacon(timeNano, scanResult, arr, transportType, csvLog);
+                logger.logBeacon(logMessageEntry.getMsgVersion(), timeNano, scanResult, arr, transportType, csvLog);
         }
     }
 

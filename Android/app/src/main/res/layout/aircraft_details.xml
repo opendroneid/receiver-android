@@ -29,6 +29,13 @@
                 android:text="Connection" />
 
             <TextView
+                android:id="@+id/msgVersion"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="-" />
+
+            <TextView
                 android:id="@+id/receiveTime"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"

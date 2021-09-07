@@ -105,6 +105,7 @@ public class OpenDroneIdDataManager {
         ac.getConnection().rssi = rssi;
         ac.getConnection().transportType = transportType;
         ac.getConnection().setTimestamp(timeNano);
+        ac.getConnection().setMsgVersion(message.header.version);
         ac.connection.setValue(ac.connection.getValue());
 
         if (newAircraft) {
@@ -116,6 +117,9 @@ public class OpenDroneIdDataManager {
             handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, timeNano, logMessageEntry, message.msgCounter);
         else
             handleMessages(ac, message);
+
+        // Restore the msgVersion in case the messages embedded in the pack had a different value
+        logMessageEntry.setMsgVersion(ac.getConnection().getMsgVersion());
     }
 
     @SuppressWarnings("unchecked")

@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.opendroneid.android.R;
+import android.graphics.Color;
 
 import java.util.Locale;
 
 public class DeviceDetailFragment extends DialogFragment {
+    private TextView msgVersion;
     private TextView receiveTime;
     private TextView conMac;
     private TextView conRssi;
@@ -96,6 +98,11 @@ public class DeviceDetailFragment extends DialogFragment {
             String combo = connection.rssi + " dBm, " + connection.transportType;
             conRssi.setText(combo);
             conMac.setText(connection.macAddress);
+            msgVersion.setText(connection.getMsgVersionAsString());
+            if (connection.msgVersionUnsupported())
+                msgVersion.setTextColor(Color.RED);
+            else
+                msgVersion.setTextColor(Color.GRAY);
             receiveTime.setText(connection.getTimestampAsString());
             conStarted.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.firstSeen)));
             conLastUpdate.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.lastSeen)));
@@ -189,6 +196,7 @@ public class DeviceDetailFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.aircraft_details, container, false);
+        msgVersion = view.findViewById(R.id.msgVersion);
         receiveTime = view.findViewById(R.id.receiveTime);
         conMac = view.findViewById(R.id.conMac);
         conRssi = view.findViewById(R.id.conRssi);
@@ -196,6 +204,7 @@ public class DeviceDetailFragment extends DialogFragment {
         conLastUpdate = view.findViewById(R.id.conLastUpdate);
         conMsgDelta = view.findViewById(R.id.conMsgDelta);
         distance = view.findViewById(R.id.distance);
+
 
         infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
         infoType = view.findViewById(R.id.infoType);

@@ -81,14 +81,14 @@ public class LogWriter {
         });
     }
 
-    public void logBluetooth(int callbackType, ScanResult result,
+    public void logBluetooth(int msgVersion, ScanResult result,
                              String transportType, StringBuilder csvLog) {
         LogEntry entry = new LogEntry();
         entry.session = session;
         entry.timestamp = result.getTimestampNanos();
         entry.transportType = transportType;
         entry.macAddress = result.getDevice().getAddress();
-        entry.callbackType = callbackType;
+        entry.msgVersion = msgVersion;
         entry.rssi = result.getRssi();
         if (result.getScanRecord() != null)
             entry.data = result.getScanRecord().getBytes();
@@ -96,14 +96,14 @@ public class LogWriter {
         logQueue.add(entry.toString());
     }
 
-    public void logNaN(Long timeNano, int peerHash, byte[] serviceSpecificInfo,
+    public void logNaN(int msgVersion, Long timeNano, int peerHash, byte[] serviceSpecificInfo,
                        String transportType, StringBuilder csvLog) {
         LogEntry entry = new LogEntry();
         entry.session = session;
         entry.timestamp = timeNano;
         entry.transportType = transportType;
         entry.macAddress = Integer.toString(peerHash);
-        entry.callbackType = 0;
+        entry.msgVersion = msgVersion;
         entry.rssi = 0;
         if (serviceSpecificInfo != null)
             entry.data = serviceSpecificInfo;
@@ -111,14 +111,14 @@ public class LogWriter {
         logQueue.add(entry.toString());
     }
 
-    public void logBeacon(Long timeNano, android.net.wifi.ScanResult scanResult, byte[] data,
-                          String transportType, StringBuilder csvLog) {
+    public void logBeacon(int msgVersion, Long timeNano, android.net.wifi.ScanResult scanResult,
+                          byte[] data, String transportType, StringBuilder csvLog) {
         LogEntry entry = new LogEntry();
         entry.session = session;
         entry.timestamp = timeNano;
         entry.transportType = transportType;
         entry.macAddress = scanResult.BSSID;
-        entry.callbackType = 0;
+        entry.msgVersion = msgVersion;
         entry.rssi = scanResult.level;
         if (data != null)
             entry.data = data;

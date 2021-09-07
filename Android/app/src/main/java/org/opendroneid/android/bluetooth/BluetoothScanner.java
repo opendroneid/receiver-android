@@ -82,7 +82,7 @@ public class BluetoothScanner {
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.logBluetooth(callbackType, result, transportType, csvLog);
+                logger.logBluetooth(logMessageEntry.getMsgVersion(), result, transportType, csvLog);
 
             Log.w(TAG, "onScanResult: " + string);
             if (bytes != null) {
