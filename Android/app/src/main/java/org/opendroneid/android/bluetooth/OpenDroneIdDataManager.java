@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.le.ScanResult;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
@@ -34,6 +35,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
     public final ConcurrentHashMap<Long, AircraftObject> aircraft = new ConcurrentHashMap<>();
+
+    private static final String TAG = "OpenDroneIdDataManager";
 
     public Activity activity;
     public android.location.Location receiverLocation;
@@ -153,7 +156,8 @@ public class OpenDroneIdDataManager {
         connection.macAddress = macAddress;
         ac.connection.setValue(connection);
 
-        ac.identification.setValue(new Identification());
+        ac.identification1.setValue(new Identification());
+        ac.identification2.setValue(new Identification());
         ac.location.setValue(new LocationData());
         ac.authentication.setValue(new AuthenticationData());
         ac.selfid.setValue(new SelfIdData());
@@ -171,7 +175,25 @@ public class OpenDroneIdDataManager {
         data.setUaType(raw.uaType);
         data.setIdType(raw.idType);
         data.setUasId(raw.uasId);
-        ac.identification.postValue(data);
+
+        // This implementation can receive up-to two different types of Basic ID messages
+        // Find a free slot to store the current message in or overwrite old data of same type
+        Identification id1 = ac.identification1.getValue();
+        Identification id2 = ac.identification2.getValue();
+        if (id1 == null || id2 == null)
+            return;
+        Identification.IdTypeEnum type1 = id1.getIdType();
+        Identification.IdTypeEnum type2 = id2.getIdType();
+        if (type1 == Identification.IdTypeEnum.None || type1 == data.getIdType()) {
+            ac.identification1.setValue(data);
+        } else {
+            if (type2 == Identification.IdTypeEnum.None || type2 == data.getIdType()) {
+                ac.identification2.setValue(data);
+            } else {
+                Log.i(TAG, "Discarded Basic ID message of type: " + data.getIdType().toString() +
+                        ". Already have " + type1.toString() + " and " + type2.toString());
+            }
+        }
     }
 
     private void handleLocation(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.Location> message) {
@@ -197,7 +219,7 @@ public class OpenDroneIdDataManager {
         data.setLocationTimestamp(raw.timestamp);
         data.setTimeAccuracy(raw.getTimeAccuracy());
         data.setDistance(raw.distance);
-        ac.location.postValue(data);
+        ac.location.setValue(data);
     }
 
     private void handleAuthentication(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.Authentication> message) {
@@ -214,7 +236,7 @@ public class OpenDroneIdDataManager {
             data.setAuthTimestamp(raw.authTimestamp);
         }
         data.setAuthData(raw.authData);
-        ac.authentication.postValue(ac.combineAuthentication(data));
+        ac.authentication.setValue(ac.combineAuthentication(data));
     }
 
     private void handleSelfID(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.SelfID> message) {
@@ -225,7 +247,7 @@ public class OpenDroneIdDataManager {
 
         data.setDescriptionType(raw.descriptionType);
         data.setOperationDescription(raw.operationDescription);
-        ac.selfid.postValue(data);
+        ac.selfid.setValue(data);
     }
 
     private void handleSystem(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg> message) {
@@ -245,7 +267,7 @@ public class OpenDroneIdDataManager {
         data.setCategory(raw.category);
         data.setClassValue(raw.classValue);
         data.setOperatorAltitudeGeo(raw.getOperatorAltitudeGeo());
-        ac.system.postValue(data);
+        ac.system.setValue(data);
     }
 
     private void handleOperatorID(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID> message) {
@@ -256,7 +278,7 @@ public class OpenDroneIdDataManager {
 
         data.setOperatorIdType(raw.operatorIdType);
         data.setOperatorId(raw.operatorId);
-        ac.operatorid.postValue(data);
+        ac.operatorid.setValue(data);
     }
 
     private void handleMessagePack(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack> message, long timestamp, LogMessageEntry logMessageEntry, int msgCounter) {
@@ -297,4 +319,3 @@ public class OpenDroneIdDataManager {
     }
 
 }
-

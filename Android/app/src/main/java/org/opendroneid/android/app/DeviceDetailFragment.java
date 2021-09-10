@@ -31,10 +31,15 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView conMsgDelta;
     private TextView distance;
 
-    private TextView infoLastUpdate;
-    private TextView infoType;
-    private TextView infoIdType;
-    private TextView infoUasId;
+    private TextView infoLastUpdate1;
+    private TextView infoType1;
+    private TextView infoIdType1;
+    private TextView infoUasId1;
+
+    private TextView infoLastUpdate2;
+    private TextView infoType2;
+    private TextView infoIdType2;
+    private TextView infoUasId2;
 
     private TextView posLastUpdate;
     private TextView status;
@@ -109,14 +114,24 @@ public class DeviceDetailFragment extends DialogFragment {
             conMsgDelta.setText(connection.getMsgDeltaAsString());
         });
 
-        model.identification.observe(getViewLifecycleOwner(), identification -> {
+        model.identification1.observe(getViewLifecycleOwner(), identification -> {
             if (identification == null) return;
 
             receiveTime.setText(identification.getTimestampAsString());
-            infoLastUpdate.setText(identification.getMsgCounterAsString());
-            infoType.setText(identification.getUaType().name());
-            infoIdType.setText(identification.getIdType().name());
-            infoUasId.setText(identification.getUasIdAsString());
+            infoLastUpdate1.setText(identification.getMsgCounterAsString());
+            infoType1.setText(identification.getUaType().name());
+            infoIdType1.setText(identification.getIdType().name());
+            infoUasId1.setText(identification.getUasIdAsString());
+        });
+
+        model.identification2.observe(getViewLifecycleOwner(), identification -> {
+            if (identification == null) return;
+
+            receiveTime.setText(identification.getTimestampAsString());
+            infoLastUpdate2.setText(identification.getMsgCounterAsString());
+            infoType2.setText(identification.getUaType().name());
+            infoIdType2.setText(identification.getIdType().name());
+            infoUasId2.setText(identification.getUasIdAsString());
         });
 
         model.location.observe(getViewLifecycleOwner(), locationData -> {
@@ -205,11 +220,15 @@ public class DeviceDetailFragment extends DialogFragment {
         conMsgDelta = view.findViewById(R.id.conMsgDelta);
         distance = view.findViewById(R.id.distance);
 
+        infoLastUpdate1 = view.findViewById(R.id.infoLastUpdate1);
+        infoType1 = view.findViewById(R.id.infoType1);
+        infoIdType1 = view.findViewById(R.id.infoIdType1);
+        infoUasId1 = view.findViewById(R.id.infoUasId1);
 
-        infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
-        infoType = view.findViewById(R.id.infoType);
-        infoIdType = view.findViewById(R.id.infoIdType);
-        infoUasId = view.findViewById(R.id.infoUasId);
+        infoLastUpdate2 = view.findViewById(R.id.infoLastUpdate2);
+        infoType2 = view.findViewById(R.id.infoType2);
+        infoIdType2 = view.findViewById(R.id.infoIdType2);
+        infoUasId2 = view.findViewById(R.id.infoUasId2);
 
         posLastUpdate = view.findViewById(R.id.posLastUpdate);
         status = view.findViewById(R.id.status);

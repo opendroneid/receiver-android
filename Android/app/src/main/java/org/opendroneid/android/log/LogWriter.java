@@ -46,6 +46,7 @@ public class LogWriter {
                 // write header
                 writer.write(TextUtils.join(",", LogEntry.HEADER));
                 writer.write("," + OpenDroneIdParser.BasicId.csvHeader());
+                writer.write(OpenDroneIdParser.BasicId.csvHeader());
                 writer.write(OpenDroneIdParser.Location.csvHeader());
                 writer.write(OpenDroneIdParser.SelfID.csvHeader());
                 writer.write(OpenDroneIdParser.SystemMsg.csvHeader());

@@ -47,14 +47,17 @@ public class LogMessageEntry {
         StringBuilder entry = new StringBuilder();
         int i = 0;
 
-        if (messages.get(i).header.type == OpenDroneIdParser.Type.BASIC_ID) {
-            OpenDroneIdParser.Message<OpenDroneIdParser.BasicId> message =
-                    (OpenDroneIdParser.Message<OpenDroneIdParser.BasicId>) messages.get(i);
-            entry.append(message.payload.toCsvString());
-            i++;
-        } else {
-            entry.append(DELIM_BASIC_ID);
+        for (int j = 0; j < 2; j++) {
+            if (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.BASIC_ID) {
+                OpenDroneIdParser.Message<OpenDroneIdParser.BasicId> message =
+                        (OpenDroneIdParser.Message<OpenDroneIdParser.BasicId>) messages.get(i);
+                entry.append(message.payload.toCsvString());
+                i++;
+            } else {
+                entry.append(DELIM_BASIC_ID);
+            }
         }
+        // Only two Basic ID messages are logged from message packs. Skip additional messages
         while (i < messages.size() && messages.get(i).header.type == OpenDroneIdParser.Type.BASIC_ID)
             i++;
 

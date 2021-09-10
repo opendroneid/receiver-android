@@ -321,11 +321,12 @@ public class DebugActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(TAG, "onResume");
 
-        // Wake up the main Activity thread once per second, in order to update time counters
+        // Wake the main Activity thread regularly, to update time counters and other UI elements
         handler = new Handler();
         runnableCode = () -> {
             for (AircraftObject aircraft : dataManager.aircraft.values()) {
                 aircraft.connection.setValue(aircraft.connection.getValue());
+                aircraft.updateShadowBasicId();
             }
             handler.postDelayed(runnableCode, 1000);
         };

@@ -13,7 +13,10 @@ import org.opendroneid.android.Constants;
 
 public class AircraftObject {
     final public MutableLiveData<Connection> connection = new MutableLiveData<>();
-    final public MutableLiveData<Identification> identification = new MutableLiveData<>();
+    final public MutableLiveData<Identification> identification1 = new MutableLiveData<>();
+    final public MutableLiveData<Identification> identification2 = new MutableLiveData<>();
+    final public MutableLiveData<Identification> id1Shadow = new MutableLiveData<>();
+    final public MutableLiveData<Identification> id2Shadow = new MutableLiveData<>();
     final public MutableLiveData<LocationData> location = new MutableLiveData<>();
     final public MutableLiveData<AuthenticationData> authentication = new MutableLiveData<>();
     final public MutableLiveData<SelfIdData> selfid = new MutableLiveData<>();
@@ -28,7 +31,8 @@ public class AircraftObject {
     public long getMacAddress() { return macAddress; }
 
     public Connection getConnection() { return connection.getValue(); }
-    public Identification getIdentification() { return identification.getValue(); }
+    public Identification getIdentification1() { return identification1.getValue(); }
+    public Identification getIdentification2() { return identification2.getValue(); }
     public LocationData getLocation() { return location.getValue(); }
     public AuthenticationData getAuthentication() { return authentication.getValue(); }
     public SelfIdData getSelfID() { return selfid.getValue(); }
@@ -74,11 +78,37 @@ public class AircraftObject {
         return currData;
     }
 
+    private int idToShow = 0;
+
+    // When two different BasicId messages have been received, use this function to force a regular
+    // swap between their uasId in the list view. It is assumed this is called once per second.
+    // The change logic is slowed down to once per three seconds.
+    public void updateShadowBasicId() {
+        switch (idToShow) {
+            case 0:
+                id1Shadow.setValue(identification1.getValue());
+                idToShow++;
+                break;
+            case 3:
+                Identification id2 = identification2.getValue();
+                if (id2 != null && id2.getIdType() != Identification.IdTypeEnum.None)
+                    id2Shadow.setValue(identification2.getValue());
+                idToShow++;
+                break;
+            case 6:
+                idToShow = 0;
+                break;
+            default:
+                idToShow++;
+        }
+    }
+
     @Override @NonNull
     public String toString() {
         return "AircraftObject{" +
                 "macAddress=" + macAddress +
-                ", identification=" + identification +
+                ", identification1=" + identification1 +
+                ", identification2=" + identification2 +
                 '}';
     }
 }
