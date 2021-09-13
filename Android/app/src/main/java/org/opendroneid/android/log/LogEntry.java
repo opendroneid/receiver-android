@@ -32,23 +32,14 @@ public class LogEntry {
 
     @NonNull
     public String toString() {
-        return toString(true);
-    }
-
-    String toString(boolean withData) {
-        String s = session + DELIM
+        return session + DELIM
                 + timestamp + DELIM
                 + transportType + DELIM
                 + macAddress + DELIM
                 + msgVersion + DELIM
-                + rssi;
-        if (withData) {
-            // The first byte in the data array contains the length of the subsequent data
-            int length = ((int) data[0] & 0xFF) + 1;
-            s += DELIM + toHexString(data, length);
-        }
-        s += DELIM + csvLog;
-        return s;
+                + rssi + DELIM
+                + toHexString(data, data.length) + DELIM
+                + csvLog;
     }
 
     static LogEntry fromString(String line) {
