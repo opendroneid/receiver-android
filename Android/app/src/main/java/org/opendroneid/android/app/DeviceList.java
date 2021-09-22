@@ -6,8 +6,10 @@
  */
 package org.opendroneid.android.app;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -39,6 +41,7 @@ import com.mikepenz.fastadapter.select.SelectExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
@@ -64,7 +67,9 @@ public class DeviceList extends Fragment {
         };
 
         model.getActiveAircraft().observe(getViewLifecycleOwner(), object -> {
-            SelectExtension<ListItem> selectExtension = mAdapter.getSelectExtension();
+            SelectExtension<ListItem> selectExtension = mAdapter.getExtension(SelectExtension.class);
+            if (selectExtension == null)
+                return;
             if (object == null) {
                 selectExtension.deselect();
             } else {
@@ -84,13 +89,13 @@ public class DeviceList extends Fragment {
         if (getActivity() == null)
             return;
         super.onActivityCreated(savedInstanceState);
-        AircraftViewModel model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
+        AircraftViewModel model = new ViewModelProvider(getActivity()).get(AircraftViewModel.class);
         subscribeToModel(model);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.aircraft_list, null);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.aircraft_list, container, false);
         // Set CustomAdapter as the adapter for RecyclerView.
         // Create the ItemAdapter holding your Items
 
@@ -128,9 +133,9 @@ public class DeviceList extends Fragment {
     }
 
     private void showDetails(AircraftObject aircraft) {
-        if (getActivity() == null || getParentFragmentManager() == null)
+        if (getActivity() == null)
             return;
-        DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
         model.select(aircraft);
         DeviceDetailFragment newFragment = DeviceDetailFragment.newInstance();
         newFragment.show(getParentFragmentManager(), "dialog");
@@ -144,9 +149,9 @@ public class DeviceList extends Fragment {
         private final TextView textView2;
         private final TextView lastSeen;
         private AircraftObject aircraft;
-        private View view;
-        private ImageView iconImageView;
-        private Drawable droneIcon;
+        private final View view;
+        private final ImageView iconImageView;
+        private final Drawable droneIcon;
 
         AircraftViewHolder(View v) {
             super(v);
@@ -159,7 +164,7 @@ public class DeviceList extends Fragment {
             lastSeen = v.findViewById(R.id.last_seen);
             button.setOnClickListener(v1 -> showDetails(aircraft));
 
-            droneIcon = getResources().getDrawable(R.mipmap.ic_plane_icon);
+            droneIcon = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.ic_plane_icon);
             iconImageView = v.findViewById(R.id.drone_icon);
         }
 

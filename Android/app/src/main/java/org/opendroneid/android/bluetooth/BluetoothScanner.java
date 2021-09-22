@@ -141,7 +141,7 @@ public class BluetoothScanner {
     }
 
     public void stopScan() {
-        if (bluetoothLeScanner != null && scanCallback != null) {
+        if (bluetoothLeScanner != null) {
             bluetoothLeScanner.stopScan(scanCallback);
         }
     }

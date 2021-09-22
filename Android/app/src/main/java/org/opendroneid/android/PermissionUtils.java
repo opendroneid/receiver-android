@@ -22,10 +22,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 /**
  * Utility class for access to runtime permissions.
@@ -145,9 +149,10 @@ public abstract class PermissionUtils {
             return dialog;
         }
 
-        @Override
+        @Override @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             Bundle arguments = getArguments();
+            assert arguments != null;
             final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
             mFinishActivity = arguments.getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
@@ -155,7 +160,7 @@ public abstract class PermissionUtils {
                     .setMessage(R.string.permission_rationale_location)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         // After click on Ok, request the permission.
-                        ActivityCompat.requestPermissions(getActivity(),
+                        ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
                                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 requestCode);
                         // Do not finish the Activity while requesting permission.
@@ -166,14 +171,11 @@ public abstract class PermissionUtils {
         }
 
         @Override
-        public void onDismiss(DialogInterface dialog) {
+        public void onDismiss(@NonNull DialogInterface dialog) {
             super.onDismiss(dialog);
             if (mFinishActivity) {
-                Toast.makeText(getActivity(),
-                        R.string.permission_required_toast,
-                        Toast.LENGTH_SHORT)
-                        .show();
-                getActivity().finish();
+                Toast.makeText(getActivity(), R.string.permission_required_toast, Toast.LENGTH_SHORT).show();
+                Objects.requireNonNull(getActivity()).finish();
             }
         }
     }

@@ -15,40 +15,6 @@ import java.util.Set;
 
 public class Util {
 
-    public static void main(String[] args) {
-        Set<String> str = new HashSet<>();
-        str.add("a");
-        str.add("b");
-        str.add("c");
-
-        Set<String> str2 = new HashSet<>();
-        str2.add("c");
-        str2.add("d");
-        str2.add("e");
-
-        DiffObserver<String> stringDiffObserver = new DiffObserver<String>() {
-            @Override
-            public void onChanged(@Nullable Set<String> newSet) {
-                System.out.println("> new: "+newSet);
-                super.onChanged(newSet);
-            }
-
-            @Override
-            public void onAdded(Collection<String> added) {
-                System.out.println("added: "+added);
-            }
-
-            @Override
-            public void onRemoved(Collection<String> removed) {
-                System.out.println("removed: "+removed);
-            }
-        };
-
-        stringDiffObserver.onChanged(str);
-        stringDiffObserver.onChanged(str2);
-
-    }
-
     public static class SetDifference<T> {
         final Set<T> added;
         final Set<T> removed;
@@ -70,7 +36,6 @@ public class Util {
         return diff;
     }
 
-
     /**
      * set - other, what is not in other
      */
@@ -91,12 +56,7 @@ public class Util {
             last = newSet;
         }
 
-        public void onAdded(Collection<T> added) {
-
-        }
-
-        public void onRemoved(Collection<T> removed) {
-
-        }
+        public void onAdded(Collection<T> added) { }
+        public void onRemoved(Collection<T> removed) { }
     }
 }

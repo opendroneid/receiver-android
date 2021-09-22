@@ -8,7 +8,7 @@ package org.opendroneid.android.app;
 
 import android.Manifest;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
@@ -119,33 +119,33 @@ public class DebugActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clear:
-                dataManager.getAircraft().clear();
-                mModel.setAllAircraft(dataManager.getAircraft());
-                LogWriter.bumpSession();
-                return true;
-            case R.id.menu_log:
-                boolean enabled = !getLogEnabled();
-                setLogEnabled(enabled);
-                mMenuLogItem.setChecked(enabled);
-                if (enabled) {
-                    createNewLogfile();
-                    wiFiNaNScanner.setLogger(logger);
-                    wiFiBeaconScanner.setLogger(logger);
-                } else {
-                    logger.close();
-                    btScanner.setLogger(null);
-                    wiFiNaNScanner.setLogger(null);
-                    wiFiBeaconScanner.setLogger(null);
-                }
-                return true;
-            case R.id.log_location:
-                if (getLogEnabled())
-                    Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.clear) {
+            dataManager.getAircraft().clear();
+            mModel.setAllAircraft(dataManager.getAircraft());
+            LogWriter.bumpSession();
+            return true;
+        } else if (id == R.id.menu_log) {
+            boolean enabled = !getLogEnabled();
+            setLogEnabled(enabled);
+            mMenuLogItem.setChecked(enabled);
+            if (enabled) {
+                createNewLogfile();
+                wiFiNaNScanner.setLogger(logger);
+                wiFiBeaconScanner.setLogger(logger);
+            } else {
+                logger.close();
+                btScanner.setLogger(null);
+                wiFiNaNScanner.setLogger(null);
+                wiFiBeaconScanner.setLogger(null);
+            }
+            return true;
+        } else if (id == R.id.log_location) {
+            if (getLogEnabled())
+                Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
+            return true;
         }
         return false;
     }
@@ -186,7 +186,7 @@ public class DebugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_debug);
-        mModel = ViewModelProviders.of(this).get(AircraftViewModel.class);
+        mModel = new ViewModelProvider(this).get(AircraftViewModel.class);
 
         dataManager = new OpenDroneIdDataManager(new OpenDroneIdDataManager.Callback() {
             @Override
@@ -242,10 +242,7 @@ public class DebugActivity extends AppCompatActivity {
 
         dataManager.locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
                         dataManager.receiverLocation = location;
@@ -276,9 +273,7 @@ public class DebugActivity extends AppCompatActivity {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
-            if (wiFiBeaconScanner != null) {
-                wiFiBeaconScanner.startScan();
-            }
+            wiFiBeaconScanner.startScan();
         }
 
         addDeviceList();

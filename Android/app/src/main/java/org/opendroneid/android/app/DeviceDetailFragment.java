@@ -6,7 +6,7 @@
  */
 package org.opendroneid.android.app;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -96,7 +96,7 @@ public class DeviceDetailFragment extends DialogFragment {
             return;
 
         super.onActivityCreated(savedInstanceState);
-        DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
 
         model.connection.observe(getViewLifecycleOwner(), connection -> {
             if (connection == null) return;

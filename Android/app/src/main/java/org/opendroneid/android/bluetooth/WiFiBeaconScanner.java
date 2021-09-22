@@ -227,9 +227,9 @@ public class WiFiBeaconScanner {
 
     private void printScanStats(boolean ret) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Started: " + startTime + " ");
-        sb.append("success: " + scanSuccess + ", " + "failed: " + scanFailed);
-        sb.append(" curr-time: " + getCurrTimeStr() + ", " + " curr-status: " + ret);
+        sb.append("Started: ").append(startTime).append(" success: ").append(scanSuccess);
+        sb.append(", failed: ").append(scanFailed).append(" curr-time: ");
+        sb.append(getCurrTimeStr()).append(", curr-status: ").append(ret);
 
         Log.d(TAG, sb.toString());
 
