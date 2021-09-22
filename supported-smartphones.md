@@ -167,7 +167,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Huawei Mate 9                                    | Kirin 960         |  7 |            |            | ❌ 1/2020  |            |      | |
 | Huawei P30 Pro                                   | Kirin 980         | 10 | ✅ 11/2019 | ✅ 11/2019 | ✅ 1/2020  |            |      | Does this receive LR continuously or not? |
 | Huawei P30                                       | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |            |            |      | Does this receive LR continuously or not? |
-| Huawei P20 Lite                                  | Kirin 659         |  9 |            |            | ✅ 1/2020  |            |      | |
+| Huawei P20 Lite                                  | Kirin 659         |  9 | ❌ 9/2021  | ❌ 9/2021  | ✅ 1/2020  |            |      | |
 | Huawei P9                                        | Kirin 955         |  6 |            |            | ❌ 1/2020  |            |      | |
 | Huawei P8 Lite                                   | Kirin 655         |  7 |            |            | ❌ 1/2020  |            |      | |
 | Huawei Nova 5T                                   | Kirin 980         |    | ✅ 5/2020  |            |            |            |      | |
