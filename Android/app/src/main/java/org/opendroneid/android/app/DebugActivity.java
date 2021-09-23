@@ -20,6 +20,7 @@ import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -28,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +37,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -64,6 +67,10 @@ public class DebugActivity extends AppCompatActivity {
 
     private AircraftViewModel mModel;
     OpenDroneIdDataManager dataManager;
+
+    public LocationRequest locationRequest;
+    public LocationCallback locationCallback;
+    public FusedLocationProviderClient mFusedLocationClient;
 
     private static final String TAG = DebugActivity.class.getSimpleName();
 
@@ -110,6 +117,7 @@ public class DebugActivity extends AppCompatActivity {
             menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
         }
     }
+
     @TargetApi(Build.VERSION_CODES.M)
     private void checkWiFiSupport(Menu menu) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -233,14 +241,13 @@ public class DebugActivity extends AppCompatActivity {
             showErrorText(R.string.bt_not_supported);
         }
 
-        dataManager.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); // 10 seconds
+        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
 
-        dataManager.locationRequest = LocationRequest.create();
-        dataManager.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        dataManager.locationRequest.setInterval(10 * 1000); // 10 seconds
-        dataManager.locationRequest.setFastestInterval(5 * 1000); // 5 seconds
-
-        dataManager.locationCallback = new LocationCallback() {
+        locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
@@ -250,8 +257,6 @@ public class DebugActivity extends AppCompatActivity {
                 }
             }
         };
-        dataManager.activity = this;
-        dataManager.getReceiverLocation();
     }
 
     private void initialize() {
@@ -326,6 +331,11 @@ public class DebugActivity extends AppCompatActivity {
             handler.postDelayed(runnableCode, 1000);
         };
         handler.post(runnableCode);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+
         super.onResume();
     }
 
@@ -334,6 +344,8 @@ public class DebugActivity extends AppCompatActivity {
         Log.d(TAG, "onPause");
         //btScanner.stopScan();
         handler.removeCallbacks(runnableCode);
+        if (mFusedLocationClient != null)
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
         super.onPause();
     }
 
