@@ -271,16 +271,11 @@ public class DebugActivity extends AppCompatActivity {
 
         mModel.getAllAircraft().observe(this, listObserver);
 
-        btScanner.startScan();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
-            wiFiNaNScanner.startScan();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
-            wiFiBeaconScanner.startScan();
-        }
 
         addDeviceList();
 
@@ -341,13 +336,26 @@ public class DebugActivity extends AppCompatActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
+        btScanner.startScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
+            wiFiNaNScanner.startScan();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
+            wiFiBeaconScanner.startCountDownTimer();
+
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         Log.d(TAG, "onPause");
-        //btScanner.stopScan();
+
+        btScanner.stopScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
+            wiFiNaNScanner.stopScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
+            wiFiBeaconScanner.stopScan();
+
         handler.removeCallbacks(runnableCode);
         if (mFusedLocationClient != null)
             mFusedLocationClient.removeLocationUpdates(locationCallback);

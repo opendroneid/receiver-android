@@ -79,7 +79,7 @@ public class WiFiBeaconScanner {
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
-            Toast.makeText(context, "Turning WiFi ON...", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Turning on Wi-Fi");
             wifiManager.setWifiEnabled(true);
         }
         IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
@@ -93,11 +93,6 @@ public class WiFiBeaconScanner {
         };
 
         context.registerReceiver(myReceiver, filter);
-
-        startCountDownTimer();
-        // Kick off WiFi Scan
-        startScan();
-
     }
 
     void processRemoteIdVendorIE(ScanResult scanResult, ByteBuffer buf) {
@@ -199,7 +194,7 @@ public class WiFiBeaconScanner {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        Toast.makeText(context, "Stopping WiFi scanning.", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Stopping WiFi Beacon scanning");
     }
 
     // There are 2 ways to control WiFi scan:

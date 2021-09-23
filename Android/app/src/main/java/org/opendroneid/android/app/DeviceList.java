@@ -147,7 +147,7 @@ public class DeviceList extends Fragment {
     public class AircraftViewHolder extends FastAdapter.ViewHolder<ListItem> {
         private final TextView textView;
         private final TextView textView2;
-        private final TextView lastSeen;
+        private final TextView rssiView;
         private AircraftObject aircraft;
         private final View view;
         private final ImageView iconImageView;
@@ -161,7 +161,7 @@ public class DeviceList extends Fragment {
 
             Button button = v.findViewById(R.id.modButton);
             button.setText(R.string.info);
-            lastSeen = v.findViewById(R.id.last_seen);
+            rssiView = v.findViewById(R.id.rssi);
             button.setOnClickListener(v1 -> showDetails(aircraft));
 
             droneIcon = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.ic_plane_icon);
@@ -208,7 +208,7 @@ public class DeviceList extends Fragment {
             @Override
             public void onChanged(@Nullable Connection connection) {
                 if (connection != null)
-                    lastSeen.setText(String.format(Locale.US, "%s dBm", connection.rssi));
+                    rssiView.setText(String.format(Locale.US, "%s dBm", connection.rssi));
             }
         };
         final Observer<LocationData> locationObserver = new Observer<LocationData>() {

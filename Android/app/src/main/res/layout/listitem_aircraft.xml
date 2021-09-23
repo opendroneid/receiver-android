@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/last_seen"
+        android:id="@+id/rssi"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:gravity="center"

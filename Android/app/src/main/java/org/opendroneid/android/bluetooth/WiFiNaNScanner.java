@@ -21,7 +21,6 @@ import android.net.wifi.aware.SubscribeDiscoverySession;
 import android.net.wifi.aware.WifiAwareManager;
 import android.net.wifi.aware.WifiAwareSession;
 import android.os.Build;
-import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
@@ -42,7 +41,6 @@ public class WiFiNaNScanner {
     private boolean wifiAwareSupported = false;
     private WifiAwareManager wifiAwareManager;
     private WifiAwareSession wifiAwareSession;
-    private Handler handler;
     Context context;
     private static final String TAG = WiFiNaNScanner.class.getSimpleName();
 
@@ -60,7 +58,6 @@ public class WiFiNaNScanner {
         }
         wifiAwareSupported = true;
         this.context = context;
-        handler = new Handler();
 
         wifiAwareManager = (WifiAwareManager) context.getSystemService(Context.WIFI_AWARE_SERVICE);
         if (wifiAwareManager != null && !wifiAwareManager.isAvailable()) {
@@ -141,14 +138,14 @@ public class WiFiNaNScanner {
             return;
         Log.i(TAG, "WiFi NaN attaching");
         if (wifiAwareManager.isAvailable())
-            wifiAwareManager.attach(attachCallback, identityChangedListener, handler);
+            wifiAwareManager.attach(attachCallback, identityChangedListener, null);
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     public void stopScan() {
         if (!wifiAwareSupported)
             return;
-        Toast.makeText(context, "WiFi NaN stopping scanning. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
+        Log.i(TAG, "WiFi NaN closing");
         if (wifiAwareManager.isAvailable() && wifiAwareSession != null)
             wifiAwareSession.close();
     }
