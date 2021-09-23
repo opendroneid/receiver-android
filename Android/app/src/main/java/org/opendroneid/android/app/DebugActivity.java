@@ -228,8 +228,8 @@ public class DebugActivity extends AppCompatActivity {
                 startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
             } else {
                 // Check permission
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "onMapReady: call request permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
@@ -239,6 +239,7 @@ public class DebugActivity extends AppCompatActivity {
         } else {
             // Bluetooth is not supported.
             showErrorText(R.string.bt_not_supported);
+            finish();
         }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -282,33 +283,37 @@ public class DebugActivity extends AppCompatActivity {
         }
 
         addDeviceList();
+
+        AircraftMapView mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        if (mMapView != null)
+            mMapView.setMapSettings();
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_ENABLE_BT) {
-                if (resultCode == RESULT_OK) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG, "onMapReady: call request permission");
-                        requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
-                    } else {
-                        initialize();
-                    }
+            if (resultCode == RESULT_OK) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onMapReady: call request permission");
+                    requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
-                    // User declined to enable Bluetooth, exit the app.
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
-                    finish();
+                    initialize();
                 }
+            } else {
+                // User declined to enable Bluetooth, exit the app.
+                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                finish();
+            }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
+                // User declined to enable WiFi, exit the app.
                 Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
                 finish();
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -371,6 +376,7 @@ public class DebugActivity extends AppCompatActivity {
                 initialize();
             } else {
                 showErrorText(R.string.permission_required_toast);
+                finish();
             }
 
         }
