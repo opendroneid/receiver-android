@@ -41,4 +41,11 @@
     <string name="permission_required_toast">Location permission is required for this application to work.</string>
 
     <string name="drone_icon_content_description">Drone icon</string>
+
+    <string name="bluetooth_help_heading">Bluetooth</string>
+    <string name="bluetooth_help_text">Sample</string>
+    <string name="beacon_help_heading">Wi-Fi Beacon</string>
+    <string name="beacon_help_text">Sample</string>
+    <string name="nan_help_heading">Wi-Fi NaN</string>
+    <string name="nan_help_text">Sample</string>
 </resources>

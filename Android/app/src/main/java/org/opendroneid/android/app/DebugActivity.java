@@ -125,6 +125,12 @@ public class DebugActivity extends AppCompatActivity {
         }
     }
 
+    private void showHelpMenu() {
+        HelpMenu helpMenu = HelpMenu.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        helpMenu.show(transaction, "help");
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -132,6 +138,9 @@ public class DebugActivity extends AppCompatActivity {
             dataManager.getAircraft().clear();
             mModel.setAllAircraft(dataManager.getAircraft());
             LogWriter.bumpSession();
+            return true;
+        } else if (id == R.id.help) {
+            showHelpMenu();
             return true;
         } else if (id == R.id.menu_log) {
             boolean enabled = !getLogEnabled();
@@ -282,7 +291,6 @@ public class DebugActivity extends AppCompatActivity {
         AircraftMapView mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
         if (mMapView != null)
             mMapView.setMapSettings();
-
     }
 
     @Override

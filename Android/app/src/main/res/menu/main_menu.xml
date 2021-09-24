@@ -12,26 +12,36 @@
         android:title="Clear"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/help"
+        android:title="Help"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_log"
         android:checkable="true"
         android:title="Log enabled"
         app:showAsAction="never" />
     <item
         android:id="@+id/log_location"
-        android:title="Show log location" />
+        android:title="Show log location"
+        app:showAsAction="never" />
     <item
         android:id="@+id/coded_phy"
-        android:title="@string/coded_phy_not_supported" />
+        android:title="@string/coded_phy_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/extended_advertising"
-        android:title="@string/ea_not_supported" />
+        android:title="@string/ea_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/wifi_nan"
-        android:title="@string/nan_not_supported" />
+        android:title="@string/nan_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/wifi_beacon_scan"
-        android:title="@string/wifi_beacon_scan_not_supported" />
+        android:title="@string/wifi_beacon_scan_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/version"
-        android:title="@string/app_version" />
+        android:title="@string/app_version"
+        app:showAsAction="never" />
 </menu>
