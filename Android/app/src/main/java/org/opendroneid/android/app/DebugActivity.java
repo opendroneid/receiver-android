@@ -333,8 +333,8 @@ public class DebugActivity extends AppCompatActivity {
         handler = new Handler();
         runnableCode = () -> {
             for (AircraftObject aircraft : dataManager.aircraft.values()) {
-                aircraft.connection.setValue(aircraft.connection.getValue());
                 aircraft.updateShadowBasicId();
+                aircraft.connection.setValue(aircraft.connection.getValue());
             }
             handler.postDelayed(runnableCode, 1000);
         };

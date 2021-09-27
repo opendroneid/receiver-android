@@ -83,7 +83,26 @@ public class Identification extends MessageData {
     }
 
     public byte[] getUasId() { return uasId; }
-    public String getUasIdAsString() { return new String(uasId); }
+    public String getUasIdAsString() {
+        if (uasId != null) {
+            if (idType == IdTypeEnum.Serial_Number || idType == IdTypeEnum.CAA_Registration_ID) {
+                for (int c : uasId) {
+                    if ((c <= 31 || c >= 127) && c != 0) {
+                        return "Invalid ID String";
+                    }
+                }
+                return new String(uasId);
+            } else if (idType == IdTypeEnum.UTM_Assigned_ID || idType == IdTypeEnum.Specific_Session_ID) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("0x");
+                for (byte b : uasId) {
+                    sb.append(String.format("%02X", b));
+                }
+                return sb.toString();
+            }
+        }
+        return "";
+    }
     public void setUasId(byte[] uasId) {
         if (uasId.length <= Constants.MAX_ID_BYTE_SIZE)
             this.uasId = uasId;

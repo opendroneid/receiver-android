@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.opendroneid.android.Constants;
 import org.opendroneid.android.R;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.Connection;
@@ -168,6 +169,14 @@ public class DeviceList extends Fragment {
             iconImageView = v.findViewById(R.id.drone_icon);
         }
 
+        private void setIdText(Identification id) {
+            if (id.getUasIdAsString().length() > Constants.MAX_ID_BYTE_SIZE)
+                textView.setTextSize(9);
+            else
+                textView.setTextSize(16);
+            textView.setText(String.format("%s", id.getUasIdAsString()));
+        }
+
         @Override
         public void bindView(@NonNull ListItem aircraftItem, @NonNull List<Object> payloads) {
             if (getContext() == null)
@@ -180,12 +189,12 @@ public class DeviceList extends Fragment {
             view.setBackground(selectableBackground);
             Identification id = aircraft.getIdentification1();
             if (id != null)
-                textView.setText(String.format("%s", id.getUasIdAsString()));
+                setIdText(id);
 
             observer = identification -> {
                 Log.w(TAG, "on changed: " + identification);
                 if (identification == null) return;
-                textView.setText(String.format("%s", identification.getUasIdAsString()));
+                setIdText(identification);
 
                 droneIcon.setColorFilter( 0xff00ff00, PorterDuff.Mode.MULTIPLY );
                 iconImageView.setImageDrawable(droneIcon);
