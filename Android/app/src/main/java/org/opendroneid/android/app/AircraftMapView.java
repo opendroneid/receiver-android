@@ -170,7 +170,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             @Override
             public void onChanged(@Nullable SystemData ignore) {
                 SystemData sys = aircraft.getSystem();
-                // todo, why is google maps null? fix this
                 if (sys == null || googleMap == null)
                     return;
 
@@ -188,7 +187,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                                     .alpha(0.5f)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                     .position(latLng)
-                                    .title("pilot " + id));
+                                    .title(sys.getOperatorLocationType().toString() + ": " + id));
                     if (markerPilot != null)
                         markerPilot.setTag(new Pair<>(aircraft, this));
                 }
@@ -201,7 +200,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         public void onChanged(@Nullable LocationData ignore) {
             boolean zoom = false;
             LocationData loc = aircraft.getLocation();
-            // todo, why is google maps null? fix this
             if (loc == null || googleMap == null || polylineOptions == null)
                 return;
 

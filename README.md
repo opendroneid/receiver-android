@@ -1,17 +1,17 @@
 # OpenDroneID Android receiver application
 
 This project provides the source codes for an example receiver implementation for OpenDroneID Bluetooth, WiFi NAN (Neighbor Aware Network) and WiFi Beacon signals for Android phones.
-The application is compliant with the Bluetooth and WiFi NAN part of the ASTM Remote ID standard.
-The application is also compliant with the Bluetooth, WiFi NAN and WiFi Beacon parts of the upcoming ASD-STAN Direct Remote ID standard.
+The application is compliant with the Bluetooth, WiFi NAN and WiFi Beacon parts of the ASTM F3411 Remote ID standard and the ASD-STAN prEN 4709-002 Direct Remote ID standard.
 
-Please see the opendroneid-core-c project for more information: https://github.com/opendroneid/opendroneid-core-c
+For more in-depth information about Open Drone ID, please see the opendroneid-core-c project: https://github.com/opendroneid/opendroneid-core-c
 
 The application continuously scans for Bluetooth advertising/WiFi NAN signals/beacons.
 If any is found matching the specifiers for OpenDroneID signals, it adds that transmitter to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
 
 ![](Screenshot.jpg)
 
-The red marker on the map shows the location of the drone and the blue marker the location of the operator (if that data field is being received).
+The red marker on the map shows the location of the drone.
+The blue marker the location of the operator/take-off point (if that data field is being received).
 A red line will be drawn to show where the drone has been flying.
 
 Please note: The user of this receiver application must always visually verify that the received Open Drone ID signal corresponds to an actual drone seen flying in the air, at the position the signal claims it to be.
@@ -22,7 +22,7 @@ Then Build -> Make Project.
 
 For full functionality, before building the source, you need to obtain a Google Maps API key.
 Without the key, the application can be started and will pick up transmitted signals and will show those in the list and detailed info views, but the map view will not work.
-The sources are on purpose not delivered with a key and for the same reason ready built apk files are not provided.
+The sources are on purpose not delivered with a Google Maps key and for the same reason, ready built apk files are not provided.
 Please generate your own key as detailed here:
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
 
