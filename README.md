@@ -94,4 +94,4 @@ The only way to increase this is to enable the [Android Developer Mode](https://
 
 An auto-generated view of the class structure can be seen in the below figure.
 
-![](OpenDroneID.jpg)
+![](OpenDroneID.png)
