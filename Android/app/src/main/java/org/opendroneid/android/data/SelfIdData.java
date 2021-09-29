@@ -33,4 +33,15 @@ public class SelfIdData extends MessageData {
             this.operationDescription = operationDescription;
     }
     public byte[] getOperationDescription() { return operationDescription; }
+    public String getOperationDescriptionAsString() {
+        if (operationDescription != null) {
+            for (int c : operationDescription) {
+                if ((c <= 31 || c >= 127) && c != 0) {
+                    return "Invalid String";
+                }
+            }
+            return new String(operationDescription);
+        }
+        return "";
+    }
 }

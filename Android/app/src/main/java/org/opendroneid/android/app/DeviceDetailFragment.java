@@ -186,7 +186,7 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(selfIdData.getTimestampAsString());
             selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
             selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
-            selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
+            selfIdDescription.setText(selfIdData.getOperationDescriptionAsString());
         });
 
         model.system.observe(getViewLifecycleOwner(), systemData -> {
@@ -213,7 +213,7 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(operatorIdData.getTimestampAsString());
             operatorIdLastUpdate.setText(operatorIdData.getMsgCounterAsString());
             operatorIdType.setText(String.valueOf(operatorIdData.getOperatorIdType()));
-            operatorId.setText(new String(operatorIdData.getOperatorId()));
+            operatorId.setText(operatorIdData.getOperatorIdAsString());
         });
     }
 
