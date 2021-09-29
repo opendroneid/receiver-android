@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModel;
 import org.opendroneid.android.data.AircraftObject;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AircraftViewModel extends ViewModel {
     private final MutableLiveData<Set<AircraftObject>> aircraft = new MutableLiveData<>();
@@ -33,7 +33,7 @@ public class AircraftViewModel extends ViewModel {
         return selected;
     }
 
-    void setAllAircraft(Map<Long, AircraftObject> objects) {
+    void setAllAircraft(ConcurrentHashMap<Long, AircraftObject> objects) {
         aircraft.postValue(new HashSet<>(objects.values()));
     }
 

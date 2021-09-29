@@ -21,7 +21,6 @@ import org.opendroneid.android.data.OperatorIdData;
 import org.opendroneid.android.log.LogMessageEntry;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
@@ -41,7 +40,7 @@ public class OpenDroneIdDataManager {
         this.callback = callback;
     }
 
-    public Map<Long, AircraftObject> getAircraft() {
+    public ConcurrentHashMap<Long, AircraftObject> getAircraft() {
         return aircraft;
     }
 

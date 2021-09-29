@@ -52,7 +52,7 @@ public class DeviceList extends Fragment {
 
     private AircraftViewModel mModel;
     private ModelAdapter<AircraftObject, ListItem> mItemAdapter;
-    private FastAdapter<ListItem>  mAdapter;
+    private FastAdapter<ListItem> mAdapter;
 
     public static DeviceList newInstance() {
         return new DeviceList();
@@ -159,10 +159,10 @@ public class DeviceList extends Fragment {
             this.view = v;
             textView = v.findViewById(R.id.aircraftName);
             textView2 = v.findViewById(R.id.aircraftFun);
+            rssiView = v.findViewById(R.id.rssi);
 
             Button button = v.findViewById(R.id.modButton);
             button.setText(R.string.info);
-            rssiView = v.findViewById(R.id.rssi);
             button.setOnClickListener(v1 -> showDetails(aircraft));
 
             droneIcon = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.ic_plane_icon);
@@ -191,15 +191,6 @@ public class DeviceList extends Fragment {
             if (id != null)
                 setIdText(id);
 
-            observer = identification -> {
-                Log.w(TAG, "on changed: " + identification);
-                if (identification == null) return;
-                setIdText(identification);
-
-                droneIcon.setColorFilter( 0xff00ff00, PorterDuff.Mode.MULTIPLY );
-                iconImageView.setImageDrawable(droneIcon);
-            };
-
             aircraft.connection.observe(DeviceList.this, connectionObserver);
             aircraft.location.observe(DeviceList.this, locationObserver);
             aircraft.id1Shadow.observe(DeviceList.this, observer);
@@ -215,14 +206,14 @@ public class DeviceList extends Fragment {
         }
         final Observer<Connection> connectionObserver = new Observer<Connection>() {
             @Override
-            public void onChanged(@Nullable Connection connection) {
+            public void onChanged(Connection connection) {
                 if (connection != null)
                     rssiView.setText(String.format(Locale.US, "%s dBm", connection.rssi));
             }
         };
         final Observer<LocationData> locationObserver = new Observer<LocationData>() {
             @Override
-            public void onChanged(@Nullable LocationData locationData) {
+            public void onChanged(LocationData locationData) {
                 if (locationData != null)
                     textView2.setText(String.format(Locale.US, "%s over %s, %s, %s away",
                             locationData.getHeightLessPreciseAsString(),
@@ -232,7 +223,18 @@ public class DeviceList extends Fragment {
             }
         };
 
-        Observer<Identification> observer;
+        final Observer<Identification> observer = new Observer<Identification>() {
+            @Override
+            public void onChanged(Identification identification) {
+                if (identification != null) {
+                    Log.w(TAG, "on changed: " + identification.getIdType() + ", " + identification.getUasIdAsString() + ", " + this);
+                    setIdText(identification);
+
+                    droneIcon.setColorFilter(0xff00ff00, PorterDuff.Mode.MULTIPLY);
+                    iconImageView.setImageDrawable(droneIcon);
+                }
+            }
+        };
     }
 
     public class ListItem extends AbstractItem<ListItem, AircraftViewHolder> {
