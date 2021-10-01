@@ -6,24 +6,9 @@
 !-->
 <resources>
     <string name="app_name">OpenDroneID</string>
-    <string name="bt_ads_not_supported">Bluetooth Advertisements are not supported on this device.</string>
     <string name="bt_not_supported">Bluetooth is not supported on this device.</string>
     <string name="bt_not_enabled_leaving">This application will not work without enabling Bluetooth.</string>
     <string name="wifi_not_enabled_leaving">This application will not work without enabling WiFi.</string>
-    <string name="empty_list">No devices found - refresh to try again.</string>
-    <string name="seconds">seconds.</string>
-    <string name="scan_start_toast">Scanning Drone advertising</string>
-    <string name="already_scanning">Scanning already started.</string>
-    <string name="no_name">(no name)</string>
-    <string name="start_error_unknown">unknown error</string>
-    <string name="advertising_timedout">Advertising stopped due to timeout.</string>
-    <string name="last_seen">Last Seen:</string>
-    <string name="just_now">just now</string>
-    <string name="minute_ago">minute ago</string>
-    <string name="hour_ago">hour ago</string>
-    <string name="seconds_ago">seconds ago</string>
-    <string name="minutes_ago">minutes ago</string>
-    <string name="hours_ago">hours ago</string>
     <string name="info">info</string>
 
     <string name="coded_phy_not_supported">Coded Phy not supported</string>
@@ -33,7 +18,6 @@
     <string name="nan_not_supported">WiFi NaN not supported</string>
     <string name="nan_supported">WiFi NaN supported</string>
 
-    <string name="map_not_ready">Map is not ready yet</string>
     <string name="wifi_beacon_scan_not_supported">WiFi Beacon Scan not supported</string>
     <string name="wifi_beacon_scan_supported">WiFi Beacon Scan supported</string>
 

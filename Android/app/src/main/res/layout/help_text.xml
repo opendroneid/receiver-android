@@ -38,7 +38,7 @@
                 android:id="@+id/bluetoothHelpText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/beacon_help_text"
+                android:text="@string/bluetooth_help_text"
                 android:textSize="16sp" />
             </TableLayout>
         </androidx.cardview.widget.CardView>
@@ -94,7 +94,7 @@
                     android:id="@+id/nanHelpText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/beacon_help_text"
+                    android:text="@string/nan_help_text"
                     android:textSize="16sp" />
             </TableLayout>
         </androidx.cardview.widget.CardView>

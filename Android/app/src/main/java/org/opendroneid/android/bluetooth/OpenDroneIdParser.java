@@ -75,7 +75,7 @@ public class OpenDroneIdParser {
     public static class BasicId implements Payload {
         int idType;
         int uaType;
-        byte[] uasId = new byte[Constants.MAX_ID_BYTE_SIZE];
+        final byte[] uasId = new byte[Constants.MAX_ID_BYTE_SIZE];
 
         public static String csvHeader() {
             return "idType" + DELIM
@@ -231,7 +231,7 @@ public class OpenDroneIdParser {
         int authLastPageIndex;
         int authLength;
         long authTimestamp;
-        byte[] authData = new byte[Constants.MAX_AUTH_DATA];
+        final byte[] authData = new byte[Constants.MAX_AUTH_DATA];
 
         public int getAuthDataPage() { return authDataPage; }
 
@@ -277,7 +277,7 @@ public class OpenDroneIdParser {
 
     public static class SelfID implements Payload {
         int descriptionType;
-        byte[] operationDescription = new byte[Constants.MAX_STRING_BYTE_SIZE];
+        final byte[] operationDescription = new byte[Constants.MAX_STRING_BYTE_SIZE];
 
         public static String csvHeader() {
             return "descriptionType" + DELIM
@@ -374,7 +374,7 @@ public class OpenDroneIdParser {
 
     public static class OperatorID implements Payload {
         int operatorIdType;
-        byte[] operatorId = new byte[Constants.MAX_ID_BYTE_SIZE];
+        final byte[] operatorId = new byte[Constants.MAX_ID_BYTE_SIZE];
 
         public static String csvHeader() {
             return "operatorIdType" + DELIM
@@ -398,7 +398,7 @@ public class OpenDroneIdParser {
     public static class MessagePack implements Payload {
         int messageSize;
         int messagesInPack;
-        byte[] messages = new byte[Constants.MAX_MESSAGE_PACK_SIZE];
+        final byte[] messages = new byte[Constants.MAX_MESSAGE_PACK_SIZE];
 
         @Override @NonNull
         public String toString() {

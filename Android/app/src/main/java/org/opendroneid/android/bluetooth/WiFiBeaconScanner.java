@@ -32,6 +32,7 @@ import androidx.annotation.RequiresApi;
 
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,7 +54,7 @@ public class WiFiBeaconScanner {
     Context context;
     int scanSuccess;
     int scanFailed;
-    String startTime;
+    final String startTime;
     CountDownTimer countDownTimer;
     boolean beaconScanDebugEnable;
 
@@ -113,6 +114,7 @@ public class WiFiBeaconScanner {
             dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
                     scanResult.level, timeNano, logMessageEntry, transportType);
 
+            Log.i(TAG, "Beacon: "+ scanResult.BSSID + ": " + Arrays.toString(arr));
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
                 logger.logBeacon(logMessageEntry.getMsgVersion(), timeNano, scanResult, arr, transportType, csvLog);

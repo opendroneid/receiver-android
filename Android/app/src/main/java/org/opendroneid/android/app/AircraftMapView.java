@@ -8,7 +8,7 @@ package org.opendroneid.android.app;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -79,8 +79,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         if (getActivity() == null)
             return;
 
-        model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
-
+        model = new ViewModelProvider(getActivity()).get(AircraftViewModel.class);
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
         model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
             MapObserver last = null;

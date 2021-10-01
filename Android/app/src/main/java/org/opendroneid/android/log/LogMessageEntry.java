@@ -27,6 +27,7 @@ public class LogMessageEntry {
                                                DELIM + DELIM + DELIM + DELIM + DELIM;
     private static final String DELIM_OPERATOR = DELIM + DELIM;
 
+    @SuppressWarnings("rawtypes")
     private final ArrayList<OpenDroneIdParser.Message> messages;
 
     private int msgVersion = 0;
