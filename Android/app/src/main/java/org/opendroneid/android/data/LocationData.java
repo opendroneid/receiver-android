@@ -44,7 +44,7 @@ public class LocationData extends MessageData {
         verticalAccuracy = VerticalAccuracyEnum.Unknown;
         baroAccuracy = VerticalAccuracyEnum.Unknown;
         speedAccuracy = SpeedAccuracyEnum.Unknown;
-        locationTimestamp = 0;
+        locationTimestamp = 0xFFFF; // 0xFFFF is the Invalid value in the specification
         timeAccuracy = 0;
     }
 
@@ -303,12 +303,14 @@ public class LocationData extends MessageData {
     private double getTimeStampMinutes() { return ((int) (locationTimestamp / 10)) / 60; }
     private double getTimeStampSeconds() { return (locationTimestamp/10) % 60; }
     public String getLocationTimestampAsString() {
+        if (locationTimestamp == 0xFFFF)
+            return "--:--";
         return String.format(Locale.US,"%02.0f:%02.0f", getTimeStampMinutes(), getTimeStampSeconds());
     }
     public void setLocationTimestamp(double locationTimestamp) {
         if (locationTimestamp < 0)
             locationTimestamp = 0;
-        if (locationTimestamp > 36000)
+        if (locationTimestamp != 0xFFFF && locationTimestamp > 36000)
             locationTimestamp = 36000; // Max one hour is allowed. Unit is 0.1s
         this.locationTimestamp = locationTimestamp;
     }

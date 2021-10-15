@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.le.ScanResult;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
@@ -34,6 +35,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
     public final ConcurrentHashMap<Long, AircraftObject> aircraft = new ConcurrentHashMap<>();
+
+    private static final String TAG = "OpenDroneIdDataManager";
 
     public Activity activity;
     public android.location.Location receiverLocation;
@@ -60,7 +63,7 @@ public class OpenDroneIdDataManager {
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
 
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(),
@@ -70,7 +73,7 @@ public class OpenDroneIdDataManager {
     }
 
     void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message,
@@ -80,7 +83,7 @@ public class OpenDroneIdDataManager {
     }
 
     void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseAdvertisingData(data, 1, timeNano, logMessageEntry, receiverLocation);
+        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry, transportType);
@@ -105,6 +108,7 @@ public class OpenDroneIdDataManager {
         ac.getConnection().rssi = rssi;
         ac.getConnection().transportType = transportType;
         ac.getConnection().setTimestamp(timeNano);
+        ac.getConnection().setMsgVersion(message.header.version);
         ac.connection.setValue(ac.connection.getValue());
 
         if (newAircraft) {
@@ -113,9 +117,12 @@ public class OpenDroneIdDataManager {
         }
 
         if (message.header.type == OpenDroneIdParser.Type.MESSAGE_PACK)
-            handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, timeNano, logMessageEntry, message.adCounter);
+            handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, timeNano, logMessageEntry, message.msgCounter);
         else
             handleMessages(ac, message);
+
+        // Restore the msgVersion in case the messages embedded in the pack had a different value
+        logMessageEntry.setMsgVersion(ac.getConnection().getMsgVersion());
     }
 
     @SuppressWarnings("unchecked")
@@ -149,7 +156,8 @@ public class OpenDroneIdDataManager {
         connection.macAddress = macAddress;
         ac.connection.setValue(connection);
 
-        ac.identification.setValue(new Identification());
+        ac.identification1.setValue(new Identification());
+        ac.identification2.setValue(new Identification());
         ac.location.setValue(new LocationData());
         ac.authentication.setValue(new AuthenticationData());
         ac.selfid.setValue(new SelfIdData());
@@ -161,19 +169,37 @@ public class OpenDroneIdDataManager {
     private void handleBasicId(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.BasicId> message) {
         OpenDroneIdParser.BasicId raw = message.payload;
         Identification data = new Identification();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setUaType(raw.uaType);
         data.setIdType(raw.idType);
         data.setUasId(raw.uasId);
-        ac.identification.postValue(data);
+
+        // This implementation can receive up-to two different types of Basic ID messages
+        // Find a free slot to store the current message in or overwrite old data of same type
+        Identification id1 = ac.identification1.getValue();
+        Identification id2 = ac.identification2.getValue();
+        if (id1 == null || id2 == null)
+            return;
+        Identification.IdTypeEnum type1 = id1.getIdType();
+        Identification.IdTypeEnum type2 = id2.getIdType();
+        if (type1 == Identification.IdTypeEnum.None || type1 == data.getIdType()) {
+            ac.identification1.setValue(data);
+        } else {
+            if (type2 == Identification.IdTypeEnum.None || type2 == data.getIdType()) {
+                ac.identification2.setValue(data);
+            } else {
+                Log.i(TAG, "Discarded Basic ID message of type: " + data.getIdType().toString() +
+                        ". Already have " + type1.toString() + " and " + type2.toString());
+            }
+        }
     }
 
     private void handleLocation(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.Location> message) {
         OpenDroneIdParser.Location raw = message.payload;
         LocationData data = new LocationData();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setStatus(raw.status);
@@ -193,41 +219,41 @@ public class OpenDroneIdDataManager {
         data.setLocationTimestamp(raw.timestamp);
         data.setTimeAccuracy(raw.getTimeAccuracy());
         data.setDistance(raw.distance);
-        ac.location.postValue(data);
+        ac.location.setValue(data);
     }
 
     private void handleAuthentication(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.Authentication> message) {
         OpenDroneIdParser.Authentication raw = message.payload;
         AuthenticationData data = new AuthenticationData();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setAuthType(raw.authType);
         data.setAuthDataPage(raw.authDataPage);
         if (raw.authDataPage == 0) {
-            data.setAuthPageCount(raw.authPageCount);
+            data.setAuthLastPageIndex(raw.authLastPageIndex);
             data.setAuthLength(raw.authLength);
             data.setAuthTimestamp(raw.authTimestamp);
         }
         data.setAuthData(raw.authData);
-        ac.authentication.postValue(ac.combineAuthentication(data));
+        ac.authentication.setValue(ac.combineAuthentication(data));
     }
 
     private void handleSelfID(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.SelfID> message) {
         OpenDroneIdParser.SelfID raw = message.payload;
         SelfIdData data = new SelfIdData();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setDescriptionType(raw.descriptionType);
         data.setOperationDescription(raw.operationDescription);
-        ac.selfid.postValue(data);
+        ac.selfid.setValue(data);
     }
 
     private void handleSystem(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.SystemMsg> message) {
         OpenDroneIdParser.SystemMsg raw = message.payload;
         SystemData data = new SystemData();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setOperatorLocationType(raw.operatorLocationType);
@@ -240,21 +266,22 @@ public class OpenDroneIdDataManager {
         data.setAreaFloor(raw.getAreaFloor());
         data.setCategory(raw.category);
         data.setClassValue(raw.classValue);
-        ac.system.postValue(data);
+        data.setOperatorAltitudeGeo(raw.getOperatorAltitudeGeo());
+        ac.system.setValue(data);
     }
 
     private void handleOperatorID(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.OperatorID> message) {
         OpenDroneIdParser.OperatorID raw = message.payload;
         OperatorIdData data = new OperatorIdData();
-        data.setADCounter(message.adCounter);
+        data.setMsgCounter(message.msgCounter);
         data.setTimestamp(message.timestamp);
 
         data.setOperatorIdType(raw.operatorIdType);
         data.setOperatorId(raw.operatorId);
-        ac.operatorid.postValue(data);
+        ac.operatorid.setValue(data);
     }
 
-    private void handleMessagePack(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack> message, long timestamp, LogMessageEntry logMessageEntry, int adCounter) {
+    private void handleMessagePack(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack> message, long timestamp, LogMessageEntry logMessageEntry, int msgCounter) {
         OpenDroneIdParser.MessagePack raw = message.payload;
         if (raw == null)
             return;
@@ -267,7 +294,7 @@ public class OpenDroneIdDataManager {
         for (int i = 0; i < raw.messagesInPack; i++) {
             int offset = i*raw.messageSize;
             byte[] data = Arrays.copyOfRange(raw.messages, offset, offset + raw.messageSize);
-            OpenDroneIdParser.Message<?> subMessage = OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, receiverLocation, adCounter);
+            OpenDroneIdParser.Message<?> subMessage = OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, receiverLocation, msgCounter);
             if (subMessage == null)
                 return;
 
@@ -292,4 +319,3 @@ public class OpenDroneIdDataManager {
     }
 
 }
-

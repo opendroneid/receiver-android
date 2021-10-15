@@ -228,9 +228,9 @@ public class OpenDroneIdParser {
     public static class Authentication implements Payload {
         int authType;
         int authDataPage;
-        int authPageCount;
+        int authLastPageIndex;
         int authLength;
-        int authTimestamp;
+        long authTimestamp;
         byte[] authData = new byte[Constants.MAX_AUTH_DATA];
 
         public int getAuthDataPage() { return authDataPage; }
@@ -238,7 +238,7 @@ public class OpenDroneIdParser {
         public static String csvHeader() {
             return "authType" + DELIM
                     + "authDataPage" + DELIM
-                    + "authPageCount" + DELIM
+                    + "authLastPageIndex" + DELIM
                     + "authLength" + DELIM
                     + "authTimestamp" + DELIM
                     + "authData" + DELIM;
@@ -256,7 +256,7 @@ public class OpenDroneIdParser {
         public String toCsvString() {
             return authType + DELIM
                     + authDataPage + DELIM
-                    + authPageCount + DELIM
+                    + authLastPageIndex + DELIM
                     + authLength + DELIM
                     + authTimestamp + DELIM
                     + authDataToString() + DELIM;
@@ -267,7 +267,7 @@ public class OpenDroneIdParser {
             return "Authentication{" +
                     "authType=" + authType +
                     ", authDataPage=" + authDataPage +
-                    ", authPageCount=" + authPageCount +
+                    ", authLastPageIndex=" + authLastPageIndex +
                     ", authLength=" + authLength +
                     ", authTimestamp=" + authTimestamp +
                     ", authData='" + Arrays.toString(authData) + '\'' +
@@ -310,6 +310,7 @@ public class OpenDroneIdParser {
         int areaFloor;
         int category;
         int classValue;
+        int operatorAltitudeGeo;
 
         double getLatitude() {
             return LAT_LONG_MULTIPLIER * operatorLatitude;
@@ -322,6 +323,7 @@ public class OpenDroneIdParser {
         static double calcAltitude(int value) { return (double) value / 2 - 1000; }
         double getAreaCeiling() { return calcAltitude(areaCeiling); }
         double getAreaFloor() { return calcAltitude(areaFloor); }
+        double getOperatorAltitudeGeo() { return calcAltitude(operatorAltitudeGeo); }
 
         public static String csvHeader() {
             return "operatorLocationType" + DELIM
@@ -333,7 +335,8 @@ public class OpenDroneIdParser {
                     + "areaCeiling" + DELIM
                     + "areaFloor" + DELIM
                     + "category" + DELIM
-                    + "classValue" + DELIM;
+                    + "classValue" + DELIM
+                    + "operatorAltitudeGeo" + DELIM;
         }
 
         @Override
@@ -347,7 +350,8 @@ public class OpenDroneIdParser {
                     + areaCeiling + DELIM
                     + areaFloor + DELIM
                     + category + DELIM
-                    + classValue + DELIM;
+                    + classValue + DELIM
+                    + operatorAltitudeGeo + DELIM;
         }
 
         @Override @NonNull
@@ -363,6 +367,7 @@ public class OpenDroneIdParser {
                     ", areaFloor=" + areaFloor +
                     ", category=" + category +
                     ", class=" + classValue +
+                    ", operatorAltitudeGeo=" + operatorAltitudeGeo +
                     '}';
         }
     }
@@ -408,13 +413,13 @@ public class OpenDroneIdParser {
     }
 
     public static class Message<T extends Payload> implements Comparable<Message<T>> {
-        final int adCounter;
+        final int msgCounter;
         final long timestamp;
         public final Header header;
         public final T payload;
 
-        Message(Header header, T payload, long timestamp, int adCounter) {
-            this.adCounter = adCounter;
+        Message(Header header, T payload, long timestamp, int msgCounter) {
+            this.msgCounter = msgCounter;
             this.header = header;
             this.payload = payload;
             this.timestamp = timestamp;
@@ -433,19 +438,19 @@ public class OpenDroneIdParser {
         }
     }
 
-    static Message<Payload> parseAdvertisingData(byte[] payload, int offset, long timestamp,
-                                                 LogMessageEntry logMessageEntry,
-                                                 android.location.Location receiverLocation) {
+    static Message<Payload> parseData(byte[] payload, int offset, long timestamp,
+                                      LogMessageEntry logMessageEntry,
+                                      android.location.Location receiverLocation) {
         if (offset <= 0 || payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
-        int adCounter = payload[offset - 1] & 0xFF;
-        return parseMessage(payload, offset, timestamp, logMessageEntry, receiverLocation, adCounter);
+        int msgCounter = payload[offset - 1] & 0xFF;
+        return parseMessage(payload, offset, timestamp, logMessageEntry, receiverLocation, msgCounter);
     }
 
     static Message<Payload> parseMessage(byte[] payload, int offset, long timestamp,
                                          LogMessageEntry logMessageEntry,
-                                         android.location.Location receiverLocation, int adCounter) {
+                                         android.location.Location receiverLocation, int msgCounter) {
         if (payload.length < offset + Constants.MAX_MESSAGE_SIZE)
             return null;
 
@@ -490,7 +495,8 @@ public class OpenDroneIdParser {
                 Log.w(TAG, "Received unhandled message type: id=" + type);
 
         }
-        Message<Payload> message = new Message<>(header, payloadObj, timestamp, adCounter);
+        Message<Payload> message = new Message<>(header, payloadObj, timestamp, msgCounter);
+        logMessageEntry.setMsgVersion(message.header.version);
         if (header.type != Type.MESSAGE_PACK)
             logMessageEntry.add(message);
         return message;
@@ -511,7 +517,6 @@ public class OpenDroneIdParser {
         Location location = new Location();
 
         int b = byteBuffer.get();
-
         location.status = (b & 0xF0) >> 4;
         location.heightType = (b & 0x04) >> 2;
         location.EWDirection = (b & 0x02) >> 1;
@@ -524,9 +529,9 @@ public class OpenDroneIdParser {
         location.droneLat = byteBuffer.getInt();
         location.droneLon = byteBuffer.getInt();
 
-        location.altitudePressure = byteBuffer.getShort();
-        location.altitudeGeodetic = byteBuffer.getShort();
-        location.height = byteBuffer.getShort();
+        location.altitudePressure = byteBuffer.getShort() & 0xFFFF;
+        location.altitudeGeodetic = byteBuffer.getShort() & 0xFFFF;
+        location.height = byteBuffer.getShort() & 0xFFFF;
 
         int horiVertAccuracy = byteBuffer.get();
         location.horizontalAccuracy = horiVertAccuracy & 0x0F;
@@ -559,11 +564,26 @@ public class OpenDroneIdParser {
         int offset = 0;
         int amount = Constants.MAX_AUTH_PAGE_ZERO_SIZE;
         if (authentication.authDataPage == 0) {
-            authentication.authPageCount = byteBuffer.get();
-            authentication.authLength = byteBuffer.get();
-            authentication.authTimestamp = byteBuffer.getInt();
+            authentication.authLastPageIndex = byteBuffer.get() & 0xFF;
+            authentication.authLength = byteBuffer.get() & 0xFF;
+            authentication.authTimestamp = byteBuffer.getInt() & 0xFFFFFFFFL;
+
+            // For an explanation, please see the description for struct ODID_Auth_data in:
+            // https://github.com/opendroneid/opendroneid-core-c/blob/master/libopendroneid/opendroneid.h
+            int len = authentication.authLastPageIndex * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE +
+                    Constants.MAX_AUTH_PAGE_ZERO_SIZE;
+            if (authentication.authLastPageIndex >= Constants.MAX_AUTH_DATA_PAGES ||
+                    authentication.authLength > len) {
+                authentication.authLastPageIndex = 0;
+                authentication.authLength = 0;
+                authentication.authTimestamp = 0;
+            } else {
+                // Display both normal authentication data and any possible additional data
+                authentication.authLength = len;
+            }
         } else {
-            offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE + (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
+            offset = Constants.MAX_AUTH_PAGE_ZERO_SIZE +
+                    (authentication.authDataPage - 1) * Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
             amount = Constants.MAX_AUTH_PAGE_NON_ZERO_SIZE;
         }
         if (authentication.authDataPage >= 0 && authentication.authDataPage < Constants.MAX_AUTH_DATA_PAGES)
@@ -574,7 +594,7 @@ public class OpenDroneIdParser {
 
     private static SelfID parseSelfID(ByteBuffer byteBuffer) {
         SelfID selfID = new SelfID();
-        selfID.descriptionType = byteBuffer.get();
+        selfID.descriptionType = byteBuffer.get() & 0xFF;
         byteBuffer.get(selfID.operationDescription, 0, Constants.MAX_STRING_BYTE_SIZE);
         return selfID;
     }
@@ -589,17 +609,18 @@ public class OpenDroneIdParser {
         s.operatorLongitude = byteBuffer.getInt();
         s.areaCount = byteBuffer.getShort() & 0xFFFF;
         s.areaRadius = byteBuffer.get() & 0xFF;
-        s.areaCeiling = byteBuffer.getShort();
-        s.areaFloor = byteBuffer.getShort();
+        s.areaCeiling = byteBuffer.getShort() & 0xFFFF;
+        s.areaFloor = byteBuffer.getShort() & 0xFFFF;
         b = byteBuffer.get();
         s.category = (b & 0xF0) >> 4;
         s.classValue = b & 0x0F;
+        s.operatorAltitudeGeo = byteBuffer.getShort() & 0xFFFF;
         return s;
     }
 
     private static OperatorID parseOperatorID(ByteBuffer byteBuffer) {
         OperatorID operatorID = new OperatorID();
-        operatorID.operatorIdType = byteBuffer.get();
+        operatorID.operatorIdType = byteBuffer.get() & 0xFF;
         byteBuffer.get(operatorID.operatorId, 0, Constants.MAX_ID_BYTE_SIZE);
         return operatorID;
     }
@@ -610,8 +631,8 @@ public class OpenDroneIdParser {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         MessagePack messagePack = new MessagePack();
-        messagePack.messageSize = byteBuffer.get();
-        messagePack.messagesInPack = byteBuffer.get();
+        messagePack.messageSize = byteBuffer.get() & 0xFF;
+        messagePack.messagesInPack = byteBuffer.get() & 0xFF;
 
         if (messagePack.messageSize != Constants.MAX_MESSAGE_SIZE ||
             messagePack.messagesInPack <= 0 ||

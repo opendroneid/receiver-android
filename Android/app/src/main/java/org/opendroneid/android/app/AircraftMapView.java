@@ -182,8 +182,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                 LatLng latLng = new LatLng(sys.getOperatorLatitude(), sys.getOperatorLongitude());
                 if (markerPilot == null) {
                     String id = "ID missing";
-                    if (aircraft.getIdentification() != null)
-                        id = aircraft.getIdentification().getUasIdAsString();
+                    if (aircraft.getIdentification1() != null)
+                        id = aircraft.getIdentification1().getUasIdAsString();
                     markerPilot = googleMap.addMarker(
                             new MarkerOptions()
                                     .alpha(0.5f)
@@ -211,8 +211,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
             if (marker == null) {
                 String id = "ID missing";
-                if (aircraft.getIdentification() != null)
-                    id = aircraft.getIdentification().getUasIdAsString();
+                if (aircraft.getIdentification1() != null)
+                    id = aircraft.getIdentification1().getUasIdAsString();
                 marker = googleMap.addMarker(
                         new MarkerOptions()
                                 .alpha(0.5f)

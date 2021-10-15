@@ -29,6 +29,13 @@
                 android:text="Connection" />
 
             <TextView
+                android:id="@+id/msgVersion"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="-" />
+
+            <TextView
                 android:id="@+id/receiveTime"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
@@ -130,10 +137,10 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Basic ID" />
+                android:text="Basic ID 1" />
 
             <TextView
-                android:id="@+id/infoLastUpdate"
+                android:id="@+id/infoLastUpdate1"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -156,7 +163,7 @@
                         android:text="Type" />
 
                     <TextView
-                        android:id="@+id/infoType"
+                        android:id="@+id/infoType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
@@ -166,7 +173,7 @@
                         android:text="ID Type" />
 
                     <TextView
-                        android:id="@+id/infoIdType"
+                        android:id="@+id/infoIdType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
@@ -181,7 +188,79 @@
                         android:text="UAS ID" />
 
                     <TextView
-                        android:id="@+id/infoUasId"
+                        android:id="@+id/infoUasId1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–"
+                        android:layout_span="3" />
+                </TableRow>
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp">
+
+            <TextView
+                style="@style/Details.Heading"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:text="Basic ID 2" />
+
+            <TextView
+                android:id="@+id/infoLastUpdate2"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="–"
+                android:textAlignment="viewEnd" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:stretchColumns="1,3"
+                android:layout_marginLeft="10dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Type" />
+
+                    <TextView
+                        android:id="@+id/infoType2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="ID Type" />
+
+                    <TextView
+                        android:id="@+id/infoIdType2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="UAS ID" />
+
+                    <TextView
+                        android:id="@+id/infoUasId2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–"
@@ -506,6 +585,31 @@
 
                 <TableRow
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Location Type" />
+
+                    <TextView
+                        android:id="@+id/operatorLocationType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Altitude" />
+
+                    <TextView
+                        android:id="@+id/systemAltitudeGeo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -524,56 +628,6 @@
 
                     <TextView
                         android:id="@+id/systemLongitude"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Location" />
-
-                    <TextView
-                        android:id="@+id/operatorLocationType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Classification" />
-
-                    <TextView
-                        android:id="@+id/classificationType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Category" />
-
-                    <TextView
-                        android:id="@+id/category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="–" />
-
-                    <TextView
-                        style="@style/Details.Label"
-                        android:text="Class" />
-
-                    <TextView
-                        android:id="@+id/classValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
@@ -624,6 +678,46 @@
 
                     <TextView
                         android:id="@+id/systemAreaFloor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Classification" />
+
+                    <TextView
+                        android:id="@+id/classificationType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Category" />
+
+                    <TextView
+                        android:id="@+id/category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Class" />
+
+                    <TextView
+                        android:id="@+id/classValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />

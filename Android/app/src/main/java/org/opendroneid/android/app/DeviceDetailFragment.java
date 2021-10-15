@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.opendroneid.android.R;
+import android.graphics.Color;
 
 import java.util.Locale;
 
 public class DeviceDetailFragment extends DialogFragment {
+    private TextView msgVersion;
     private TextView receiveTime;
     private TextView conMac;
     private TextView conRssi;
@@ -29,10 +31,15 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView conMsgDelta;
     private TextView distance;
 
-    private TextView infoLastUpdate;
-    private TextView infoType;
-    private TextView infoIdType;
-    private TextView infoUasId;
+    private TextView infoLastUpdate1;
+    private TextView infoType1;
+    private TextView infoIdType1;
+    private TextView infoUasId1;
+
+    private TextView infoLastUpdate2;
+    private TextView infoType2;
+    private TextView infoIdType2;
+    private TextView infoUasId2;
 
     private TextView posLastUpdate;
     private TextView status;
@@ -73,6 +80,7 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView systemAreaFloor;
     private TextView category;
     private TextView classValue;
+    private TextView systemAltitudeGeo;
 
     private TextView operatorIdLastUpdate;
     private TextView operatorIdType;
@@ -95,27 +103,42 @@ public class DeviceDetailFragment extends DialogFragment {
             String combo = connection.rssi + " dBm, " + connection.transportType;
             conRssi.setText(combo);
             conMac.setText(connection.macAddress);
+            msgVersion.setText(connection.getMsgVersionAsString());
+            if (connection.msgVersionUnsupported())
+                msgVersion.setTextColor(Color.RED);
+            else
+                msgVersion.setTextColor(Color.GRAY);
             receiveTime.setText(connection.getTimestampAsString());
             conStarted.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.firstSeen)));
             conLastUpdate.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.lastSeen)));
             conMsgDelta.setText(connection.getMsgDeltaAsString());
         });
 
-        model.identification.observe(getViewLifecycleOwner(), identification -> {
+        model.identification1.observe(getViewLifecycleOwner(), identification -> {
             if (identification == null) return;
 
             receiveTime.setText(identification.getTimestampAsString());
-            infoLastUpdate.setText(identification.getADCounterAsString());
-            infoType.setText(identification.getUaType().name());
-            infoIdType.setText(identification.getIdType().name());
-            infoUasId.setText(identification.getUasIdAsString());
+            infoLastUpdate1.setText(identification.getMsgCounterAsString());
+            infoType1.setText(identification.getUaType().name());
+            infoIdType1.setText(identification.getIdType().name());
+            infoUasId1.setText(identification.getUasIdAsString());
+        });
+
+        model.identification2.observe(getViewLifecycleOwner(), identification -> {
+            if (identification == null) return;
+
+            receiveTime.setText(identification.getTimestampAsString());
+            infoLastUpdate2.setText(identification.getMsgCounterAsString());
+            infoType2.setText(identification.getUaType().name());
+            infoIdType2.setText(identification.getIdType().name());
+            infoUasId2.setText(identification.getUasIdAsString());
         });
 
         model.location.observe(getViewLifecycleOwner(), locationData -> {
             if (locationData == null) return;
 
             receiveTime.setText(locationData.getTimestampAsString());
-            posLastUpdate.setText(locationData.getADCounterAsString());
+            posLastUpdate.setText(locationData.getMsgCounterAsString());
             status.setText(locationData.getStatus().name());
             direction.setText(locationData.getDirectionAsString());
             horiSpeed.setText(locationData.getSpeedHorizontalAsString());
@@ -139,7 +162,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (authenticationData == null) return;
 
             receiveTime.setText(authenticationData.getTimestampAsString());
-            authLastUpdate.setText(authenticationData.getADCounterAsString());
+            authLastUpdate.setText(authenticationData.getMsgCounterAsString());
             authType.setText(authenticationData.getAuthType().name());
             authLength.setText(authenticationData.getAuthLengthAsString());
             authTimestamp.setText(authenticationData.getAuthTimestampAsString());
@@ -150,7 +173,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (selfIdData == null) return;
 
             receiveTime.setText(selfIdData.getTimestampAsString());
-            selfIdLastUpdate.setText(selfIdData.getADCounterAsString());
+            selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
             selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
             selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
         });
@@ -159,7 +182,7 @@ public class DeviceDetailFragment extends DialogFragment {
             if (systemData == null) return;
 
             receiveTime.setText(systemData.getTimestampAsString());
-            systemLastUpdate.setText(systemData.getADCounterAsString());
+            systemLastUpdate.setText(systemData.getMsgCounterAsString());
             operatorLocationType.setText(systemData.getOperatorLocationType().name());
             classificationType.setText(systemData.getclassificationType().name());
             systemLatitude.setText(systemData.getOperatorLatitudeAsString());
@@ -170,13 +193,14 @@ public class DeviceDetailFragment extends DialogFragment {
             systemAreaFloor.setText(systemData.getAreaFloorAsString());
             category.setText(systemData.getCategory().name());
             classValue.setText(systemData.getClassValue().name());
+            systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString());
         });
 
         model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {
             if (operatorIdData == null) return;
 
             receiveTime.setText(operatorIdData.getTimestampAsString());
-            operatorIdLastUpdate.setText(operatorIdData.getADCounterAsString());
+            operatorIdLastUpdate.setText(operatorIdData.getMsgCounterAsString());
             operatorIdType.setText(String.valueOf(operatorIdData.getOperatorIdType()));
             operatorId.setText(new String(operatorIdData.getOperatorId()));
         });
@@ -187,6 +211,7 @@ public class DeviceDetailFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.aircraft_details, container, false);
+        msgVersion = view.findViewById(R.id.msgVersion);
         receiveTime = view.findViewById(R.id.receiveTime);
         conMac = view.findViewById(R.id.conMac);
         conRssi = view.findViewById(R.id.conRssi);
@@ -195,10 +220,15 @@ public class DeviceDetailFragment extends DialogFragment {
         conMsgDelta = view.findViewById(R.id.conMsgDelta);
         distance = view.findViewById(R.id.distance);
 
-        infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
-        infoType = view.findViewById(R.id.infoType);
-        infoIdType = view.findViewById(R.id.infoIdType);
-        infoUasId = view.findViewById(R.id.infoUasId);
+        infoLastUpdate1 = view.findViewById(R.id.infoLastUpdate1);
+        infoType1 = view.findViewById(R.id.infoType1);
+        infoIdType1 = view.findViewById(R.id.infoIdType1);
+        infoUasId1 = view.findViewById(R.id.infoUasId1);
+
+        infoLastUpdate2 = view.findViewById(R.id.infoLastUpdate2);
+        infoType2 = view.findViewById(R.id.infoType2);
+        infoIdType2 = view.findViewById(R.id.infoIdType2);
+        infoUasId2 = view.findViewById(R.id.infoUasId2);
 
         posLastUpdate = view.findViewById(R.id.posLastUpdate);
         status = view.findViewById(R.id.status);
@@ -239,6 +269,7 @@ public class DeviceDetailFragment extends DialogFragment {
         systemAreaFloor = view.findViewById(R.id.systemAreaFloor);
         category = view.findViewById(R.id.category);
         classValue = view.findViewById(R.id.classValue);
+        systemAltitudeGeo = view.findViewById(R.id.systemAltitudeGeo);
 
         operatorIdLastUpdate = view.findViewById(R.id.operatorIdLastUpdate);
         operatorIdType = view.findViewById(R.id.operatorIdType);
