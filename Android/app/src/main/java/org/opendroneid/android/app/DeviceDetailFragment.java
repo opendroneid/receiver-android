@@ -6,7 +6,7 @@
  */
 package org.opendroneid.android.app;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.opendroneid.android.Constants;
 import org.opendroneid.android.R;
+import org.opendroneid.android.data.Identification;
+
 import android.graphics.Color;
 
 import java.util.Locale;
@@ -90,13 +93,21 @@ public class DeviceDetailFragment extends DialogFragment {
         return new DeviceDetailFragment();
     }
 
+    private void setUasIdText(Identification identification, TextView infoUasId) {
+        if (identification.getUasIdAsString().length() > Constants.MAX_ID_BYTE_SIZE)
+            infoUasId.setTextSize(10);
+        else
+            infoUasId.setTextSize(14);
+        infoUasId.setText(identification.getUasIdAsString());
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         if (getActivity() == null)
             return;
 
         super.onActivityCreated(savedInstanceState);
-        DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
 
         model.connection.observe(getViewLifecycleOwner(), connection -> {
             if (connection == null) return;
@@ -121,7 +132,7 @@ public class DeviceDetailFragment extends DialogFragment {
             infoLastUpdate1.setText(identification.getMsgCounterAsString());
             infoType1.setText(identification.getUaType().name());
             infoIdType1.setText(identification.getIdType().name());
-            infoUasId1.setText(identification.getUasIdAsString());
+            setUasIdText(identification, infoUasId1);
         });
 
         model.identification2.observe(getViewLifecycleOwner(), identification -> {
@@ -131,7 +142,7 @@ public class DeviceDetailFragment extends DialogFragment {
             infoLastUpdate2.setText(identification.getMsgCounterAsString());
             infoType2.setText(identification.getUaType().name());
             infoIdType2.setText(identification.getIdType().name());
-            infoUasId2.setText(identification.getUasIdAsString());
+            setUasIdText(identification, infoUasId2);
         });
 
         model.location.observe(getViewLifecycleOwner(), locationData -> {
@@ -175,7 +186,7 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(selfIdData.getTimestampAsString());
             selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
             selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
-            selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
+            selfIdDescription.setText(selfIdData.getOperationDescriptionAsString());
         });
 
         model.system.observe(getViewLifecycleOwner(), systemData -> {
@@ -202,7 +213,7 @@ public class DeviceDetailFragment extends DialogFragment {
             receiveTime.setText(operatorIdData.getTimestampAsString());
             operatorIdLastUpdate.setText(operatorIdData.getMsgCounterAsString());
             operatorIdType.setText(String.valueOf(operatorIdData.getOperatorIdType()));
-            operatorId.setText(new String(operatorIdData.getOperatorId()));
+            operatorId.setText(operatorIdData.getOperatorIdAsString());
         });
     }
 

@@ -32,6 +32,7 @@ import androidx.annotation.RequiresApi;
 
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -53,7 +54,7 @@ public class WiFiBeaconScanner {
     Context context;
     int scanSuccess;
     int scanFailed;
-    String startTime;
+    final String startTime;
     CountDownTimer countDownTimer;
     boolean beaconScanDebugEnable;
 
@@ -79,7 +80,7 @@ public class WiFiBeaconScanner {
 
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
-            Toast.makeText(context, "Turning WiFi ON...", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Turning on Wi-Fi");
             wifiManager.setWifiEnabled(true);
         }
         IntentFilter filter = new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
@@ -93,11 +94,6 @@ public class WiFiBeaconScanner {
         };
 
         context.registerReceiver(myReceiver, filter);
-
-        startCountDownTimer();
-        // Kick off WiFi Scan
-        startScan();
-
     }
 
     void processRemoteIdVendorIE(ScanResult scanResult, ByteBuffer buf) {
@@ -118,6 +114,7 @@ public class WiFiBeaconScanner {
             dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
                     scanResult.level, timeNano, logMessageEntry, transportType);
 
+            Log.i(TAG, "Beacon: "+ scanResult.BSSID + ": " + Arrays.toString(arr));
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
                 logger.logBeacon(logMessageEntry.getMsgVersion(), timeNano, scanResult, arr, transportType, csvLog);
@@ -199,7 +196,7 @@ public class WiFiBeaconScanner {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        Toast.makeText(context, "Stopping WiFi scanning.", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Stopping WiFi Beacon scanning");
     }
 
     // There are 2 ways to control WiFi scan:
@@ -227,9 +224,9 @@ public class WiFiBeaconScanner {
 
     private void printScanStats(boolean ret) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Started: " + startTime + " ");
-        sb.append("success: " + scanSuccess + ", " + "failed: " + scanFailed);
-        sb.append(" curr-time: " + getCurrTimeStr() + ", " + " curr-status: " + ret);
+        sb.append("Started: ").append(startTime).append(" success: ").append(scanSuccess);
+        sb.append(", failed: ").append(scanFailed).append(" curr-time: ");
+        sb.append(getCurrTimeStr()).append(", curr-status: ").append(ret);
 
         Log.d(TAG, sb.toString());
 

@@ -32,5 +32,5 @@ public class MessageData {
     public int getMsgVersion() { return msgVersion; }
     public void setMsgVersion(int msgVersion) { this.msgVersion = msgVersion; }
     public String getMsgVersionAsString() { return String.format(Locale.US ,"v.%d", this.msgVersion); }
-    public boolean msgVersionUnsupported() { return msgVersion > Constants.MAX_MSG_VERSION; };
+    public boolean msgVersionUnsupported() { return msgVersion > Constants.MAX_MSG_VERSION; }
 }

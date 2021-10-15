@@ -6,8 +6,9 @@
  */
 package org.opendroneid.android.app;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -78,8 +79,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         if (getActivity() == null)
             return;
 
-        model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
-
+        model = new ViewModelProvider(getActivity()).get(AircraftViewModel.class);
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
         model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
             MapObserver last = null;
@@ -120,14 +120,12 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public boolean onMarkerClick(@NonNull Marker marker) {
 
-        if (marker != null) {
-            Object tag = marker.getTag();
-            if (tag instanceof AircraftObject) {
-                model.setActiveAircraft((AircraftObject) tag);
-                return true;
-            }
+        Object tag = marker.getTag();
+        if (tag instanceof AircraftObject) {
+            model.setActiveAircraft((AircraftObject) tag);
+            return true;
         }
         return false;
     }
@@ -171,7 +169,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             @Override
             public void onChanged(@Nullable SystemData ignore) {
                 SystemData sys = aircraft.getSystem();
-                // todo, why is google maps null? fix this
                 if (sys == null || googleMap == null)
                     return;
 
@@ -189,10 +186,12 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                                     .alpha(0.5f)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                     .position(latLng)
-                                    .title("pilot " + id));
-                    markerPilot.setTag(new Pair<>(aircraft, this));
+                                    .title(sys.getOperatorLocationType().toString() + ": " + id));
+                    if (markerPilot != null)
+                        markerPilot.setTag(new Pair<>(aircraft, this));
                 }
-                markerPilot.setPosition(latLng);
+                if (markerPilot != null)
+                    markerPilot.setPosition(latLng);
             }
         };
 
@@ -200,7 +199,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         public void onChanged(@Nullable LocationData ignore) {
             boolean zoom = false;
             LocationData loc = aircraft.getLocation();
-            // todo, why is google maps null? fix this
             if (loc == null || googleMap == null || polylineOptions == null)
                 return;
 
@@ -218,7 +216,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                                 .alpha(0.5f)
                                 .position(latLng)
                                 .title("aircraft " + id));
-                marker.setTag(aircraft);
+                if (marker != null)
+                    marker.setTag(aircraft);
                 zoom = true;
             }
 
@@ -236,8 +235,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+    @Override @NonNull
+    public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View view = super.onCreateView(layoutInflater, viewGroup, bundle);
         getMapAsync(this);
         return view;
@@ -250,21 +249,20 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         if (getActivity() == null)
             return;
 
         this.googleMap = googleMap;
+        setMapSettings();
+    }
+
+    public void setMapSettings() {
+        if (getActivity() == null || googleMap == null)
+            return;
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling ActivityCompat#requestPermissions
-            // to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.e("XX", "##################### can't make the right permissions");
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 

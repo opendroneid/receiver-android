@@ -103,6 +103,11 @@ Testing with simultaneous Legacy and Long range advertisements is invalid and sh
 
 The only testing solution so far seems to be to have a drone or add-on device that transmits the Wi-Fi Beacon messages and test their reception on the smartphone in OpenDroneID receiver app.
 
+However, it is expected that all Android devices running Android 6 (Marshmallow) or later are able to receive Wi-Fi Beacon signals.
+
+There will be a fair amount of variation in the reception frequency from one device to another, since the Android OS enforces various [throttling](https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling) mechanisms on Wi-Fi scanning.
+In some cases it is possible to increase the scanning frequency by enabling the [Android Developer Mode](https://developer.android.com/studio/debug/dev-options) and disabling the WiFi scan throttling option.
+
 ### Wi-Fi NAN Broadcast
 
 The easiest way to verify support is to read the Android Feature flags.
@@ -146,6 +151,9 @@ For each device, we provide either ✅ if it passed or ❌ if it failed.
 Each test contains the approximate date it happened.
 It is assumed that the device was tested with the latest OS version.
 
+Special note for the Wi-Fi Beacon results. Only some devices have been tested, but it is expected that all devices running Android 6 or later are able to receive the Wi-Fi Beacon signals.
+As a tentative confirmation, those devices have been marked with ➕.
+
 Please note that most smartphones were tested in Q1 2020 and they do not contain proof screenshots.
 Therefore, their functionality may have changed since.
 We plan to continuously update this list and increase the reliability of information by adding screenshot evidence.
@@ -153,83 +161,83 @@ We plan to continuously update this list and increase the reliability of informa
 | Smartphone Model | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
 | ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
 | Asus Zenfone 6                                   | Snapdragon 855    | 11 | ✅ 1/2021  | ✅ 7/2021  | ✅ 7/2021  | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | Does not receive Long Range continuously (gaps of up to 5 sec) |
-| Google Pixel 4/4XL                               | Snapdragon 855    | 10 |            |            |            | ✅ 1/2020  |      | |
-| Google Pixel 3/3XL                               | Snapdragon 845    |  9 |            |            |            | ✅ 1/2020  |      | |
-| Google Pixel 3A                                  | Snapdragon 670    | 10 | ❌ 1/2020  | ❌ 1/2020  |            | ✅ 1/2020  |      | |
+| Google Pixel 4/4XL                               | Snapdragon 855    | 10 |            |           |     ➕     | ✅ 1/2020  |      | |
+| Google Pixel 3/3XL                               | Snapdragon 845    |  9 |            |           |     ➕     | ✅ 1/2020  |      | |
+| Google Pixel 3A                                  | Snapdragon 670    | 10 | ❌ 1/2020  | ❌ 1/2020  |     ➕     | ✅ 1/2020  |      | |
 | Google Pixel 2/2XL                               | Snapdragon 835    |  9 |            |            | ✅ 1/2020  | ✅ 1/2020  |      | |
-| HMD Global Nokia 7.2                             | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Nokia_7_2) | |
-| HMD Global Nokia 6.2                             | Snapdragon 636    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Nokia_6_2) | |
-| HMD Global Nokia 2.2                             | MT 6761 Helio A22 |  9 | ✅ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Nokia_2_2) | Long range support is claimed but the signals are never received |
+| HMD Global Nokia 7.2                             | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_7_2) | |
+| HMD Global Nokia 6.2                             | Snapdragon 636    |  9 | ❌ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_6_2) | |
+| HMD Global Nokia 2.2                             | MT 6761 Helio A22 |  9 | ✅ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_2_2) | Long range support is claimed but the signals are never received |
 | HTC one M9                                       | Snapdragon 810    |  7 | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  |      | |
-| Huawei Mate 20 Pro                               | Kirin 980         |  9 | ✅ 1/2020  | ✅ 1/2020  |            | ❌ 1/2020  |      | Receives Long Range continuously |
-| Huawei Mate 20                                   | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |            |            |      | |
+| Huawei Mate 20 Pro                               | Kirin 980         |  9 | ✅ 1/2020  | ✅ 1/2020  |     ➕      | ❌ 1/2020  |      | Receives Long Range continuously |
+| Huawei Mate 20                                   | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |     ➕      |            |      | |
 | Huawei Mate 10 Pro                               | Kirin 970         |  8 |            |            | ✅ 1/2020  |            |      | |
 | Huawei Mate 9                                    | Kirin 960         |  7 |            |            | ❌ 1/2020  |            |      | |
 | Huawei P30 Pro                                   | Kirin 980         | 10 | ✅ 11/2019 | ✅ 11/2019 | ✅ 1/2020  |            |      | Does this receive LR continuously or not? |
-| Huawei P30                                       | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |            |            |      | Does this receive LR continuously or not? |
+| Huawei P30                                       | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |     ➕      |            |      | Does this receive LR continuously or not? |
 | Huawei P20 Lite                                  | Kirin 659         |  9 | ❌ 9/2021  | ❌ 9/2021  | ✅ 1/2020  |            |      | |
 | Huawei P9                                        | Kirin 955         |  6 |            |            | ❌ 1/2020  |            |      | |
 | Huawei P8 Lite                                   | Kirin 655         |  7 |            |            | ❌ 1/2020  |            |      | |
-| Huawei Nova 5T                                   | Kirin 980         |    | ✅ 5/2020  |            |            |            |      | |
-| Huawei Honor Magic 2                             | Kirin 980         |    |            |            |            | ❌ 1/2020  |      | |
+| Huawei Nova 5T                                   | Kirin 980         |    | ✅ 5/2020  |            |     ➕      |            |      | |
+| Huawei Honor Magic 2                             | Kirin 980         |    |            |            |    ➕      | ❌ 1/2020  |      | |
 | Huawei Honor 10 lite                             | Kirin 710         |  9 |            |            | ✅ 1/2020  |            | [Link](receiver_proofs/Huawei_Honor_10_Lite) | |
 | Huawei Honor View 10                             | Kirin 970         |  9 |            |            | ✅ 1/2020  |            |      | |
-| Huawei Honor 8S                                  | MT 6761 Helio A22 |  9 | ✅ 1/2020  |            |            | ❌ 1/2020  | [Link](receiver_proofs/Huawei_Honor_8S) | Not tested but expect the same behavior as the Nokia 2.2 |
-| Huawei Y6 Pro                                    | MT 6761 Helio A22 |  5 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  |      | |
-| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021  | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
+| Huawei Honor 8S                                  | MT 6761 Helio A22 |  9 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Huawei_Honor_8S) | Not tested but expect the same behavior as the Nokia 2.2 |
+| Huawei Y6 Pro                                    | MT 6761 Helio A22 |  5 | ❌ 1/2020  | ❌ 1/2020   |            | ❌ 1/2020  |      | |
+| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Huawei Nexus 6P                                  | Snapdragon 810    |  8 |            |            | ✅ 1/2020  |            | [Link](receiver_proofs/Huawei_Nexus_6P) | |
-| LG velvet 5G                                     | Snapdragon 765G   |    |            |            |            | ✅ 1/2021  |      | |
-| LG G8X                                           | Snapdragon 855    |    |            |            |            | ✅ 1/2021  |      | |
-| LG G5                                            | Snapdragon 820    |  8 | ❌ 1/2021  | ❌ 1/2021  | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/LG_G5) | |
-| LG V60                                           | Snapdragon 865    | 10 |            |            |            | ✅ 1/2020  |      | |
+| LG velvet 5G                                     | Snapdragon 765G   |    |            |            |     ➕     | ✅ 1/2021  |      | |
+| LG G8X                                           | Snapdragon 855    |    |            |            |     ➕     | ✅ 1/2021  |      | |
+| LG G5                                            | Snapdragon 820    |  8 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/LG_G5) | |
+| LG V60                                           | Snapdragon 865    | 10 |            |            |     ➕     | ✅ 1/2020  |      | |
 | LG Nexus 5X                                      | Snapdragon 808    |  8 |            |            | ✅ 1/2020  |            |      | |
 | LG X Cam                                         | MT 6735           |  6 |            |            | ❌ 1/2020  |            |      | |
-| Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long range support is claimed but the signals are never received |
-| Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  |      | |
+| Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long range support is claimed but the signals are never received |
+| Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  |      | |
 | Nokia 9 Pureview                                 | Snapdragon 845    |  9 |            |            | ✅ 1/2020  |            |      | |
-| OnePlus 8T                                       | Snapdragon 865    | 11 | ✅ 1/2021  | ✅ 1/2021  |            | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_8T) | Long Range receive is active only part of the time |
-| One Plus 7 Pro                                   | Snapdragon 855    | 10 | ✅ 1/2020  |            |            | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7_Pro) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
-| One Plus 7T                                      | Snapdragon 855+   | 10 | ✅ 1/2020  |            |            | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7T) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
+| OnePlus 8T                                       | Snapdragon 865    | 11 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_8T) | Long Range receive is active only part of the time |
+| One Plus 7 Pro                                   | Snapdragon 855    | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7_Pro) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
+| One Plus 7T                                      | Snapdragon 855+   | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7T) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 6 / 6T                                  | Snapdragon 845    | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_6), [Link](receiver_proofs/OnePlus_6T) | Long Range receive is active only part of the time |
-| One Plus Nord 5G                                 | Snapdragon 765G   | 10 | ✅ 1/2021  | ✅ 1/2021  |            | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
-| One Plus N10 5G                                  | Snapdragon 690    | 10 | ✅ 1/2021  | ✅ 1/2021  |            | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
-| Razer phone 2                                    | Snapdragon 845    |    |            |            |            |            |      | |
+| One Plus Nord 5G                                 | Snapdragon 765G   | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
+| One Plus N10 5G                                  | Snapdragon 690    | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
+| Razer phone 2                                    | Snapdragon 845    |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 10, Note 10+                 | Exynos 9825       |  9 |            |            | ✅ 4/2021 | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_Note_10), [Link](receiver_proofs/Samsung_Galaxy_Note_10+) | |
-| Samsung Galaxy Note 9 (Global)                   | Exynos 9810       |    |            |            |            |            |      | |
-| Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |            |            |      | |
+| Samsung Galaxy Note 9 (Global)                   | Exynos 9810       |    |            |            |     ➕      |            |      | |
+| Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 8 (Global)                   | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
-| Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |    |            |            |            |            |      | |
+| Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |    |            |            |     ➕      |            |      | |
 | Samsung S20, S20+, S20 ultra (Global)            | Exynos 990        | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S20_Exynos) | |
-| Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    | 10 | ✅ 2/2021  | ✅ 2/2021  |            | ✅ 2/2021  |      | Receives Long Range continuously |
+| Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    | 10 | ✅ 2/2021  | ✅ 2/2021  |      ➕     | ✅ 2/2021  |      | Receives Long Range continuously |
 | Samsung Galaxy S10, S10e, S10+, S10 5G           | Exynos 9820       | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S10_Exynos) | Receives Long Range continuously |
 | Samsung Galaxy S9, S9+ (Global)                  | Exynos 9810       |  9 | ❌ 1/2020  | ❌ 1/2020  | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Samsung Galaxy S8                                | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
 | Samsung Galaxy S7                                | Exynos 8890       |    |            |            | ✅ 4/2021  |            | [Link]( receiver_proofs/Samsung_Galaxy_S7) | |
 | Samsung Galaxy S6                                | Exynos 7420       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_S6) | |
 | Samsung Galaxy A5                                | Snapdragon 410    |    |            |            | ✅ 1/2020  |            |      | |
-| Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021  | ✅ 9/2021  | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
+| Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021   | ✅ 9/2021  | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_A8) | |
-| Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
-| Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |            | ✅ 1/2020  |      | |
-| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |            | ✅ 1/2021  |      | |
-| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020  |            |            |            |      | |
-| Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021  | ❌ 1/2021  |            | ❌ 1/2021  |      | |
-| Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021  | ❌ 1/2021  |            | ❌ 1/2020  |      | |
-| Sony Xperia 5                                    | Snapdragon 855    |    |            |             | ✅ 4/2021 |             | [Link](receiver_proofs/Sony_Xperia_5) | |
-| Sony Xperia XA2                                  | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  |      | |
+| Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
+| Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
+| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
+| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
+| Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2021  |      | |
+| Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2020  |      | |
+| Sony Xperia 5                                    | Snapdragon 855    |    |            |             | ✅ 4/2021  |             | [Link](receiver_proofs/Sony_Xperia_5) | |
+| Sony Xperia XA2                                  | Snapdragon 630    |  9 | ❌ 1/2020   | ❌ 1/2020   |     ➕     | ❌ 1/2020  |      | |
 | Sony Xperia XZ1 Compact                          | Snapdragon 835    |  8 |            |            | ✅ 1/2020  |            |      | |
 | Sony Xperia XZ2                                  | Snapdragon 845    | 10 |            |            | ✅ 1/2020  |            |      | |
-| Xiaomi Note 10                                   | Snapdragon 730G   |  9 | ✅ 1/2020  |            |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_Note_10) | |
-| Xiaomi Mi 9T Pro                                 | Snapdragon 855    |  9 | ✅ 1/2020  |            |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9T_Pro) | |
-| Xiaomi Mi 9 SE                                   | Snapdragon 712    |  9 | ✅ 1/2020  |            |            | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9_SE) | |
-| Xiaomi Mi 9                                      | Snapdragon 855    |  9 | ✅ 1/2020  | ✅ 1/2020  |            | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9) | Long Range receive is active only part of the time |
-| Xiaomi Mi 8                                      | Snapdragon 845    |  9 |            |            |            | ✅ 1/2020  |      | |
-| Xiaomi Redmi Note 9s                             | Snapdragon 720G   |    | ✅ 6/2020  |            |            |            |      | |
-| Xiaomi Redmi note 8 Pro                          | MT Helio G90T     |  9 | ✅ 1/2020  |            |            | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_8_Pro) |  |
-| Xiaomi Redmi note 7 Pro                          | Snapdragon 675    |    |            |            |            |            |      | |
-| Xiaomi Redmi note 8T                             | Snapdragon 665    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_8T) | |
-| Xiaomi Redmi note 7                              | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_7) | |
-| Xiaomi Redmi CC9 Pro/Note10 Pro                  | Snapdragon 730G   | 10 |            |            |            | ✅ 1/2020  |      | |
-| Xiaomi Redmi K20 Pro                             | Snapdragon 855    |  9 |            |            |            | ✅ 1/2020  |      | |
+| Xiaomi Note 10                                   | Snapdragon 730G   |  9 | ✅ 1/2020  |            |      ➕     | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_Note_10) | |
+| Xiaomi Mi 9T Pro                                 | Snapdragon 855    |  9 | ✅ 1/2020  |            |      ➕     | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9T_Pro) | |
+| Xiaomi Mi 9 SE                                   | Snapdragon 712    |  9 | ✅ 1/2020  |            |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9_SE) | |
+| Xiaomi Mi 9                                      | Snapdragon 855    |  9 | ✅ 1/2020  | ✅ 1/2020   |      ➕     | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9) | Long Range receive is active only part of the time |
+| Xiaomi Mi 8                                      | Snapdragon 845    |  9 |            |            |     ➕      | ✅ 1/2020  |      | |
+| Xiaomi Redmi Note 9s                             | Snapdragon 720G   |    | ✅ 6/2020  |            |      ➕     |            |      | |
+| Xiaomi Redmi note 8 Pro                          | MT Helio G90T     |  9 | ✅ 1/2020  |            |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_8_Pro) |  |
+| Xiaomi Redmi note 7 Pro                          | Snapdragon 675    |    |            |            |     ➕      |            |      | |
+| Xiaomi Redmi note 8T                             | Snapdragon 665    |  9 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_8T) | |
+| Xiaomi Redmi note 7                              | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Redmi_Note_7) | |
+| Xiaomi Redmi CC9 Pro/Note10 Pro                  | Snapdragon 730G   | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
+| Xiaomi Redmi K20 Pro                             | Snapdragon 855    |  9 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Xiaomi Mi Mix 3                                  | Snapdragon 845    |  9 |            |            | ✅ 1/2020  | ✅ 1/2020  |      | |
-| Xiaomi Mi A2                                     | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020  |            | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_A2) | |
+| Xiaomi Mi A2                                     | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020   |       ➕    | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_A2) | |

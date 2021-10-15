@@ -6,8 +6,10 @@
  */
 package org.opendroneid.android.app;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.opendroneid.android.Constants;
 import org.opendroneid.android.R;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.Connection;
@@ -39,6 +42,7 @@ import com.mikepenz.fastadapter.select.SelectExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.Locale;
@@ -48,7 +52,7 @@ public class DeviceList extends Fragment {
 
     private AircraftViewModel mModel;
     private ModelAdapter<AircraftObject, ListItem> mItemAdapter;
-    private FastAdapter<ListItem>  mAdapter;
+    private FastAdapter<ListItem> mAdapter;
 
     public static DeviceList newInstance() {
         return new DeviceList();
@@ -64,7 +68,9 @@ public class DeviceList extends Fragment {
         };
 
         model.getActiveAircraft().observe(getViewLifecycleOwner(), object -> {
-            SelectExtension<ListItem> selectExtension = mAdapter.getSelectExtension();
+            SelectExtension<ListItem> selectExtension = mAdapter.getExtension(SelectExtension.class);
+            if (selectExtension == null)
+                return;
             if (object == null) {
                 selectExtension.deselect();
             } else {
@@ -84,13 +90,13 @@ public class DeviceList extends Fragment {
         if (getActivity() == null)
             return;
         super.onActivityCreated(savedInstanceState);
-        AircraftViewModel model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
+        AircraftViewModel model = new ViewModelProvider(getActivity()).get(AircraftViewModel.class);
         subscribeToModel(model);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.aircraft_list, null);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.aircraft_list, container, false);
         // Set CustomAdapter as the adapter for RecyclerView.
         // Create the ItemAdapter holding your Items
 
@@ -128,9 +134,9 @@ public class DeviceList extends Fragment {
     }
 
     private void showDetails(AircraftObject aircraft) {
-        if (getActivity() == null || getParentFragmentManager() == null)
+        if (getActivity() == null)
             return;
-        DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
         model.select(aircraft);
         DeviceDetailFragment newFragment = DeviceDetailFragment.newInstance();
         newFragment.show(getParentFragmentManager(), "dialog");
@@ -142,25 +148,33 @@ public class DeviceList extends Fragment {
     public class AircraftViewHolder extends FastAdapter.ViewHolder<ListItem> {
         private final TextView textView;
         private final TextView textView2;
-        private final TextView lastSeen;
+        private final TextView rssiView;
         private AircraftObject aircraft;
-        private View view;
-        private ImageView iconImageView;
-        private Drawable droneIcon;
+        private final View view;
+        private final ImageView iconImageView;
+        private final Drawable droneIcon;
 
         AircraftViewHolder(View v) {
             super(v);
             this.view = v;
             textView = v.findViewById(R.id.aircraftName);
             textView2 = v.findViewById(R.id.aircraftFun);
+            rssiView = v.findViewById(R.id.rssi);
 
             Button button = v.findViewById(R.id.modButton);
             button.setText(R.string.info);
-            lastSeen = v.findViewById(R.id.last_seen);
             button.setOnClickListener(v1 -> showDetails(aircraft));
 
-            droneIcon = getResources().getDrawable(R.mipmap.ic_plane_icon);
+            droneIcon = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.ic_plane_icon);
             iconImageView = v.findViewById(R.id.drone_icon);
+        }
+
+        private void setIdText(Identification id) {
+            if (id.getUasIdAsString().length() > Constants.MAX_ID_BYTE_SIZE)
+                textView.setTextSize(9);
+            else
+                textView.setTextSize(16);
+            textView.setText(String.format("%s", id.getUasIdAsString()));
         }
 
         @Override
@@ -175,16 +189,7 @@ public class DeviceList extends Fragment {
             view.setBackground(selectableBackground);
             Identification id = aircraft.getIdentification1();
             if (id != null)
-                textView.setText(String.format("%s", id.getUasIdAsString()));
-
-            observer = identification -> {
-                Log.w(TAG, "on changed: " + identification);
-                if (identification == null) return;
-                textView.setText(String.format("%s", identification.getUasIdAsString()));
-
-                droneIcon.setColorFilter( 0xff00ff00, PorterDuff.Mode.MULTIPLY );
-                iconImageView.setImageDrawable(droneIcon);
-            };
+                setIdText(id);
 
             aircraft.connection.observe(DeviceList.this, connectionObserver);
             aircraft.location.observe(DeviceList.this, locationObserver);
@@ -201,14 +206,14 @@ public class DeviceList extends Fragment {
         }
         final Observer<Connection> connectionObserver = new Observer<Connection>() {
             @Override
-            public void onChanged(@Nullable Connection connection) {
+            public void onChanged(Connection connection) {
                 if (connection != null)
-                    lastSeen.setText(String.format(Locale.US, "%s dBm", connection.rssi));
+                    rssiView.setText(String.format(Locale.US, "%s dBm", connection.rssi));
             }
         };
         final Observer<LocationData> locationObserver = new Observer<LocationData>() {
             @Override
-            public void onChanged(@Nullable LocationData locationData) {
+            public void onChanged(LocationData locationData) {
                 if (locationData != null)
                     textView2.setText(String.format(Locale.US, "%s over %s, %s, %s away",
                             locationData.getHeightLessPreciseAsString(),
@@ -218,7 +223,18 @@ public class DeviceList extends Fragment {
             }
         };
 
-        Observer<Identification> observer;
+        final Observer<Identification> observer = new Observer<Identification>() {
+            @Override
+            public void onChanged(Identification identification) {
+                if (identification != null) {
+                    Log.w(TAG, "on changed: " + identification.getIdType() + ", " + identification.getUasIdAsString() + ", " + this);
+                    setIdText(identification);
+
+                    droneIcon.setColorFilter(0xff00ff00, PorterDuff.Mode.MULTIPLY);
+                    iconImageView.setImageDrawable(droneIcon);
+                }
+            }
+        };
     }
 
     public class ListItem extends AbstractItem<ListItem, AircraftViewHolder> {

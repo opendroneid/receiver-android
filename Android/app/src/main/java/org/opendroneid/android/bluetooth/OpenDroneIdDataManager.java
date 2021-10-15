@@ -6,17 +6,8 @@
  */
 package org.opendroneid.android.bluetooth;
 
-import android.Manifest;
-import android.app.Activity;
 import android.bluetooth.le.ScanResult;
-import android.content.pm.PackageManager;
 import android.util.Log;
-
-import androidx.core.app.ActivityCompat;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.data.AircraftObject;
@@ -30,7 +21,6 @@ import org.opendroneid.android.data.OperatorIdData;
 import org.opendroneid.android.log.LogMessageEntry;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OpenDroneIdDataManager {
@@ -38,11 +28,7 @@ public class OpenDroneIdDataManager {
 
     private static final String TAG = "OpenDroneIdDataManager";
 
-    public Activity activity;
     public android.location.Location receiverLocation;
-    public LocationRequest locationRequest;
-    public LocationCallback locationCallback;
-    public FusedLocationProviderClient mFusedLocationClient;
 
     private final Callback callback;
 
@@ -54,41 +40,40 @@ public class OpenDroneIdDataManager {
         this.callback = callback;
     }
 
-    public Map<Long, AircraftObject> getAircraft() {
+    public ConcurrentHashMap<Long, AircraftObject> getAircraft() {
         return aircraft;
     }
 
-    void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry, String transportType) {
+    void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry,
+                              String transportType) {
         String macAddress = result.getDevice().getAddress();
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
 
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
+        OpenDroneIdParser.Message<?> message =
+                OpenDroneIdParser.parseData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(),
                     message, logMessageEntry, transportType);
-
-        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
-    void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
+    void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry,
+                        String transportType) {
+        OpenDroneIdParser.Message<?> message =
+                OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message,
-                    logMessageEntry, transportType);
-
-        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
+        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry, transportType);
     }
 
-    void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano, LogMessageEntry logMessageEntry, String transportType) {
-        OpenDroneIdParser.Message<?> message = OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
+    void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano,
+                               LogMessageEntry logMessageEntry, String transportType) {
+        OpenDroneIdParser.Message<?> message =
+                OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
         receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry, transportType);
-
-        getReceiverLocation(); // Ensure the receiver location gets updated at some point in the future
     }
 
     @SuppressWarnings("unchecked")
@@ -281,7 +266,8 @@ public class OpenDroneIdDataManager {
         ac.operatorid.setValue(data);
     }
 
-    private void handleMessagePack(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack> message, long timestamp, LogMessageEntry logMessageEntry, int msgCounter) {
+    private void handleMessagePack(AircraftObject ac, OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack> message,
+                                   long timestamp, LogMessageEntry logMessageEntry, int msgCounter) {
         OpenDroneIdParser.MessagePack raw = message.payload;
         if (raw == null)
             return;
@@ -294,28 +280,12 @@ public class OpenDroneIdDataManager {
         for (int i = 0; i < raw.messagesInPack; i++) {
             int offset = i*raw.messageSize;
             byte[] data = Arrays.copyOfRange(raw.messages, offset, offset + raw.messageSize);
-            OpenDroneIdParser.Message<?> subMessage = OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, receiverLocation, msgCounter);
+            OpenDroneIdParser.Message<?> subMessage =
+                    OpenDroneIdParser.parseMessage(data, 0, timestamp, logMessageEntry, receiverLocation, msgCounter);
             if (subMessage == null)
                 return;
 
             handleMessages(ac, subMessage);
         }
     }
-
-    public void getReceiverLocation() {
-        if (activity == null)
-            return;
-
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(activity, location -> {
-                if (location != null) {
-                    receiverLocation = location;
-                } else {
-                    mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
-                }
-            });
-        }
-    }
-
 }
