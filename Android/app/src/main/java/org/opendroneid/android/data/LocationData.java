@@ -300,7 +300,7 @@ public class LocationData extends MessageData {
     }
 
     public double getLocationTimestamp() { return locationTimestamp; }
-    private double getTimeStampMinutes() { return (float) ((int) (locationTimestamp / 10)) / 60; }
+    private double getTimeStampMinutes() { return (float) (((int) (locationTimestamp / 10)) / 60); }
     private double getTimeStampSeconds() { return (locationTimestamp/10) % 60; }
     public String getLocationTimestampAsString() {
         if (locationTimestamp == 0xFFFF)
