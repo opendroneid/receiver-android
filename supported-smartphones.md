@@ -170,7 +170,7 @@ We plan to continuously update this list and increase the reliability of informa
 | HMD Global Nokia 6.2                             | Snapdragon 636    |  9 | ❌ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_6_2) | |
 | HMD Global Nokia 2.2                             | MT 6761 Helio A22 |  9 | ✅ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_2_2) | Long range support is claimed but the signals are never received |
 | HTC one M9                                       | Snapdragon 810    |  7 | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  |      | |
-| Honor 50 5G                             | Snapdragon 778G         | 11   |    ✅ 3/2022         |     ✅ 3/2022       |   ✅ 3/2022      | ❌ 3/2022 | [Link](receiver_proofs/Honor_50_5G)     | |
+| Honor 50 5G                             | Snapdragon 778G         | 11   |    ✅ 3/2022         |     ✅ 3/2022       |   ✅ 3/2022      | ❌ 3/2022 | [Link](receiver_proofs/Honor_50_5g)     | |
 | Honor 50 Lite                             | Snapdragon 662         | 11   |    ❌ 3/2022         |           |   ✅ 3/2022      | ❌ 3/2022 |  [Link](receiver_proofs/Honor_50_Lite)    | |
 | Huawei Mate 20 Pro                               | Kirin 980         |  9 | ✅ 1/2020  | ✅ 1/2020  |     ➕      | ❌ 1/2020  |      | Receives Long Range continuously |
 | Huawei Mate 20                                   | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |     ➕      |            |      | |
