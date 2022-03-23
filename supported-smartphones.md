@@ -199,7 +199,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long range support is claimed but the signals are never received |
 | Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  |      | |
 | Nokia 9 Pureview                                 | Snapdragon 845    |  9 |            |            | ✅ 1/2020  |            |      | |
-| Nokia X20                                 | Snapdragon 480    |  12 |     ✅ 3/2022       |     ✅ 3/2022       | ✅ 3/2022  |    ❌  3/2022        |      | |
+| Nokia X20                                 | Snapdragon 480    |  12 |     ✅ 3/2022       |     ✅ 3/2022       | ✅ 3/2022  |    ✅   3/2022        |      | Long Range received partialy, with long gaps (15sec) |
 | OnePlus 8T                                       | Snapdragon 865    | 11 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_8T) | Long Range receive is active only part of the time |
 | One Plus 7 Pro                                   | Snapdragon 855    | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7_Pro) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 7T                                      | Snapdragon 855+   | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7T) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
