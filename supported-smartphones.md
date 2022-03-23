@@ -203,6 +203,7 @@ We plan to continuously update this list and increase the reliability of informa
 | One Plus Nord 5G                                 | Snapdragon 765G   | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
 | One Plus N10 5G                                  | Snapdragon 690    | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
 | Razer phone 2                                    | Snapdragon 845    |    |            |            |     ➕      |            |      | |
+| Realme GT Master Edition                  | Snapdragon 778G     |  11  |   ✅ 3/2022         |   ✅ 3/2022          |      ✅ 3/2022      |    ❌ 3/2022         |      | |
 | Samsung Galaxy Note 10, Note 10+                 | Exynos 9825       |  9 |            |            | ✅ 4/2021 | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_Note_10), [Link](receiver_proofs/Samsung_Galaxy_Note_10+) | |
 | Samsung Galaxy Note 9 (Global)                   | Exynos 9810       |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |     ➕      |            |      | |
