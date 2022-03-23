@@ -213,7 +213,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 8 (Global)                   | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
 | Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |    |            |            |     ➕      |            |      | |
-| Samsung S22                 | Exynos 2200       | 12 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 |      | Receives Long Range continuously |
+| Samsung S22+                 | Exynos 2200       | 12 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 |   [Link](receiver_proofs/Samsung_Galaxy_S22+)   | Receives Long Range continuously |
 | Samsung S21, S21+, S21 Ultra                     | Exynos 2100       | 11 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 |      | Receives Long Range continuously |
 | Samsung S20, S20+, S20 ultra (Global)            | Exynos 990        | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S20_Exynos) | |
 | Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    | 10 | ✅ 2/2021  | ✅ 2/2021  |      ➕     | ✅ 2/2021  |      | Receives Long Range continuously |
@@ -227,7 +227,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_A8) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
 | Samsung Galaxy Xcover 5                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | [Link](receiver_proofs/Samsung_Galaxy_XCover_5) | |
-| Samsung Galaxy M12                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | [Link](receiver_proofs/Samsung_Galaxy_M12) | |
+| Samsung Galaxy M12                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | [Link](receiver_proofs/Samsung_Galaxy_m12) | |
 | Samsung Galaxy A52s                      | Snapdragon 778G       | 11 | ✅ 03/2022  | ✅ 03/2022    |      ✅ 03/2022     | ✅ 03/2022  | [Link](receiver_proofs/Samsung_Galaxy_A52s)| |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
