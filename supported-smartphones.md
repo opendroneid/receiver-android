@@ -59,7 +59,7 @@ At the moment, this information cannot be read from the OS information and must 
 1. Prepare the Device Under Test (DUT) for the Long Range receiving support by running [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
   * In the Settings menu of the app, select Scanner and set the Scanning period to 5 minutes (or to manual if needed).
 2. Use another device (Master) that passed the Elimination Criteria and run [nRF Connect for Mobile](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp).
-  * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)). 
+  * Alternatively: use any other device that supports Long Range advertisements (might be Remote ID add-on or Bluetooth development kit - e.g., [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)).
 Please note that device must advertise only Long Range messages. Some add-on device might advertise also Legacy connectable messages so they cannot be used for the test.
 3. On the Master, go to the Advertiser tab and create a New advertising packet.
   * In options, select Advertising Extensions and in both Primary and Secondary PHY, select LE Coded (Long Range).
@@ -74,25 +74,25 @@ Please note that device must advertise only Long Range messages. Some add-on dev
 
   * If the Master is close to the DUT, it should have significantly better RSSI than other devices in the list.
 
-  * Click the found device and verify that the Advertising type is Advertising Extension and that both the Primary and Secondary PHYs are LE Coded. 
+  * Click the found device and verify that the Advertising type is Advertising Extension and that both the Primary and Secondary PHYs are LE Coded.
 
   * Click the round icon on the left to add the device as a favorite (that adds a small star banner under the round icon).
 	Then click the filter at the top and select the "Only favorites" checkbox.
-	
+
   * Swipe on the device to the right in order to reveal the RSSI chart.
 	If you have more favorites devices present, notice the color of the DUT.
 	Find the correct color in the chart and observe whether there are gaps in the chart or whether the signals are received continuously.
-	
-  * If you are using other method than running nRF Connect on Master device, please ensure that you don't see any Legacy messages there. 
-If you do then your device also advertises simultaneously on Bluetooth 4 and it will not reveal the gaps in RSSI chart. 
+
+  * If you are using other method than running nRF Connect on Master device, please ensure that you don't see any Legacy messages there.
+If you do then your device also advertises simultaneously on Bluetooth 4 and it will not reveal the gaps in RSSI chart.
 Testing with simultaneous Legacy and Long range advertisements is invalid and shouldn't be submitted.
 
   * Add this information to the report for the device.
 
-<p align="center"> 
-    <img src="images/screen_nrf_connect_new_advertising_packet.jpg" width="200"> 
+<p align="center">
+    <img src="images/screen_nrf_connect_new_advertising_packet.jpg" width="200">
     <img src="images/screen_nrf_connect_scanning.jpg" width="200">
-    <img src="images/screen_nrf_connect_scanning_rssi.jpg" width="200"> 
+    <img src="images/screen_nrf_connect_scanning_rssi.jpg" width="200">
 </p>
 
 <p align="center"> Figure 2: Screenshots clarifying the testing steps above</p>
@@ -170,6 +170,8 @@ We plan to continuously update this list and increase the reliability of informa
 | HMD Global Nokia 6.2                             | Snapdragon 636    |  9 | ❌ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_6_2) | |
 | HMD Global Nokia 2.2                             | MT 6761 Helio A22 |  9 | ✅ 1/2020  | ❌ 1/2020  |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Nokia_2_2) | Long range support is claimed but the signals are never received |
 | HTC one M9                                       | Snapdragon 810    |  7 | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  | ❌ 1/2020  |      | |
+| Honor 50 5G                                      | Snapdragon 778G   | 11 | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022  | ❌ 3/2022  | [Link](receiver_proofs/Honor_50_5g) | |
+| Honor 50 Lite                                    | Snapdragon 662    | 11 | ❌ 3/2022  |            | ✅ 3/2022  | ❌ 3/2022  | [Link](receiver_proofs/Honor_50_Lite) | |
 | Huawei Mate 20 Pro                               | Kirin 980         |  9 | ✅ 1/2020  | ✅ 1/2020  |     ➕      | ❌ 1/2020  |      | Receives Long Range continuously |
 | Huawei Mate 20                                   | Kirin 980         |    | ✅ 11/2019 | ✅ 11/2019 |     ➕      |            |      | |
 | Huawei Mate 10 Pro                               | Kirin 970         |  8 |            |            | ✅ 1/2020  |            |      | |
@@ -180,6 +182,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Huawei P9                                        | Kirin 955         |  6 |            |            | ❌ 1/2020  |            |      | |
 | Huawei P8 Lite                                   | Kirin 655         |  7 |            |            | ❌ 1/2020  |            |      | |
 | Huawei Nova 5T                                   | Kirin 980         |    | ✅ 5/2020  |            |     ➕      |            |      | |
+| Huawei Nova 8i                                   | Snapdragon 662    | 10 | ❌ 03/2022 |            |     ➕      |            |  [Link](receiver_proofs/Huawei_nova_8i) | |
 | Huawei Honor Magic 2                             | Kirin 980         |    |            |            |    ➕      | ❌ 1/2020  |      | |
 | Huawei Honor 10 lite                             | Kirin 710         |  9 |            |            | ✅ 1/2020  |            | [Link](receiver_proofs/Huawei_Honor_10_Lite) | |
 | Huawei Honor View 10                             | Kirin 970         |  9 |            |            | ✅ 1/2020  |            |      | |
@@ -196,6 +199,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long range support is claimed but the signals are never received |
 | Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  |      | |
 | Nokia 9 Pureview                                 | Snapdragon 845    |  9 |            |            | ✅ 1/2020  |            |      | |
+| Nokia X20                                        | Snapdragon 480    | 12 | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022  | [Link](receiver_proofs/Nokia_X20) | Long Range received partially, with long gaps (15sec) |
 | OnePlus 8T                                       | Snapdragon 865    | 11 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_8T) | Long Range receive is active only part of the time |
 | One Plus 7 Pro                                   | Snapdragon 855    | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7_Pro) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
 | One Plus 7T                                      | Snapdragon 855+   | 10 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/OnePlus_7T) | Probably similar LR receive behavior as in One Plus 6T and 8T (unconfirmed) |
@@ -203,11 +207,13 @@ We plan to continuously update this list and increase the reliability of informa
 | One Plus Nord 5G                                 | Snapdragon 765G   | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_Nord_5G) | Receives Long Range continuously |
 | One Plus N10 5G                                  | Snapdragon 690    | 10 | ✅ 1/2021  | ✅ 1/2021  |      ➕     | ❌ 1/2021  | [Link](receiver_proofs/OnePlus_N10_5G) | Receives Long Range continuously |
 | Razer phone 2                                    | Snapdragon 845    |    |            |            |     ➕      |            |      | |
+| Realme GT Master Edition                         | Snapdragon 778G   | 11 | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022   | ❌ 3/2022  | [Link](receiver_proofs/Realme_GT_Master_Edition) | |
 | Samsung Galaxy Note 10, Note 10+                 | Exynos 9825       |  9 |            |            | ✅ 4/2021 | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_Note_10), [Link](receiver_proofs/Samsung_Galaxy_Note_10+) | |
 | Samsung Galaxy Note 9 (Global)                   | Exynos 9810       |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 9 (USA, China, Japan)        | Snapdragon 845    |    |            |            |     ➕      |            |      | |
 | Samsung Galaxy Note 8 (Global)                   | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
 | Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |    |            |            |     ➕      |            |      | |
+| Samsung S22+                                     | Exynos 2200       | 12 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_S22+) | Receives Long Range continuously |
 | Samsung S21, S21+, S21 Ultra                     | Exynos 2100       | 11 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 |      | Receives Long Range continuously |
 | Samsung S20, S20+, S20 ultra (Global)            | Exynos 990        | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S20_Exynos) | |
 | Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    | 10 | ✅ 2/2021  | ✅ 2/2021  |      ➕     | ✅ 2/2021  |      | Receives Long Range continuously |
@@ -220,15 +226,21 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021   | ✅ 9/2021  | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_A8) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
+| Samsung Galaxy Xcover 5                          | Exynos 850        | 11 | ✅ 03/2022 | ❌ 03/2022 | ✅ 03/2022  | ❌ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_XCover_5) | |
+| Samsung Galaxy M12                               | Exynos 850        | 11 | ✅ 03/2022 | ❌ 03/2022 | ✅ 03/2022  | ❌ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_m12) | |
+| Samsung Galaxy A52s                              | Snapdragon 778G   | 11 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022  | ✅ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_A52s)| |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
 | Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2021  |      | |
 | Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2020  |      | |
+| Sony Xperia 10 III                               | Snapdragon 690    | 11 | ❌ 3/2022   |            | ✅ 3/2022  |              | [Link](receiver_proofs/Sony_Xperia_10_III) | |
+| Sony Xperia 5 III                                | Snapdragon 888    | 12 | ❌ 3/2022   |            | ✅ 3/2022  |              | [Link](receiver_proofs/Sony_Xperia_5_III) | |
 | Sony Xperia 5                                    | Snapdragon 855    |    |            |             | ✅ 4/2021  |             | [Link](receiver_proofs/Sony_Xperia_5) | |
 | Sony Xperia XA2                                  | Snapdragon 630    |  9 | ❌ 1/2020   | ❌ 1/2020   |     ➕     | ❌ 1/2020  |      | |
 | Sony Xperia XZ1 Compact                          | Snapdragon 835    |  8 |            |            | ✅ 1/2020  |            |      | |
 | Sony Xperia XZ2                                  | Snapdragon 845    | 10 |            |            | ✅ 1/2020  |            |      | |
+| Vivo V21                                         | Dimensity 800U    | 11 | ✅ 3/2022  | ❌  3/2022 | ✅ 3/2022  | ❌ 3/2022  | [Link](receiver_proofs/Vivo_V21) | |
 | Xiaomi Note 10                                   | Snapdragon 730G   |  9 | ✅ 1/2020  |            |      ➕     | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_Note_10) | |
 | Xiaomi Mi 9T Pro                                 | Snapdragon 855    |  9 | ✅ 1/2020  |            |      ➕     | ✅ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9T_Pro) | |
 | Xiaomi Mi 9 SE                                   | Snapdragon 712    |  9 | ✅ 1/2020  |            |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_9_SE) | |
