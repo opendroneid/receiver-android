@@ -226,16 +226,16 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021   | ✅ 9/2021  | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_A8) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
-| Samsung Galaxy Xcover 5                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | | |
-| Samsung Galaxy M12                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | | |
-| Samsung Galaxy A52s                      | Snapdragon 778G       | 11 | ✅ 03/2022  | ✅ 03/2022    |      ✅ 03/2022     | ✅ 03/2022  | | |
+| Samsung Galaxy Xcover 5                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | [Link](receiver_proofs/Samsung_Galaxy_XCover_5) | |
+| Samsung Galaxy M12                        | Exynos 850       | 11 | ✅ 03/2022  | ❌ 03/2022    |      ✅ 03/2022     | ❌ 03/2022   | [Link](receiver_proofs/Samsung_Galaxy_M12) | |
+| Samsung Galaxy A52s                      | Snapdragon 778G       | 11 | ✅ 03/2022  | ✅ 03/2022    |      ✅ 03/2022     | ✅ 03/2022  | [Link](receiver_proofs/Samsung_Galaxy_A52s)| |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
 | Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2021  |      | |
 | Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2020  |      | |
-| Sony Xperia 10 III                                  | Snapdragon 690    |  11 | ❌ 3/2022   |    |     ✅ 3/2022     |   |   [Link](receiver_proofs/Sony_Xperia_5_III)   | |
-| Sony Xperia 5 III                                   | Snapdragon 888    |  12 | ❌ 3/2022   |   |      ✅ 3/2022     |  |   Link](receiver_proofs/Sony_Xperia_5_III)   | |
+| Sony Xperia 10 III                                  | Snapdragon 690    |  11 | ❌ 3/2022   |    |     ✅ 3/2022     |   |   [Link](receiver_proofs/Sony_Xperia_10_III)   | |
+| Sony Xperia 5 III                                   | Snapdragon 888    |  12 | ❌ 3/2022   |   |      ✅ 3/2022     |  |   [Link](receiver_proofs/Sony_Xperia_5_III)   | |
 | Sony Xperia 5                                    | Snapdragon 855    |    |            |             | ✅ 4/2021  |             | [Link](receiver_proofs/Sony_Xperia_5) | |
 | Sony Xperia XA2                                  | Snapdragon 630    |  9 | ❌ 1/2020   | ❌ 1/2020   |     ➕     | ❌ 1/2020  |      | |
 | Sony Xperia XZ1 Compact                          | Snapdragon 835    |  8 |            |            | ✅ 1/2020  |            |      | |
