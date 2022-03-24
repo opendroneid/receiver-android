@@ -196,6 +196,7 @@ We plan to continuously update this list and increase the reliability of informa
 | LG V60                                           | Snapdragon 865    | 10 |            |            |     ➕     | ✅ 1/2020  |      | |
 | LG Nexus 5X                                      | Snapdragon 808    |  8 |            |            | ✅ 1/2020  |            |      | |
 | LG X Cam                                         | MT 6735           |  6 |            |            | ❌ 1/2020  |            |      | |
+| Motorola Edge 20 Pro                             | Snapdragon 870 5G | 11 | ✅ 3/2022  | ❌ 3/2022  |      ➕     |           | [Link](receiver_proofs/Motorola_Edge_20_Pro) | Long range support is claimed but the signals are never received. Test done using LAUNCHXL-CC1352P-2 from Texas Instrument |
 | Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long range support is claimed but the signals are never received |
 | Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  |      | |
 | Nokia 9 Pureview                                 | Snapdragon 845    |  9 |            |            | ✅ 1/2020  |            |      | |
