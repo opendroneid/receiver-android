@@ -252,6 +252,7 @@ public class OpenDroneIdDataManager {
         data.setCategory(raw.category);
         data.setClassValue(raw.classValue);
         data.setOperatorAltitudeGeo(raw.getOperatorAltitudeGeo());
+        data.setSystemTimestamp(raw.systemTimestamp);
         ac.system.setValue(data);
     }
 

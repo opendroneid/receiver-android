@@ -6,6 +6,7 @@
  */
 package org.opendroneid.android.data;
 
+import java.sql.Timestamp;
 import java.util.Locale;
 
 public class SystemData extends MessageData {
@@ -21,6 +22,7 @@ public class SystemData extends MessageData {
     private categoryEnum category;
     private classValueEnum classValue;
     private double operatorAltitudeGeo;
+    private long systemTimestamp;
 
     public SystemData() {
         super();
@@ -35,6 +37,7 @@ public class SystemData extends MessageData {
         category = categoryEnum.Undeclared;
         classValue = classValueEnum.Undeclared;
         operatorAltitudeGeo = -1000; // -1000 is the Invalid value in the specification
+        systemTimestamp = 0;
     }
 
     // These apply both to operator Latitude/Longitude and to AltitudeGeo
@@ -177,5 +180,13 @@ public class SystemData extends MessageData {
     public String getOperatorAltitudeGeoAsString() {
         return getAltitudeAsString(operatorAltitudeGeo);
     }
-}
 
+    long getSystemTimestamp() { return systemTimestamp; }
+    public String getSystemTimestampAsString() {
+        if (systemTimestamp == 0)
+            return "Unknown";
+        Timestamp time = new Timestamp((1546300800L + systemTimestamp) * 1000);
+        return time.toString();
+    }
+    public void setSystemTimestamp(long systemTimestamp) { this.systemTimestamp = systemTimestamp; }
+}

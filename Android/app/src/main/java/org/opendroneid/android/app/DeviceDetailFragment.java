@@ -84,6 +84,7 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView category;
     private TextView classValue;
     private TextView systemAltitudeGeo;
+    private TextView systemTimestamp;
 
     private TextView operatorIdLastUpdate;
     private TextView operatorIdType;
@@ -205,6 +206,7 @@ public class DeviceDetailFragment extends DialogFragment {
             category.setText(systemData.getCategory().name());
             classValue.setText(systemData.getClassValue().name());
             systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString());
+            systemTimestamp.setText(systemData.getSystemTimestampAsString());
         });
 
         model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {
@@ -281,6 +283,7 @@ public class DeviceDetailFragment extends DialogFragment {
         category = view.findViewById(R.id.category);
         classValue = view.findViewById(R.id.classValue);
         systemAltitudeGeo = view.findViewById(R.id.systemAltitudeGeo);
+        systemTimestamp = view.findViewById(R.id.systemTimestamp);
 
         operatorIdLastUpdate = view.findViewById(R.id.operatorIdLastUpdate);
         operatorIdType = view.findViewById(R.id.operatorIdType);
