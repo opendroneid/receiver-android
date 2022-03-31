@@ -6,6 +6,8 @@
  */
 package org.opendroneid.android.data;
 
+import androidx.annotation.NonNull;
+
 import java.util.Locale;
 
 public class LocationData extends MessageData {
@@ -53,6 +55,7 @@ public class LocationData extends MessageData {
         Ground,
         Airborne,
         Emergency,
+        Remote_ID_System_Failure  { @NonNull public String toString() { return "Rem_ID_Sys_Fail"; } },
     }
     public StatusEnum getStatus() { return status; }
     public void setStatus(int status) {
@@ -60,6 +63,7 @@ public class LocationData extends MessageData {
             case 1: this.status = StatusEnum.Ground; break;
             case 2: this.status = StatusEnum.Airborne; break;
             case 3: this.status = StatusEnum.Emergency; break;
+            case 4: this.status = StatusEnum.Remote_ID_System_Failure; break;
             default: this.status = StatusEnum.Undeclared; break;
         }
     }

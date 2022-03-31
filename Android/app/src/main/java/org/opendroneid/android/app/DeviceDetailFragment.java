@@ -131,8 +131,8 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(identification.getTimestampAsString());
             infoLastUpdate1.setText(identification.getMsgCounterAsString());
-            infoType1.setText(identification.getUaType().name());
-            infoIdType1.setText(identification.getIdType().name());
+            infoType1.setText(identification.getUaType().toString());
+            infoIdType1.setText(identification.getIdType().toString());
             setUasIdText(identification, infoUasId1);
         });
 
@@ -141,8 +141,8 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(identification.getTimestampAsString());
             infoLastUpdate2.setText(identification.getMsgCounterAsString());
-            infoType2.setText(identification.getUaType().name());
-            infoIdType2.setText(identification.getIdType().name());
+            infoType2.setText(identification.getUaType().toString());
+            infoIdType2.setText(identification.getIdType().toString());
             setUasIdText(identification, infoUasId2);
         });
 
@@ -151,7 +151,7 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(locationData.getTimestampAsString());
             posLastUpdate.setText(locationData.getMsgCounterAsString());
-            status.setText(locationData.getStatus().name());
+            status.setText(locationData.getStatus().toString());
             direction.setText(locationData.getDirectionAsString());
             horiSpeed.setText(locationData.getSpeedHorizontalAsString());
             vertSpeed.setText(locationData.getSpeedVerticalAsString());
@@ -159,7 +159,7 @@ public class DeviceDetailFragment extends DialogFragment {
             lon.setText(locationData.getLongitudeAsString());
             altitudePressure.setText(locationData.getAltitudePressureAsString());
             altitudeGeodetic.setText(locationData.getAltitudeGeodeticAsString());
-            heightType.setText(locationData.getHeightType().name());
+            heightType.setText(locationData.getHeightType().toString());
             height.setText(locationData.getHeightAsString());
             horizontalAccuracy.setText(locationData.getHorizontalAccuracyAsString());
             verticalAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getVerticalAccuracy()));
@@ -175,7 +175,7 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(authenticationData.getTimestampAsString());
             authLastUpdate.setText(authenticationData.getMsgCounterAsString());
-            authType.setText(authenticationData.getAuthType().name());
+            authType.setText(authenticationData.getAuthType().toString());
             authLength.setText(authenticationData.getAuthLengthAsString());
             authTimestamp.setText(authenticationData.getAuthTimestampAsString());
             authData.setText(authenticationData.getAuthenticationDataAsString());
@@ -186,7 +186,7 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(selfIdData.getTimestampAsString());
             selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
-            selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
+            selfIdType.setText(String.valueOf(selfIdData.getDescriptionType().toString()));
             selfIdDescription.setText(selfIdData.getOperationDescriptionAsString());
         });
 
@@ -195,16 +195,16 @@ public class DeviceDetailFragment extends DialogFragment {
 
             receiveTime.setText(systemData.getTimestampAsString());
             systemLastUpdate.setText(systemData.getMsgCounterAsString());
-            operatorLocationType.setText(systemData.getOperatorLocationType().name());
-            classificationType.setText(systemData.getclassificationType().name());
+            operatorLocationType.setText(systemData.getOperatorLocationType().toString());
+            classificationType.setText(systemData.getclassificationType().toString());
             systemLatitude.setText(systemData.getOperatorLatitudeAsString());
             systemLongitude.setText(systemData.getOperatorLongitudeAsString());
             systemAreaCount.setText(String.valueOf(systemData.getAreaCount()));
             systemAreaRadius.setText(systemData.getAreaRadiusAsString());
             systemAreaCeiling.setText(systemData.getAreaCeilingAsString());
             systemAreaFloor.setText(systemData.getAreaFloorAsString());
-            category.setText(systemData.getCategory().name());
-            classValue.setText(systemData.getClassValue().name());
+            category.setText(systemData.getCategory().toString());
+            classValue.setText(systemData.getClassValue().toString());
             systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString());
             systemTimestamp.setText(systemData.getSystemTimestampAsString());
         });

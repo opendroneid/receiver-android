@@ -6,27 +6,37 @@
  */
 package org.opendroneid.android.data;
 
+import androidx.annotation.NonNull;
+
 import org.opendroneid.android.Constants;
 
 public class SelfIdData extends MessageData {
 
-    private int descriptionType;
+    private descriptionTypeEnum descriptionType;
     private byte[] operationDescription;
 
     public SelfIdData() {
         super();
-        descriptionType = 0;
+        descriptionType = descriptionTypeEnum.Text;
         operationDescription = new byte[0];
     }
 
-    public void setDescriptionType(int descriptionType) {
-        if (descriptionType < 0)
-            descriptionType = 0;
-        if (descriptionType > 255)
-            descriptionType = 255;
-        this.descriptionType = descriptionType;
+    public enum descriptionTypeEnum {
+        Text,
+        Emergency,
+        Extended_Status { @NonNull public String toString() { return "Ext_Status"; } },
+        Invalid,
     }
-    public int getDescriptionType() { return descriptionType; }
+
+    public descriptionTypeEnum getDescriptionType() { return descriptionType; }
+    public void setDescriptionType(int descriptionType) {
+        switch(descriptionType) {
+            case 0: this.descriptionType = descriptionTypeEnum.Text; break;
+            case 1: this.descriptionType = descriptionTypeEnum.Emergency; break;
+            case 2: this.descriptionType = descriptionTypeEnum.Extended_Status; break;
+            default: this.descriptionType = descriptionTypeEnum.Invalid; break;
+        }
+    }
 
     public void setOperationDescription(byte[] operationDescription) {
         if (operationDescription.length <= Constants.MAX_STRING_BYTE_SIZE)

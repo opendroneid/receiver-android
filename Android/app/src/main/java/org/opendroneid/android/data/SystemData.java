@@ -43,8 +43,8 @@ public class SystemData extends MessageData {
     // These apply both to operator Latitude/Longitude and to AltitudeGeo
     public enum operatorLocationTypeEnum {
         TakeOff,
-        LiveGNSS,
-        FixedLocation,
+        Dynamic, // Live GNSS Location
+        Fixed,   // Fixed Location
         Invalid,
     }
 
@@ -52,8 +52,8 @@ public class SystemData extends MessageData {
     public void setOperatorLocationType(int operatorLocationType) {
         switch(operatorLocationType) {
             case 0: this.operatorLocationType = operatorLocationTypeEnum.TakeOff; break;
-            case 1: this.operatorLocationType = operatorLocationTypeEnum.LiveGNSS; break;
-            case 2: this.operatorLocationType = operatorLocationTypeEnum.FixedLocation; break;
+            case 1: this.operatorLocationType = operatorLocationTypeEnum.Dynamic; break;
+            case 2: this.operatorLocationType = operatorLocationTypeEnum.Fixed; break;
             default: this.operatorLocationType = operatorLocationTypeEnum.Invalid; break;
         }
     }
