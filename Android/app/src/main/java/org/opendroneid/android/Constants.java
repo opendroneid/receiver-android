@@ -23,13 +23,28 @@ public class Constants {
     public static final int MAX_MESSAGES_IN_PACK = 9;
     public static final int MAX_MESSAGE_PACK_SIZE = MAX_MESSAGE_SIZE * MAX_MESSAGES_IN_PACK;
 
-/* This implementation is compliant with the:
- *   - ASTM F3411 Specification for Remote ID and Tracking v1.1
- *   - ASD-STAN prEN 4709-002:2020 Direct Remote Identification
+/* The continued development of the relevant standards is reflected in the remote ID protocol
+ * version number that is transmitted in the header of each drone ID message.
+ *
+ * The following protocol versions have been in use:
+ * 0. ASTM F3411-19. Published Feb 14, 2020. https://www.astm.org/f3411-19.html
+ * 1. ASD-STAN prEN 4709-002 P1. Published 31-Oct-2021.
+ *    http://asd-stan.org/downloads/asd-stan-pren-4709-002-p1/
+ *
+ *    ASTM F3411 v1.1 draft sent for first ballot round autumn 2021
+ *
+ * 2. ASTM F3411 v1.1 draft sent for second ballot round Q1 2022. (ASTM F3411-22 ?)
+ *    The delta to protocol version 1 is small:
+ *    - New enum values:
+ *      LocationData.StatusEnum.Remote_ID_System_Failure
+ *      SelfIdData.descriptionTypeEnum.Emergency,
+ *      SelfIdData.descriptionTypeEnum.Extended_Status,
+ *    - New Timestamp field in the System message
+ *
  * Since the strategy of the standardization for drone ID has been to not break backwards
  * compatibility when adding new functionality, this implementation allows decoding messages
  * with a higher version number than defined below. It is assumed that newer versions can be
  * decoded but some data elements might be missing in the output. The message version displayed
  * in the detailed info view will be drawn with red color in this case. */
-    public static final int MAX_MSG_VERSION = 1;
+    public static final int MAX_MSG_VERSION = 2;
 }
