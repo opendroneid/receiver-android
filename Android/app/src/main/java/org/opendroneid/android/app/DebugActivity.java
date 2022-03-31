@@ -35,6 +35,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,6 +44,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
@@ -158,10 +161,12 @@ public class DebugActivity extends AppCompatActivity {
             }
             return true;
         } else if (id == R.id.log_location) {
+            String message;
             if (getLogEnabled())
-                Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
+                message = "Logging to " + loggerFile;
             else
-                Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
+                message = "Logging not activated";
+            showToast(message);
             return true;
         }
         return false;
@@ -247,7 +252,7 @@ public class DebugActivity extends AppCompatActivity {
             }
         } else {
             // Bluetooth is not supported.
-            showErrorText(R.string.bt_not_supported);
+            showToast(getString(R.string.bt_not_supported));
             finish();
         }
 
@@ -307,14 +312,14 @@ public class DebugActivity extends AppCompatActivity {
                 }
             } else {
                 // User declined to enable Bluetooth, exit the app.
-                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.bt_not_enabled_leaving));
                 finish();
             }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 // User declined to enable WiFi, exit the app.
-                Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.wifi_not_enabled_leaving));
                 finish();
             }
         }
@@ -370,10 +375,6 @@ public class DebugActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void showErrorText(int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
-    }
-
     public void requestLocationPermission(int requestCode) {
         Log.d(TAG, "requestLocationPermission: request permission");
 
@@ -391,10 +392,21 @@ public class DebugActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
-                showErrorText(R.string.permission_required_toast);
+                showToast(getString(R.string.permission_required_toast));
                 finish();
             }
+        }
+    }
 
+    void showToast(String message) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+        else {
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
+            View snackView = snackbar.getView();
+            TextView snackTextView = (TextView) snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+            snackTextView.setMaxLines(5);
+            snackbar.show();
         }
     }
 }
