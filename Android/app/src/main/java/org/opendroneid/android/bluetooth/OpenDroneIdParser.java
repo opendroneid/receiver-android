@@ -311,6 +311,7 @@ public class OpenDroneIdParser {
         int category;
         int classValue;
         int operatorAltitudeGeo;
+        long systemTimestamp;
 
         double getLatitude() {
             return LAT_LONG_MULTIPLIER * operatorLatitude;
@@ -336,7 +337,8 @@ public class OpenDroneIdParser {
                     + "areaFloor" + DELIM
                     + "category" + DELIM
                     + "classValue" + DELIM
-                    + "operatorAltitudeGeo" + DELIM;
+                    + "operatorAltitudeGeo" + DELIM
+                    + "systemTimestamp" + DELIM;
         }
 
         @Override
@@ -351,7 +353,8 @@ public class OpenDroneIdParser {
                     + areaFloor + DELIM
                     + category + DELIM
                     + classValue + DELIM
-                    + operatorAltitudeGeo + DELIM;
+                    + operatorAltitudeGeo + DELIM
+                    + systemTimestamp + DELIM;
         }
 
         @Override @NonNull
@@ -368,6 +371,7 @@ public class OpenDroneIdParser {
                     ", category=" + category +
                     ", class=" + classValue +
                     ", operatorAltitudeGeo=" + operatorAltitudeGeo +
+                    ", systemTimestamp=" + systemTimestamp +
                     '}';
         }
     }
@@ -615,6 +619,7 @@ public class OpenDroneIdParser {
         s.category = (b & 0xF0) >> 4;
         s.classValue = b & 0x0F;
         s.operatorAltitudeGeo = byteBuffer.getShort() & 0xFFFF;
+        s.systemTimestamp = byteBuffer.getInt() & 0xFFFFFFFFL;
         return s;
     }
 

@@ -24,7 +24,7 @@ public class LogMessageEntry {
                                                        DELIM;
     private static final String DELIM_SELF_ID = DELIM + DELIM;
     private static final String DELIM_SYSTEM = DELIM + DELIM + DELIM + DELIM + DELIM + DELIM +
-                                               DELIM + DELIM + DELIM + DELIM + DELIM;
+                                               DELIM + DELIM + DELIM + DELIM + DELIM + DELIM;
     private static final String DELIM_OPERATOR = DELIM + DELIM;
 
     @SuppressWarnings("rawtypes")

@@ -80,7 +80,7 @@ public class AircraftObject {
 
     private int idToShow = 0;
 
-    // When two different BasicId messages have been received, use this function to force a regular
+    // When two different BasicId messages have been received, use this function to force a periodic
     // swap between their uasId in the list view. It is assumed this is called once per second.
     // The change logic is slowed down to once per three seconds.
     public void updateShadowBasicId() {

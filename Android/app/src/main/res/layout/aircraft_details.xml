@@ -703,6 +703,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="–" />
+
+                    <TextView
+                        style="@style/Details.Label"
+                        android:text="Timestamp" />
+
+                    <TextView
+                        android:id="@+id/systemTimestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="–" />
                 </TableRow>
 
                 <TableRow

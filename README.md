@@ -16,6 +16,8 @@ A red line will be drawn to show where the drone has been flying.
 
 Please note: The user of this receiver application must always visually verify that the received Open Drone ID signal corresponds to an actual drone seen flying in the air, at the position the signal claims it to be.
 
+## How to build
+
 To build the application, use Android Studio.
 Import the project (File -> New -> Import Project) and point to the folder named Android.
 Then Build -> Make Project.
@@ -42,8 +44,8 @@ See further details below and in the description of the [device list](supported-
 The Bluetooth reception of the application has been tested to work on several devices:
 - Huawei Y6 Pro (Android 5.1)
 - HTC one M9 (Android 5.1, 6.0, 7.0)
-- OnePlus 6T (Android 9 and 10)
-- Samsung Galaxy S10 (Android 9, 10 and 11)
+- OnePlus 6T (Android 9, 10 and 11)
+- Samsung Galaxy S10 (Android 9, 10, 11 and 12)
 - Huawei Mate 20 Pro (Android 9)
 - HMD Global Nokia 2.2 (Android 9)
 - Motorola One Vision (Android 9)
