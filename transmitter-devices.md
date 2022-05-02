@@ -16,7 +16,7 @@ The list is divided into three sections: drones, add-on devices and other implem
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
 | Aerobits idME | ✅   | ✅   | ❌            | ❌        | https://www.aerobits.pl/product/idme/               |
 | DroneTag Mini | ✅   | ✅   | ❌            | ❌        | https://dronetag.cz/en/products/mini/               |
-| INVOLI LEMAN  |      |      |              |           | https://www.involi.com/products/leman-drone-tracker |
+| INVOLI LEMAN  | ❌   | ❌   |              | ✅         | https://www.involi.com/products/leman-drone-tracker |
 
 ## Other Transmitter Implementations
 
