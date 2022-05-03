@@ -6,9 +6,9 @@ The list is divided into three sections: drones, add-on devices and other implem
 
 ## Drones / UAV
 
-| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                                |
-| ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
-| Parrot Anafi  | ❌   | ❌   | ✅            | ❌        | https://www.parrot.com/en/drones/anafi              |
+| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                   | Notes                       |
+| ------------- | ---- | ---- | ------------ | --------- | -------------------------------------- | --------------------------- |
+| Parrot Anafi  | ❌   | ❌   | ✅            | ❌        | https://www.parrot.com/en/drones/anafi | FW version >= 1.8.0 required |
 
 ## Add-on Devices
 
