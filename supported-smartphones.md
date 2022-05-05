@@ -4,6 +4,8 @@ This document contains a list of compatible smartphones that have been tested fo
 
 It is part of the documentation for the example Android Remote ID receiver application available [here](https://github.com/opendroneid/receiver-android).
 
+General information about Remote ID can be found [here](https://github.com/opendroneid/opendroneid-core-c#opendroneid-core-c) and a list of Remote ID transmitter devices [here](transmitter-devices.md).
+
 The current specification of both the ASD-STAN prEN4709-02 (EU version) and the ASTM F3411-19 (US version) standards rely on wireless protocols in the unlicensed spectrum to broadcast the desired identification and telemetry data from UAs to ground observers.
 Particularly, they define transport methods over Bluetooth 4 Legacy Advertising, Bluetooth 5 Long Range (Advertising Extensions over Coded PHY S8), Wi-Fi Beacon and Wi-Fi Neighbor Awareness Network (NAN).
 The main reason for choosing these wireless technologies is that they meet the requirement of being supported on ordinary mobile devices.

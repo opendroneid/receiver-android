@@ -39,6 +39,10 @@ The transmission methods supported on a specific device (as per the Android feat
 However, reception can still fail for various reasons.
 See further details below and in the description of the [device list](supported-smartphones.md).
 
+## Transmitter Devices
+
+If you are looking for something to test the Receiver Application against, a list of Remote ID transmitter devices is available [here](transmitter-devices.md).
+
 ### Bluetooth
 
 The Bluetooth reception of the application has been tested to work on several devices:
