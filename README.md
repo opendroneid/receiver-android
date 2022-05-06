@@ -31,6 +31,10 @@ https://developers.google.com/maps/documentation/android-sdk/get-api-key
 Your own generated key must be inserted in:
 `Android/app/src/main/res/values/google_maps_api.xml`
 
+## Transmitter Devices
+
+If you are looking for something to test the Receiver Application against, a list of Remote ID transmitter devices is available [here](transmitter-devices.md).
+
 ## Transmission method support on different Android smartphones
 
 An extensive list of the support in different phone models is [available here](supported-smartphones.md).
@@ -38,10 +42,6 @@ An extensive list of the support in different phone models is [available here](s
 The transmission methods supported on a specific device (as per the Android feature flags) are listed in the settings menu of the application.
 However, reception can still fail for various reasons.
 See further details below and in the description of the [device list](supported-smartphones.md).
-
-## Transmitter Devices
-
-If you are looking for something to test the Receiver Application against, a list of Remote ID transmitter devices is available [here](transmitter-devices.md).
 
 ### Bluetooth
 
