@@ -9,20 +9,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/clear"
-        android:title="Clear"
+        android:title="@string/Clear"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/help"
-        android:title="Help"
+        android:title="@string/Help"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_log"
         android:checkable="true"
-        android:title="Log enabled"
+        android:title="@string/Log_enabled"
         app:showAsAction="never" />
     <item
         android:id="@+id/log_location"
-        android:title="Show log location"
+        android:title="@string/Show_log_location"
         app:showAsAction="never" />
     <item
         android:id="@+id/coded_phy"

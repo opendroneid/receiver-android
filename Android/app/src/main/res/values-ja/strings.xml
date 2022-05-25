@@ -1,0 +1,89 @@
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+ The Japanese language on which it is based is as follows
+   https://github.com/ToshihiroMakuuchi/receiver-android-jp
+
+!-->
+<resources>
+    <string name="app_name">OpenDroneID</string>
+    <string name="bt_not_supported">このデバイスはBluetoothに対応していません。</string>
+    <string name="bt_not_enabled_leaving">Bluetoothを有効にしないと、このアプリケーションは動作しません。</string>
+    <string name="wifi_not_enabled_leaving">WiFiを有効にしないと、このアプリケーションは動作しません。</string>
+    <string name="info">情報</string>
+
+    <string name="Clear">クリア</string>
+    <string name="Help">ヘルプ</string>
+    <string name="Log_enabled">Log有効</string>
+    <string name="Show_log_location">位置情報ログ閲覧</string>
+
+    <string name="coded_phy_not_supported">Coded Phy非対応</string>
+    <string name="coded_phy_supported">Coded Phy対応</string>
+    <string name="ea_not_supported">Extended Advertising非対応</string>
+    <string name="ea_supported">Extended Advertising対応</string>
+    <string name="nan_not_supported">WiFi NaN非対応</string>
+    <string name="nan_supported">WiFi NaN対応</string>
+
+    <string name="wifi_beacon_scan_not_supported">WiFi Beacon スキャン非対応</string>
+    <string name="wifi_beacon_scan_supported">WiFi Beacon スキャン対応</string>
+
+    <string name="permission_rationale_location">位置情報アクセスを有効にしないと、このアプリケーションは動作しません。</string>
+    <string name="permission_required_toast">このアプリケーションを動作させるためには、位置情報の許可が必要です。</string>
+
+    <string name="drone_icon_content_description">Droneアイコン</string>
+
+    <string name="bluetooth_help_heading">Bluetooth</string>
+    <string name="bluetooth_help_text">サンプル</string>
+    <string name="beacon_help_heading">Wi-Fi Beacon</string>
+    <string name="beacon_help_text">サンプル</string>
+    <string name="nan_help_heading">Wi-Fi NaN</string>
+    <string name="nan_help_text">サンプル</string>
+
+    <string name="Connection">接続情報</string>
+    <string name="unknown">–</string>
+    <string name="RSSI">RSSI</string>
+    <string name="MAC">MAC</string>
+    <string name="Started">開始</string>
+    <string name="Last_seen">最終更新</string>
+    <string name="Msg_8710">Msg &#8710;</string>
+    <string name="Distance">距離</string>
+    <string name="Basic_ID_1">登録記号 1</string>
+    <string name="Type">種類</string>
+    <string name="ID_Type">ID種別</string>
+    <string name="UAS_ID">無人機ID</string>
+    <string name="Basic_ID_2">登録記号 2</string>
+    <string name="Location">位置/方向/速度</string>
+    <string name="Latitude">緯度</string>
+    <string name="Longitude">経度</string>
+    <string name="Altitude_Press">気圧高度</string>
+    <string name="Alt_Geod">対地高度</string>
+    <string name="Direction">方向</string>
+    <string name="Status">ステータス</string>
+    <string name="Hori_Speed">速度</string>
+    <string name="Vert_Speed">垂直速度</string>
+    <string name="Height">高さ</string>
+    <string name="Height_Over">対地高度種別</string>
+    <string name="Hori_Accuracy">水平精度</string>
+    <string name="Vert_Acc">垂直精度</string>
+    <string name="Baro_Acc">気圧高度精度</string>
+    <string name="Speed_Acc">速度精度</string>
+    <string name="Time_Acc">時刻精度</string>
+    <string name="Timestamp">時刻</string>
+    <string name="Self_ID">セルフID情報</string>
+    <string name="Operation">運用情報</string>
+    <string name="System_Operator">システム/操縦者</string>
+    <string name="Location_Type">操縦者位置種別</string>
+    <string name="Altitude">操縦者高度</string>
+    <string name="Area_Count">エリアカウント</string>
+    <string name="Area_Radius">エリア半径</string>
+    <string name="Area_Ceiling">エリア上限</string>
+    <string name="Area_Floor">エリア下限</string>
+    <string name="Classification">エリア分類</string>
+    <string name="Category">カテゴリ</string>
+    <string name="Class">クラス</string>
+    <string name="Operator_ID">操縦者情報</string>
+    <string name="Authentication">認証情報</string>
+    <string name="Length">データ長</string>
+</resources>
