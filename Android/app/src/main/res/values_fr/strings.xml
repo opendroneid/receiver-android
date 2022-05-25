@@ -1,0 +1,88 @@
+<!--
+ Copyright (C) 2019 Intel Corporation
+
+ SPDX-License-Identifier: Apache-2.0
+
+ The French language on which it is based is as follows
+
+!-->
+<resources>
+    <string name="app_name">OpenDroneID</string>
+    <string name="bt_not_supported">Bluetooth non pris en charge</string>
+    <string name="bt_not_enabled_leaving">Bluetooth non activé, laissant</string>
+    <string name="wifi_not_enabled_leaving">WiFi non activé, laissant</string>
+    <string name="info">Information</string>
+
+    <string name="Clear">Dégager</string>
+    <string name="Help">Aider</string>
+    <string name="Log_enabled">Journal Activé</string>
+    <string name="Show_log_location">Afficher l'emplacement du journal</string>
+
+    <string name="coded_phy_not_supported">Coded Phy non supporté</string>
+    <string name="coded_phy_supported">Coded Phy supporté</string>
+    <string name="ea_not_supported">Publicité etendue non supporté</string>
+    <string name="ea_supported">Publicité etendue supporté</string>
+    <string name="nan_not_supported">WiFi NaN non supporté</string>
+    <string name="nan_supported">WiFi NaN supporté</string>
+
+    <string name="wifi_beacon_scan_not_supported">Balayage des balise WiFi non supporté</string>
+    <string name="wifi_beacon_scan_supported">Balayage des balise WiFi supporté</string>
+
+    <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l'accès à la localisation</string>
+    <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne</string>
+
+    <string name="drone_icon_content_description">Icône de drone</string>
+
+    <string name="bluetooth_help_heading">Bluetooth</string>
+    <string name="bluetooth_help_text">Échantillon</string>
+    <string name="beacon_help_heading">Wi-Fi Beacon</string>
+    <string name="beacon_help_text">Échantillon</string>
+    <string name="nan_help_heading">Wi-Fi NaN</string>
+    <string name="nan_help_text">Échantillon</string>
+
+    <string name="Connection">Lien</string>
+    <string name="unknown">–</string>
+    <string name="RSSI">RSSI</string>
+    <string name="MAC">MAC</string>
+    <string name="Started">A Débuté</string>
+    <string name="Last_seen">Vu pour la derniére fois</string>
+    <string name="Msg_8710">Msg &#8710;</string>
+    <string name="Distance">Distance</string>
+    <string name="Basic_ID_1">Piéce d’identité de base 1</string>
+    <string name="Type">Taper</string>
+    <string name="ID_Type">Type d’identification</string>
+    <string name="UAS_ID">Aéronefs sans equipage identification</string>
+    <string name="Basic_ID_2">Piéce d’identité de base 2</string>
+    <string name="Location">Emplacement</string>
+    <string name="Latitude">Latitude</string>
+    <string name="Longitude">Longitude</string>
+    <string name="Altitude_Press">Pression d’altitude</string>
+    <string name="Alt_Geod">Altitude géodésique</string>
+    <string name="Direction">Direction</string>
+    <string name="Status">Statut</string>
+    <string name="Hori_Speed">Vitesse horizontale</string>
+    <string name="Vert_Speed">Vitesse verticale</string>
+    <string name="Height">La taille</string>
+    <string name="Height_Over">Hauteur au-desses</string>
+    <string name="Hori_Accuracy">Précision horizontale</string>
+    <string name="Vert_Acc">Précision verticale</string>
+    <string name="Baro_Acc">Précision barométrique</string>
+    <string name="Speed_Acc">Précision de la vitesse</string>
+    <string name="Time_Acc">Précision de l’heure</string>
+    <string name="Timestamp">Horodatage</string>
+    <string name="Self_ID">Auto-identification</string>
+    <string name="Operation">Opération</string>
+    <string name="System_Operator">Opérateur systéme</string>
+    <string name="Location_Type">Type de lieu</string>
+    <string name="Altitude">Altitude</string>
+    <string name="Area_Count">Nombre de zones</string>
+    <string name="Area_Radius">Rayon de zone</string>
+    <string name="Area_Ceiling">Plafond de la zone</string>
+    <string name="Area_Floor">Rez-de-chaussée</string>
+    <string name="Classification">Classification</string>
+    <string name="Category">Catégorie</string>
+    <string name="Class">Classe</string>
+    <string name="Operator_ID">Identification de l’opérateur</string>
+    <string name="Authentication">Authentication</string>
+    <string name="Length">Longueur</string>
+</resources>
