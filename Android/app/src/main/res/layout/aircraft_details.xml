@@ -27,21 +27,21 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Connection" />
+                android:text="@string/Connection" />
 
             <TextView
                 android:id="@+id/msgVersion"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="-" />
+                android:text="@string/unknown" />
 
             <TextView
                 android:id="@+id/receiveTime"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–" />
+                android:text="@string/unknown" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -57,13 +57,13 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="RSSI" />
+                        android:text="@string/RSSI" />
 
                     <TextView
                         android:id="@+id/conRssi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
@@ -73,7 +73,7 @@
                         android:id="@+id/conMac"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -82,23 +82,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Started" />
+                        android:text="@string/Started" />
 
                     <TextView
                         android:id="@+id/conStarted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Last seen" />
+                        android:text="@string/Last_seen" />
 
                     <TextView
                         android:id="@+id/conLastUpdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -107,23 +107,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Msg &#8710;" />
+                        android:text="@string/Msg_8710" />
 
                     <TextView
                         android:id="@+id/conMsgDelta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Distance" />
+                        android:text="@string/Distance" />
 
                     <TextView
                         android:id="@+id/distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
             </TableLayout>
         </androidx.cardview.widget.CardView>
@@ -139,14 +139,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Basic ID 1" />
+                android:text="@string/Basic_ID_1" />
 
             <TextView
                 android:id="@+id/infoLastUpdate1"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -163,23 +163,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Type" />
+                        android:text="@string/Type" />
 
                     <TextView
                         android:id="@+id/infoType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="ID Type" />
+                        android:text="@string/ID_Type" />
 
                     <TextView
                         android:id="@+id/infoIdType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -188,13 +188,13 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="UAS ID" />
+                        android:text="@string/UAS_ID" />
 
                     <TextView
                         android:id="@+id/infoUasId1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–"
+                        android:text="@string/unknown"
                         android:layout_span="3" />
                 </TableRow>
 
@@ -212,14 +212,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Basic ID 2" />
+                android:text="@string/Basic_ID_2" />
 
             <TextView
                 android:id="@+id/infoLastUpdate2"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -236,23 +236,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Type" />
+                        android:text="@string/Type" />
 
                     <TextView
                         android:id="@+id/infoType2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="ID Type" />
+                        android:text="@string/ID_Type" />
 
                     <TextView
                         android:id="@+id/infoIdType2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -261,13 +261,13 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="UAS ID" />
+                        android:text="@string/UAS_ID" />
 
                     <TextView
                         android:id="@+id/infoUasId2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–"
+                        android:text="@string/unknown"
                         android:layout_span="3" />
                 </TableRow>
 
@@ -283,14 +283,14 @@
 
             <TextView
                 style="@style/Details.Heading"
-                android:text="Location" />
+                android:text="@string/Location" />
 
             <TextView
                 android:id="@+id/posLastUpdate"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -307,23 +307,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Latitude" />
+                        android:text="@string/Latitude" />
 
                     <TextView
                         android:id="@+id/lat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Longitude" />
+                        android:text="@string/Longitude" />
 
                     <TextView
                         android:id="@+id/lon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -332,23 +332,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Altitude Press." />
+                        android:text="@string/Altitude_Press" />
 
                     <TextView
                         android:id="@+id/altitudePressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Alt. Geod." />
+                        android:text="@string/Alt_Geod" />
 
                     <TextView
                         android:id="@+id/altitudeGeodetic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -357,23 +357,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Direction" />
+                        android:text="@string/Direction" />
 
                     <TextView
                         android:id="@+id/direction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Status" />
+                        android:text="@string/Status" />
 
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -382,23 +382,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Hori. Speed" />
+                        android:text="@string/Hori_Speed" />
 
                     <TextView
                         android:id="@+id/horiSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Vert. Speed" />
+                        android:text="@string/Vert_Speed" />
 
                     <TextView
                         android:id="@+id/vertSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -407,23 +407,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Height" />
+                        android:text="@string/Height" />
 
                     <TextView
                         android:id="@+id/height"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Height Over" />
+                        android:text="@string/Height_Over" />
 
                     <TextView
                         android:id="@+id/heightType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -432,23 +432,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Hori. Accuracy" />
+                        android:text="@string/Hori_Accuracy" />
 
                     <TextView
                         android:id="@+id/horizontalAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Vert. Acc." />
+                        android:text="@string/Vert_Acc" />
 
                     <TextView
                         android:id="@+id/verticalAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -457,23 +457,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Baro Acc." />
+                        android:text="@string/Baro_Acc" />
 
                     <TextView
                         android:id="@+id/baroAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Speed Acc." />
+                        android:text="@string/Speed_Acc" />
 
                     <TextView
                         android:id="@+id/speedAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -482,23 +482,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Time Acc." />
+                        android:text="@string/Time_Acc" />
 
                     <TextView
                         android:id="@+id/timeAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Timestamp" />
+                        android:text="@string/Timestamp" />
 
                     <TextView
                         android:id="@+id/timestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
             </TableLayout>
@@ -515,14 +515,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Self ID" />
+                android:text="@string/Self_ID" />
 
             <TextView
                 android:id="@+id/selfIdLastUpdate"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -539,23 +539,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Operation" />
+                        android:text="@string/Operation" />
 
                     <TextView
                         android:id="@+id/selfIdDescription"
                         android:layout_width="162dp"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Type" />
+                        android:text="@string/Type" />
 
                     <TextView
                         android:id="@+id/selfIdType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
             </TableLayout>
@@ -572,14 +572,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="System/Operator" />
+                android:text="@string/System_Operator" />
 
             <TextView
                 android:id="@+id/systemLastUpdate"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -596,23 +596,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Location Type" />
+                        android:text="@string/Location_Type" />
 
                     <TextView
                         android:id="@+id/operatorLocationType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Altitude" />
+                        android:text="@string/Altitude" />
 
                     <TextView
                         android:id="@+id/systemAltitudeGeo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -621,23 +621,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Latitude" />
+                        android:text="@string/Latitude" />
 
                     <TextView
                         android:id="@+id/systemLatitude"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Longitude" />
+                        android:text="@string/Longitude" />
 
                     <TextView
                         android:id="@+id/systemLongitude"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -646,23 +646,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Area Count" />
+                        android:text="@string/Area_Count" />
 
                     <TextView
                         android:id="@+id/systemAreaCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Area Radius" />
+                        android:text="@string/Area_Radius" />
 
                     <TextView
                         android:id="@+id/systemAreaRadius"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -671,23 +671,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Area Ceiling" />
+                        android:text="@string/Area_Ceiling" />
 
                     <TextView
                         android:id="@+id/systemAreaCeiling"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Area Floor" />
+                        android:text="@string/Area_Floor" />
 
                     <TextView
                         android:id="@+id/systemAreaFloor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -696,23 +696,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Classification" />
+                        android:text="@string/Classification" />
 
                     <TextView
                         android:id="@+id/classificationType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Timestamp" />
+                        android:text="@string/Timestamp" />
 
                     <TextView
                         android:id="@+id/systemTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -721,23 +721,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Category" />
+                        android:text="@string/Category" />
 
                     <TextView
                         android:id="@+id/category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Class" />
+                        android:text="@string/Class" />
 
                     <TextView
                         android:id="@+id/classValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
             </TableLayout>
@@ -754,14 +754,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Operator ID" />
+                android:text="@string/Operator_ID" />
 
             <TextView
                 android:id="@+id/operatorIdLastUpdate"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -778,23 +778,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Operator ID" />
+                        android:text="@string/Operator_ID" />
 
                     <TextView
                         android:id="@+id/operatorId"
                         android:layout_width="162dp"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Type" />
+                        android:text="@string/Type" />
 
                     <TextView
                         android:id="@+id/operatorIdType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
             </TableLayout>
@@ -811,14 +811,14 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="Authentication" />
+                android:text="@string/Authentication" />
 
             <TextView
                 android:id="@+id/authLastUpdate"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="–"
+                android:text="@string/unknown"
                 android:textAlignment="viewEnd" />
 
             <TableLayout
@@ -835,23 +835,23 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Type" />
+                        android:text="@string/Type" />
 
                     <TextView
                         android:id="@+id/authType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Length" />
+                        android:text="@string/Length" />
 
                     <TextView
                         android:id="@+id/authLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -860,14 +860,14 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Timestamp" />
+                        android:text="@string/Timestamp" />
 
                     <TextView
                         android:id="@+id/authTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
-                        android:text="–" />
+                        android:text="@string/unknown" />
                 </TableRow>
 
                 <TableRow
@@ -876,13 +876,13 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="Authentication" />
+                        android:text="@string/Authentication" />
 
                     <TextView
                         android:id="@+id/authData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="–"
+                        android:text="@string/unknown"
                         android:layout_span="3" />
                 </TableRow>
 
