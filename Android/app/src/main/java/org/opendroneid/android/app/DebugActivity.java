@@ -282,9 +282,11 @@ public class DebugActivity extends AppCompatActivity {
         mModel.setAllAircraft(dataManager.getAircraft());
 
         final Observer<Set<AircraftObject>> listObserver = airCrafts -> {
-            if (airCrafts == null)
-                return;
-            setTitle(String.format(Locale.US, "%d drones", airCrafts.size()));
+            if (airCrafts == null) {
+                setTitle(String.format(Locale.US, "Scanning...", airCrafts.size()));
+        } else {
+                setTitle(String.format(Locale.US, "%d Drones Detected", airCrafts.size()));
+            }
         };
 
         mModel.getAllAircraft().observe(this, listObserver);
