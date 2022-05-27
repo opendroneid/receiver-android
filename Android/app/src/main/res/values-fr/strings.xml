@@ -85,6 +85,4 @@
     <string name="Operator_ID">Identification de l’opérateur</string>
     <string name="Authentication">Authentication</string>
     <string name="Length">Longueur</string>
-    <string name="About">Sur</string>
-    <string name="Map_Type">Type de carte...</string>
 </resources>
