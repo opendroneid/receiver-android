@@ -256,7 +256,7 @@ public class DebugActivity extends AppCompatActivity {
             }
         } else {
             // Bluetooth is not supported.
-            showToast(getString(R.string.bt_not_supported));
+            showErrorText(R.string.bt_not_supported);
             finish();
         }
 
@@ -316,14 +316,14 @@ public class DebugActivity extends AppCompatActivity {
                 }
             } else {
                 // User declined to enable Bluetooth, exit the app.
-                showToast(getString(R.string.bt_not_enabled_leaving));
+                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
                 finish();
             }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 // User declined to enable WiFi, exit the app.
-                showToast(getString(R.string.wifi_not_enabled_leaving));
+                Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
                 finish();
             }
         }
@@ -400,7 +400,7 @@ public class DebugActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
-                showErrorText(getString(R.string.permission_required_toast));
+                showErrorText(R.string.permission_required_toast);
                 finish();
             }
         }
