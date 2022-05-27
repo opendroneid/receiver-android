@@ -67,7 +67,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="MAC" />
+                        android:text="@string/MAC" />
 
                     <TextView
                         android:id="@+id/conMac"
