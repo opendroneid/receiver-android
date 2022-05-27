@@ -378,6 +378,10 @@ public class DebugActivity extends AppCompatActivity {
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         super.onPause();
     }
+    
+        private void showErrorText(int messageId) {
+        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+    }
 
     public void requestLocationPermission(int requestCode) {
         Log.d(TAG, "requestLocationPermission: request permission");
@@ -396,21 +400,9 @@ public class DebugActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
-                showToast(getString(R.string.permission_required_toast));
+                showErrorText(getString(R.string.permission_required_toast));
                 finish();
             }
-        }
-    }
-
-    void showToast(String message) {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
-            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-        else {
-            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
-            View snackView = snackbar.getView();
-            TextView snackTextView = (TextView) snackView.findViewById(com.google.android.material.R.id.snackbar_text);
-            snackTextView.setMaxLines(5);
-            snackbar.show();
         }
     }
 }
