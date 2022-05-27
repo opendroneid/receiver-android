@@ -16,7 +16,7 @@
     <string name="Clear">Dégager</string>
     <string name="Help">Aider</string>
     <string name="Log_enabled">Journal Activé</string>
-    <string name="Show_log_location">Afficher l'emplacement du journal</string>
+    <string name="Show_log_location">Afficher l\'emplacement du journal</string>
 
     <string name="coded_phy_not_supported">Coded Phy non supporté</string>
     <string name="coded_phy_supported">Coded Phy supporté</string>
@@ -28,7 +28,7 @@
     <string name="wifi_beacon_scan_not_supported">Balayage des balise WiFi non supporté</string>
     <string name="wifi_beacon_scan_supported">Balayage des balise WiFi supporté</string>
 
-    <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l'accès à la localisation</string>
+    <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l\'accès à la localisation</string>
     <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne</string>
 
     <string name="drone_icon_content_description">Icône de drone</string>
