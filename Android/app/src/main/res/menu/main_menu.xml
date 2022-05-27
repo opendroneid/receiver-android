@@ -9,21 +9,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/clear"
-        android:title="Clear"
+        android:title="@string/Clear"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/help"
-        android:title="Help"
+        android:title="@string/Help"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_log"
         android:checkable="true"
-        android:title="Log enabled"
+        android:title="@string/Log_enabled"
         app:showAsAction="never" />
     <item
         android:id="@+id/log_location"
-        android:title="Show log location"
+        android:title="@string/Show_log_location"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/maptype"
+        app:showAsAction="never"
+        android:title="@string/Map_Type">
+        <menu >
+            <group android:id="@+id/groupmaptype"
+                android:checkableBehavior="single">
+                <item android:id="@+id/maptypeNORMAL"
+                    android:title="NORMAL" />
+                <item android:id="@+id/maptypeSATELLITE"
+                    android:title="SATELLITE" />
+                <item android:id="@+id/maptypeTERRAIN"
+                    android:title="TERRAIN" />
+                <item android:id="@+id/maptypeHYBRID"
+                    android:title="HYBRID" />
+                <item android:id="@+id/maptypeNONE"
+                    android:title="NONE" />
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/coded_phy"
         android:title="@string/coded_phy_not_supported"
@@ -42,6 +62,5 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/version"
-        android:title="@string/app_version"
-        app:showAsAction="never" />
+        android:title="@string/About" />
 </menu>

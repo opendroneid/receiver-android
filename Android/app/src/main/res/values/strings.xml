@@ -83,4 +83,6 @@
     <string name="Operator_ID">Operator ID</string>
     <string name="Authentication">Authentication</string>
     <string name="Length">Length</string>
+    <string name="About">About</string>
+    <string name="Map_Type">Map Type...</string>
 </resources>

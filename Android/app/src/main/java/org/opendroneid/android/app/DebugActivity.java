@@ -63,6 +63,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
+import static org.opendroneid.android.BuildConfig.VERSION_NAME;
+
 public class DebugActivity extends AppCompatActivity {
     BluetoothScanner btScanner;
     WiFiNaNScanner wiFiNaNScanner;
@@ -165,8 +167,10 @@ public class DebugActivity extends AppCompatActivity {
             if (getLogEnabled())
                 message = "Logging to " + loggerFile;
             else
-                message = "Logging not activated";
-            showToast(message);
+                Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
+            return true;
+        } else if (id == R.id.version) {
+            Toast.makeText(getBaseContext(), "Version " + VERSION_NAME, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;

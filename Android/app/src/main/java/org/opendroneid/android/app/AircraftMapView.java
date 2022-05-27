@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.Manifest;
@@ -35,6 +36,8 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
+import org.opendroneid.android.R;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -257,6 +260,38 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         setMapSettings();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.maptypeHYBRID:
+                if (googleMap != null) {
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                    return true;
+                }
+            case R.id.maptypeNONE:
+                if (googleMap != null) {
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+                    return true;
+                }
+            case R.id.maptypeNORMAL:
+                if (googleMap != null) {
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    return true;
+                }
+            case R.id.maptypeSATELLITE:
+                if (googleMap != null) {
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    return true;
+                }
+            case R.id.maptypeTERRAIN:
+                if (googleMap != null) {
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                    return true;
+                }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setMapSettings() {
         if (getActivity() == null || googleMap == null)
             return;
@@ -267,7 +302,9 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
