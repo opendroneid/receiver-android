@@ -6,7 +6,10 @@
  */
 package org.opendroneid.android.data;
 
+import android.content.res.Resources;
+
 import org.opendroneid.android.Constants;
+import org.opendroneid.android.R;
 
 import java.sql.Timestamp;
 import java.util.Locale;
@@ -101,9 +104,9 @@ public class AuthenticationData extends MessageData {
     }
 
     long getAuthTimestamp() { return authTimestamp; }
-    public String getAuthTimestampAsString() {
+    public String getAuthTimestampAsString(Resources res) {
         if (authTimestamp == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         Timestamp time = new Timestamp((1546300800L + authTimestamp) * 1000);
         return time.toString();
     }
