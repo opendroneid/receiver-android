@@ -6,6 +6,10 @@
  */
 package org.opendroneid.android.data;
 
+import android.content.res.Resources;
+
+import org.opendroneid.android.R;
+
 import java.sql.Timestamp;
 import java.util.Locale;
 
@@ -80,9 +84,9 @@ public class SystemData extends MessageData {
         this.operatorLatitude = operatorLatitude;
     }
     public double getOperatorLatitude() { return operatorLatitude; }
-    public String getOperatorLatitudeAsString() {
+    public String getOperatorLatitudeAsString(Resources res) {
         if (operatorLatitude == 0 && operatorLongitude == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.7f", operatorLatitude);
     }
 
@@ -94,9 +98,9 @@ public class SystemData extends MessageData {
         this.operatorLongitude = operatorLongitude;
     }
     public double getOperatorLongitude() { return operatorLongitude; }
-    public String getOperatorLongitudeAsString() {
+    public String getOperatorLongitudeAsString(Resources res) {
         if (operatorLatitude == 0 && operatorLongitude == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.7f", operatorLongitude);
     }
 
@@ -109,19 +113,19 @@ public class SystemData extends MessageData {
         return String.format(Locale.US,"%d m", areaRadius);
     }
 
-    private String getAltitudeAsString(double altitude) {
+    private String getAltitudeAsString(double altitude, Resources res) {
         if (altitude == -1000)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.1f m", altitude);
     }
 
     public void setAreaCeiling(double areaCeiling) { this.areaCeiling = areaCeiling; }
     public double getAreaCeiling() { return areaCeiling; }
-    public String getAreaCeilingAsString() { return getAltitudeAsString(areaCeiling); }
+    public String getAreaCeilingAsString(Resources res) { return getAltitudeAsString(areaCeiling, res); }
 
     public void setAreaFloor(double areaFloor) { this.areaFloor = areaFloor; }
     public double getAreaFloor() { return areaFloor; }
-    public String getAreaFloorAsString() { return getAltitudeAsString(areaFloor); }
+    public String getAreaFloorAsString(Resources res) { return getAltitudeAsString(areaFloor, res); }
 
     public enum categoryEnum {
         Undeclared,
@@ -177,14 +181,14 @@ public class SystemData extends MessageData {
         this.operatorAltitudeGeo = operatorAltitudeGeo;
     }
     public double getOperatorAltitudeGeo() { return operatorAltitudeGeo; }
-    public String getOperatorAltitudeGeoAsString() {
-        return getAltitudeAsString(operatorAltitudeGeo);
+    public String getOperatorAltitudeGeoAsString(Resources res) {
+        return getAltitudeAsString(operatorAltitudeGeo, res);
     }
 
     long getSystemTimestamp() { return systemTimestamp; }
-    public String getSystemTimestampAsString() {
+    public String getSystemTimestampAsString(Resources res) {
         if (systemTimestamp == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         Timestamp time = new Timestamp((1546300800L + systemTimestamp) * 1000);
         return time.toString();
     }
