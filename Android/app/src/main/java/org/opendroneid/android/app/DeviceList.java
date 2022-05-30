@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -214,12 +215,14 @@ public class DeviceList extends Fragment {
         final Observer<LocationData> locationObserver = new Observer<LocationData>() {
             @Override
             public void onChanged(LocationData locationData) {
-                if (locationData != null)
+                if (locationData != null) {
+                    Resources res = getResources();
                     textView2.setText(String.format(Locale.US, "%s over %s, %s, %s away",
-                            locationData.getHeightLessPreciseAsString(),
+                            locationData.getHeightLessPreciseAsString(res),
                             locationData.getHeightType().toString(),
-                            locationData.getSpeedHorizontalLessPreciseAsString(),
+                            locationData.getSpeedHorizontalLessPreciseAsString(res),
                             locationData.getDistanceAsString()));
+                }
             }
         };
 

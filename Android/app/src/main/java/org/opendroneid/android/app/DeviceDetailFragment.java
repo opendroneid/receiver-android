@@ -7,6 +7,8 @@
 package org.opendroneid.android.app;
 
 import androidx.lifecycle.ViewModelProvider;
+
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -148,36 +150,38 @@ public class DeviceDetailFragment extends DialogFragment {
 
         model.location.observe(getViewLifecycleOwner(), locationData -> {
             if (locationData == null) return;
+            Resources res = getResources();
 
             receiveTime.setText(locationData.getTimestampAsString());
             posLastUpdate.setText(locationData.getMsgCounterAsString());
             status.setText(locationData.getStatus().toString());
-            direction.setText(locationData.getDirectionAsString());
-            horiSpeed.setText(locationData.getSpeedHorizontalAsString());
-            vertSpeed.setText(locationData.getSpeedVerticalAsString());
-            lat.setText(locationData.getLatitudeAsString());
-            lon.setText(locationData.getLongitudeAsString());
-            altitudePressure.setText(locationData.getAltitudePressureAsString());
-            altitudeGeodetic.setText(locationData.getAltitudeGeodeticAsString());
+            direction.setText(locationData.getDirectionAsString(res));
+            horiSpeed.setText(locationData.getSpeedHorizontalAsString(res));
+            vertSpeed.setText(locationData.getSpeedVerticalAsString(res));
+            lat.setText(locationData.getLatitudeAsString(res));
+            lon.setText(locationData.getLongitudeAsString(res));
+            altitudePressure.setText(locationData.getAltitudePressureAsString(res));
+            altitudeGeodetic.setText(locationData.getAltitudeGeodeticAsString(res));
             heightType.setText(locationData.getHeightType().toString());
-            height.setText(locationData.getHeightAsString());
-            horizontalAccuracy.setText(locationData.getHorizontalAccuracyAsString());
-            verticalAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getVerticalAccuracy()));
-            baroAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getBaroAccuracy()));
-            speedAccuracy.setText(locationData.getSpeedAccuracyAsString());
+            height.setText(locationData.getHeightAsString(res));
+            horizontalAccuracy.setText(locationData.getHorizontalAccuracyAsString(res));
+            verticalAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getVerticalAccuracy(), res));
+            baroAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getBaroAccuracy(), res));
+            speedAccuracy.setText(locationData.getSpeedAccuracyAsString(res));
             timestamp.setText(locationData.getLocationTimestampAsString());
-            timeAccuracy.setText(locationData.getTimeAccuracyAsString());
+            timeAccuracy.setText(locationData.getTimeAccuracyAsString(res));
             distance.setText(locationData.getDistanceAsString());
         });
 
         model.authentication.observe(getViewLifecycleOwner(), authenticationData -> {
             if (authenticationData == null) return;
 
+            Resources res = getResources();
             receiveTime.setText(authenticationData.getTimestampAsString());
             authLastUpdate.setText(authenticationData.getMsgCounterAsString());
             authType.setText(authenticationData.getAuthType().toString());
             authLength.setText(authenticationData.getAuthLengthAsString());
-            authTimestamp.setText(authenticationData.getAuthTimestampAsString());
+            authTimestamp.setText(authenticationData.getAuthTimestampAsString(res));
             authData.setText(authenticationData.getAuthenticationDataAsString());
         });
 
@@ -192,21 +196,22 @@ public class DeviceDetailFragment extends DialogFragment {
 
         model.system.observe(getViewLifecycleOwner(), systemData -> {
             if (systemData == null) return;
+            Resources res = getResources();
 
             receiveTime.setText(systemData.getTimestampAsString());
             systemLastUpdate.setText(systemData.getMsgCounterAsString());
             operatorLocationType.setText(systemData.getOperatorLocationType().toString());
             classificationType.setText(systemData.getclassificationType().toString());
-            systemLatitude.setText(systemData.getOperatorLatitudeAsString());
-            systemLongitude.setText(systemData.getOperatorLongitudeAsString());
+            systemLatitude.setText(systemData.getOperatorLatitudeAsString(res));
+            systemLongitude.setText(systemData.getOperatorLongitudeAsString(res));
             systemAreaCount.setText(String.valueOf(systemData.getAreaCount()));
             systemAreaRadius.setText(systemData.getAreaRadiusAsString());
-            systemAreaCeiling.setText(systemData.getAreaCeilingAsString());
-            systemAreaFloor.setText(systemData.getAreaFloorAsString());
+            systemAreaCeiling.setText(systemData.getAreaCeilingAsString(res));
+            systemAreaFloor.setText(systemData.getAreaFloorAsString(res));
             category.setText(systemData.getCategory().toString());
             classValue.setText(systemData.getClassValue().toString());
-            systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString());
-            systemTimestamp.setText(systemData.getSystemTimestampAsString());
+            systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString(res));
+            systemTimestamp.setText(systemData.getSystemTimestampAsString(res));
         });
 
         model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {

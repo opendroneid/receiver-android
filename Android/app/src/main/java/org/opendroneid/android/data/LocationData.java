@@ -6,7 +6,11 @@
  */
 package org.opendroneid.android.data;
 
+import android.content.res.Resources;
+
 import androidx.annotation.NonNull;
+
+import org.opendroneid.android.R;
 
 import java.util.Locale;
 
@@ -81,11 +85,11 @@ public class LocationData extends MessageData {
     }
 
     public double getDirection() { return direction; }
-    public String getDirectionAsString() {
+    public String getDirectionAsString(Resources res) {
         if (direction != 361)
             return String.format(Locale.US,"%3.0f deg", direction);
         else
-            return ("Unknown");
+            return res.getString(R.string.unknown);
     }
     public void setDirection(double direction) {
         if (direction < 0 || direction > 360)
@@ -94,17 +98,17 @@ public class LocationData extends MessageData {
     }
 
     public double getSpeedHorizontal() { return speedHorizontal; }
-    public String getSpeedHorizontalAsString() {
+    public String getSpeedHorizontalAsString(Resources res) {
         if (speedHorizontal != 255)
             return String.format(Locale.US,"%3.2f m/s", speedHorizontal);
         else
-            return ("Unknown");
+            return res.getString(R.string.unknown);
     }
-    public String getSpeedHorizontalLessPreciseAsString() {
+    public String getSpeedHorizontalLessPreciseAsString(Resources res) {
         if (speedHorizontal != 255)
             return String.format(Locale.US,"%3.0fm/s", speedHorizontal);
         else
-            return ("Unknown");
+            return res.getString(R.string.unknown);
     }
     public void setSpeedHorizontal(double speedHorizontal) {
         if (speedHorizontal < 0 || speedHorizontal > 254.25)
@@ -113,11 +117,11 @@ public class LocationData extends MessageData {
     }
 
     public double getSpeedVertical() { return speedVertical; }
-    public String getSpeedVerticalAsString() {
+    public String getSpeedVerticalAsString(Resources res) {
         if (speedVertical != 63)
             return String.format(Locale.US,"%3.2f m/s", speedVertical);
         else
-            return ("Unknown");
+            return res.getString(R.string.unknown);
     }
     public void setSpeedVertical(double speedVertical) {
         if (speedVertical < -62 || speedVertical > 62)
@@ -126,9 +130,9 @@ public class LocationData extends MessageData {
     }
 
     public double getLatitude() { return latitude; }
-    public String getLatitudeAsString() {
+    public String getLatitudeAsString(Resources res) {
         if (latitude == 0 && longitude == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.7f", latitude);
     }
     public void setLatitude(double latitude) {
@@ -140,9 +144,9 @@ public class LocationData extends MessageData {
     }
 
     public double getLongitude() { return longitude; }
-    public String getLongitudeAsString() {
+    public String getLongitudeAsString(Resources res) {
         if (latitude == 0 && longitude == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.7f", longitude);
     }
     public void setLongitude(double longitude) {
@@ -153,30 +157,30 @@ public class LocationData extends MessageData {
         this.longitude = longitude;
     }
 
-    private String getAltitudeAsString(double altitude) {
+    private String getAltitudeAsString(double altitude, Resources res) {
         if (altitude == -1000)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.1f m", altitude);
     }
     public double getAltitudePressure() { return altitudePressure; }
-    public String getAltitudePressureAsString() { return getAltitudeAsString(altitudePressure); }
+    public String getAltitudePressureAsString(Resources res) { return getAltitudeAsString(altitudePressure, res); }
     public void setAltitudePressure(double altitudePressure) {
         if (altitudePressure < -1000 || altitudePressure > 31767)
             altitudePressure = -1000; // -1000 is defined in the specification as the Invalid value
         this.altitudePressure = altitudePressure;
     }
     public double getAltitudeGeodetic() { return altitudeGeodetic; }
-    public String getAltitudeGeodeticAsString() { return getAltitudeAsString(altitudeGeodetic); }
+    public String getAltitudeGeodeticAsString(Resources res) { return getAltitudeAsString(altitudeGeodetic, res); }
     public void setAltitudeGeodetic(double altitudeGeodetic) {
         if (altitudeGeodetic < -1000 || altitudeGeodetic > 31767)
             altitudeGeodetic = -1000; // -1000 is defined in the specification as the Invalid value
         this.altitudeGeodetic = altitudeGeodetic;
     }
     public double getHeight() { return height; }
-    public String getHeightAsString() { return getAltitudeAsString(height); }
-    public String getHeightLessPreciseAsString() {
+    public String getHeightAsString(Resources res) { return getAltitudeAsString(height, res); }
+    public String getHeightLessPreciseAsString(Resources res) {
         if (height == -1000)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         return String.format(Locale.US,"%3.0fm", height);
     }
     public void setHeight(double height) {
@@ -201,7 +205,7 @@ public class LocationData extends MessageData {
         meters_1,
     }
     public HorizontalAccuracyEnum getHorizontalAccuracy() { return horizontalAccuracy; }
-    public String getHorizontalAccuracyAsString() {
+    public String getHorizontalAccuracyAsString(Resources res) {
         switch(horizontalAccuracy) {
             case kilometers_18_52: return "< 18.52 km";
             case kilometers_7_408: return "< 7.408 km";
@@ -215,7 +219,7 @@ public class LocationData extends MessageData {
             case meters_10: return "< 10 m";
             case meters_3: return "< 3 m";
             case meters_1: return "< 1 m";
-            default: return "Unknown";
+            default: return res.getString(R.string.unknown);
         }
     }
     public void setHorizontalAccuracy(int horizontalAccuracy) {
@@ -246,7 +250,7 @@ public class LocationData extends MessageData {
         meters_1,
     }
     public VerticalAccuracyEnum getVerticalAccuracy() { return verticalAccuracy; }
-    public String getVerticalAccuracyAsString(VerticalAccuracyEnum accuracy) {
+    public String getVerticalAccuracyAsString(VerticalAccuracyEnum accuracy, Resources res) {
         switch(accuracy) {
             case meters_150: return "< 150 m";
             case meters_45: return "< 45 m";
@@ -254,7 +258,7 @@ public class LocationData extends MessageData {
             case meters_10: return "< 10 m";
             case meters_3: return "< 3 m";
             case meters_1: return "< 1 m";
-            default: return "Unknown";
+            default: return res.getString(R.string.unknown);
         }
     }
     private VerticalAccuracyEnum intToVerticalAccuracy(int verticalAccuracy) {
@@ -284,13 +288,13 @@ public class LocationData extends MessageData {
         meter_per_second_0_3,
     }
     public SpeedAccuracyEnum getSpeedAccuracy() { return speedAccuracy; }
-    public String getSpeedAccuracyAsString() {
+    public String getSpeedAccuracyAsString(Resources res) {
         switch(speedAccuracy) {
             case meter_per_second_10: return "< 10 m/s";
             case meter_per_second_3: return "< 3 m/s";
             case meter_per_second_1: return "< 1 m/s";
             case meter_per_second_0_3: return "< 0.3 m/s";
-            default: return "Unknown";
+            default: return res.getString(R.string.unknown);
         }
     }
     public void setSpeedAccuracy(int speedAccuracy) {
@@ -320,9 +324,9 @@ public class LocationData extends MessageData {
     }
 
     public double getTimeAccuracy() { return timeAccuracy; }
-    public String getTimeAccuracyAsString() {
+    public String getTimeAccuracyAsString(Resources res) {
         if (timeAccuracy == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         else
             return String.format(Locale.US,"<= %1.1f s", timeAccuracy);
     }

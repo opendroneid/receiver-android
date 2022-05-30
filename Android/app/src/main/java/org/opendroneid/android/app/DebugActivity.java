@@ -107,31 +107,31 @@ public class DebugActivity extends AppCompatActivity {
         BluetoothAdapter bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeCodedPhySupported()) {
-            menu.findItem(R.id.coded_phy).setTitle(R.string.coded_phy_supported);
+            menu.findItem(R.id.coded_phy).setTitle(getString(R.string.coded_phy_supported));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
-            menu.findItem(R.id.extended_advertising).setTitle(R.string.ea_supported);
+            menu.findItem(R.id.extended_advertising).setTitle(getString(R.string.ea_supported));
         }
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     private void checkNaNSupport(Menu menu) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
-            menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
+            menu.findItem(R.id.wifi_nan).setTitle(getString(R.string.nan_supported));
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     private void checkWiFiSupport(Menu menu) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            menu.findItem(R.id.wifi_beacon_scan).setTitle(R.string.wifi_beacon_scan_supported);
+            menu.findItem(R.id.wifi_beacon_scan).setTitle(getString(R.string.wifi_beacon_scan_supported));
         }
     }
 
     private void showHelpMenu() {
         HelpMenu helpMenu = HelpMenu.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        helpMenu.show(transaction, "help");
+        helpMenu.show(transaction, getString(R.string.Help));
     }
 
     @Override
@@ -163,9 +163,9 @@ public class DebugActivity extends AppCompatActivity {
         } else if (id == R.id.log_location) {
             String message;
             if (getLogEnabled())
-                message = "Logging to " + loggerFile;
+                message = getString(R.string.Logging_to) + loggerFile;
             else
-                message = "Logging not activated";
+                message = getString(R.string.Logging_not_activated);
             showToast(message);
             return true;
         }
