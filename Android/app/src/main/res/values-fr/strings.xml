@@ -74,7 +74,9 @@
     <string name="Operation">Opération</string>
     <string name="System_Operator">Opérateur systéme</string>
     <string name="Location_Type">Type de lieu</string>
-    <string name="Altitude">Altitude</string>
+    <string name="System_Altitude">Altitude</string>
+    <string name="System_Latitude">Latitude</string>
+    <string name="System_Longitude">Longitude</string>
     <string name="Area_Count">Nombre de zones</string>
     <string name="Area_Radius">Rayon de zone</string>
     <string name="Area_Ceiling">Plafond de la zone</string>
@@ -82,7 +84,12 @@
     <string name="Classification">Classification</string>
     <string name="Category">Catégorie</string>
     <string name="Class">Classe</string>
+    <string name="System_Timestamp">Timestamp</string>
+    <string name="Operator_Info">Operator ID</string>
     <string name="Operator_ID">Identification de l’opérateur</string>
     <string name="Authentication">Authentication</string>
-    <string name="Length">Longueur</string>
+    <string name="Auth_Type">Type</string>
+    <string name="Auth_Length">Longueur</string>
+    <string name="Auth_Timestamp">Timestamp</string>
+    <string name="Auth_Data">Authentication</string>
 </resources>

@@ -74,7 +74,9 @@
     <string name="Operation">Operation</string>
     <string name="System_Operator">System/Operator</string>
     <string name="Location_Type">Location Type</string>
-    <string name="Altitude">Altitude</string>
+    <string name="System_Altitude">Altitude</string>
+    <string name="System_Latitude">Latitude</string>
+    <string name="System_Longitude">Longitude</string>
     <string name="Area_Count">Area Count</string>
     <string name="Area_Radius">Area Radius</string>
     <string name="Area_Ceiling">Area Ceiling</string>
@@ -82,9 +84,14 @@
     <string name="Classification">Classification</string>
     <string name="Category">Category</string>
     <string name="Class">Class</string>
+    <string name="System_Timestamp">Timestamp</string>
+    <string name="Operator_Info">Operator ID</string>
     <string name="Operator_ID">Operator ID</string>
     <string name="Authentication">Authentication</string>
-    <string name="Length">Length</string>
+    <string name="Auth_Type">Type</string>
+    <string name="Auth_Length">Length</string>
+    <string name="Auth_Timestamp">Timestamp</string>
+    <string name="Auth_Data">Authentication</string>
 
     <string name="bluetoothHelp">All devices should be able to receive Bluetooth 4 Legacy Advertising remote ID signals.&lt;br&gt;&lt;br&gt;
         To receive Bluetooth 5 Long Range remote ID signals, the device must support the &quot;Coded Phy&quot; feature and also the &quot;Extended Advertising&quot; feature.&lt;br&gt;&lt;br&gt;

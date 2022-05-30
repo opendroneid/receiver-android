@@ -56,12 +56,12 @@
     <string name="ID_Type">ID種別</string>
     <string name="UAS_ID">無人機ID</string>
     <string name="Basic_ID_2">登録記号 2</string>
-    <string name="Location">位置/方向/速度</string>
+    <string name="Location">機体・フライト情報</string>
     <string name="Latitude">緯度</string>
     <string name="Longitude">経度</string>
     <string name="Altitude_Press">気圧高度</string>
     <string name="Alt_Geod">対地高度</string>
-    <string name="Direction">方向</string>
+    <string name="Direction">軌道方向</string>
     <string name="Status">ステータス</string>
     <string name="Hori_Speed">速度</string>
     <string name="Vert_Speed">垂直速度</string>
@@ -75,9 +75,11 @@
     <string name="Timestamp">時刻</string>
     <string name="Self_ID">セルフID情報</string>
     <string name="Operation">運用情報</string>
-    <string name="System_Operator">システム/操縦者</string>
+    <string name="System_Operator">システム情報</string>
     <string name="Location_Type">操縦者位置種別</string>
-    <string name="Altitude">操縦者高度</string>
+    <string name="System_Altitude">操縦者高度</string>
+    <string name="System_Latitude">操縦者緯度</string>
+    <string name="System_Longitude">操縦者経度</string>
     <string name="Area_Count">エリアカウント</string>
     <string name="Area_Radius">エリア半径</string>
     <string name="Area_Ceiling">エリア上限</string>
@@ -85,9 +87,14 @@
     <string name="Classification">エリア分類</string>
     <string name="Category">カテゴリ</string>
     <string name="Class">クラス</string>
-    <string name="Operator_ID">操縦者情報</string>
+    <string name="System_Timestamp">システム時刻</string>
+    <string name="Operator_Info">操縦者情報</string>
+    <string name="Operator_ID">操縦者ID</string>
     <string name="Authentication">認証情報</string>
-    <string name="Length">データ長</string>
+    <string name="Auth_Type">認証種別</string>
+    <string name="Auth_Length">データ長</string>
+    <string name="Auth_Timestamp">認証時刻</string>
+    <string name="Auth_Data">認証データ</string>
 
     <string name="bluetoothHelp">対象となるすべての機器がBluetooth 4 Legacy AdvertisingのリモートID信号を受信できる状態が必要となります。&lt;br&gt;&lt;br&gt;
         Bluetooth 5 Long RangeのリモートID信号を受信するためには、機器が &quot;Coded Phy&quot; 機能および &quot;Extended Advertising&quot; 機能に対応している必要があります。&lt;br&gt;&lt;br&gt;
