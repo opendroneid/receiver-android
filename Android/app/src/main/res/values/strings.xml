@@ -48,11 +48,13 @@
     <string name="Last_seen">Last seen</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">Distance</string>
+
     <string name="Basic_ID_1">Basic ID 1</string>
     <string name="Type">Type</string>
     <string name="ID_Type">ID Type</string>
     <string name="UAS_ID">UAS ID</string>
     <string name="Basic_ID_2">Basic ID 2</string>
+
     <string name="Location">Location</string>
     <string name="Latitude">Latitude</string>
     <string name="Longitude">Longitude</string>
@@ -70,8 +72,10 @@
     <string name="Speed_Acc">Speed Acc.</string>
     <string name="Time_Acc">Time Acc.</string>
     <string name="Timestamp">Timestamp</string>
+
     <string name="Self_ID">Self ID</string>
     <string name="Operation">Operation</string>
+
     <string name="System_Operator">System/Operator</string>
     <string name="Location_Type">Location Type</string>
     <string name="System_Altitude">Altitude</string>
@@ -85,8 +89,10 @@
     <string name="Category">Category</string>
     <string name="Class">Class</string>
     <string name="System_Timestamp">Timestamp</string>
+
     <string name="Operator_Info">Operator ID</string>
     <string name="Operator_ID">Operator ID</string>
+
     <string name="Authentication">Authentication</string>
     <string name="Auth_Type">Type</string>
     <string name="Auth_Length">Length</string>

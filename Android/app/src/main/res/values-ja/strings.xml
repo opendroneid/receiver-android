@@ -51,11 +51,13 @@
     <string name="Last_seen">最終更新</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">距離</string>
+
     <string name="Basic_ID_1">登録記号 1</string>
     <string name="Type">種類</string>
     <string name="ID_Type">ID種別</string>
     <string name="UAS_ID">無人機ID</string>
     <string name="Basic_ID_2">登録記号 2</string>
+
     <string name="Location">機体・フライト情報</string>
     <string name="Latitude">緯度</string>
     <string name="Longitude">経度</string>
@@ -73,8 +75,10 @@
     <string name="Speed_Acc">速度精度</string>
     <string name="Time_Acc">時刻精度</string>
     <string name="Timestamp">時刻</string>
+
     <string name="Self_ID">セルフID情報</string>
     <string name="Operation">運用情報</string>
+
     <string name="System_Operator">システム情報</string>
     <string name="Location_Type">操縦者位置種別</string>
     <string name="System_Altitude">操縦者高度</string>
@@ -88,8 +92,10 @@
     <string name="Category">カテゴリ</string>
     <string name="Class">クラス</string>
     <string name="System_Timestamp">システム時刻</string>
+
     <string name="Operator_Info">操縦者情報</string>
     <string name="Operator_ID">操縦者ID</string>
+
     <string name="Authentication">認証情報</string>
     <string name="Auth_Type">認証種別</string>
     <string name="Auth_Length">データ長</string>
@@ -108,4 +114,5 @@
         もう一度戻り【システム＞＞開発者オプション】メニューを見つけ【Wi-Fi スキャン スロットリング】までスクロールして、これを無効にします。&lt;br&gt;</string>
     <string name="nanHelp">Wi-Fi Neighbor-aware Network リモートID信号の受信は、Wi-Fi NaNをサポートしている端末のみ可能です。&lt;br&gt;&lt;br&gt;
         オプションメニューのこれらの機能については、このデバイスに関するサポート仕様をご参照ください。&lt;br&gt;</string>
+
 </resources>
