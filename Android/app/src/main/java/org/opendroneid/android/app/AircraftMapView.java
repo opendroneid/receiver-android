@@ -306,7 +306,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
     }
 }
