@@ -27,6 +27,10 @@
 
     <string name="wifi_beacon_scan_not_supported">Balayage des balise WiFi non supporté</string>
     <string name="wifi_beacon_scan_supported">Balayage des balise WiFi supporté</string>
+    <string name="Logging_to">Logging to </string>
+    <string name="Logging_not_activated">Logging not activated</string>
+    <string name="Map_Type">Map Type</string>
+    <string name="About">About</string>
 
     <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l\'accès à la localisation</string>
     <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne</string>
@@ -48,11 +52,13 @@
     <string name="Last_seen">Vu pour la derniére fois</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">Distance</string>
+
     <string name="Basic_ID_1">Piéce d’identité de base 1</string>
     <string name="Type">Taper</string>
     <string name="ID_Type">Type d’identification</string>
     <string name="UAS_ID">Aéronefs sans equipage identification</string>
     <string name="Basic_ID_2">Piéce d’identité de base 2</string>
+
     <string name="Location">Emplacement</string>
     <string name="Latitude">Latitude</string>
     <string name="Longitude">Longitude</string>
@@ -70,11 +76,15 @@
     <string name="Speed_Acc">Précision de la vitesse</string>
     <string name="Time_Acc">Précision de l’heure</string>
     <string name="Timestamp">Horodatage</string>
+
     <string name="Self_ID">Auto-identification</string>
     <string name="Operation">Opération</string>
+
     <string name="System_Operator">Opérateur systéme</string>
     <string name="Location_Type">Type de lieu</string>
-    <string name="Altitude">Altitude</string>
+    <string name="System_Altitude">Altitude</string>
+    <string name="System_Latitude">Latitude</string>
+    <string name="System_Longitude">Longitude</string>
     <string name="Area_Count">Nombre de zones</string>
     <string name="Area_Radius">Rayon de zone</string>
     <string name="Area_Ceiling">Plafond de la zone</string>
@@ -82,7 +92,28 @@
     <string name="Classification">Classification</string>
     <string name="Category">Catégorie</string>
     <string name="Class">Classe</string>
+    <string name="System_Timestamp">Timestamp</string>
+
+    <string name="Operator_Info">Operator ID</string>
     <string name="Operator_ID">Identification de l’opérateur</string>
+
     <string name="Authentication">Authentication</string>
-    <string name="Length">Longueur</string>
+    <string name="Auth_Type">Type</string>
+    <string name="Auth_Length">Longueur</string>
+    <string name="Auth_Timestamp">Timestamp</string>
+    <string name="Auth_Data">Authentication</string>
+
+    <string name="bluetoothHelp">All devices should be able to receive Bluetooth 4 Legacy Advertising remote ID signals.&lt;br&gt;&lt;br&gt;
+        To receive Bluetooth 5 Long Range remote ID signals, the device must support the &quot;Coded Phy&quot; feature and also the &quot;Extended Advertising&quot; feature.&lt;br&gt;&lt;br&gt;
+        See the claimed support for this device for these features in the options menu.&lt;br&gt;&lt;br&gt;
+        Please be advised that even with those features supported, the device is not necessarily able to pick up the Long Range signals or it will only do that in limited time intervals.&lt;br&gt;</string>
+    <string name="beaconHelp">All devices running Android 6 (Marshmallow) or newer should be able to receive Wi-Fi Beacon remote ID signals.&lt;br&gt;&lt;br&gt;
+        The reception rate can vary a lot from one device to another, depending on the HW and SW.&lt;br&gt;&lt;br&gt;
+        The reception rate for Wi-Fi Beacon remote ID signals can to some extent be improved by disabling Wi-Fi scan &lt;a href=&quot;https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling&quot;&gt;throttling&lt;/a&gt;.&lt;br&gt;&lt;br&gt;
+        Enable the &lt;a href=&quot;https://developer.android.com/studio/debug/dev-options&quot;&gt;Android Developer Mode&lt;/a&gt; by opening the Settings application.&lt;br&gt;&lt;br&gt;
+        Find the SW information (possibly in the &quot;About Phone&quot; menu) and click 7 times on the &quot;Build Number&quot;.&lt;br&gt;&lt;br&gt;
+        Go back, find the &quot;Developer options&quot; menu, scroll to &quot;Wi-Fi scan throttling&quot; and disable it.&lt;br&gt;</string>
+    <string name="nanHelp">Reception of Wi-Fi Neighbor-aware Network remote ID signals is possible only if the device has support for Wi-Fi NaN.&lt;br&gt;
+        See the claimed support for this device for this feature in the options menu.&lt;br&gt;</string>
+
 </resources>

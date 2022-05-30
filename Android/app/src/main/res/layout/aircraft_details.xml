@@ -606,7 +606,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Altitude" />
+                        android:text="@string/System_Altitude" />
 
                     <TextView
                         android:id="@+id/systemAltitudeGeo"
@@ -835,7 +835,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Type" />
+                        android:text="@string/Auth_Type" />
 
                     <TextView
                         android:id="@+id/authType"
@@ -845,7 +845,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Length" />
+                        android:text="@string/Auth_Length" />
 
                     <TextView
                         android:id="@+id/authLength"
@@ -860,7 +860,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Timestamp" />
+                        android:text="@string/Auth_Timestamp" />
 
                     <TextView
                         android:id="@+id/authTimestamp"
@@ -876,7 +876,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Authentication" />
+                        android:text="@string/Auth_Data" />
 
                     <TextView
                         android:id="@+id/authData"

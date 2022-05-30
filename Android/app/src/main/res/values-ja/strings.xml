@@ -28,6 +28,10 @@
 
     <string name="wifi_beacon_scan_not_supported">WiFi Beacon スキャン非対応</string>
     <string name="wifi_beacon_scan_supported">WiFi Beacon スキャン対応</string>
+    <string name="Logging_to">ここへロギング</string>
+    <string name="Logging_not_activated">ログが有効ではありません</string>
+    <string name="Map_Type">Map Type</string>
+    <string name="About">About</string>
 
     <string name="permission_rationale_location">位置情報アクセスを有効にしないと、このアプリケーションは動作しません。</string>
     <string name="permission_required_toast">このアプリケーションを動作させるためには、位置情報の許可が必要です。</string>
@@ -49,17 +53,19 @@
     <string name="Last_seen">最終更新</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">距離</string>
+
     <string name="Basic_ID_1">登録記号 1</string>
     <string name="Type">種類</string>
     <string name="ID_Type">ID種別</string>
     <string name="UAS_ID">無人機ID</string>
     <string name="Basic_ID_2">登録記号 2</string>
-    <string name="Location">位置/方向/速度</string>
+
+    <string name="Location">機体・フライト情報</string>
     <string name="Latitude">緯度</string>
     <string name="Longitude">経度</string>
     <string name="Altitude_Press">気圧高度</string>
     <string name="Alt_Geod">対地高度</string>
-    <string name="Direction">方向</string>
+    <string name="Direction">軌道方向</string>
     <string name="Status">ステータス</string>
     <string name="Hori_Speed">速度</string>
     <string name="Vert_Speed">垂直速度</string>
@@ -71,11 +77,15 @@
     <string name="Speed_Acc">速度精度</string>
     <string name="Time_Acc">時刻精度</string>
     <string name="Timestamp">時刻</string>
+
     <string name="Self_ID">セルフID情報</string>
     <string name="Operation">運用情報</string>
-    <string name="System_Operator">システム/操縦者</string>
+
+    <string name="System_Operator">システム情報</string>
     <string name="Location_Type">操縦者位置種別</string>
-    <string name="Altitude">操縦者高度</string>
+    <string name="System_Altitude">操縦者高度</string>
+    <string name="System_Latitude">操縦者緯度</string>
+    <string name="System_Longitude">操縦者経度</string>
     <string name="Area_Count">エリアカウント</string>
     <string name="Area_Radius">エリア半径</string>
     <string name="Area_Ceiling">エリア上限</string>
@@ -83,7 +93,28 @@
     <string name="Classification">エリア分類</string>
     <string name="Category">カテゴリ</string>
     <string name="Class">クラス</string>
-    <string name="Operator_ID">操縦者情報</string>
+    <string name="System_Timestamp">システム時刻</string>
+
+    <string name="Operator_Info">操縦者情報</string>
+    <string name="Operator_ID">操縦者ID</string>
+
     <string name="Authentication">認証情報</string>
-    <string name="Length">データ長</string>
+    <string name="Auth_Type">認証種別</string>
+    <string name="Auth_Length">データ長</string>
+    <string name="Auth_Timestamp">認証時刻</string>
+    <string name="Auth_Data">認証データ</string>
+
+    <string name="bluetoothHelp">対象となるすべての機器がBluetooth 4 Legacy AdvertisingのリモートID信号を受信できる状態が必要となります。&lt;br&gt;&lt;br&gt;
+        Bluetooth 5 Long RangeのリモートID信号を受信するためには、機器が &quot;Coded Phy&quot; 機能および &quot;Extended Advertising&quot; 機能に対応している必要があります。&lt;br&gt;&lt;br&gt;
+        オプションメニューのこれらの機能については、このデバイスに関するサポート仕様をご参照ください。&lt;br&gt;&lt;br&gt;
+        なお、これらの機能をサポートしても、必ずしもLong Range電波を拾えるわけではなく、あるいは限られた時間間隔でしか拾えないことをご了承ください。&lt;br&gt;</string>
+    <string name="beaconHelp">Android 6 (Marshmallow) 以降を搭載する対象となるすべての端末にて、Wi-Fi BeaconのリモートID信号を受信できる状況が必要となります。&lt;br&gt;&lt;br&gt;
+        受信レートは、ハードウェアやソフトウェアによって、機器毎に大きく異なる場合があります。&lt;br&gt;&lt;br&gt;
+        Wi-Fi Beacon リモートID信号の受信率は、Wi-Fi スキャン &lt;a href=&quot;https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling&quot;&gt;スロットリング&lt;/a&gt; を無効にすることにより、ある程度改善することが可能です。&lt;br&gt;&lt;br&gt;
+        【システム】を開いて&lt;a href=&quot;https://developer.android.com/studio/debug/dev-options&quot;&gt;【開発者向けオプション】&lt;/a&gt;を有効にしてください。&lt;br&gt;&lt;br&gt;
+        ソフトウェアの詳細情報を見つけ (多分 &quot;デバイス情報&quot; メニューの) &quot;ビルド番号&quot; を7回クリックしてください。&lt;br&gt;&lt;br&gt;
+        もう一度戻り【システム＞＞開発者オプション】メニューを見つけ【Wi-Fi スキャン スロットリング】までスクロールして、これを無効にします。&lt;br&gt;</string>
+    <string name="nanHelp">Wi-Fi Neighbor-aware Network リモートID信号の受信は、Wi-Fi NaNをサポートしている端末のみ可能です。&lt;br&gt;&lt;br&gt;
+        オプションメニューのこれらの機能については、このデバイスに関するサポート仕様をご参照ください。&lt;br&gt;</string>
+
 </resources>

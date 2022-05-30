@@ -165,12 +165,14 @@ public class DebugActivity extends AppCompatActivity {
         } else if (id == R.id.log_location) {
             String message;
             if (getLogEnabled())
-                message = "Logging to " + loggerFile;
+                message = getString(R.string.Logging_to) + loggerFile;
             else
-                Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
-            return true;
-        } else if (id == R.id.version) {
-            Toast.makeText(getBaseContext(), "Version " + VERSION_NAME, Toast.LENGTH_LONG).show();
+                message = getString(R.string.Logging_not_activated);
+/*        } else if (id == R.id.version) {
+            String message;
+                message = getString(R.string.Version) + VERSION_NAME;
+            return true; */
+            showToast(message);
             return true;
         }
         return false;
@@ -256,7 +258,7 @@ public class DebugActivity extends AppCompatActivity {
             }
         } else {
             // Bluetooth is not supported.
-            showErrorText(R.string.bt_not_supported);
+            showToast(getString(R.string.bt_not_supported));
             finish();
         }
 
@@ -318,14 +320,14 @@ public class DebugActivity extends AppCompatActivity {
                 }
             } else {
                 // User declined to enable Bluetooth, exit the app.
-                Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.bt_not_enabled_leaving));
                 finish();
             }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 // User declined to enable WiFi, exit the app.
-                Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                showToast(getString(R.string.wifi_not_enabled_leaving));
                 finish();
             }
         }
@@ -381,10 +383,6 @@ public class DebugActivity extends AppCompatActivity {
         super.onPause();
     }
     
-        private void showErrorText(int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
-    }
-
     public void requestLocationPermission(int requestCode) {
         Log.d(TAG, "requestLocationPermission: request permission");
 
@@ -402,9 +400,21 @@ public class DebugActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
-                showErrorText(R.string.permission_required_toast);
+                showToast(getString(R.string.permission_required_toast));
                 finish();
             }
+        }
+    }
+
+    void showToast(String message) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+        else {
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
+            View snackView = snackbar.getView();
+            TextView snackTextView = (TextView) snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+            snackTextView.setMaxLines(5);
+            snackbar.show();
         }
     }
 }
