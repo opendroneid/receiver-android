@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.Manifest;
@@ -35,6 +36,7 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
+import org.opendroneid.android.R;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -257,6 +259,25 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         setMapSettings();
     }
 
+    public boolean changeMapType(int id) {
+        if (googleMap == null)
+            return false;
+        if (id == R.id.maptypeHYBRID) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        } else if (id == R.id.maptypeNONE) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+        } else if (id == R.id.maptypeNORMAL) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        } else if (id == R.id.maptypeSATELLITE) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        } else if (id == R.id.maptypeTERRAIN) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
     public void setMapSettings() {
         if (getActivity() == null || googleMap == null)
             return;
@@ -267,7 +288,9 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
