@@ -80,6 +80,7 @@ public class DebugActivity extends AppCompatActivity {
     public static final String SHARED_PREF_NAME = "DebugActivity";
     public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
     private MenuItem mMenuLogItem;
+    private AircraftMapView mMapView;
 
     private File loggerFile;
     private LogWriter logger;
@@ -169,7 +170,7 @@ public class DebugActivity extends AppCompatActivity {
             showToast(message);
             return true;
         }
-        return false;
+        return mMapView.changeMapType(id);
     }
 
     boolean getLogEnabled() {
@@ -293,7 +294,7 @@ public class DebugActivity extends AppCompatActivity {
 
         addDeviceList();
 
-        AircraftMapView mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
         if (mMapView != null)
             mMapView.setMapSettings();
     }
