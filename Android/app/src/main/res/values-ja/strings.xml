@@ -31,7 +31,11 @@
     <string name="Logging_to">ここへロギング</string>
     <string name="Logging_not_activated">ログが有効ではありません</string>
     <string name="Map_Type">Map Type</string>
-    <string name="About">About</string>
+    <string name="Map_Type_Normal">Normal</string>
+    <string name="Map_Type_Satellite">Satellite</string>
+    <string name="Map_Type_Terrain">Terrain</string>
+    <string name="Map_Type_Hybrid">Hybrid</string>
+    <string name="Map_Type_None">None</string>
 
     <string name="permission_rationale_location">位置情報アクセスを有効にしないと、このアプリケーションは動作しません。</string>
     <string name="permission_required_toast">このアプリケーションを動作させるためには、位置情報の許可が必要です。</string>
