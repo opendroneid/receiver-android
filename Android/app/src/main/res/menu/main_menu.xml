@@ -32,15 +32,15 @@
             <group android:id="@+id/groupmaptype"
                 android:checkableBehavior="single">
                 <item android:id="@+id/maptypeNORMAL"
-                    android:title="NORMAL" />
+                    android:title="@string/Map_Type_Normal" />
                 <item android:id="@+id/maptypeSATELLITE"
-                    android:title="SATELLITE" />
+                    android:title="Map_Type_Satellite" />
                 <item android:id="@+id/maptypeTERRAIN"
-                    android:title="TERRAIN" />
+                    android:title="Map_Type_Terrain" />
                 <item android:id="@+id/maptypeHYBRID"
-                    android:title="HYBRID" />
+                    android:title="Map_Type_Hybrid" />
                 <item android:id="@+id/maptypeNONE"
-                    android:title="NONE" />
+                    android:title="Map_Type_None" />
             </group>
         </menu>
     </item>
