@@ -35,7 +35,6 @@
     <string name="Map_Type_Terrain">Terrain</string>
     <string name="Map_Type_Hybrid">Hybrid</string>
     <string name="Map_Type_None">None</string>
- 
     <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l\'accès à la localisation</string>
     <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne</string>
 
