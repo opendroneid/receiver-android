@@ -30,7 +30,6 @@
     <string name="Logging_to">Logging to </string>
     <string name="Logging_not_activated">Logging not activated</string>
     <string name="Map_Type">Map Type</string>
-
     <string name="Map_Type_Normal">Normal</string>
     <string name="Map_Type_Satellite">Satellite</string>
     <string name="Map_Type_Terrain">Terrain</string>
