@@ -621,7 +621,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Latitude" />
+                        android:text="@string/System_Latitude" />
 
                     <TextView
                         android:id="@+id/systemLatitude"
@@ -631,7 +631,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Longitude" />
+                        android:text="@string/System_Longitude" />
 
                     <TextView
                         android:id="@+id/systemLongitude"
@@ -706,7 +706,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Timestamp" />
+                        android:text="@string/System_Timestamp" />
 
                     <TextView
                         android:id="@+id/systemTimestamp"
@@ -754,7 +754,7 @@
                 style="@style/Details.Heading"
                 android:layout_width="99dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Operator_ID" />
+                android:text="@string/Operator_Info" />
 
             <TextView
                 android:id="@+id/operatorIdLastUpdate"
@@ -788,7 +788,7 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Type" />
+                        android:text="@string/ID_Type" />
 
                     <TextView
                         android:id="@+id/operatorIdType"
