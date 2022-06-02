@@ -375,7 +375,6 @@ public class DebugActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
             wiFiBeaconScanner.startCountDownTimer();
-
         super.onResume();
     }
 
