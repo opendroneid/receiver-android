@@ -33,7 +33,7 @@
     <string name="Map_Type_Terrain">Terrain</string>
     <string name="Map_Type_Hybrid">Hybrid</string>
     <string name="Map_Type_None">None</string>
-
+    <string name="About">About</string>
 
     <string name="permission_rationale_location">This application will not work without enabling location access.</string>
     <string name="permission_required_toast">Location permission is required for this application to work.</string>

@@ -171,6 +171,21 @@ public class DebugActivity extends AppCompatActivity {
                 message = getString(R.string.Logging_not_activated);
             showToast(message);
             return true;
+        } else if (id == R.id.maptypeNORMAL) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+        } else if (id == R.id.maptypeSATELLITE) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+        } else if (id == R.id.maptypeTERRAIN) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+        } else if (id == R.id.maptypeHYBRID) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
+        } else if (id == R.id.maptypeNONE) {
+            if (item.isChecked()) item.setChecked(false);
+            else item.setChecked(true);
         }
         return mMapView.changeMapType(id);
     }
