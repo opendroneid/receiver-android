@@ -37,7 +37,6 @@ import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
 import org.opendroneid.android.R;
-
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -260,36 +259,23 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         setMapSettings();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.maptypeHYBRID:
-                if (googleMap != null) {
-                    googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                    return true;
-                }
-            case R.id.maptypeNONE:
-                if (googleMap != null) {
-                    googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-                    return true;
-                }
-            case R.id.maptypeNORMAL:
-                if (googleMap != null) {
-                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    return true;
-                }
-            case R.id.maptypeSATELLITE:
-                if (googleMap != null) {
-                    googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                    return true;
-                }
-            case R.id.maptypeTERRAIN:
-                if (googleMap != null) {
-                    googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                    return true;
-                }
+    public boolean changeMapType(int id) {
+        if (googleMap == null)
+            return false;
+        if (id == R.id.maptypeHYBRID) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        } else if (id == R.id.maptypeNONE) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+        } else if (id == R.id.maptypeNORMAL) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        } else if (id == R.id.maptypeSATELLITE) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        } else if (id == R.id.maptypeTERRAIN) {
+            googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        } else {
+            return false;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void setMapSettings() {
@@ -306,6 +292,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         googleMap.getUiSettings().setMapToolbarEnabled(false);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
     }
 }
