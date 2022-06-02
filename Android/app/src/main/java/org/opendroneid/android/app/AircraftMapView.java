@@ -254,7 +254,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     public void onMapReady(@NonNull GoogleMap googleMap) {
         if (getActivity() == null)
             return;
-
         this.googleMap = googleMap;
         setMapSettings();
     }
