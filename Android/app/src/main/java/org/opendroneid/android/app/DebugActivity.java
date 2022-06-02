@@ -168,14 +168,10 @@ public class DebugActivity extends AppCompatActivity {
                 message = getString(R.string.Logging_to) + loggerFile;
             else
                 message = getString(R.string.Logging_not_activated);
-/*        } else if (id == R.id.version) {
-            String message;
-                message = getString(R.string.Version) + VERSION_NAME;
-            return true; */
             showToast(message);
             return true;
         }
-        return false;
+        return mMapView.changeMapType(id);
     }
 
     boolean getLogEnabled() {
