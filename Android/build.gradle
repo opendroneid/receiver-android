@@ -24,6 +24,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }        // OSMDroid Bonus Pack
     }
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
