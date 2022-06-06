@@ -5,6 +5,12 @@
  SPDX-License-Identifier: Apache-2.0
 
 !-->
+
+<!--
+When the flag org.gradle.project.map in gradle.properties
+is defined to google_map, the Map Type element below needs
+to be uncommented.
+!-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
@@ -24,6 +30,7 @@
         android:id="@+id/log_location"
         android:title="@string/Show_log_location"
         app:showAsAction="never" />
+    <!--
     <item
         android:id="@+id/maptype"
         app:showAsAction="never"
@@ -44,6 +51,7 @@
             </group>
         </menu>
     </item>
+    !-->
     <item
         android:id="@+id/coded_phy"
         android:title="@string/coded_phy_not_supported"

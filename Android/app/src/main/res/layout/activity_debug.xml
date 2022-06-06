@@ -11,18 +11,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--
+    <!--
+    When the flag org.gradle.project.map in gradle.properties
+    is defined to google_map, the below must be modified to:
+    class = "org.opendroneid.android.app.AircraftMapView"
+    !-->
     <fragment
         android:id="@+id/mapView"
-        class="org.opendroneid.android.app.AircraftMapView"
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
--->
-    <fragment
-        android:id="@+id/mapOsView"
-        class="org.opendroneid.android.app.AircraftOsMapView"
+        class = "org.opendroneid.android.app.AircraftOsMapView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

@@ -46,6 +46,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
@@ -80,7 +81,8 @@ public class DebugActivity extends AppCompatActivity {
     public static final String SHARED_PREF_NAME = "DebugActivity";
     public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
     private MenuItem mMenuLogItem;
-//  private AircraftMapView mMapView;
+
+    private AircraftMapView mMapView;
     private AircraftOsMapView mOsMapView;
 
     private File loggerFile;
@@ -171,7 +173,8 @@ public class DebugActivity extends AppCompatActivity {
             showToast(message);
             return true;
         }
-//      return mMapView.changeMapType(id);
+        if (BuildConfig.USE_GOOGLE_MAPS)
+            return mMapView.changeMapType(id);
     	return false;
     }
 
@@ -296,15 +299,15 @@ public class DebugActivity extends AppCompatActivity {
 
         addDeviceList();
 
-/*
-        mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
-        if (mMapView != null)
-            mMapView.setMapSettings();
-    }
-*/
-        mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapOsView);
-        if (mOsMapView != null)
-            mOsMapView.setMapSettings();
+        if (BuildConfig.USE_GOOGLE_MAPS) {
+            mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            if (mMapView != null)
+                mMapView.setMapSettings();
+        } else {
+            mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            if (mOsMapView != null)
+                mOsMapView.setMapSettings();
+        }
     }
 
     @Override

@@ -262,6 +262,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     public boolean changeMapType(int id) {
         if (googleMap == null)
             return false;
+        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
+           the below code needs to be uncommented:
         if (id == R.id.maptypeHYBRID) {
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         } else if (id == R.id.maptypeNONE) {
@@ -274,7 +276,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         } else {
             return false;
-        }
+        }*/
         return true;
     }
 
