@@ -53,8 +53,8 @@ import java.util.Objects;
 public class AircraftOsMapView extends Fragment {
     private final double P_TOKYO_LATITUDE = 35.681167;
     private final double P_TOKYO_LONGITUDE = 139.767052;
-    private final double P_DEFAULT_LATITUDE = P_TOKYO_LATITUDE;
-    private final double P_DEFAULT_LONGITUDE = P_TOKYO_LONGITUDE;
+    private final double P_DEFAULT_LATITUDE = 0;
+    private final double P_DEFAULT_LONGITUDE = 0;
 
     private static final String TAG = "AircraftOsvMapView";
     private Context context;
@@ -166,7 +166,7 @@ public class AircraftOsMapView extends Fragment {
         osvMap.setMultiTouchControls(true);
 
         IMapController mapController = osvMap.getController();
-        mapController.setZoom(18.0);
+        mapController.setZoom(3.0);
         GeoPoint centerPoint = new GeoPoint(P_DEFAULT_LATITUDE, P_DEFAULT_LONGITUDE);
         mapController.animateTo(centerPoint);
 
