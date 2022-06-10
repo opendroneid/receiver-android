@@ -51,281 +51,277 @@ import java.util.List;
 import java.util.Objects;
 
 public class AircraftOsMapView extends Fragment {
-	private final double P_TOKYO_LATITUDE = 35.681167;
-	private final double P_TOKYO_LONGITUDE = 139.767052;
-	private final double P_DEFAULT_LATITUDE = P_TOKYO_LATITUDE;
-	private final double P_DEFAULT_LONGITUDE = P_TOKYO_LONGITUDE;
+    private final double P_TOKYO_LATITUDE = 35.681167;
+    private final double P_TOKYO_LONGITUDE = 139.767052;
+    private final double P_DEFAULT_LATITUDE = 0;
+    private final double P_DEFAULT_LONGITUDE = 0;
 
-	private static final String TAG = "AircraftOsvMapView";
-	private Context context;
-	private MapView osvMap;
-	private AircraftViewModel model;
-	private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
+    private static final String TAG = "AircraftOsvMapView";
+    private Context context;
+    private MapView osvMap;
+    private AircraftViewModel model;
+    private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
 
-	private final Util.DiffObserver<AircraftObject> allAircraftObserver = new Util.DiffObserver<AircraftObject>() {
-		@Override
-		public void onAdded(Collection<AircraftObject> added) {
-			for (AircraftObject aircraftObject : added) {
-				trackAircraft(aircraftObject);
-			}
-		}
-		@Override
-		public void onRemoved(Collection<AircraftObject> removed) {
-			for (AircraftObject aircraftObject : removed) {
-				stopTrackingAircraft(aircraftObject);
-			}
-		}
-	};
+    private final Util.DiffObserver<AircraftObject> allAircraftObserver = new Util.DiffObserver<AircraftObject>() {
+        @Override
+        public void onAdded(Collection<AircraftObject> added) {
+            for (AircraftObject aircraftObject : added) {
+                trackAircraft(aircraftObject);
+            }
+        }
 
-	private void trackAircraft(AircraftObject aircraftObject) {
-		MapObserver observer = new MapObserver(aircraftObject);
-		aircraftObservers.put(aircraftObject, observer);
-	}
+        @Override
+        public void onRemoved(Collection<AircraftObject> removed) {
+            for (AircraftObject aircraftObject : removed) {
+                stopTrackingAircraft(aircraftObject);
+            }
+        }
+    };
 
-	private void stopTrackingAircraft(AircraftObject aircraftObject) {
-		MapObserver observer = aircraftObservers.remove(aircraftObject);
-		if (observer == null) return;
-		observer.stop();
-	}
+    private void trackAircraft(AircraftObject aircraftObject) {
+        MapObserver observer = new MapObserver(aircraftObject);
+        aircraftObservers.put(aircraftObject, observer);
+    }
 
-	private static final int DESIRED_ZOOM = 17;
-	private static final int ALLOWED_ZOOM_MARGIN = 2;
-	private void setupModel() {
-		model = new ViewModelProvider(requireActivity()).get(AircraftViewModel.class);
-		model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
-		model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
-			MapObserver last = null;
-			@Override
-			public void onChanged(@Nullable AircraftObject object) {
-				if (object == null || object.getLocation() == null || osvMap == null) {
-					return;
-				}
-				MapObserver observer = aircraftObservers.get(object);
-				if (observer == null) {
-					return;
-				}
-				GeoPoint gp = new GeoPoint(object.getLocation().getLatitude(), object.getLocation().getLongitude());
-				Log.i(TAG, "centering on " + object + " at " + gp);
-				if (last != null && last.marker != null) {
-					last.marker.setAlpha(0.5f);
-					if (last.markerPilot != null) {
-						last.markerPilot.setAlpha(0.5f);
-					}
-				}
-				if (observer.marker != null) {
-					observer.marker.setAlpha(1.0f);
-				}
-				if (observer.markerPilot != null) {
-					observer.markerPilot.setAlpha(1.0f);
-				}
-				last = observer;
-				// center map position
-				IMapController mapController = osvMap.getController();
-				mapController.animateTo(gp);
-			}
-		});
-	}
+    private void stopTrackingAircraft(AircraftObject aircraftObject) {
+        MapObserver observer = aircraftObservers.remove(aircraftObject);
+        if (observer == null) return;
+        observer.stop();
+    }
 
+    private static final int DESIRED_ZOOM = 17;
+    private static final int ALLOWED_ZOOM_MARGIN = 2;
 
-	@Override
-	@NonNull
-	public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
-		Log.d(TAG, "onCreateView()");
-		View view = layoutInflater.inflate(R.layout.fragment_osm, viewGroup, false);
-		return view;
-	}
+    private void setupModel() {
+        model = new ViewModelProvider(requireActivity()).get(AircraftViewModel.class);
+        model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
+        model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
+            MapObserver last = null;
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.d(TAG, "onResume()");
-		if (osvMap != null) {
-			osvMap.onResume();
-		}
-	}
+            @Override
+            public void onChanged(@Nullable AircraftObject object) {
+                if (object == null || object.getLocation() == null || osvMap == null) {
+                    return;
+                }
+                MapObserver observer = aircraftObservers.get(object);
+                if (observer == null) {
+                    return;
+                }
+                GeoPoint gp = new GeoPoint(object.getLocation().getLatitude(), object.getLocation().getLongitude());
+                Log.i(TAG, "centering on " + object + " at " + gp);
+                if (last != null && last.marker != null) {
+                    last.marker.setAlpha(0.5f);
+                    if (last.markerPilot != null) {
+                        last.markerPilot.setAlpha(0.5f);
+                    }
+                }
+                if (observer.marker != null) {
+                    observer.marker.setAlpha(1.0f);
+                }
+                if (observer.markerPilot != null) {
+                    observer.markerPilot.setAlpha(1.0f);
+                }
+                last = observer;
+                // center map position
+                IMapController mapController = osvMap.getController();
+                mapController.animateTo(gp);
+            }
+        });
+    }
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		Log.d(TAG, "onPause()");
-		if (osvMap != null) {
-			osvMap.onPause();
-		}
-	}
+    @Override
+    @NonNull
+    public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+        Log.d(TAG, "onCreateView()");
+        View view = layoutInflater.inflate(R.layout.fragment_osm, viewGroup, false);
+        return view;
+    }
 
-	public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		Log.d(TAG, "onViewCreated()");
-		context = getContext();
-		Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume()");
+        if (osvMap != null) {
+            osvMap.onResume();
+        }
+    }
 
-		osvMap = view.findViewById(R.id.map);
-		osvMap.setTileSource(TileSourceFactory.MAPNIK);
-		osvMap.setMultiTouchControls(true);
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause()");
+        if (osvMap != null) {
+            osvMap.onPause();
+        }
+    }
 
-		IMapController mapController = osvMap.getController();
-		mapController.setZoom(18.0);
-		GeoPoint centerPoint = new GeoPoint(P_DEFAULT_LATITUDE, P_DEFAULT_LONGITUDE);
-		mapController.animateTo(centerPoint);
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated()");
+        context = getContext();
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
 
-		//
-		setupModel();
-	}
+        osvMap = view.findViewById(R.id.map);
+        osvMap.setTileSource(TileSourceFactory.MAPNIK);
+        osvMap.setMultiTouchControls(true);
 
+        IMapController mapController = osvMap.getController();
+        mapController.setZoom(3.0);
+        GeoPoint centerPoint = new GeoPoint(P_DEFAULT_LATITUDE, P_DEFAULT_LONGITUDE);
+        mapController.animateTo(centerPoint);
 
-	public void setMapSettings() {
-		if (getActivity() == null) {
-			return;
-		}
-		if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-			ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			return;
-		}
-	}
+        setupModel();
+    }
 
+    public void setMapSettings() {
+        if (getActivity() == null) {
+            return;
+        }
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+    }
 
+    class MapObserver implements Observer<LocationData> {
+        private Marker markerPilot;
+        private Object makerPilotTag;
+        private Marker marker;
+        private Object makerTag;
+        private final List<GeoPoint> polylineData;
+        private Polyline polyline;
+        private final AircraftObject aircraft;
 
+        MapObserver(AircraftObject active) {
+            aircraft = active;
+            aircraft.location.observe(AircraftOsMapView.this, this);
+            aircraft.system.observe(AircraftOsMapView.this, systemObserver);
+            polylineData = new ArrayList<>();
+        }
 
-	class MapObserver implements Observer<LocationData> {
-		private Marker markerPilot;
-		private Object makerPilotTag;
-		private Marker marker;
-		private Object makerTag;
-		private final List<GeoPoint> polylineData;
-		private Polyline polyline;
-		private final AircraftObject aircraft;
+        void stop() {
+            aircraft.location.removeObserver(this);
+            aircraft.system.removeObserver(systemObserver);
+            if (marker != null) {
+                osvMap.getOverlays().remove(marker);
+                marker = null;
+            }
+            if (markerPilot != null) {
+                osvMap.getOverlays().remove(markerPilot);
+                markerPilot = null;
+            }
+            if (polylineData != null) {
+                polylineData.clear();
+            }
+            if (polyline != null) {
+                osvMap.getOverlays().remove(polyline);
+                polyline = null;
+            }
+        }
 
-		MapObserver(AircraftObject active) {
-			aircraft = active;
-			aircraft.location.observe(AircraftOsMapView.this, this);
-			aircraft.system.observe(AircraftOsMapView.this, systemObserver);
-			polylineData = new ArrayList<>();
-		}
+        private final Observer<SystemData> systemObserver = new Observer<SystemData>() {
+            @Override
+            public void onChanged(@Nullable SystemData ignore) {
+                SystemData sys = aircraft.getSystem();
+                if (sys == null || osvMap == null) {
+                    return;
+                }
+                if (sys.getOperatorLatitude() == 0.0 && sys.getOperatorLongitude() == 0.0) {
+                    return;
+                }
+                GeoPoint geoPoint = new GeoPoint(sys.getOperatorLatitude(), sys.getOperatorLongitude());
+                if (markerPilot == null) {
+                    String id = "ID missing";
+                    if (aircraft.getIdentification1() != null) {
+                        id = aircraft.getIdentification1().getUasIdAsString();
+                    }
+                    markerPilot = new Marker(osvMap);
+                    markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot));
+                    markerPilot.setPosition(geoPoint);
+                    markerPilot.setTitle(sys.getOperatorLocationType().toString() + "\n" + id);
+                    if (markerPilot != null) {
+                        makerPilotTag = new Pair<>(aircraft, this);
+                    }
+                    Objects.requireNonNull(markerPilot).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker, MapView mapView) {
+                            if (marker != null) {
+                                Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                            }
+                            if (makerPilotTag instanceof AircraftObject) {
+                                model.setActiveAircraft((AircraftObject) makerPilotTag);
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    osvMap.getOverlays().add(markerPilot);
+                }
+                if (markerPilot != null) {
+                    markerPilot.setPosition(geoPoint);
+                }
+            }
+        };
 
-		void stop() {
-			aircraft.location.removeObserver(this);
-			aircraft.system.removeObserver(systemObserver);
-			if (marker != null) {
-				osvMap.getOverlays().remove(marker);
-				marker = null;
-			}
-			if (markerPilot != null) {
-				osvMap.getOverlays().remove(markerPilot);
-				markerPilot = null;
-			}
-			if (polylineData != null) {
-				polylineData.clear();
-			}
-			if (polyline != null) {
-				osvMap.getOverlays().remove(polyline);
-				polyline = null;
-			}
-		}
+        @Override
+        public void onChanged(@Nullable LocationData ignore) {
+            boolean zoom = false;
+            LocationData loc = aircraft.getLocation();
+            if (loc == null || osvMap == null || polylineData == null) {
+                return;
+            }
+            if (loc.getLatitude() == 0.0 && loc.getLongitude() == 0.0) {
+                return;
+            }
+            GeoPoint geoPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
+            // make maker
+            if (marker == null) {
+                String id = "ID missing";
+                if (aircraft.getIdentification1() != null) {
+                    id = aircraft.getIdentification1().getUasIdAsString();
+                }
+                marker = new Marker(osvMap);
+                marker.setPosition(geoPoint);
+                marker.setTitle("aircraft\n" + id);
+                if (marker != null) {
+                    makerTag = aircraft;
+                }
+                Objects.requireNonNull(marker).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker, MapView mapView) {
+                        if (marker != null) {
+                            Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                        }
+                        if (makerTag instanceof AircraftObject) {
+                            model.setActiveAircraft((AircraftObject) makerTag);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                osvMap.getOverlays().add(marker);
+                zoom = true;
+            }
 
-		private final Observer<SystemData> systemObserver = new Observer<SystemData>() {
-			@Override
-			public void onChanged(@Nullable SystemData ignore) {
-				SystemData sys = aircraft.getSystem();
-				if (sys == null || osvMap == null) {
-					return;
-				}
-				if (sys.getOperatorLatitude() == 0.0 && sys.getOperatorLongitude() == 0.0) {
-					return;
-				}
-				GeoPoint geoPoint = new GeoPoint(sys.getOperatorLatitude(), sys.getOperatorLongitude());
-				if (markerPilot == null) {
-					String id = "ID missing";
-					if (aircraft.getIdentification1() != null) {
-						id = aircraft.getIdentification1().getUasIdAsString();
-					}
-					markerPilot = new Marker(osvMap);
-					markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot));
-					markerPilot.setPosition(geoPoint);
-					markerPilot.setTitle(sys.getOperatorLocationType().toString() + "\n" + id);
-					if (markerPilot != null) {
-						makerPilotTag = new Pair<>(aircraft, this);
-					}
-					Objects.requireNonNull(markerPilot).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-						@Override
-						public boolean onMarkerClick(Marker marker, MapView mapView) {
-							if (marker != null) {
-								Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
-							}
-							if (makerPilotTag instanceof AircraftObject) {
-								model.setActiveAircraft((AircraftObject) makerPilotTag);
-								return true;
-							}
-							return false;
-						}
-					});
-					osvMap.getOverlays().add(markerPilot);
-				}
-				if (markerPilot != null) {
-					markerPilot.setPosition(geoPoint);
-				}
-			}
-		};
+            // make maker line
+            if (polyline != null) {
+                osvMap.getOverlays().remove(polyline);
+                polyline = null;
+            }
+            polyline = new Polyline();
+            polylineData.add(geoPoint);
+            polyline.setPoints(polylineData);
+            polyline.setColor(Color.RED);    // <-- deprecation? Someone fix it. (^_^;)
+            osvMap.getOverlays().add(polyline);
 
-		@Override
-		public void onChanged(@Nullable LocationData ignore) {
-			boolean zoom = false;
-			LocationData loc = aircraft.getLocation();
-			if (loc == null || osvMap == null || polylineData == null) {
-				return;
-			}
-			if (loc.getLatitude() == 0.0 && loc.getLongitude() == 0.0) {
-				return;
-			}
-			GeoPoint geoPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
-			// make maker
-			if (marker == null) {
-				String id = "ID missing";
-				if (aircraft.getIdentification1() != null) {
-					id = aircraft.getIdentification1().getUasIdAsString();
-				}
-				marker = new Marker(osvMap);
-				marker.setPosition(geoPoint);
-				marker.setTitle("aircraft\n" + id);
-				if (marker != null) {
-					makerTag = aircraft;
-				}
-				Objects.requireNonNull(marker).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-					@Override
-					public boolean onMarkerClick(Marker marker, MapView mapView) {
-						if (marker != null) {
-							Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
-						}
-						if (makerTag instanceof AircraftObject) {
-							model.setActiveAircraft((AircraftObject) makerTag);
-							return true;
-						}
-						return false;
-					}
-				});
-				osvMap.getOverlays().add(marker);
-				zoom = true;
-			}
-
-			// make maker line
-			if (polyline != null) {
-				osvMap.getOverlays().remove(polyline);
-				polyline = null;
-			}
-			polyline = new Polyline();
-			polylineData.add(geoPoint);
-			polyline.setPoints(polylineData);
-			polyline.setColor(Color.RED);	// <-- deprecation? Someone fix it. (^_^;)
-			osvMap.getOverlays().add(polyline);
-
-			// move map position
-			marker.setPosition(geoPoint);
-			if (zoom) {
-				// moveCamera
-				IMapController mapController = osvMap.getController();
-				mapController.setZoom(17.0);
-				mapController.animateTo(geoPoint);
-			}
-		}
-	}
-
+            // move map position
+            marker.setPosition(geoPoint);
+            if (zoom) {
+                // moveCamera
+                IMapController mapController = osvMap.getController();
+                mapController.setZoom(17.0);
+                mapController.animateTo(geoPoint);
+            }
+        }
+    }
 }

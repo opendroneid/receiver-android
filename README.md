@@ -8,11 +8,15 @@ For more in-depth information about Open Drone ID, please see the opendroneid-co
 The application continuously scans for Bluetooth advertising/WiFi NAN signals/beacons.
 If any is found matching the specifiers for OpenDroneID signals, it adds that transmitter to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
 
-![](Screenshot.jpg)
+![](images/Screenshot.jpg)
 
 The red marker on the map shows the location of the drone.
 The blue marker the location of the operator/take-off point (if that data field is being received).
 A red line will be drawn to show where the drone has been flying.
+
+The above screenshot shows the application when compiled to use Google Maps.
+By default the application will be compiled to use Open Street Map.
+In this case, the marker icons look a bit different.
 
 Please note: The user of this receiver application must always visually verify that the received Open Drone ID signal corresponds to an actual drone seen flying in the air, at the position the signal claims it to be.
 
@@ -22,13 +26,29 @@ To build the application, use Android Studio.
 Import the project (File -> New -> Import Project) and point to the folder named Android.
 Then Build -> Make Project.
 
-For full functionality, before building the source, you need to obtain a Google Maps API key.
+By default the application is setup to use Open Street Map.
+No maps license key is required in this case.
+This mapping service is attributed to the [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors.
+
+It is possible to change the setup so that the application uses Google Maps instead.
+The following code changes are needed.
+
+* In `gradle.properties`, the line containing `org.gradle.project.map=google_map` must be uncommented
+* In `activity_debug.xml`, the class reference must be changed to `AircraftMapView`
+* In `main_menu.xml`, the section defining Map Type must be uncommented
+* In `AircraftMapView.java`, in the function `changeMapType()`, the code must be uncommented
+* In `DebugActivity.java`, in the function `onCreateOptionsMenu()`, the code must be uncommented
+
+This variation system is far from ideal.
+If anyone with better Android coding skills is able to modify the code to make it easier to swap between the two different map systems, improvements would be greatly appreciated.
+
+For full functionality when using Google Maps, before building the source, you need to obtain a Google Maps API key.
 Without the key, the application can be started and will pick up transmitted signals and will show those in the list and detailed info views, but the map view will not work.
-The sources are on purpose not delivered with a Google Maps key and for the same reason, ready built apk files are not provided.
+The sources are on purpose not delivered with a Google Maps key.
 Please generate your own key as detailed here:
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
 
-Your own generated key must be inserted in:
+Your own generated Google Maps key must be inserted in:
 `Android/app/src/main/res/values/google_maps_api.xml`
 
 ## Transmitter Devices
@@ -100,4 +120,4 @@ The only way to increase this is to enable the [Android Developer Mode](https://
 
 An auto-generated view of the class structure can be seen in the below figure.
 
-![](OpenDroneID.png)
+![](images/OpenDroneID.png)
