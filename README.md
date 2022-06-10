@@ -8,7 +8,7 @@ For more in-depth information about Open Drone ID, please see the opendroneid-co
 The application continuously scans for Bluetooth advertising/WiFi NAN signals/beacons.
 If any is found matching the specifiers for OpenDroneID signals, it adds that transmitter to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
 
-![](Screenshot.jpg)
+![](images/Screenshot.jpg)
 
 The red marker on the map shows the location of the drone.
 The blue marker the location of the operator/take-off point (if that data field is being received).
@@ -119,4 +119,4 @@ The only way to increase this is to enable the [Android Developer Mode](https://
 
 An auto-generated view of the class structure can be seen in the below figure.
 
-![](OpenDroneID.png)
+![](images/OpenDroneID.png)
