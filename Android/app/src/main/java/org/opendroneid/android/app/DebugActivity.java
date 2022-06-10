@@ -97,6 +97,11 @@ public class DebugActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         mMenuLogItem = menu.findItem(R.id.menu_log);
         mMenuLogItem.setChecked(getLogEnabled());
+        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
+           the below code needs to be uncommented:
+        if (BuildConfig.USE_GOOGLE_MAPS) {
+            menu.findItem(R.id.maptypeHYBRID).setChecked(true); // Configured in AircraftMapView.setMapSettings()
+        }*/
         checkBluetoothSupport(menu);
         checkNaNSupport(menu);
         checkWiFiSupport(menu);
@@ -174,7 +179,7 @@ public class DebugActivity extends AppCompatActivity {
             return true;
         }
         if (BuildConfig.USE_GOOGLE_MAPS)
-            return mMapView.changeMapType(id);
+            return mMapView.changeMapType(item);
     	return false;
     }
 

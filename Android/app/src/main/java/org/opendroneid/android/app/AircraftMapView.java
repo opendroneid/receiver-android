@@ -259,20 +259,25 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         setMapSettings();
     }
 
-    public boolean changeMapType(int id) {
+    public boolean changeMapType(MenuItem item) {
         if (googleMap == null)
             return false;
         /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
            the below code needs to be uncommented:
-        if (id == R.id.maptypeHYBRID) {
+        if (item.getItemId() == R.id.maptypeHYBRID) {
+            item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        } else if (id == R.id.maptypeNONE) {
+        } else if (item.getItemId() == R.id.maptypeNONE) {
+            item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-        } else if (id == R.id.maptypeNORMAL) {
+        } else if (item.getItemId() == R.id.maptypeNORMAL) {
+            item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        } else if (id == R.id.maptypeSATELLITE) {
+        } else if (item.getItemId() == R.id.maptypeSATELLITE) {
+            item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        } else if (id == R.id.maptypeTERRAIN) {
+        } else if (item.getItemId() == R.id.maptypeTERRAIN) {
+            item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         } else {
             return false;

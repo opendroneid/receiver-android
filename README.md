@@ -37,6 +37,7 @@ The following code changes are needed.
 * In `activity_debug.xml`, the class reference must be changed to `AircraftMapView`
 * In `main_menu.xml`, the section defining Map Type must be uncommented
 * In `AircraftMapView.java`, in the function `changeMapType()`, the code must be uncommented
+* In `DebugActivity.java`, in the function `onCreateOptionsMenu()`, the code must be uncommented
 
 This variation system is far from ideal.
 If anyone with better Android coding skills is able to modify the code to make it easier to swap between the two different map systems, improvements would be greatly appreciated.
