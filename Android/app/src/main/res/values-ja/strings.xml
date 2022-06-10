@@ -30,12 +30,12 @@
     <string name="wifi_beacon_scan_supported">WiFi Beacon スキャン対応</string>
     <string name="Logging_to">ここへロギング</string>
     <string name="Logging_not_activated">ログが有効ではありません</string>
-    <string name="Map_Type">Map Type</string>
-    <string name="Map_Type_Normal">Normal</string>
-    <string name="Map_Type_Satellite">Satellite</string>
-    <string name="Map_Type_Terrain">Terrain</string>
-    <string name="Map_Type_Hybrid">Hybrid</string>
-    <string name="Map_Type_None">None</string>
+    <string name="Map_Type">地図タイプ</string>
+    <string name="Map_Type_Normal">標準地図</string>
+    <string name="Map_Type_Satellite">航空写真</string>
+    <string name="Map_Type_Terrain">地形情報</string>
+    <string name="Map_Type_Hybrid">ハイブリット</string>
+    <string name="Map_Type_None">変更なし</string>
 
     <string name="permission_rationale_location">位置情報アクセスを有効にしないと、このアプリケーションは動作しません。</string>
     <string name="permission_required_toast">このアプリケーションを動作させるためには、位置情報の許可が必要です。</string>
