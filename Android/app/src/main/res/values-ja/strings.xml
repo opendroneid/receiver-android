@@ -37,6 +37,8 @@
     <string name="Map_Type_Hybrid">ハイブリット</string>
     <string name="Map_Type_None">変更なし</string>
 
+    <string name="copyright_osm">©https://www.openstreetmap.org/copyright contributors</string>
+
     <string name="permission_rationale_location">位置情報アクセスを有効にしないと、このアプリケーションは動作しません。</string>
     <string name="permission_required_toast">このアプリケーションを動作させるためには、位置情報の許可が必要です。</string>
 

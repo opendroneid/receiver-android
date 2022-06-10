@@ -28,6 +28,8 @@ Then Build -> Make Project.
 
 By default the application is setup to use Open Street Map.
 No maps license key is required in this case.
+This mapping service is attributed to the [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors.
+
 It is possible to change the setup so that the application uses Google Maps instead.
 The following code changes are needed.
 
