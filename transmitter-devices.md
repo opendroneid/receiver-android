@@ -19,14 +19,15 @@ The list is divided into three sections: drones, add-on devices and other implem
 
 The rules in the US and EU are not yet mandating that drones must broadcast Remote ID signals.
 Some information about the timelines can be found [here](https://github.com/opendroneid/opendroneid-core-c#timelines).
+Japan is mandating from the 20th June 2022 to broadcast remote ID.
 
-It is expected that this list will grow when getting closer to the cut-off dates.
+It is expected that this list will grow when getting closer to the cut-off dates for the EU and US.
 
 The list is presented in alphabetical order.
 
 | Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                   | Notes                       |
 | ------------- | ---- | ---- | ------------ | --------- | -------------------------------------- | --------------------------- |
-| Parrot Anafi  | ❌   | ❌   | ✅            | ❌        | https://www.parrot.com/en/drones/anafi | FW version >= 1.8.0 required |
+| Parrot Anafi  | ❌   | ❌   | ✅           | ❌        | https://www.parrot.com/en/drones/anafi | FW version >= 1.8.0 required |
 
 ## Add-on Devices
 
@@ -36,9 +37,10 @@ The list is presented in alphabetical order.
 
 | Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                                |
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
-| Aerobits idME | ✅   | ✅   | ❌            | ❌        | https://www.aerobits.pl/product/idme/               |
-| DroneTag Mini | ✅   | ✅   | ❌            | ❌        | https://dronetag.cz/en/products/mini/               |
-| INVOLI LEMAN  | ❌   | ❌   |              | ✅         | https://www.involi.com/products/leman-drone-tracker |
+| Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |
+| DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |
+| DroneTag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |
+| INVOLI LEMAN  | ❌   | ❌   |              | ✅        | https://www.involi.com/products/leman-drone-tracker |
 
 ## Other Transmitter Implementations
 
