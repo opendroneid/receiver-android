@@ -5,6 +5,8 @@ The application is compliant with the Bluetooth, WiFi NAN and WiFi Beacon parts 
 
 For more in-depth information about Open Drone ID, please see the opendroneid-core-c project: https://github.com/opendroneid/opendroneid-core-c
 
+The Open Street Map version of the application can be found on the [Google Playstore](https://play.google.com/store/apps/details?id=org.opendroneid.android_osm).
+
 The application continuously scans for Bluetooth advertising/WiFi NAN signals/beacons.
 If any is found matching the specifiers for OpenDroneID signals, it adds that transmitter to a list, will display the location of the drone on a map and can show the detailed content of the OpenDroneID data.
 
