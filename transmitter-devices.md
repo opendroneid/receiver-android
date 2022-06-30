@@ -1,41 +1,42 @@
-# Transmitter Devices
+# 送信機デバイスについて
 
-This page provides a list of transmitter devices that are capable of broadcasting Direct Remote ID signals according to the ASD-STAN prEN4709-02 (EU version) and ASTM F3411 (US version) standards.
+このページでは、ASD-STAN prEN4709-02 (EU版) 、ASTM F3411 (US版) 規格に準拠したダイレクトリモートID信号をブロードキャストできる送信機の一覧を掲載しています。
 
-For more information about Remote ID and links to additional resources, please see the [opendroneid-core-c project](https://github.com/opendroneid/opendroneid-core-c#opendroneid-core-c).
+リモートIDの詳細や追加資料へのリンクは [opendroneid-core-c project](https://github.com/opendroneid/opendroneid-core-c#opendroneid-core-c) をご覧ください。
 
-A [list of smart phones](supported-smartphones.md) that have been tested to receive Remote ID signals is available and information about various open source receiver implementations is available [here](https://github.com/opendroneid/opendroneid-core-c#receiver-examples).
+リモートID信号の受信が確認されているスマートフォンの [一覧](supported-smartphones.md) や、各種オープンソースの受信機実装に関する情報は [こちら](https://github.com/opendroneid/opendroneid-core-c#receiver-examples) に公開されています。
 
-This list is work in progress and can contain wrong or misleading data.
-If you want any data added, removed, corrected etc., please raise an issue or provide a pull request with the changes.
+この一覧は作業中であり、間違ったデータや誤解を招くようなデータが含まれている可能性があります。
+データの追加、削除、修正などが必要な場合は、issueを投稿するか、変更を加えたプルリクエストを提供してください。
 
-The intention of this page is not to promote or exclude any specific commercial or non-commercial devices or implementations.
-It is merely meant as a helpful source of information for people interested in Remote ID.
-If you have information about devices not on the list, input and updates are very welcome.
+このページの意図としては、特定の商用または非商用の機器や実装を促進または排除することではありません。
+単にリモートIDに興味を持つ人のための情報源として位置づけています。
+この一覧にない機器について情報をお持ちの方は、ぜひご指摘・更新をお願いします。
 
-The list is divided into three sections: drones, add-on devices and other implementations.
+一覧は、ドローン、アドオンデバイス、その他の実装の3つのセクションに分かれています。
 
-## Drones
+## ドローンについて
 
-The rules in the US and EU are not yet mandating that drones must broadcast Remote ID signals.
-Some information about the timelines can be found [here](https://github.com/opendroneid/opendroneid-core-c#timelines).
-Japan is mandating from the 20th June 2022 to [broadcast remote ID](https://www.mlit.go.jp/koku/drone/en/).
+米国とEUのルールでは、ドローンがリモートID信号をブロードキャストすることはまだ義務付けられていません。
+タイムラインについては、いくつかの情報が [こちら](https://github.com/opendroneid/opendroneid-core-c#timelines) に掲載されています。
+日本では2022年6月20より[リモートID送信](https://www.mlit.go.jp/koku/drone/)を義務付けています。
 
-It is expected that this list will grow when getting closer to the cut-off dates for the EU and US.
+この一覧は、EUとアメリカの期限が近づくにつれ、更に増加していくことが予想されます。
 
-The list is presented in alphabetical order.
+リストはアルファベット順で表示されます。
 
-| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                   | Notes                       |
-| ------------- | ---- | ---- | ------------ | --------- | -------------------------------------- | --------------------------- |
-| Parrot Anafi  | ❌   | ❌   | ✅           | ❌        | https://www.parrot.com/en/drones/anafi | FW version >= 1.8.0 required |
+| デバイス      | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | リンク                                 | 備考                         |
+| ------------- | ---- | ---- | ------------ | --------- | -------------------------------------- | ---------------------------- |
+| Parrot Anafi  | ❌   | ❌   | ✅            | ❌        | https://www.parrot.com/en/drones/anafi | FWバージョン >= 1.8.0 が必要 |
 
-## Add-on Devices
+## アドオンデバイス
 
-Add-on devices are stand-alone implementations of remote ID, intended for retro-fitting on existing drones, for those cases where it is not practical/possible to modify the HW/SW of the drone itself.
+アドオンデバイスは、既存のドローンに後付けすることを目的としたリモートIDのスタンドアロン実装で、ドローン本体のハードウェア/ソフトウェアを変更することが現実的ではない/可能でない場合に使用します。
 
-The list is presented in alphabetical order.
+一覧はアルファベット順で表示されます。
 
-| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                                |
+
+| デバイス      | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | リンク                                              |
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |
 | DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |
@@ -45,6 +46,6 @@ The list is presented in alphabetical order.
 | Thales ScaleFlyt | ✅ | ✅  | ✅?         | ✅?       | https://www.scaleflyt.com/remoteid
 | Unifly BLIP   | ✅   | ?    | ❌           | ❌        | https://unifly.aero/products/blip                  |
 
-## Other Transmitter Implementations
+## その他の送信機の実装
 
-For open source transmitter example implementations, please see [here](https://github.com/opendroneid/opendroneid-core-c#transmitter-examples).
+オープンソース送信機の実装例については [こちら](https://github.com/opendroneid/opendroneid-core-c#transmitter-examples) をご覧ください。
