@@ -43,7 +43,7 @@ The list is presented in alphabetical order.
 | DroneTag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |
 | INVOLI LEMAN  | ❌   | ❌   |              | ✅        | https://www.involi.com/products/leman-drone-tracker |
 | Thales ScaleFlyt | ✅ | ✅  | ✅?         | ✅?       | https://www.scaleflyt.com/remoteid
-| Unifly BLIP   | ✅   | ?    | ❌           | ❌        | https://unifly.aero/products/blip                  |
+| Unifly BLIP   | ✅   | ❌    | ❌           | ❌        | https://unifly.aero/products/blip                  |
 
 ## Other Transmitter Implementations
 
