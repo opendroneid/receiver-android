@@ -6,7 +6,9 @@
  */
 package org.opendroneid.android.app;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.opendroneid.android.Constants;
 import org.opendroneid.android.R;
+import org.opendroneid.android.data.Identification;
+
+import android.graphics.Color;
 
 import java.util.Locale;
 
 public class DeviceDetailFragment extends DialogFragment {
+    private TextView msgVersion;
     private TextView receiveTime;
     private TextView conMac;
     private TextView conRssi;
@@ -29,10 +36,15 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView conMsgDelta;
     private TextView distance;
 
-    private TextView infoLastUpdate;
-    private TextView infoType;
-    private TextView infoIdType;
-    private TextView infoUasId;
+    private TextView infoLastUpdate1;
+    private TextView infoType1;
+    private TextView infoIdType1;
+    private TextView infoUasId1;
+
+    private TextView infoLastUpdate2;
+    private TextView infoType2;
+    private TextView infoIdType2;
+    private TextView infoUasId2;
 
     private TextView posLastUpdate;
     private TextView status;
@@ -73,6 +85,8 @@ public class DeviceDetailFragment extends DialogFragment {
     private TextView systemAreaFloor;
     private TextView category;
     private TextView classValue;
+    private TextView systemAltitudeGeo;
+    private TextView systemTimestamp;
 
     private TextView operatorIdLastUpdate;
     private TextView operatorIdType;
@@ -82,67 +96,92 @@ public class DeviceDetailFragment extends DialogFragment {
         return new DeviceDetailFragment();
     }
 
+    private void setUasIdText(Identification identification, TextView infoUasId) {
+        if (identification.getUasIdAsString().length() > Constants.MAX_ID_BYTE_SIZE)
+            infoUasId.setTextSize(10);
+        else
+            infoUasId.setTextSize(14);
+        infoUasId.setText(identification.getUasIdAsString());
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         if (getActivity() == null)
             return;
 
         super.onActivityCreated(savedInstanceState);
-        DetailViewModel model = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
 
         model.connection.observe(getViewLifecycleOwner(), connection -> {
             if (connection == null) return;
             String combo = connection.rssi + " dBm, " + connection.transportType;
             conRssi.setText(combo);
             conMac.setText(connection.macAddress);
+            msgVersion.setText(connection.getMsgVersionAsString());
+            if (connection.msgVersionUnsupported())
+                msgVersion.setTextColor(Color.RED);
+            else
+                msgVersion.setTextColor(Color.GRAY);
             receiveTime.setText(connection.getTimestampAsString());
             conStarted.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.firstSeen)));
             conLastUpdate.setText(String.format(Locale.US,"%s ago", DeviceList.elapsed(connection.lastSeen)));
             conMsgDelta.setText(connection.getMsgDeltaAsString());
         });
 
-        model.identification.observe(getViewLifecycleOwner(), identification -> {
+        model.identification1.observe(getViewLifecycleOwner(), identification -> {
             if (identification == null) return;
 
             receiveTime.setText(identification.getTimestampAsString());
-            infoLastUpdate.setText(identification.getADCounterAsString());
-            infoType.setText(identification.getUaType().name());
-            infoIdType.setText(identification.getIdType().name());
-            infoUasId.setText(identification.getUasIdAsString());
+            infoLastUpdate1.setText(identification.getMsgCounterAsString());
+            infoType1.setText(identification.getUaType().toString());
+            infoIdType1.setText(identification.getIdType().toString());
+            setUasIdText(identification, infoUasId1);
+        });
+
+        model.identification2.observe(getViewLifecycleOwner(), identification -> {
+            if (identification == null) return;
+
+            receiveTime.setText(identification.getTimestampAsString());
+            infoLastUpdate2.setText(identification.getMsgCounterAsString());
+            infoType2.setText(identification.getUaType().toString());
+            infoIdType2.setText(identification.getIdType().toString());
+            setUasIdText(identification, infoUasId2);
         });
 
         model.location.observe(getViewLifecycleOwner(), locationData -> {
             if (locationData == null) return;
+            Resources res = getResources();
 
             receiveTime.setText(locationData.getTimestampAsString());
-            posLastUpdate.setText(locationData.getADCounterAsString());
-            status.setText(locationData.getStatus().name());
-            direction.setText(locationData.getDirectionAsString());
-            horiSpeed.setText(locationData.getSpeedHorizontalAsString());
-            vertSpeed.setText(locationData.getSpeedVerticalAsString());
-            lat.setText(locationData.getLatitudeAsString());
-            lon.setText(locationData.getLongitudeAsString());
-            altitudePressure.setText(locationData.getAltitudePressureAsString());
-            altitudeGeodetic.setText(locationData.getAltitudeGeodeticAsString());
-            heightType.setText(locationData.getHeightType().name());
-            height.setText(locationData.getHeightAsString());
-            horizontalAccuracy.setText(locationData.getHorizontalAccuracyAsString());
-            verticalAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getVerticalAccuracy()));
-            baroAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getBaroAccuracy()));
-            speedAccuracy.setText(locationData.getSpeedAccuracyAsString());
+            posLastUpdate.setText(locationData.getMsgCounterAsString());
+            status.setText(locationData.getStatus().toString());
+            direction.setText(locationData.getDirectionAsString(res));
+            horiSpeed.setText(locationData.getSpeedHorizontalAsString(res));
+            vertSpeed.setText(locationData.getSpeedVerticalAsString(res));
+            lat.setText(locationData.getLatitudeAsString(res));
+            lon.setText(locationData.getLongitudeAsString(res));
+            altitudePressure.setText(locationData.getAltitudePressureAsString(res));
+            altitudeGeodetic.setText(locationData.getAltitudeGeodeticAsString(res));
+            heightType.setText(locationData.getHeightType().toString());
+            height.setText(locationData.getHeightAsString(res));
+            horizontalAccuracy.setText(locationData.getHorizontalAccuracyAsString(res));
+            verticalAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getVerticalAccuracy(), res));
+            baroAccuracy.setText(locationData.getVerticalAccuracyAsString(locationData.getBaroAccuracy(), res));
+            speedAccuracy.setText(locationData.getSpeedAccuracyAsString(res));
             timestamp.setText(locationData.getLocationTimestampAsString());
-            timeAccuracy.setText(locationData.getTimeAccuracyAsString());
+            timeAccuracy.setText(locationData.getTimeAccuracyAsString(res));
             distance.setText(locationData.getDistanceAsString());
         });
 
         model.authentication.observe(getViewLifecycleOwner(), authenticationData -> {
             if (authenticationData == null) return;
 
+            Resources res = getResources();
             receiveTime.setText(authenticationData.getTimestampAsString());
-            authLastUpdate.setText(authenticationData.getADCounterAsString());
-            authType.setText(authenticationData.getAuthType().name());
+            authLastUpdate.setText(authenticationData.getMsgCounterAsString());
+            authType.setText(authenticationData.getAuthType().toString());
             authLength.setText(authenticationData.getAuthLengthAsString());
-            authTimestamp.setText(authenticationData.getAuthTimestampAsString());
+            authTimestamp.setText(authenticationData.getAuthTimestampAsString(res));
             authData.setText(authenticationData.getAuthenticationDataAsString());
         });
 
@@ -150,35 +189,38 @@ public class DeviceDetailFragment extends DialogFragment {
             if (selfIdData == null) return;
 
             receiveTime.setText(selfIdData.getTimestampAsString());
-            selfIdLastUpdate.setText(selfIdData.getADCounterAsString());
-            selfIdType.setText(String.valueOf(selfIdData.getDescriptionType()));
-            selfIdDescription.setText(new String(selfIdData.getOperationDescription()));
+            selfIdLastUpdate.setText(selfIdData.getMsgCounterAsString());
+            selfIdType.setText(String.valueOf(selfIdData.getDescriptionType().toString()));
+            selfIdDescription.setText(selfIdData.getOperationDescriptionAsString());
         });
 
         model.system.observe(getViewLifecycleOwner(), systemData -> {
             if (systemData == null) return;
+            Resources res = getResources();
 
             receiveTime.setText(systemData.getTimestampAsString());
-            systemLastUpdate.setText(systemData.getADCounterAsString());
-            operatorLocationType.setText(systemData.getOperatorLocationType().name());
-            classificationType.setText(systemData.getclassificationType().name());
-            systemLatitude.setText(systemData.getOperatorLatitudeAsString());
-            systemLongitude.setText(systemData.getOperatorLongitudeAsString());
+            systemLastUpdate.setText(systemData.getMsgCounterAsString());
+            operatorLocationType.setText(systemData.getOperatorLocationType().toString());
+            classificationType.setText(systemData.getclassificationType().toString());
+            systemLatitude.setText(systemData.getOperatorLatitudeAsString(res));
+            systemLongitude.setText(systemData.getOperatorLongitudeAsString(res));
             systemAreaCount.setText(String.valueOf(systemData.getAreaCount()));
             systemAreaRadius.setText(systemData.getAreaRadiusAsString());
-            systemAreaCeiling.setText(systemData.getAreaCeilingAsString());
-            systemAreaFloor.setText(systemData.getAreaFloorAsString());
-            category.setText(systemData.getCategory().name());
-            classValue.setText(systemData.getClassValue().name());
+            systemAreaCeiling.setText(systemData.getAreaCeilingAsString(res));
+            systemAreaFloor.setText(systemData.getAreaFloorAsString(res));
+            category.setText(systemData.getCategory().toString());
+            classValue.setText(systemData.getClassValue().toString());
+            systemAltitudeGeo.setText(systemData.getOperatorAltitudeGeoAsString(res));
+            systemTimestamp.setText(systemData.getSystemTimestampAsString(res));
         });
 
         model.operatorid.observe(getViewLifecycleOwner(), operatorIdData -> {
             if (operatorIdData == null) return;
 
             receiveTime.setText(operatorIdData.getTimestampAsString());
-            operatorIdLastUpdate.setText(operatorIdData.getADCounterAsString());
+            operatorIdLastUpdate.setText(operatorIdData.getMsgCounterAsString());
             operatorIdType.setText(String.valueOf(operatorIdData.getOperatorIdType()));
-            operatorId.setText(new String(operatorIdData.getOperatorId()));
+            operatorId.setText(operatorIdData.getOperatorIdAsString());
         });
     }
 
@@ -187,6 +229,7 @@ public class DeviceDetailFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.aircraft_details, container, false);
+        msgVersion = view.findViewById(R.id.msgVersion);
         receiveTime = view.findViewById(R.id.receiveTime);
         conMac = view.findViewById(R.id.conMac);
         conRssi = view.findViewById(R.id.conRssi);
@@ -195,10 +238,15 @@ public class DeviceDetailFragment extends DialogFragment {
         conMsgDelta = view.findViewById(R.id.conMsgDelta);
         distance = view.findViewById(R.id.distance);
 
-        infoLastUpdate = view.findViewById(R.id.infoLastUpdate);
-        infoType = view.findViewById(R.id.infoType);
-        infoIdType = view.findViewById(R.id.infoIdType);
-        infoUasId = view.findViewById(R.id.infoUasId);
+        infoLastUpdate1 = view.findViewById(R.id.infoLastUpdate1);
+        infoType1 = view.findViewById(R.id.infoType1);
+        infoIdType1 = view.findViewById(R.id.infoIdType1);
+        infoUasId1 = view.findViewById(R.id.infoUasId1);
+
+        infoLastUpdate2 = view.findViewById(R.id.infoLastUpdate2);
+        infoType2 = view.findViewById(R.id.infoType2);
+        infoIdType2 = view.findViewById(R.id.infoIdType2);
+        infoUasId2 = view.findViewById(R.id.infoUasId2);
 
         posLastUpdate = view.findViewById(R.id.posLastUpdate);
         status = view.findViewById(R.id.status);
@@ -239,6 +287,8 @@ public class DeviceDetailFragment extends DialogFragment {
         systemAreaFloor = view.findViewById(R.id.systemAreaFloor);
         category = view.findViewById(R.id.category);
         classValue = view.findViewById(R.id.classValue);
+        systemAltitudeGeo = view.findViewById(R.id.systemAltitudeGeo);
+        systemTimestamp = view.findViewById(R.id.systemTimestamp);
 
         operatorIdLastUpdate = view.findViewById(R.id.operatorIdLastUpdate);
         operatorIdType = view.findViewById(R.id.operatorIdType);

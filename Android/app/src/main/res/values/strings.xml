@@ -6,25 +6,15 @@
 !-->
 <resources>
     <string name="app_name">OpenDroneID</string>
-    <string name="bt_ads_not_supported">Bluetooth Advertisements are not supported on this device.</string>
     <string name="bt_not_supported">Bluetooth is not supported on this device.</string>
-    <string name="bt_not_enabled_leaving">This application will not work properly without enabling Bluetooth.</string>
-    <string name="wifi_not_enabled_leaving">This application will not work properly without enabling WiFi.</string>
-    <string name="empty_list">No devices found - refresh to try again.</string>
-    <string name="seconds">seconds.</string>
-    <string name="scan_start_toast">Scanning Drone advertising</string>
-    <string name="already_scanning">Scanning already started.</string>
-    <string name="no_name">(no name)</string>
-    <string name="start_error_unknown">unknown error</string>
-    <string name="advertising_timedout">Advertising stopped due to timeout.</string>
-    <string name="last_seen">Last Seen:</string>
-    <string name="just_now">just now</string>
-    <string name="minute_ago">minute ago</string>
-    <string name="hour_ago">hour ago</string>
-    <string name="seconds_ago">seconds ago</string>
-    <string name="minutes_ago">minutes ago</string>
-    <string name="hours_ago">hours ago</string>
+    <string name="bt_not_enabled_leaving">This application will not work without enabling Bluetooth.</string>
+    <string name="wifi_not_enabled_leaving">This application will not work without enabling WiFi.</string>
     <string name="info">info</string>
+
+    <string name="Clear">Clear</string>
+    <string name="Help">Help</string>
+    <string name="Log_enabled">Log enabled</string>
+    <string name="Show_log_location">Show log location</string>
 
     <string name="coded_phy_not_supported">Coded Phy not supported</string>
     <string name="coded_phy_supported">Coded Phy supported</string>
@@ -33,18 +23,101 @@
     <string name="nan_not_supported">WiFi NaN not supported</string>
     <string name="nan_supported">WiFi NaN supported</string>
 
-    <string name="map_not_ready">Map is not ready yet</string>
     <string name="wifi_beacon_scan_not_supported">WiFi Beacon Scan not supported</string>
     <string name="wifi_beacon_scan_supported">WiFi Beacon Scan supported</string>
+    <string name="Logging_to">Logging to </string>
+    <string name="Logging_not_activated">Logging not activated</string>
+    <string name="Map_Type">Map Type</string>
+    <string name="Map_Type_Normal">Normal</string>
+    <string name="Map_Type_Satellite">Satellite</string>
+    <string name="Map_Type_Terrain">Terrain</string>
+    <string name="Map_Type_Hybrid">Hybrid</string>
+    <string name="Map_Type_None">None</string>
 
-    <!--    Permissions    -->
-    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
-    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
-    <string name="permission_required_toast">Location permission is required for Bluetooth advertising scanning.</string>
+    <string name="copyright_osm">©https://www.openstreetmap.org/copyright contributors</string>
+
+    <string name="permission_rationale_location">This application will not work without enabling location access.</string>
+    <string name="permission_required_toast">Location permission is required for this application to work.</string>
 
     <string name="drone_icon_content_description">Drone icon</string>
 
-    <string name="accept_button">Accept</string>
-    <string name="accept_content">For Intel internal usage only\n\nThis application uses a Google Maps key paid for by Intel\n\nDO NOT DISTRIBUTE\n\nAccept</string>
+    <string name="bluetooth_help_heading">Bluetooth</string>
+    <string name="bluetooth_help_text">Sample</string>
+    <string name="beacon_help_heading">Wi-Fi Beacon</string>
+    <string name="beacon_help_text">Sample</string>
+    <string name="nan_help_heading">Wi-Fi NaN</string>
+    <string name="nan_help_text">Sample</string>
+
+    <string name="Connection">Connection</string>
+    <string name="unknown">–</string>
+    <string name="RSSI">RSSI</string>
+    <string name="MAC">MAC</string>
+    <string name="Started">Started</string>
+    <string name="Last_seen">Last seen</string>
+    <string name="Msg_8710">Msg &#8710;</string>
+    <string name="Distance">Distance</string>
+
+    <string name="Basic_ID_1">Basic ID 1</string>
+    <string name="Type">Type</string>
+    <string name="ID_Type">ID Type</string>
+    <string name="UAS_ID">UAS ID</string>
+    <string name="Basic_ID_2">Basic ID 2</string>
+
+    <string name="Location">Location</string>
+    <string name="Latitude">Latitude</string>
+    <string name="Longitude">Longitude</string>
+    <string name="Altitude_Press">Altitude Press.</string>
+    <string name="Alt_Geod">Alt. Geod.</string>
+    <string name="Direction">Direction</string>
+    <string name="Status">Status</string>
+    <string name="Hori_Speed">Hori. Speed</string>
+    <string name="Vert_Speed">Vert. Speed</string>
+    <string name="Height">Height</string>
+    <string name="Height_Over">Height Over</string>
+    <string name="Hori_Accuracy">Hori. Accuracy</string>
+    <string name="Vert_Acc">Vert. Acc.</string>
+    <string name="Baro_Acc">Baro Acc.</string>
+    <string name="Speed_Acc">Speed Acc.</string>
+    <string name="Time_Acc">Time Acc.</string>
+    <string name="Timestamp">Timestamp</string>
+
+    <string name="Self_ID">Self ID</string>
+    <string name="Operation">Operation</string>
+
+    <string name="System_Operator">System/Operator</string>
+    <string name="Location_Type">Location Type</string>
+    <string name="System_Altitude">Altitude</string>
+    <string name="System_Latitude">Latitude</string>
+    <string name="System_Longitude">Longitude</string>
+    <string name="Area_Count">Area Count</string>
+    <string name="Area_Radius">Area Radius</string>
+    <string name="Area_Ceiling">Area Ceiling</string>
+    <string name="Area_Floor">Area Floor</string>
+    <string name="Classification">Classification</string>
+    <string name="Category">Category</string>
+    <string name="Class">Class</string>
+    <string name="System_Timestamp">Timestamp</string>
+
+    <string name="Operator_Info">Operator ID</string>
+    <string name="Operator_ID">Operator ID</string>
+
+    <string name="Authentication">Authentication</string>
+    <string name="Auth_Type">Type</string>
+    <string name="Auth_Length">Length</string>
+    <string name="Auth_Timestamp">Timestamp</string>
+    <string name="Auth_Data">Authentication</string>
+
+    <string name="bluetoothHelp">All devices should be able to receive Bluetooth 4 Legacy Advertising remote ID signals.&lt;br&gt;&lt;br&gt;
+        To receive Bluetooth 5 Long Range remote ID signals, the device must support the &quot;Coded Phy&quot; feature and also the &quot;Extended Advertising&quot; feature.&lt;br&gt;&lt;br&gt;
+        See the claimed support for this device for these features in the options menu.&lt;br&gt;&lt;br&gt;
+        Please be advised that even with those features supported, the device is not necessarily able to pick up the Long Range signals or it will only do that in limited time intervals.&lt;br&gt;</string>
+    <string name="beaconHelp">All devices running Android 6 (Marshmallow) or newer should be able to receive Wi-Fi Beacon remote ID signals.&lt;br&gt;&lt;br&gt;
+        The reception rate can vary a lot from one device to another, depending on the HW and SW.&lt;br&gt;&lt;br&gt;
+        The reception rate for Wi-Fi Beacon remote ID signals can to some extent be improved by disabling Wi-Fi scan &lt;a href=&quot;https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling&quot;&gt;throttling&lt;/a&gt;.&lt;br&gt;&lt;br&gt;
+        Enable the &lt;a href=&quot;https://developer.android.com/studio/debug/dev-options&quot;&gt;Android Developer Mode&lt;/a&gt; by opening the Settings application.&lt;br&gt;&lt;br&gt;
+        Find the SW information (possibly in the &quot;About Phone&quot; menu) and click 7 times on the &quot;Build Number&quot;.&lt;br&gt;&lt;br&gt;
+        Go back, find the &quot;Developer options&quot; menu, scroll to &quot;Wi-Fi scan throttling&quot; and disable it.&lt;br&gt;</string>
+    <string name="nanHelp">Reception of Wi-Fi Neighbor-aware Network remote ID signals is possible only if the device has support for Wi-Fi NaN.&lt;br&gt;
+        See the claimed support for this device for this feature in the options menu.&lt;br&gt;</string>
 
 </resources>

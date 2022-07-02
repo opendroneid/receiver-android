@@ -6,7 +6,10 @@
  */
 package org.opendroneid.android.data;
 
+import android.content.res.Resources;
+
 import org.opendroneid.android.Constants;
+import org.opendroneid.android.R;
 
 import java.sql.Timestamp;
 import java.util.Locale;
@@ -15,7 +18,7 @@ public class AuthenticationData extends MessageData {
 
     private AuthTypeEnum authType;
     private int authDataPage;
-    private int authPageCount;
+    private int authLastPageIndex;
     private int authLength;
     private long authTimestamp;
     private byte[] authData;
@@ -24,7 +27,7 @@ public class AuthenticationData extends MessageData {
         super();
         authType = AuthTypeEnum.None;
         authDataPage = 0;
-        authPageCount = 0;
+        authLastPageIndex = 0;
         authLength = 0;
         authTimestamp = 0;
         authData = new byte[0];
@@ -36,6 +39,7 @@ public class AuthenticationData extends MessageData {
         Operator_ID_Signature(2),
         Message_Set_Signature(3),
         Network_Remote_ID(4),
+        Specific_Authentication(5),
         Private_Use_0xA(0xA),
         Private_Use_0xB(0xB),
         Private_Use_0xC(0xC),
@@ -55,6 +59,7 @@ public class AuthenticationData extends MessageData {
             case 2: this.authType = AuthTypeEnum.Operator_ID_Signature; break;
             case 3: this.authType = AuthTypeEnum.Message_Set_Signature; break;
             case 4: this.authType = AuthTypeEnum.Network_Remote_ID; break;
+            case 5: this.authType = AuthTypeEnum.Specific_Authentication; break;
             case 0xA: this.authType = AuthTypeEnum.Private_Use_0xA; break;
             case 0xB: this.authType = AuthTypeEnum.Private_Use_0xB; break;
             case 0xC: this.authType = AuthTypeEnum.Private_Use_0xC; break;
@@ -74,16 +79,16 @@ public class AuthenticationData extends MessageData {
         this.authDataPage = authDataPage;
     }
 
-    int getAuthPageCount() { return authPageCount; }
-    public String getAuthPageCountAsString() {
-        return String.format(Locale.US,"%d pages", authPageCount);
+    int getAuthLastPageIndex() { return authLastPageIndex; }
+    public String getAuthLastPageIndexAsString() {
+        return String.format(Locale.US,"%d pages", authLastPageIndex);
     }
-    public void setAuthPageCount(int authPageCount) {
-        if (authPageCount < 0)
-            authPageCount = 0;
-        if (authPageCount > Constants.MAX_AUTH_DATA_PAGES)
-            authPageCount = Constants.MAX_AUTH_DATA_PAGES;
-        this.authPageCount = authPageCount;
+    public void setAuthLastPageIndex(int authLastPageIndex) {
+        if (authLastPageIndex < 0)
+            authLastPageIndex = 0;
+        if (authLastPageIndex > (Constants.MAX_AUTH_DATA_PAGES - 1))
+            authLastPageIndex = Constants.MAX_AUTH_DATA_PAGES - 1;
+        this.authLastPageIndex = authLastPageIndex;
     }
 
     int getAuthLength() { return authLength; }
@@ -99,9 +104,9 @@ public class AuthenticationData extends MessageData {
     }
 
     long getAuthTimestamp() { return authTimestamp; }
-    public String getAuthTimestampAsString() {
+    public String getAuthTimestampAsString(Resources res) {
         if (authTimestamp == 0)
-            return "Unknown";
+            return res.getString(R.string.unknown);
         Timestamp time = new Timestamp((1546300800L + authTimestamp) * 1000);
         return time.toString();
     }

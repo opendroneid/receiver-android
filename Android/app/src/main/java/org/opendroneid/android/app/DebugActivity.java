@@ -8,7 +8,7 @@ package org.opendroneid.android.app;
 
 import android.Manifest;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
@@ -20,6 +20,7 @@ import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -28,18 +29,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
 
+import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
@@ -65,11 +72,18 @@ public class DebugActivity extends AppCompatActivity {
     private AircraftViewModel mModel;
     OpenDroneIdDataManager dataManager;
 
+    public LocationRequest locationRequest;
+    public LocationCallback locationCallback;
+    public FusedLocationProviderClient mFusedLocationClient;
+
     private static final String TAG = DebugActivity.class.getSimpleName();
 
     public static final String SHARED_PREF_NAME = "DebugActivity";
     public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
     private MenuItem mMenuLogItem;
+
+    private AircraftMapView mMapView;
+    private AircraftOsMapView mOsMapView;
 
     private File loggerFile;
     private LogWriter logger;
@@ -83,6 +97,11 @@ public class DebugActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         mMenuLogItem = menu.findItem(R.id.menu_log);
         mMenuLogItem.setChecked(getLogEnabled());
+        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
+           the below code needs to be uncommented:
+        if (BuildConfig.USE_GOOGLE_MAPS) {
+            menu.findItem(R.id.maptypeHYBRID).setChecked(true); // Configured in AircraftMapView.setMapSettings()
+        }*/
         checkBluetoothSupport(menu);
         checkNaNSupport(menu);
         checkWiFiSupport(menu);
@@ -97,57 +116,71 @@ public class DebugActivity extends AppCompatActivity {
         BluetoothAdapter bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeCodedPhySupported()) {
-            menu.findItem(R.id.coded_phy).setTitle(R.string.coded_phy_supported);
+            menu.findItem(R.id.coded_phy).setTitle(getString(R.string.coded_phy_supported));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
-            menu.findItem(R.id.extended_advertising).setTitle(R.string.ea_supported);
+            menu.findItem(R.id.extended_advertising).setTitle(getString(R.string.ea_supported));
         }
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     private void checkNaNSupport(Menu menu) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
-            menu.findItem(R.id.wifi_nan).setTitle(R.string.nan_supported);
+            menu.findItem(R.id.wifi_nan).setTitle(getString(R.string.nan_supported));
         }
     }
-    @TargetApi(Build.VERSION_CODES.R)
+
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkWiFiSupport(Menu menu) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            menu.findItem(R.id.wifi_beacon_scan).setTitle(R.string.wifi_beacon_scan_supported);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            menu.findItem(R.id.wifi_beacon_scan).setTitle(getString(R.string.wifi_beacon_scan_supported));
         }
+    }
+
+    private void showHelpMenu() {
+        HelpMenu helpMenu = HelpMenu.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        helpMenu.show(transaction, getString(R.string.Help));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.clear:
-                dataManager.getAircraft().clear();
-                mModel.setAllAircraft(dataManager.getAircraft());
-                LogWriter.bumpSession();
-                return true;
-            case R.id.menu_log:
-                boolean enabled = !getLogEnabled();
-                setLogEnabled(enabled);
-                mMenuLogItem.setChecked(enabled);
-                if (enabled) {
-                    createNewLogfile();
-                    wiFiNaNScanner.setLogger(logger);
-                    wiFiBeaconScanner.setLogger(logger);
-                } else {
-                    logger.close();
-                    btScanner.setLogger(null);
-                    wiFiNaNScanner.setLogger(null);
-                    wiFiBeaconScanner.setLogger(null);
-                }
-                return true;
-            case R.id.log_location:
-                if (getLogEnabled())
-                    Toast.makeText(getBaseContext(), "Logging to " + loggerFile, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getBaseContext(), "Logging not activated", Toast.LENGTH_LONG).show();
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.clear) {
+            dataManager.getAircraft().clear();
+            mModel.setAllAircraft(dataManager.getAircraft());
+            LogWriter.bumpSession();
+            return true;
+        } else if (id == R.id.help) {
+            showHelpMenu();
+            return true;
+        } else if (id == R.id.menu_log) {
+            boolean enabled = !getLogEnabled();
+            setLogEnabled(enabled);
+            mMenuLogItem.setChecked(enabled);
+            if (enabled) {
+                createNewLogfile();
+                wiFiNaNScanner.setLogger(logger);
+                wiFiBeaconScanner.setLogger(logger);
+            } else {
+                logger.close();
+                btScanner.setLogger(null);
+                wiFiNaNScanner.setLogger(null);
+                wiFiBeaconScanner.setLogger(null);
+            }
+            return true;
+        } else if (id == R.id.log_location) {
+            String message;
+            if (getLogEnabled())
+                message = getString(R.string.Logging_to) + loggerFile;
+            else
+                message = getString(R.string.Logging_not_activated);
+            showToast(message);
+            return true;
         }
-        return false;
+        if (BuildConfig.USE_GOOGLE_MAPS)
+            return mMapView.changeMapType(item);
+    	return false;
     }
 
     boolean getLogEnabled() {
@@ -186,7 +219,7 @@ public class DebugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_debug);
-        mModel = ViewModelProviders.of(this).get(AircraftViewModel.class);
+        mModel = new ViewModelProvider(this).get(AircraftViewModel.class);
 
         dataManager = new OpenDroneIdDataManager(new OpenDroneIdDataManager.Callback() {
             @Override
@@ -220,8 +253,8 @@ public class DebugActivity extends AppCompatActivity {
                 startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
             } else {
                 // Check permission
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "onMapReady: call request permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
@@ -230,22 +263,19 @@ public class DebugActivity extends AppCompatActivity {
             }
         } else {
             // Bluetooth is not supported.
-            showErrorText(R.string.bt_not_supported);
+            showToast(getString(R.string.bt_not_supported));
+            finish();
         }
 
-        dataManager.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); // 10 seconds
+        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
 
-        dataManager.locationRequest = LocationRequest.create();
-        dataManager.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        dataManager.locationRequest.setInterval(10 * 1000); // 10 seconds
-        dataManager.locationRequest.setFastestInterval(5 * 1000); // 5 seconds
-
-        dataManager.locationCallback = new LocationCallback() {
+        locationCallback = new LocationCallback() {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
+            public void onLocationResult(@NonNull LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
                         dataManager.receiverLocation = location;
@@ -253,8 +283,6 @@ public class DebugActivity extends AppCompatActivity {
                 }
             }
         };
-        dataManager.activity = this;
-        dataManager.getReceiverLocation();
     }
 
     private void initialize() {
@@ -268,47 +296,49 @@ public class DebugActivity extends AppCompatActivity {
 
         mModel.getAllAircraft().observe(this, listObserver);
 
-        btScanner.startScan();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
-            wiFiNaNScanner.startScan();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
-            if (wiFiBeaconScanner != null) {
-                wiFiBeaconScanner.startScan();
-            }
-        }
 
         addDeviceList();
+
+        if (BuildConfig.USE_GOOGLE_MAPS) {
+            mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            if (mMapView != null)
+                mMapView.setMapSettings();
+        } else {
+            mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            if (mOsMapView != null)
+                mOsMapView.setMapSettings();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_ENABLE_BT) {
-                if (resultCode == RESULT_OK) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG, "onMapReady: call request permission");
-                        requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
-                    } else {
-                        initialize();
-                    }
+            if (resultCode == RESULT_OK) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onMapReady: call request permission");
+                    requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
-                    // User declined to enable Bluetooth, exit the app.
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_LONG).show();
-                    finish();
+                    initialize();
                 }
+            } else {
+                // User declined to enable Bluetooth, exit the app.
+                showToast(getString(R.string.bt_not_enabled_leaving));
+                finish();
+            }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
-                Toast.makeText(this, R.string.wifi_not_enabled_leaving, Toast.LENGTH_LONG).show();
+                // User declined to enable WiFi, exit the app.
+                showToast(getString(R.string.wifi_not_enabled_leaving));
                 finish();
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -321,28 +351,45 @@ public class DebugActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(TAG, "onResume");
 
-        // Wake up the main Activity thread once per second, in order to update time counters
+        // Wake the main Activity thread regularly, to update time counters and other UI elements
         handler = new Handler();
         runnableCode = () -> {
             for (AircraftObject aircraft : dataManager.aircraft.values()) {
+                aircraft.updateShadowBasicId();
                 aircraft.connection.setValue(aircraft.connection.getValue());
             }
             handler.postDelayed(runnableCode, 1000);
         };
         handler.post(runnableCode);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+
+        btScanner.startScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
+            wiFiNaNScanner.startScan();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
+            wiFiBeaconScanner.startCountDownTimer();
+
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         Log.d(TAG, "onPause");
-        //btScanner.stopScan();
-        handler.removeCallbacks(runnableCode);
-        super.onPause();
-    }
 
-    private void showErrorText(int messageId) {
-        Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+        btScanner.stopScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
+            wiFiNaNScanner.stopScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
+            wiFiBeaconScanner.stopScan();
+
+        handler.removeCallbacks(runnableCode);
+        if (mFusedLocationClient != null)
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        super.onPause();
     }
 
     public void requestLocationPermission(int requestCode) {
@@ -362,9 +409,21 @@ public class DebugActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
-                showErrorText(R.string.permission_required_toast);
+                showToast(getString(R.string.permission_required_toast));
+                finish();
             }
+        }
+    }
 
+    void showToast(String message) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.R)
+            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+        else {
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
+            View snackView = snackbar.getView();
+            TextView snackTextView = (TextView) snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+            snackTextView.setMaxLines(5);
+            snackbar.show();
         }
     }
 }

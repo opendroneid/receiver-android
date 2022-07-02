@@ -5,33 +5,71 @@
  SPDX-License-Identifier: Apache-2.0
 
 !-->
+
+<!--
+When the flag org.gradle.project.map in gradle.properties
+is defined to google_map, the Map Type element below needs
+to be uncommented.
+!-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/clear"
-        android:title="Clear"
+        android:title="@string/Clear"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/help"
+        android:title="@string/Help"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_log"
         android:checkable="true"
-        android:title="Log enabled"
+        android:title="@string/Log_enabled"
         app:showAsAction="never" />
     <item
         android:id="@+id/log_location"
-        android:title="Show log location" />
+        android:title="@string/Show_log_location"
+        app:showAsAction="never" />
+    <!--
+    <item
+        android:id="@+id/maptype"
+        app:showAsAction="never"
+        android:title="@string/Map_Type">
+        <menu >
+            <group android:id="@+id/groupmaptype"
+                android:checkableBehavior="single">
+                <item android:id="@+id/maptypeNORMAL"
+                    android:title="@string/Map_Type_Normal" />
+                <item android:id="@+id/maptypeSATELLITE"
+                    android:title="@string/Map_Type_Satellite" />
+                <item android:id="@+id/maptypeTERRAIN"
+                    android:title="@string/Map_Type_Terrain" />
+                <item android:id="@+id/maptypeHYBRID"
+                    android:title="@string/Map_Type_Hybrid" />
+                <item android:id="@+id/maptypeNONE"
+                    android:title="@string/Map_Type_None" />
+            </group>
+        </menu>
+    </item>
+    !-->
     <item
         android:id="@+id/coded_phy"
-        android:title="@string/coded_phy_not_supported" />
+        android:title="@string/coded_phy_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/extended_advertising"
-        android:title="@string/ea_not_supported" />
+        android:title="@string/ea_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/wifi_nan"
-        android:title="@string/nan_not_supported" />
+        android:title="@string/nan_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/wifi_beacon_scan"
-        android:title="@string/wifi_beacon_scan_not_supported" />
+        android:title="@string/wifi_beacon_scan_not_supported"
+        app:showAsAction="never" />
     <item
         android:id="@+id/version"
-        android:title="@string/app_version" />
+        android:title="@string/app_version"
+        app:showAsAction="never" />
 </menu>

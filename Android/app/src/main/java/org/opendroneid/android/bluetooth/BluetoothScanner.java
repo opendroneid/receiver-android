@@ -82,7 +82,7 @@ public class BluetoothScanner {
 
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
-                logger.logBluetooth(callbackType, result, transportType, csvLog);
+                logger.logBluetooth(logMessageEntry.getMsgVersion(), result, transportType, csvLog);
 
             Log.w(TAG, "onScanResult: " + string);
             if (bytes != null) {
@@ -100,9 +100,9 @@ public class BluetoothScanner {
     };
 
     /* OpenDroneID Bluetooth beacons identify themselves by setting the GAP AD Type to
-     * "Service Data - 16-bit UUID" and the value to 0xFFFA	for ASTM International, ASTM Remote ID.
-     * https://www.bluetooth.com/specifications/assigned-numbers/generic-access-profile/
-     * https://www.bluetooth.com/specifications/assigned-numbers/16-bit-uuids-for-sdos/
+     * "Service Data - 16-bit UUID" and the value to 0xFFFA for ASTM International, ASTM Remote ID.
+     * https://www.bluetooth.com/specifications/assigned-numbers/ -> "Generic Access Profile"
+     * https://www.bluetooth.com/specifications/assigned-numbers/ -> "16-bit UUIDs"
      * Vol 3, Part B, Section 2.5.1 of the Bluetooth 5.1 Core Specification
      * The AD Application Code is set to 0x0D = Open Drone ID.
      */
@@ -141,7 +141,7 @@ public class BluetoothScanner {
     }
 
     public void stopScan() {
-        if (bluetoothLeScanner != null && scanCallback != null) {
+        if (bluetoothLeScanner != null) {
             bluetoothLeScanner.stopScan(scanCallback);
         }
     }

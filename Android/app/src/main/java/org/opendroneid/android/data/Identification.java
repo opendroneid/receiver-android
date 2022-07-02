@@ -46,6 +46,7 @@ public class Identification extends MessageData {
         Serial_Number,
         CAA_Registration_ID,
         UTM_Assigned_ID,
+        Specific_Session_ID,
     }
 
     public UaTypeEnum getUaType() { return uaType; }
@@ -76,12 +77,32 @@ public class Identification extends MessageData {
             case 1: this.idType = IdTypeEnum.Serial_Number; break;
             case 2: this.idType = IdTypeEnum.CAA_Registration_ID; break;
             case 3: this.idType = IdTypeEnum.UTM_Assigned_ID; break;
+            case 4: this.idType = IdTypeEnum.Specific_Session_ID; break;
             default: this.idType = IdTypeEnum.None; break;
         }
     }
 
     public byte[] getUasId() { return uasId; }
-    public String getUasIdAsString() { return new String(uasId); }
+    public String getUasIdAsString() {
+        if (uasId != null) {
+            if (idType == IdTypeEnum.Serial_Number || idType == IdTypeEnum.CAA_Registration_ID) {
+                for (int c : uasId) {
+                    if ((c <= 31 || c >= 127) && c != 0) {
+                        return "Invalid ID String";
+                    }
+                }
+                return new String(uasId);
+            } else if (idType == IdTypeEnum.UTM_Assigned_ID || idType == IdTypeEnum.Specific_Session_ID) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("0x");
+                for (byte b : uasId) {
+                    sb.append(String.format("%02X", b));
+                }
+                return sb.toString();
+            }
+        }
+        return "";
+    }
     public void setUasId(byte[] uasId) {
         if (uasId.length <= Constants.MAX_ID_BYTE_SIZE)
             this.uasId = uasId;

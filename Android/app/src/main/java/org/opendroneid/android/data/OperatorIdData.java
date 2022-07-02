@@ -33,4 +33,15 @@ public class OperatorIdData extends MessageData {
             this.operatorId = operatorId;
     }
     public byte[] getOperatorId() { return operatorId; }
+    public String getOperatorIdAsString() {
+        if (operatorId != null) {
+            for (int c : operatorId) {
+                if ((c <= 31 || c >= 127) && c != 0) {
+                    return "Invalid String";
+                }
+            }
+            return new String(operatorId);
+        }
+        return "";
+    }
 }

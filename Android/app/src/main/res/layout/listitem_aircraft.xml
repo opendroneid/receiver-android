@@ -13,7 +13,6 @@
     android:orientation="horizontal">
 
     <ImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drone_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -34,30 +33,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            tools:ignore="SpUsage" />
 
         <TextView
             tools:text="small"
             android:id="@+id/aircraftFun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12dp" />
-
-
+            android:textSize="12dp"
+            tools:ignore="SpUsage" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/last_seen"
+        android:id="@+id/rssi"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="10dp" />
+        android:textSize="10dp"
+        tools:ignore="SpUsage" />
 
     <Button
         android:id="@+id/modButton"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="info"
+        android:text="@string/info"
         />
 </LinearLayout>

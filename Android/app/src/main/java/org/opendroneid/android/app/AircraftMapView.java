@@ -6,14 +6,16 @@
  */
 package org.opendroneid.android.app;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.Manifest;
@@ -34,6 +36,7 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
+import org.opendroneid.android.R;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -78,8 +81,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         if (getActivity() == null)
             return;
 
-        model = ViewModelProviders.of(getActivity()).get(AircraftViewModel.class);
-
+        model = new ViewModelProvider(getActivity()).get(AircraftViewModel.class);
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
         model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
             MapObserver last = null;
@@ -120,14 +122,12 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public boolean onMarkerClick(@NonNull Marker marker) {
 
-        if (marker != null) {
-            Object tag = marker.getTag();
-            if (tag instanceof AircraftObject) {
-                model.setActiveAircraft((AircraftObject) tag);
-                return true;
-            }
+        Object tag = marker.getTag();
+        if (tag instanceof AircraftObject) {
+            model.setActiveAircraft((AircraftObject) tag);
+            return true;
         }
         return false;
     }
@@ -171,7 +171,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             @Override
             public void onChanged(@Nullable SystemData ignore) {
                 SystemData sys = aircraft.getSystem();
-                // todo, why is google maps null? fix this
                 if (sys == null || googleMap == null)
                     return;
 
@@ -182,17 +181,19 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                 LatLng latLng = new LatLng(sys.getOperatorLatitude(), sys.getOperatorLongitude());
                 if (markerPilot == null) {
                     String id = "ID missing";
-                    if (aircraft.getIdentification() != null)
-                        id = aircraft.getIdentification().getUasIdAsString();
+                    if (aircraft.getIdentification1() != null)
+                        id = aircraft.getIdentification1().getUasIdAsString();
                     markerPilot = googleMap.addMarker(
                             new MarkerOptions()
                                     .alpha(0.5f)
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                     .position(latLng)
-                                    .title("pilot " + id));
-                    markerPilot.setTag(new Pair<>(aircraft, this));
+                                    .title(sys.getOperatorLocationType().toString() + ": " + id));
+                    if (markerPilot != null)
+                        markerPilot.setTag(new Pair<>(aircraft, this));
                 }
-                markerPilot.setPosition(latLng);
+                if (markerPilot != null)
+                    markerPilot.setPosition(latLng);
             }
         };
 
@@ -200,7 +201,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         public void onChanged(@Nullable LocationData ignore) {
             boolean zoom = false;
             LocationData loc = aircraft.getLocation();
-            // todo, why is google maps null? fix this
             if (loc == null || googleMap == null || polylineOptions == null)
                 return;
 
@@ -211,14 +211,15 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
             if (marker == null) {
                 String id = "ID missing";
-                if (aircraft.getIdentification() != null)
-                    id = aircraft.getIdentification().getUasIdAsString();
+                if (aircraft.getIdentification1() != null)
+                    id = aircraft.getIdentification1().getUasIdAsString();
                 marker = googleMap.addMarker(
                         new MarkerOptions()
                                 .alpha(0.5f)
                                 .position(latLng)
                                 .title("aircraft " + id));
-                marker.setTag(aircraft);
+                if (marker != null)
+                    marker.setTag(aircraft);
                 zoom = true;
             }
 
@@ -236,8 +237,8 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+    @Override @NonNull
+    public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View view = super.onCreateView(layoutInflater, viewGroup, bundle);
         getMapAsync(this);
         return view;
@@ -250,26 +251,53 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         if (getActivity() == null)
             return;
 
         this.googleMap = googleMap;
+        setMapSettings();
+    }
+
+    public boolean changeMapType(MenuItem item) {
+        if (googleMap == null)
+            return false;
+        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
+           the below code needs to be uncommented:
+        if (item.getItemId() == R.id.maptypeHYBRID) {
+            item.setChecked(!item.isChecked());
+            googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        } else if (item.getItemId() == R.id.maptypeNONE) {
+            item.setChecked(!item.isChecked());
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+        } else if (item.getItemId() == R.id.maptypeNORMAL) {
+            item.setChecked(!item.isChecked());
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        } else if (item.getItemId() == R.id.maptypeSATELLITE) {
+            item.setChecked(!item.isChecked());
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        } else if (item.getItemId() == R.id.maptypeTERRAIN) {
+            item.setChecked(!item.isChecked());
+            googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        } else {
+            return false;
+        }*/
+        return true;
+    }
+
+    public void setMapSettings() {
+        if (getActivity() == null || googleMap == null)
+            return;
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling ActivityCompat#requestPermissions
-            // to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.e("XX", "##################### can't make the right permissions");
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMyLocationEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
