@@ -27,6 +27,8 @@ The list is presented in alphabetical order.
 
 | Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                   | Notes                       |
 | ------------- | ---- | ---- | ------------ | --------- | -------------------------------------- | --------------------------- |
+| DJI Mavic 3   | ❌   | ❌   | ✅           | ❌        | https://www.dji.com/cz/mavic-3         | Range < 500 meters via smartphone |
+| DJI Mini 3 Pro | ❌  | ❌   | ✅           | ❌        | https://www.dji.com/cz/mini-3-pro      | Range < 500 meters via smartphone |
 | Parrot Anafi  | ❌   | ❌   | ✅           | ❌        | https://www.parrot.com/en/drones/anafi | FW version >= 1.8.0 required |
 
 ## Add-on Devices
@@ -39,11 +41,12 @@ The list is presented in alphabetical order.
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |
 | DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |
-| Droniq Atom   | ?    | ?     | ?            | ✅        | https://droniq.de/en/products/atom-flarm           |
-| DroneTag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |
+| Droniq Atom   | ?    | ?    | ?            | ✅        | https://droniq.de/en/products/atom-flarm           |
+| Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |
+| Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |
 | INVOLI LEMAN  | ❌   | ❌   |              | ✅        | https://www.involi.com/products/leman-drone-tracker |
-| Thales ScaleFlyt | ✅ | ✅  | ✅?         | ✅?       | https://www.scaleflyt.com/remoteid
-| Unifly BLIP   | ✅   | ❌    | ❌           | ❌        | https://unifly.aero/products/blip                  |
+| Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   |
+| Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |
 
 ## Other Transmitter Implementations
 
