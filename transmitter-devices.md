@@ -37,16 +37,16 @@ Add-on devices are stand-alone implementations of remote ID, intended for retro-
 
 The list is presented in alphabetical order.
 
-| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                                |
-| ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- |
-| Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |
-| DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |
-| Droniq Atom   | ?    | ?    | ?            | ✅        | https://droniq.de/en/products/atom-flarm           |
-| Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |
-| Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |
-| INVOLI LEMAN  | ❌   | ❌   |              | ✅        | https://www.involi.com/products/leman-drone-tracker |
-| Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   |
-| Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |
+| Device        | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | Link                                                | Notes        |
+| ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- | ------------ |
+| Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |              |
+| DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
+| Droniq Atom   | ?    | ?    | ?            | ✅        | https://droniq.de/en/products/atom-flarm           | (unverified) |
+| Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
+| Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
+| INVOLI LEMAN  | ❌   | ❌   | ?            | ✅        | https://www.involi.com/products/leman-drone-tracker | (unverified) |
+| Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (unverified) |
+| Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |              |
 
 ## Other Transmitter Implementations
 
