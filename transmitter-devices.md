@@ -41,9 +41,9 @@ The list is presented in alphabetical order.
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- | ------------ |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |              |
 | DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
-| Droniq Atom   | ?    | ?    | ?            | ✅        | https://droniq.de/en/products/atom-flarm           | (unverified) |
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
 | Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
+| FLARM Atom UAV | ❌  | ❌   | ❌           | ❌        | https://flarm.com/products/uav/atom-uav-flarm-for-drones/ |              |
 | INVOLI LEMAN  | ❌   | ❌   | ?            | ✅        | https://www.involi.com/products/leman-drone-tracker | (unverified) |
 | Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (unverified) |
 | Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |              |
