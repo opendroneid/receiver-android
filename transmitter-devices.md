@@ -49,6 +49,8 @@ The list is presented in alphabetical order.
 | Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (unverified) |
 | Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |              |
 
+For further information about add-ons capable of inputting MAVLink message data, please see [here](https://github.com/ArduPilot/ardupilot_wiki/blob/master/common/source/docs/common-remoteid.rst).
+
 ## Other Transmitter Implementations
 
 For open source transmitter example implementations, please see [here](https://github.com/opendroneid/opendroneid-core-c#transmitter-examples).
