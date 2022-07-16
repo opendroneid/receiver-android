@@ -311,7 +311,7 @@ public class AircraftOsMapView extends Fragment {
             polyline = new Polyline();
             polylineData.add(geoPoint);
             polyline.setPoints(polylineData);
-            polyline.setColor(Color.RED);    // <-- deprecation? Someone fix it. (^_^;)
+            polyline.getOutlinePaint().setColor(Color.RED);
             osvMap.getOverlays().add(polyline);
 
             // move map position
