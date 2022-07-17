@@ -17,42 +17,42 @@ OpenDroneIDシグナル仕様に合致するものがあれば、そのリモー
 地図上の赤マーカーは、ドローンの位置を示します。青マーカーは操縦者もしくは離陸地点の位置を示します。
 (そのデータフィールドを受信している場合) またドローンが飛行した場所を示す赤い線がマップ上に表示されます。
 
+上記のスクリーンショットは、Google Mapsを使用するようビルドされたAndroidアプリの画面キャプチャです。デフォルトでは、アプリ利用地図はOpen Street Mapを使用するようになっています。この場合マーカーアイコンは少し違って表示されます。
+
 注意: この受信アプリケーションのユーザは、受信したOpenDroneIDシグナルが、信号を示している位置で空中を飛行しているドローン実機と同一であることを常に目視で確認する必要があります。
+
 
 ## ビルド方法
 
 アプリケーションをビルドするには、Android Studioを使用します。プロジェクトをインポートして (File -> New -> Import Project)、【Android】フォルダを指定します。
 次に、Build -> Make Projectを実行します。  
 
-> **Note**
-> 上記の説明を補足すると、ビルド -> Build Bundle(s)/APK(s) -> Build APK(s)を実行、【...\Android\app\build\intermediates\apk\debug\app-debug.apk】を出力させ、これをスマートフォンに移動しインストールを実施しました。
+デフォルトでは、アプリ利用地図はOpen Street Mapを使用するように設定されています。
+この場合、地図のライセンスキーは必要ありません。この地図サービスは [© OpenStreetMap](https://www.openstreetmap.org/copyright) に帰属します。
+この設定を変更し、代わりにGoogle Mapsを使用することも可能です。以下のコードを変更する必要があります。
 
-[**ビルドの方法に関しWikiに記載しました。ご参考としてください。(Wikiは随時更新中)**](https://github.com/ToshihiroMakuuchi/receiver-android-jp/wiki)  
+* `gradle.properties` ファイルの `org.gradle.project.map=google_map` 行のコメントアウトを外します。
+* `activity_debug.xml` ファイルのClass参照を `AircraftMapView` に変更する必要があります。
+* `main_menu.xml` ファイルのMap Typeを定義するセクションのコメントアウトを外します。
+* `AircraftMapView.java` ファイルの `changeMapType()` 関数内コードのコメントアウトを外します。
+* `DebugActivity.java` ファイルの `onCreateOptionsMenu()` 関数内コードのコメントアウトを外します。
 
-完全な機能を実現するため、ソースコードをビルドする前に、Google Maps APIキーを取得する必要があります。
-APIキーがない場合は、アプリケーション起動、送信された信号を取得、リストと詳細情報がビュー表示されますが、地図上に表示されるビューは動作しませんのでご注意ください。
-ソースコードでは意図的にGoogle Maps APIキーは同梱提供されておらず、同一の理由で、すぐにビルド/利用可能なapkファイルも提供されてません。
-こちらで説明している独自のAPIキーを生成してご利用ください。
+このバリエーションに関しては、理想とは程遠いものです。
+もしAndroidのコーディングスキルが高い方が、2つの異なる地図システムを簡単に変更できるようにコード修正できる様でであれば、ぜひ改善をお願い致します。
+
+完全な機能を実現するため、ソースコードをビルドする前に、Google Maps APIキーを取得する必要があります。APIキーがない場合は、アプリケーション起動、送信された信号を取得、リストと詳細情報がビュー表示されますが、
+地図上に表示されるビューは動作しませんのでご注意ください。ソースコードでは意図的にGoogle Maps APIキーは同梱提供されておりません。
+こちらで説明しました独自のAPIキーを生成してご利用ください:
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
 
 自身で生成したAPIキーを挿入する必要があります:
 `Android/app/src/main/res/values/google_maps_api.xml`
 
 
-わかりやすい動画もありますので参考としてください。  
-Raffaello KWOS氏: EASA REMOTE ID, come funziona e come riceverlo: OpenDroneID Android receiver application. (イタリア語)  
-https://www.youtube.com/watch?v=OKslqHbcQuU
-
-
-開発作業の兼ね合いで、一時的にAPKファイルを配置します。ですが完全にまっく氏のWork的なものとなりますのでご承知おきください。  
-https://github.com/ToshihiroMakuuchi/receiver-android-jp/releases/
-
-
 ## 送信デバイス
 
 受信アプリケーションのテスト実績として、リモートID送信デバイスの公開された動作確認済一覧は [こちら](transmitter-devices_jp.md) をご参照ください。  
-※この情報は日本で販売される外付型/内蔵型リモートID送信デバイスの情報は含まれておりません。  
-(メーカーの皆様、情報お待ちしておりますｗ)
+
 
 ## 異なるAndroidスマートフォンでの伝送方式のサポート
 
