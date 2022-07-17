@@ -28,21 +28,21 @@ OpenDroneIDシグナル仕様に合致するものがあれば、そのリモー
 次に、Build -> Make Projectを実行します。  
 
 デフォルトでは、アプリ利用地図はOpen Street Mapを使用するように設定されています。
-この場合、地図のライセンスキーは必要ありません。この地図サービスは [© OpenStreetMap](https://www.openstreetmap.org/copyright) に帰属します。
+この場合、地図のライセンスキーは必要ありません。この地図サービスは [© OpenStreetMap](https://www.openstreetmap.org/copyright) に帰属します。  
 この設定を変更し、代わりにGoogle Mapsを使用することも可能です。以下のコードを変更する必要があります。
 
-* `gradle.properties` ファイルの `org.gradle.project.map=google_map` 行のコメントアウトを外します。
-* `activity_debug.xml` ファイルのClass参照を `AircraftMapView` に変更する必要があります。
-* `main_menu.xml` ファイルのMap Typeを定義するセクションのコメントアウトを外します。
-* `AircraftMapView.java` ファイルの `changeMapType()` 関数内コードのコメントアウトを外します。
-* `DebugActivity.java` ファイルの `onCreateOptionsMenu()` 関数内コードのコメントアウトを外します。
+* `gradle.properties` ファイルの `org.gradle.project.map=google_map` 行のコメントアウトを外す
+* `activity_debug.xml` ファイルのClass参照を `AircraftMapView` に変更する
+* `main_menu.xml` ファイルのMap Typeを定義するセクションのコメントアウトを外す
+* `AircraftMapView.java` ファイルの `changeMapType()` 関数内コードのコメントアウトを外す
+* `DebugActivity.java` ファイルの `onCreateOptionsMenu()` 関数内コードのコメントアウトを外す
 
 このバリエーションに関しては、理想とは程遠いものです。
 もしAndroidのコーディングスキルが高い方が、2つの異なる地図システムを簡単に変更できるようにコード修正できる様でであれば、ぜひ改善をお願い致します。
 
 完全な機能を実現するため、ソースコードをビルドする前に、Google Maps APIキーを取得する必要があります。APIキーがない場合は、アプリケーション起動、送信された信号を取得、リストと詳細情報がビュー表示されますが、
 地図上に表示されるビューは動作しませんのでご注意ください。ソースコードでは意図的にGoogle Maps APIキーは同梱提供されておりません。
-こちらで説明しました独自のAPIキーを生成してご利用ください:
+こちらで説明しました独自のAPIキーを生成してご利用ください:  
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
 
 自身で生成したAPIキーを挿入する必要があります:
