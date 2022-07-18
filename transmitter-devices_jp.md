@@ -45,10 +45,10 @@
 | DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
 | Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
-| EAMS Robotics | ?    | ✅?  | ?            | ?         | http://www.eams-robo.co.jp/remoteid.html            | (未確認) |
+| EAMS Robotics | ?    | ✅?  | ?            | ?         | http://www.eams-robo.co.jp/remoteid.html            | (unverified) |
 | FLARM Atom UAV | ❌  | ❌   | ❌           | ❌        | https://flarm.com/products/uav/atom-uav-flarm-for-drones/ |              |
-| INVOLI LEMAN  | ❌   | ❌   | ?            | ✅        | https://www.involi.com/products/leman-drone-tracker | (未確認) |
-| Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (未確認) |
+| INVOLI LEMAN  | ❌   | ❌   | ?            | ✅        | https://www.involi.com/products/leman-drone-tracker | (unverified) |
+| Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (unverified) |
 | Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |              |
 
 MAVLinkメッセージデータの入力が可能なアドオンについては [こちら](https://github.com/ArduPilot/ardupilot_wiki/blob/master/common/source/docs/common-remoteid.rst) をご覧ください。

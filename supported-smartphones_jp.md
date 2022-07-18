@@ -2,7 +2,7 @@
 
 本資料は、欧米規格に準拠し、無人航空機 (UA) やアドオン機器からのブロードキャストリモートID信号の受信テストを実施した対応スマートフォンの一覧表です。
 
-公開されているAndroid リモートID受信 サンプルアプリケーションのドキュメント抜粋は [こちら](https://github.com/opendroneid/receiver-android/README_jp.md) です。
+公開されているAndroid リモートID受信 サンプルアプリケーションのドキュメント抜粋は [こちら](https://github.com/opendroneid/receiver-android/blob/master/README_jp.md) です。
 
 リモートIDに関する一般的な情報は [こちら](https://github.com/opendroneid/opendroneid-core-c#opendroneid-core-c)をご参照ください。またリモートID送信デバイス一覧は [こちら](transmitter-devices_jp.md) に記載されています。
 
