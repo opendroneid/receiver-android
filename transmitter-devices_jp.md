@@ -46,7 +46,7 @@
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
 | Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
 | EAMS Robotics | ?    | ✅?  | ?            | ?         | http://www.eams-robo.co.jp/remoteid.html            | (unverified) |
-| FLARM Atom UAV | ❌  | ❌   | ❌           | ❌        | https://flarm.com/products/uav/atom-uav-flarm-for-drones/ |              |
+| FLARM Atom UAV | ❌  | ❌   | ❌           | ✅        | https://flarm.com/products/uav/atom-uav-flarm-for-drones/ |              |
 | INVOLI LEMAN  | ❌   | ❌   | ?            | ✅        | https://www.involi.com/products/leman-drone-tracker | (unverified) |
 | Thales ScaleFlyt | ✅ | ✅  | ✅?          | ✅?       | https://www.scaleflyt.com/remoteid                   | (unverified) |
 | Unifly BLIP   | ✅   | ❌   | ❌           | ❌        | https://unifly.aero/products/blip                  |              |
