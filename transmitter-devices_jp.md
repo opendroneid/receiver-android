@@ -42,6 +42,7 @@
 | デバイス      | BT 4 | BT 5 | Wi-Fi Beacon | Wi-Fi NAN | リンク                                              | 備考         |
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- | ------------ |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |              |
+| Aerobits idME Pro | ✅ | ✅ | ✅           | ✅        | https://www.aerobits.pl/product/idme-pro/           |              |
 | DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
 | Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
