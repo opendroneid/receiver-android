@@ -70,13 +70,13 @@
     <string name="Latitude">緯度</string>
     <string name="Longitude">経度</string>
     <string name="Altitude_Press">気圧高度</string>
-    <string name="Alt_Geod">対地高度</string>
+    <string name="Alt_Geod">GPS高度</string>
     <string name="Direction">軌道方向</string>
     <string name="Status">ステータス</string>
     <string name="Hori_Speed">速度</string>
     <string name="Vert_Speed">垂直速度</string>
     <string name="Height">高さ</string>
-    <string name="Height_Over">対地高度種別</string>
+    <string name="Height_Over">高さ種別</string>
     <string name="Hori_Accuracy">水平精度</string>
     <string name="Vert_Acc">垂直精度</string>
     <string name="Baro_Acc">気圧高度精度</string>
