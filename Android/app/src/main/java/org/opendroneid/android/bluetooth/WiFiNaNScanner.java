@@ -61,7 +61,7 @@ public class WiFiNaNScanner {
 
         wifiAwareManager = (WifiAwareManager) context.getSystemService(Context.WIFI_AWARE_SERVICE);
         if (wifiAwareManager != null && !wifiAwareManager.isAvailable()) {
-            Toast.makeText(context, "WiFi Aware is currently not available. Code to properly handle this must be added.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "WiFi Aware is currently not available", Toast.LENGTH_LONG).show();
         }
 
         IntentFilter filter = new IntentFilter(WifiAwareManager.ACTION_WIFI_AWARE_STATE_CHANGED);

@@ -264,7 +264,7 @@ public class DebugActivity extends AppCompatActivity {
         } else {
             // Bluetooth is not supported.
             showToast(getString(R.string.bt_not_supported));
-            finish();
+            forceStopApp();
         }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -330,14 +330,14 @@ public class DebugActivity extends AppCompatActivity {
             } else {
                 // User declined to enable Bluetooth, exit the app.
                 showToast(getString(R.string.bt_not_enabled_leaving));
-                finish();
+                forceStopApp();
             }
         } else if (requestCode == Constants.REQUEST_ENABLE_WIFI) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 // User declined to enable WiFi, exit the app.
                 showToast(getString(R.string.wifi_not_enabled_leaving));
-                finish();
+                forceStopApp();
             }
         }
     }
@@ -363,8 +363,11 @@ public class DebugActivity extends AppCompatActivity {
         handler.post(runnableCode);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        } else {
+            requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
+        }
 
         btScanner.startScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
@@ -410,7 +413,6 @@ public class DebugActivity extends AppCompatActivity {
                 initialize();
             } else {
                 showToast(getString(R.string.permission_required_toast));
-                finish();
             }
         }
     }
@@ -425,5 +427,15 @@ public class DebugActivity extends AppCompatActivity {
             snackTextView.setMaxLines(5);
             snackbar.show();
         }
+    }
+
+    void forceStopApp() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+            }
+            catch (Exception ignored) { }
+            finish();
+        }).start();
     }
 }
