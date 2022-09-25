@@ -43,6 +43,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -164,6 +165,12 @@ public class AircraftOsMapView extends Fragment {
         osvMap = view.findViewById(R.id.map);
         osvMap.setTileSource(TileSourceFactory.MAPNIK);
         osvMap.setMultiTouchControls(true);
+
+        MyLocationNewOverlay myLocationoverlay = new MyLocationNewOverlay(osvMap);
+        myLocationoverlay.enableMyLocation();
+        myLocationoverlay.disableFollowLocation();
+        myLocationoverlay.setDrawAccuracyEnabled(true);
+        osvMap.getOverlays().add(myLocationoverlay);
 
         IMapController mapController = osvMap.getController();
         mapController.setZoom(3.0);
