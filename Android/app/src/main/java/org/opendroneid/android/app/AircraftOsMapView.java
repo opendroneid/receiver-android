@@ -274,7 +274,7 @@ public class AircraftOsMapView extends Fragment {
                 return;
             }
             GeoPoint geoPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
-            // make maker
+            // make marker
             if (marker == null) {
                 String id = "ID missing";
                 if (aircraft.getIdentification1() != null) {
@@ -303,7 +303,7 @@ public class AircraftOsMapView extends Fragment {
                 zoom = true;
             }
 
-            // make maker line
+            // make marker line
             if (polyline != null) {
                 osvMap.getOverlays().remove(polyline);
                 polyline = null;
@@ -313,6 +313,7 @@ public class AircraftOsMapView extends Fragment {
             polyline.setPoints(polylineData);
             polyline.getOutlinePaint().setColor(Color.RED);
             osvMap.getOverlays().add(polyline);
+            osvMap.invalidate();
 
             // move map position
             marker.setPosition(geoPoint);
