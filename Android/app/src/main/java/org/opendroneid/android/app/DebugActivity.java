@@ -160,13 +160,17 @@ public class DebugActivity extends AppCompatActivity {
             mMenuLogItem.setChecked(enabled);
             if (enabled) {
                 createNewLogfile();
-                wiFiNaNScanner.setLogger(logger);
-                wiFiBeaconScanner.setLogger(logger);
+                if (wiFiNaNScanner != null)
+                    wiFiNaNScanner.setLogger(logger);
+                if (wiFiBeaconScanner != null)
+                    wiFiBeaconScanner.setLogger(logger);
             } else {
                 logger.close();
                 btScanner.setLogger(null);
-                wiFiNaNScanner.setLogger(null);
-                wiFiBeaconScanner.setLogger(null);
+                if (wiFiNaNScanner != null)
+                    wiFiNaNScanner.setLogger(null);
+                if (wiFiBeaconScanner != null)
+                    wiFiBeaconScanner.setLogger(null);
             }
             return true;
         } else if (id == R.id.log_location) {
@@ -369,10 +373,10 @@ public class DebugActivity extends AppCompatActivity {
             requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
         }
 
-        btScanner.startScan();
+        if (btScanner != null)
+            btScanner.startScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
             wiFiNaNScanner.startScan();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
             wiFiBeaconScanner.startCountDownTimer();
 
@@ -383,7 +387,8 @@ public class DebugActivity extends AppCompatActivity {
     protected void onPause() {
         Log.d(TAG, "onPause");
 
-        btScanner.stopScan();
+        if (btScanner != null)
+            btScanner.stopScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
             wiFiNaNScanner.stopScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
