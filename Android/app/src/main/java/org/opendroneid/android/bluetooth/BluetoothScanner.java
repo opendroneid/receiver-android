@@ -137,11 +137,12 @@ public class BluetoothScanner {
                            .build();
         }
 
-        bluetoothLeScanner.startScan(scanFilters, scanSettings, scanCallback);
+        if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled())
+            bluetoothLeScanner.startScan(scanFilters, scanSettings, scanCallback);
     }
 
     public void stopScan() {
-        if (bluetoothLeScanner != null) {
+        if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled()) {
             bluetoothLeScanner.stopScan(scanCallback);
         }
     }

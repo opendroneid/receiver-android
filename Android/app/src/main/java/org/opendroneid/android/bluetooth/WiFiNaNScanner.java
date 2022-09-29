@@ -137,8 +137,13 @@ public class WiFiNaNScanner {
         if (!wifiAwareSupported)
             return;
         Log.i(TAG, "WiFi NaN attaching");
-        if (wifiAwareManager.isAvailable())
-            wifiAwareManager.attach(attachCallback, identityChangedListener, null);
+        if (wifiAwareManager.isAvailable()) {
+            try {
+                wifiAwareManager.attach(attachCallback, identityChangedListener, null);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.O)
