@@ -72,7 +72,7 @@ Androidスマートフォンの中には、Android機能としてLong RangeとEx
   * Tx powerを1dBm(最大)に設定します。
   * 他の項目はデフォルト値のままにしておきます。
 4. Masterで、スイッチを切り替えてAdvertisementを実行します。 "No maximum options"、"Until manually turned off"を選択します。
-  * 別の方法として アドオンデバイスを起動するか [Bluetooth Long Range sample](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/samples/bluetooth/central_hr_coded/README.html) を実行します。	
+  * 別の方法として アドオンデバイスを起動するか [Bluetooth Long Range sample](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/samples/bluetooth/central_hr_coded/README.html) を実行します。
 5. DUT上で、Scannerタブでスキャンを実行し、Masterデバイスの検索を試みます。
   * Masterのデバイス名が表示されます。
 
@@ -205,6 +205,7 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 | LG X Cam                                         | MT 6735           |  6 |            |            | ❌ 1/2020  |            |      | |
 | Motorola Edge 20 Pro                             | Snapdragon 870 5G | 11 | ✅ 3/2022  | ❌ 3/2022  |      ➕     |           | [Link](receiver_proofs/Motorola_Edge_20_Pro) | Long Rangeサポートを謳うが、信号は受信できていない。Texas Instrument社製LAUNCHXL-CC1352P-2を使用してのテストを実施 |
 | Motorola One Vision                              | Exynos 9609       |  9 | ✅ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Motorola_One_Vision) | Long Rangeサポートとされているが、信号は受信できない |
+| Motorola Moto G 7                                | Snapdragon 632    | 10 | ❌ 10/2022 | ❌ 10/2022 |      ➕     | ❌ 10/2022 | [Link](receiver_proofs/Motorola_G7) | |
 | Motorola Moto G 6 plus                           | Snapdragon 630    |  9 | ❌ 1/2020  | ❌ 1/2020  |      ➕     | ❌ 1/2020  |      | |
 | Nokia 9 Pureview                                 | Snapdragon 845    |  9 |            |            | ✅ 1/2020  |            |      | |
 | Nokia X20                                        | Snapdragon 480    | 12 | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022  | ✅ 3/2022  | [Link](receiver_proofs/Nokia_X20) | Long Range受信は部分的に成功しているが長めのギャップあり(15秒) |
