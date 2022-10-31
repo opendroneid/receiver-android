@@ -8,14 +8,14 @@
 !-->
 <resources>
     <string name="app_name">OpenDroneID</string>
-    <string name="bt_not_supported">Bluetooth non pris en charge</string>
-    <string name="bt_not_enabled_leaving">Bluetooth non activé, laissant</string>
-    <string name="wifi_not_enabled_leaving">WiFi non activé, laissant</string>
+    <string name="bt_not_supported">Le terminal ne gère pas le Bluetooth.</string>
+    <string name="bt_not_enabled_leaving">L\'application ne fonctionnera pas sans activer le Bluetooth.</string>
+    <string name="wifi_not_enabled_leaving">L\'application ne fonctionnera pas sans activer le WiFi.</string>
     <string name="info">Information</string>
 
-    <string name="Clear">Dégager</string>
-    <string name="Help">Aider</string>
-    <string name="Log_enabled">Journal Activé</string>
+    <string name="Clear">Vider</string>
+    <string name="Help">Aide</string>
+    <string name="Log_enabled">Journalisation activée</string>
     <string name="Show_log_location">Afficher l\'emplacement du journal</string>
 
     <string name="coded_phy_not_supported">Coded Phy non supporté</string>
@@ -25,21 +25,21 @@
     <string name="nan_not_supported">WiFi NaN non supporté</string>
     <string name="nan_supported">WiFi NaN supporté</string>
 
-    <string name="wifi_beacon_scan_not_supported">Balayage des balise WiFi non supporté</string>
-    <string name="wifi_beacon_scan_supported">Balayage des balise WiFi supporté</string>
-    <string name="Logging_to">Logging to </string>
-    <string name="Logging_not_activated">Logging not activated</string>
-    <string name="Map_Type">Map Type</string>
+    <string name="wifi_beacon_scan_not_supported">Scan des balises WiFi non supporté</string>
+    <string name="wifi_beacon_scan_supported">Scan des balises WiFi supporté</string>
+    <string name="Logging_to">"Journalisation vers "</string>
+    <string name="Logging_not_activated">Journalisation désactivée</string>
+    <string name="Map_Type">Type de carte</string>
     <string name="Map_Type_Normal">Normal</string>
     <string name="Map_Type_Satellite">Satellite</string>
     <string name="Map_Type_Terrain">Terrain</string>
-    <string name="Map_Type_Hybrid">Hybrid</string>
-    <string name="Map_Type_None">None</string>
+    <string name="Map_Type_Hybrid">Hybride</string>
+    <string name="Map_Type_None">Aucune</string>
 
     <string name="copyright_osm">©https://www.openstreetmap.org/copyright contributors</string>
 
-    <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l\'accès à la localisation</string>
-    <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne</string>
+    <string name="permission_rationale_location">Cette application ne fonctionnera pas sans activer l\'accès à la localisation.</string>
+    <string name="permission_required_toast">Une autorisation de localisation est requise pour que cette application fonctionne.</string>
 
     <string name="drone_icon_content_description">Icône de drone</string>
 
@@ -54,60 +54,60 @@
     <string name="unknown">–</string>
     <string name="RSSI">RSSI</string>
     <string name="MAC">MAC</string>
-    <string name="Started">A Débuté</string>
-    <string name="Last_seen">Vu pour la derniére fois</string>
+    <string name="Started">Débuté</string>
+    <string name="Last_seen">Vu pour la dernière fois</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">Distance</string>
 
-    <string name="Basic_ID_1">Piéce d’identité de base 1</string>
-    <string name="Type">Taper</string>
-    <string name="ID_Type">Type d’identification</string>
-    <string name="UAS_ID">Aéronefs sans equipage identification</string>
-    <string name="Basic_ID_2">Piéce d’identité de base 2</string>
+    <string name="Basic_ID_1">Identité de base 1</string>
+    <string name="Type">Type</string>
+    <string name="ID_Type">Type d’ID</string>
+    <string name="UAS_ID">ID UAS</string>
+    <string name="Basic_ID_2">Identité de base 2</string>
 
-    <string name="Location">Emplacement</string>
+    <string name="Location">Position</string>
     <string name="Latitude">Latitude</string>
     <string name="Longitude">Longitude</string>
-    <string name="Altitude_Press">Pression d’altitude</string>
-    <string name="Alt_Geod">Altitude géodésique</string>
+    <string name="Altitude_Press">Altitude pres.</string>
+    <string name="Alt_Geod">Altitude géod.</string>
     <string name="Direction">Direction</string>
     <string name="Status">Statut</string>
-    <string name="Hori_Speed">Vitesse horizontale</string>
-    <string name="Vert_Speed">Vitesse verticale</string>
-    <string name="Height">La taille</string>
-    <string name="Height_Over">Hauteur au-desses</string>
-    <string name="Hori_Accuracy">Précision horizontale</string>
-    <string name="Vert_Acc">Précision verticale</string>
-    <string name="Baro_Acc">Précision barométrique</string>
-    <string name="Speed_Acc">Précision de la vitesse</string>
+    <string name="Hori_Speed">Vitesse hori.</string>
+    <string name="Vert_Speed">Vitesse vert.</string>
+    <string name="Height">Hauteur</string>
+    <string name="Height_Over">Réf. hauteur</string>
+    <string name="Hori_Accuracy">Précision hori.</string>
+    <string name="Vert_Acc">Précision vert.</string>
+    <string name="Baro_Acc">Précision baro.</string>
+    <string name="Speed_Acc">Précision vitesse</string>
     <string name="Time_Acc">Précision de l’heure</string>
     <string name="Timestamp">Horodatage</string>
 
     <string name="Self_ID">Auto-identification</string>
     <string name="Operation">Opération</string>
 
-    <string name="System_Operator">Opérateur systéme</string>
-    <string name="Location_Type">Type de lieu</string>
+    <string name="System_Operator">Opérateur</string>
+    <string name="Location_Type">Type de position</string>
     <string name="System_Altitude">Altitude</string>
     <string name="System_Latitude">Latitude</string>
     <string name="System_Longitude">Longitude</string>
     <string name="Area_Count">Nombre de zones</string>
     <string name="Area_Radius">Rayon de zone</string>
-    <string name="Area_Ceiling">Plafond de la zone</string>
-    <string name="Area_Floor">Rez-de-chaussée</string>
+    <string name="Area_Ceiling">Plafond de zone</string>
+    <string name="Area_Floor">Plancher de zone</string>
     <string name="Classification">Classification</string>
     <string name="Category">Catégorie</string>
     <string name="Class">Classe</string>
-    <string name="System_Timestamp">Timestamp</string>
+    <string name="System_Timestamp">Horodatage</string>
 
-    <string name="Operator_Info">Operator ID</string>
-    <string name="Operator_ID">Identification de l’opérateur</string>
+    <string name="Operator_Info">ID Opérateur</string>
+    <string name="Operator_ID">ID Opérateur</string>
 
-    <string name="Authentication">Authentication</string>
+    <string name="Authentication">Authentification</string>
     <string name="Auth_Type">Type</string>
     <string name="Auth_Length">Longueur</string>
-    <string name="Auth_Timestamp">Timestamp</string>
-    <string name="Auth_Data">Authentication</string>
+    <string name="Auth_Timestamp">Horodatage</string>
+    <string name="Auth_Data">Authentification</string>
 
     <string name="bluetoothHelp">All devices should be able to receive Bluetooth 4 Legacy Advertising remote ID signals.&lt;br&gt;&lt;br&gt;
         To receive Bluetooth 5 Long Range remote ID signals, the device must support the &quot;Coded Phy&quot; feature and also the &quot;Extended Advertising&quot; feature.&lt;br&gt;&lt;br&gt;
