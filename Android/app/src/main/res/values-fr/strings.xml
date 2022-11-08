@@ -11,7 +11,7 @@
     <string name="bt_not_supported">Le terminal ne gère pas le Bluetooth.</string>
     <string name="bt_not_enabled_leaving">L\'application ne fonctionnera pas sans activer le Bluetooth.</string>
     <string name="wifi_not_enabled_leaving">L\'application ne fonctionnera pas sans activer le WiFi.</string>
-    <string name="info">Information</string>
+    <string name="info">INFO</string>
 
     <string name="Clear">Vider</string>
     <string name="Help">Aide</string>
@@ -55,7 +55,7 @@
     <string name="RSSI">RSSI</string>
     <string name="MAC">MAC</string>
     <string name="Started">Débuté</string>
-    <string name="Last_seen">Vu pour la dernière fois</string>
+    <string name="Last_seen">Dernière fois</string>
     <string name="Msg_8710">Msg &#8710;</string>
     <string name="Distance">Distance</string>
 
@@ -76,25 +76,25 @@
     <string name="Vert_Speed">Vitesse vert.</string>
     <string name="Height">Hauteur</string>
     <string name="Height_Over">Réf. hauteur</string>
-    <string name="Hori_Accuracy">Précision hori.</string>
-    <string name="Vert_Acc">Précision vert.</string>
-    <string name="Baro_Acc">Précision baro.</string>
-    <string name="Speed_Acc">Précision vitesse</string>
-    <string name="Time_Acc">Précision de l’heure</string>
+    <string name="Hori_Accuracy">Précis° hori.</string>
+    <string name="Vert_Acc">Précis° vert.</string>
+    <string name="Baro_Acc">Précis° baro.</string>
+    <string name="Speed_Acc">Précis° vitesse</string>
+    <string name="Time_Acc">Précis° temps</string>
     <string name="Timestamp">Horodatage</string>
 
     <string name="Self_ID">Auto-identification</string>
     <string name="Operation">Opération</string>
 
     <string name="System_Operator">Opérateur</string>
-    <string name="Location_Type">Type de position</string>
+    <string name="Location_Type">Type posit°</string>
     <string name="System_Altitude">Altitude</string>
     <string name="System_Latitude">Latitude</string>
     <string name="System_Longitude">Longitude</string>
-    <string name="Area_Count">Nombre de zones</string>
-    <string name="Area_Radius">Rayon de zone</string>
-    <string name="Area_Ceiling">Plafond de zone</string>
-    <string name="Area_Floor">Plancher de zone</string>
+    <string name="Area_Count">Nb de zones</string>
+    <string name="Area_Radius">Rayon zone</string>
+    <string name="Area_Ceiling">Plafond zone</string>
+    <string name="Area_Floor">Plancher zone</string>
     <string name="Classification">Classification</string>
     <string name="Category">Catégorie</string>
     <string name="Class">Classe</string>

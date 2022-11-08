@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (C) 2019 Intel Corporation
 
  SPDX-License-Identifier: Apache-2.0
@@ -18,42 +17,46 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Connection" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/msgVersion"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/unknown" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Connection" />
 
-            <TextView
-                android:id="@+id/receiveTime"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown" />
+                <TextView
+                    android:id="@+id/msgVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+                <TextView
+                    android:id="@+id/receiveTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -74,11 +77,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -99,11 +103,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -124,42 +129,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
+
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Basic_ID_1" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/infoLastUpdate1"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Basic_ID_1" />
+
+                <TextView
+                    android:id="@+id/infoLastUpdate1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -180,11 +192,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -194,45 +207,51 @@
                         android:id="@+id/infoUasId1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown"
-                        android:layout_span="3" />
+                        android:layout_span="3"
+                        android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Basic_ID_2" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/infoLastUpdate2"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Basic_ID_2" />
+
+                <TextView
+                    android:id="@+id/infoLastUpdate2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -253,11 +272,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -267,37 +287,45 @@
                         android:id="@+id/infoUasId2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown"
-                        android:layout_span="3" />
+                        android:layout_span="3"
+                        android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:text="@string/Location" />
-
-            <TextView
-                android:id="@+id/posLastUpdate"
-                android:layout_width="78dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Location" />
+
+                <TextView
+                    android:id="@+id/posLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
                 tools:ignore="RtlHardcoded">
 
@@ -324,11 +352,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -349,11 +378,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -374,11 +404,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -399,11 +430,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -424,11 +456,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -449,11 +482,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -474,11 +508,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -499,43 +534,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Self_ID" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/selfIdLastUpdate"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Self_ID" />
+
+                <TextView
+                    android:id="@+id/selfIdLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -556,43 +597,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="130dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/System_Operator" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/systemLastUpdate"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/System_Operator" />
+
+                <TextView
+                    android:id="@+id/systemLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -613,6 +660,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
@@ -638,11 +686,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -663,11 +712,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -688,11 +738,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -713,11 +764,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -738,43 +790,49 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Operator_Info" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/operatorIdLastUpdate"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Operator_Info" />
+
+                <TextView
+                    android:id="@+id/operatorIdLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -798,40 +856,45 @@
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
             app:contentPadding="8dp">
 
-            <TextView
-                style="@style/Details.Heading"
-                android:layout_width="99dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Authentication" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/authLastUpdate"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/unknown"
-                android:textAlignment="viewEnd" />
+                <TextView
+                    style="@style/Details.Heading"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/Authentication" />
+
+                <TextView
+                    android:id="@+id/authLastUpdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unknown" />
+
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
                 android:stretchColumns="1,3"
-                android:layout_marginLeft="10dp"
                 tools:ignore="RtlHardcoded">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -852,11 +915,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -868,11 +932,12 @@
                         android:layout_height="wrap_content"
                         android:layout_span="3"
                         android:text="@string/unknown" />
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         style="@style/Details.Label"
@@ -882,12 +947,15 @@
                         android:id="@+id/authData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown"
-                        android:layout_span="3" />
+                        android:layout_span="3"
+                        android:text="@string/unknown" />
+
                 </TableRow>
 
             </TableLayout>
+
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
 </ScrollView>
