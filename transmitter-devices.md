@@ -41,7 +41,8 @@ The list is presented in alphabetical order.
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- | ------------ |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |              |
 | Aerobits idME Pro | ✅ | ✅ | ✅           | ✅        | https://www.aerobits.pl/product/idme-pro/           |              |
-| DroneBeacon   | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
+| DroneBeacon db100  | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
+| DroneBeacon db120  | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ | (unverified) |
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
 | Dronetag Mini | ✅   | ✅   | ❌           | ❌        | https://dronetag.cz/en/products/mini/               |              |
 | EAMS Robotics | ?    | ✅?  | ?            | ?         | http://www.eams-robo.co.jp/remoteid.html            | (unverified) |
