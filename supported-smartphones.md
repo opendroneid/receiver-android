@@ -234,8 +234,6 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy M12                               | Exynos 850        | 11 | ✅ 03/2022 | ❌ 03/2022 | ✅ 03/2022  | ❌ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_m12) | |
 | Samsung Galaxy A52s                              | Snapdragon 778G   | 11 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022  | ✅ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_A52s)| |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
-| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
-| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
 | Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2021  |      | |
 | Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2020  |      | |
 | Sony Xperia 10 III                               | Snapdragon 690    | 11 | ❌ 3/2022   |            | ✅ 3/2022  |              | [Link](receiver_proofs/Sony_Xperia_10_III) | |
@@ -259,3 +257,11 @@ We plan to continuously update this list and increase the reliability of informa
 | Xiaomi Redmi K20 Pro                             | Snapdragon 855    |  9 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Xiaomi Mi Mix 3                                  | Snapdragon 845    |  9 |            |            | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Xiaomi Mi A2                                     | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020   |       ➕    | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_A2) | |
+
+
+| Tablet Model     | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
+| ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
+| Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           |  | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
+| Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           |  | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
+| Samsung Galaxy Tab S7, S7+                       |    |    |            |            |           |  |      | |
+| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
