@@ -261,7 +261,7 @@ We plan to continuously update this list and increase the reliability of informa
 
 | Tablet Model     | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
 | ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
-| Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           |  | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
-| Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           |  | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
-| Samsung Galaxy Tab S7, S7+                       |    |    |            |            |           |  |      | |
+| Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
+| Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
+| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
