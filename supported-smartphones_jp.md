@@ -224,7 +224,7 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 | Samsung Galaxy Note 8 (Global)                   | Exynos 8895       |  9 |            |            | ✅ 1/2020  |            |      | |
 | Samsung Galaxy Note 8 (USA, China, Japan)        | Snapdragon 835    |    |            |            |     ➕      |            |      | |
 | Samsung S22+                                     | Exynos 2200       | 12 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_S22+) | Long Range通信を継続的に受信 |
-| Samsung S21, S21+, S21 Ultra                     | Exynos 2100       | 11 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 |      | Long Range通信を継続的に受信 |
+| Samsung S21, S21+, S21 Ultra                     | Exynos 2100       | 11, 12, 13 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 | ✅ 11/2021 |      | Long Range通信を継続的に受信 |
 | Samsung S20, S20+, S20 ultra (Global)            | Exynos 990        | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S20_Exynos) | |
 | Samsung S20, S20+, S20 ultra (USA, China, Japan) | Snapdragon 865    | 10 | ✅ 2/2021  | ✅ 2/2021  |      ➕     | ✅ 2/2021  |      | Long Range通信を継続的に受信 |
 | Samsung Galaxy S10, S10e, S10+, S10 5G           | Exynos 9820       | 10 | ✅ 1/2021  | ✅ 1/2021  | ✅ 1/2020  | ✅ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_S10_Exynos) | Long Range通信を継続的に受信 |
