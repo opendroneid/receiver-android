@@ -267,5 +267,6 @@ We plan to continuously update this list and increase the reliability of informa
 | Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
 | Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
+| Samsung Galaxy Tab S8                            | Snapdragon 8 Gen 1 (SM8450) | 13 | ✅ 04/2023  | ✅ 04/2023 | ✅ 04/2023 | ✅ 04/2023 | | Receives Long Range continuously |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
 | Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
