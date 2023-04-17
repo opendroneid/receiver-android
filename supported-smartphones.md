@@ -160,6 +160,8 @@ Please note that most smartphones were tested in Q1 2020 and they do not contain
 Therefore, their functionality may have changed since.
 We plan to continuously update this list and increase the reliability of information by adding screenshot evidence.
 
+## Supported Smartphones
+
 | Smartphone Model | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
 | ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
 | Asus Zenfone 6                                   | Snapdragon 855    | 11 | ✅ 1/2021  | ✅ 7/2021  | ✅ 7/2021  | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | Does not receive Long Range continuously (gaps of up to 5 sec) |
@@ -190,7 +192,6 @@ We plan to continuously update this list and increase the reliability of informa
 | Huawei Honor View 10                             | Kirin 970         |  9 |            |            | ✅ 1/2020  |            |      | |
 | Huawei Honor 8S                                  | MT 6761 Helio A22 |  9 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Huawei_Honor_8S) | Not tested but expect the same behavior as the Nokia 2.2 |
 | Huawei Y6 Pro                                    | MT 6761 Helio A22 |  5 | ❌ 1/2020  | ❌ 1/2020   |            | ❌ 1/2020  |      | |
-| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Huawei Nexus 6P                                  | Snapdragon 810    |  8 |            |            | ✅ 1/2020  |            | [Link](receiver_proofs/Huawei_Nexus_6P) | |
 | LG velvet 5G                                     | Snapdragon 765G   |    |            |            |     ➕     | ✅ 1/2021  |      | |
 | LG G8X                                           | Snapdragon 855    |    |            |            |     ➕     | ✅ 1/2021  |      | |
@@ -259,8 +260,11 @@ We plan to continuously update this list and increase the reliability of informa
 | Xiaomi Mi A2                                     | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020   |       ➕    | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_A2) | |
 
 
+## Supported Tablets
+
 | Tablet Model     | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
 | ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
+| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
 | Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
 | Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
