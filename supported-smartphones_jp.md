@@ -165,6 +165,8 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 そのため、その後機能が変更されている可能性があります。
 今後、一覧を継続的に更新し、スクリーンショットにて証跡追加することで情報の信頼性を高めていく予定です。
 
+## 対応スマートフォン
+
 | モデル名 | Chipset | Android Ver | BT5 LR 基本 | BT5 LR 受信 | Wi-Fi Beacon | Wi-Fi NAN  | 検証 | 備考 |
 | -------------------- | ------------ | ------------------------- | ------------------------------- | -------------------- | ------------ | ---------- | ---------- | ---- |
 | Asus Zenfone 6                                   | Snapdragon 855    | 11 | ✅ 1/2021  | ✅ 7/2021  | ✅ 7/2021  | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | Long Rangeを連続受信できない (最大5秒間のギャップ) |
@@ -195,7 +197,6 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 | Huawei Honor View 10                             | Kirin 970         |  9 |            |            | ✅ 1/2020  |            |      | |
 | Huawei Honor 8S                                  | MT 6761 Helio A22 |  9 | ✅ 1/2020  |            |     ➕      | ❌ 1/2020  | [Link](receiver_proofs/Huawei_Honor_8S) | 未検証となるが、Nokia 2.2と同一な動作が期待できる |
 | Huawei Y6 Pro                                    | MT 6761 Helio A22 |  5 | ❌ 1/2020  | ❌ 1/2020   |            | ❌ 1/2020  |      | |
-| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
 | Huawei Nexus 6P                                  | Snapdragon 810    |  8 |            |            | ✅ 1/2020  |            | [Link](receiver_proofs/Huawei_Nexus_6P) | |
 | LG velvet 5G                                     | Snapdragon 765G   |    |            |            |     ➕     | ✅ 1/2021  |      | |
 | LG G8X                                           | Snapdragon 855    |    |            |            |     ➕     | ✅ 1/2021  |      | |
@@ -239,8 +240,6 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 | Samsung Galaxy M12                               | Exynos 850        | 11 | ✅ 03/2022 | ❌ 03/2022 | ✅ 03/2022  | ❌ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_m12) | |
 | Samsung Galaxy A52s                              | Snapdragon 778G   | 11 | ✅ 03/2022 | ✅ 03/2022 | ✅ 03/2022  | ✅ 03/2022 | [Link](receiver_proofs/Samsung_Galaxy_A52s)| |
 | Samsung Galaxy Xcover Pro                        | Snapdragon 865    | 10 |            |            |     ➕      | ✅ 1/2020  |      | |
-| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
-| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
 | Samsung Galaxy A3                                | Exynos 7870       |    | ❌ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2021  |      | |
 | Sony XQ-AD52 Xperia L4                           | MT6762 Helio P22  |    | ✅ 1/2021   | ❌ 1/2021   |     ➕      | ❌ 1/2020  |      | |
 | Sony Xperia 10 III                               | Snapdragon 690    | 11 | ❌ 3/2022   |            | ✅ 3/2022  |              | [Link](receiver_proofs/Sony_Xperia_10_III) | |
@@ -264,3 +263,14 @@ Wi-FiBeaconの結果についての特記事項となります。一部の端末
 | Xiaomi Redmi K20 Pro                             | Snapdragon 855    |  9 |            |            |     ➕      | ✅ 1/2020  |      | |
 | Xiaomi Mi Mix 3                                  | Snapdragon 845    |  9 |            |            | ✅ 1/2020  | ✅ 1/2020  |      | |
 | Xiaomi Mi A2                                     | Snapdragon 660    |  9 | ❌ 1/2020  | ❌ 1/2020   |       ➕    | ❌ 1/2020  | [Link](receiver_proofs/Xiaomi_Mi_A2) | |
+
+
+## 対応タブレット
+
+| モデル名 | Chipset | Android Ver | BT5 LR 基本 | BT5 LR 受信 | Wi-Fi Beacon | Wi-Fi NAN  | 検証 | 備考 |
+| -------------------- | ------------ | ------------------------- | ------------------------------- | -------------------- | ------------ | ---------- | ---------- | ---- |
+| Huawei MediaPad M5                               | Kirin 960s        |  9 | ❌ 1/2021  | ❌ 1/2021   | ✅ 1/2020   | ❌ 1/2021  | [Link](receiver_proofs/Huawei_MediaPad_M5) | |
+| Nokia T10                                        |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Nokia_T10) | The test unit didn't pick up any Long Range messages and, on investigation, showed a Bluetooth fault |
+| Samsung Tab A7 Lite                              |    | 12 | ✅ 1/2023  |            |           | ❌ | [Link](receiver_proofs/Samsung_Tab_A7_Lite) | Only seems to pick up a Long Range message every few seconds |
+| Samsung Galaxy Tab S7, S7+                       | Snapdragon 865+   |    |            |            |     ➕      | ✅ 1/2021  |      | |
+| Samsung Galaxy Tab S6                            | Snapdragon 855    |    | ✅ 6/2020   |            |     ➕      |            |      | |
