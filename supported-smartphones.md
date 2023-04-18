@@ -228,6 +228,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Samsung Galaxy S7                                | Exynos 8890       |    |            |            | ✅ 4/2021  |            | [Link]( receiver_proofs/Samsung_Galaxy_S7) | |
 | Samsung Galaxy S6                                | Exynos 7420       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_S6) | |
 | Samsung Galaxy A5                                | Snapdragon 410    |    |            |            | ✅ 1/2020  |            |      | |
+| Samsung Galaxy A71                               | Snapdragon 730    | 13 | ✅ 4/2023  | ✅ 4/2023   | ✅ 4/2023  | ✅ 4/2023  | | Does not receive Long Range continuously (receiving for 4 sec, then 4 sec gap) |
 | Samsung Galaxy A71                               | Snapdragon 730    | 10 | ❌ 1/2021  | ❌ 1/2021   | ✅ 9/2021  | ✅ 1/2021  | [Link](receiver_proofs/Samsung_Galaxy_A71) | |
 | Samsung Galaxy A8                                | Exynos 7885       |    |            |            | ✅ 4/2021  |            | [Link](receiver_proofs/Samsung_Galaxy_A8) | |
 | Samsung Galaxy Xcover Pro                        | Exynos 9611       | 10 | ❌ 1/2020  | ❌ 1/2020   |      ➕     | ❌ 1/2020  | [Link](receiver_proofs/Samsung_Galaxy_XCover_Pro) | |
