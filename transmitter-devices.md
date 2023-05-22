@@ -13,6 +13,8 @@ The intention of this page is not to promote or exclude any specific commercial 
 It is merely meant as a helpful source of information for people interested in Remote ID.
 If you have information about devices not on the list, input and updates are very welcome.
 
+Please see also https://drone-remote-id.com/ for lists of additional devices.
+
 The list is divided into three sections: drones, add-on devices and other implementations.
 
 ## Drones

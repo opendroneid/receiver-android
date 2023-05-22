@@ -13,6 +13,8 @@
 単にリモートIDに興味を持つ人のための情報源として位置づけています。
 この一覧にない機器について情報をお持ちの方は、ぜひご指摘・更新をお願いします。
 
+Please see also https://drone-remote-id.com/ for lists of additional devices.
+
 一覧は、ドローン、アドオンデバイス、その他の実装の3つのセクションに分かれています。
 
 
