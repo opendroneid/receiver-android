@@ -117,7 +117,7 @@ public abstract class PermissionUtils {
                     .setMessage(R.string.permission_rationale_location)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                         // After click on Ok, request the permission.
-                        ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
+                        ActivityCompat.requestPermissions(requireActivity(),
                                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 requestCode);
                         // Do not finish the Activity while requesting permission.
@@ -132,7 +132,7 @@ public abstract class PermissionUtils {
             super.onDismiss(dialog);
             if (mFinishActivity) {
                 Toast.makeText(getActivity(), R.string.permission_required_toast, Toast.LENGTH_SHORT).show();
-                Objects.requireNonNull(getActivity()).finish();
+                requireActivity().finish();
             }
         }
     }

@@ -12,6 +12,7 @@ public class Constants {
     public static final int REQUEST_ENABLE_WIFI = 3;
     public static final int REQUEST_BLUETOOTH_PERMISSION_SCAN = 4;
     public static final int REQUEST_BLUETOOTH_PERMISSION_CONNECT = 5;
+    public static final int REQUEST_NEARBY_WIFI_DEVICES_PERMISSION = 6;
 
     public static final String DELIM = ",";
 

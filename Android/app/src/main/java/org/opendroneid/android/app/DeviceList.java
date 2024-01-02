@@ -166,7 +166,7 @@ public class DeviceList extends Fragment {
             button.setText(R.string.info);
             button.setOnClickListener(v1 -> showDetails(aircraft));
 
-            droneIcon = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.ic_plane_icon);
+            droneIcon = ContextCompat.getDrawable(requireActivity(), R.mipmap.ic_plane_icon);
             iconImageView = v.findViewById(R.id.drone_icon);
         }
 
@@ -233,6 +233,7 @@ public class DeviceList extends Fragment {
                     Log.w(TAG, "on changed: " + identification.getIdType() + ", " + identification.getUasIdAsString() + ", " + this);
                     setIdText(identification);
 
+                    assert droneIcon != null;
                     droneIcon.setColorFilter(0xff00ff00, PorterDuff.Mode.MULTIPLY);
                     iconImageView.setImageDrawable(droneIcon);
                 }
