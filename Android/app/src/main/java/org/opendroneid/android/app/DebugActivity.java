@@ -44,6 +44,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.opendroneid.android.BuildConfig;
@@ -83,7 +84,6 @@ public class DebugActivity extends AppCompatActivity {
     private MenuItem mMenuLogItem;
 
     private AircraftMapView mMapView;
-    private AircraftOsMapView mOsMapView;
 
     private File loggerFile;
     private LogWriter logger;
@@ -210,7 +210,7 @@ public class DebugActivity extends AppCompatActivity {
     private void createNewLogfile() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            showToast(getString(R.string.bt_not_granted));
+            showToast(getString(R.string.nearby_not_granted));
             forceStopApp();
             return;
         }
@@ -238,23 +238,34 @@ public class DebugActivity extends AppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-                finalizeOnCreate();
-            } else {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
-                } else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_CONNECT }, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Log.d(TAG, "onCreate: TIRAMISU");
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onCreate: Requesting NEARBY_WIFI_DEVICES");
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.NEARBY_WIFI_DEVICES }, Constants.REQUEST_NEARBY_WIFI_DEVICES_PERMISSION);
+                return;
             }
-        } else {
-            finalizeOnCreate();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Log.d(TAG, "onCreate: S version");
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onCreate: Requesting BLUETOOTH_SCAN");
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                return;
+            }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onCreate: Requesting BLUETOOTH_CONNECT");
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_CONNECT }, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
+                return;
+            }
+        }
+
+        finalizeOnCreate();
     }
 
     private void finalizeOnCreate() {
+        Log.d(TAG, "finalizeOnCreate");
         btScanner = new BluetoothScanner(this, dataManager);
         createNewLogfile();
 
@@ -296,10 +307,10 @@ public class DebugActivity extends AppCompatActivity {
         }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10 * 1000); // 10 seconds
-        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
+        locationRequest = new LocationRequest.Builder(10 * 1000) // 10 seconds
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                .setMinUpdateIntervalMillis(5 * 1000) // 5 seconds
+                .build();
 
         locationCallback = new LocationCallback() {
             @Override
@@ -337,7 +348,7 @@ public class DebugActivity extends AppCompatActivity {
             if (mMapView != null)
                 mMapView.setMapSettings();
         } else {
-            mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            AircraftOsMapView mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
             if (mOsMapView != null)
                 mOsMapView.setMapSettings();
         }
@@ -445,30 +456,59 @@ public class DebugActivity extends AppCompatActivity {
                 return;
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (requestCode == Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN) {
-                Log.d(TAG, "onRequestPermissionsResult: back from request BLUETOOTH_SCAN");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Log.d(TAG, "onRequestPermissionsResult: TIRAMISU");
+            if (requestCode == Constants.REQUEST_NEARBY_WIFI_DEVICES_PERMISSION) {
+                Log.d(TAG, "onRequestPermissionsResult: REQUEST_NEARBY_WIFI_DEVICES_PERMISSION");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: Did not get NEARBY_WIFI_DEVICES");
+                    showToast(getString(R.string.nearby_not_granted));
+                    forceStopApp();
+                    return;
+                }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                    showToast(getString(R.string.bt_not_granted));
+                    Log.d(TAG, "onRequestPermissionsResult: Requesting BLUETOOTH_SCAN 1");
+                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                    return;
+                }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: Requesting BLUETOOTH_CONNECT 1");
+                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_CONNECT }, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
+                    return;
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Log.d(TAG, "onRequestPermissionsResult: S version");
+            if (requestCode == Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN) {
+                Log.d(TAG, "onRequestPermissionsResult: REQUEST_BLUETOOTH_PERMISSION_SCAN");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: Did not get BLUETOOTH_SCAN");
+                    showToast(getString(R.string.nearby_not_granted));
                     forceStopApp();
                     return;
                 }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
                     finalizeOnCreate();
                 } else {
+                    Log.d(TAG, "onRequestPermissionsResult: Requesting BLUETOOTH_CONNECT 2");
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
                 }
             }
             if (requestCode == Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT) {
-                Log.d(TAG, "onRequestPermissionsResult: back from request BLUETOOTH_CONNECT");
+                Log.d(TAG, "onRequestPermissionsResult: REQUEST_BLUETOOTH_PERMISSION_CONNECT");
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    showToast(getString(R.string.bt_not_granted));
+                    Log.d(TAG, "onRequestPermissionsResult: Did not get BLUETOOTH_CONNECT");
+                    showToast(getString(R.string.nearby_not_granted));
                     forceStopApp();
                     return;
                 }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
                     finalizeOnCreate();
                 } else {
+                    Log.d(TAG, "onRequestPermissionsResult: Requesting BLUETOOTH_SCAN 2");
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
                 }
             }

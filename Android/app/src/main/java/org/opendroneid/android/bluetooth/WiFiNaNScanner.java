@@ -6,6 +6,7 @@
  */
 package org.opendroneid.android.bluetooth;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import org.opendroneid.android.log.LogMessageEntry;
 import org.opendroneid.android.log.LogWriter;
@@ -44,7 +46,9 @@ public class WiFiNaNScanner {
     Context context;
     private static final String TAG = WiFiNaNScanner.class.getSimpleName();
 
-    public void setLogger(LogWriter logger) { this.logger = logger; }
+    public void setLogger(LogWriter logger) {
+        this.logger = logger;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public WiFiNaNScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
@@ -52,7 +56,7 @@ public class WiFiNaNScanner {
         this.logger = logger;
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ||
-            !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
+                !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
             Log.i(TAG, "WiFi Aware is not supported.");
             return;
         }
@@ -91,6 +95,16 @@ public class WiFiNaNScanner {
                     .setServiceName("org.opendroneid.remoteid")
                     .build();
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.NEARBY_WIFI_DEVICES) != PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "onAttached: Missing NEARBY_WIFI_DEVICES permission");
+                    return;
+                }
+            }
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.e(TAG, "onAttached: Missing ACCESS_FINE_LOCATION permission");
+                return;
+            }
             wifiAwareSession.subscribe(config, new DiscoverySessionCallback() {
                 @Override
                 public void onSubscribeStarted(@NonNull SubscribeDiscoverySession session) {
@@ -99,7 +113,7 @@ public class WiFiNaNScanner {
 
                 @Override
                 public void onServiceDiscovered(PeerHandle peerHandle, byte[] serviceSpecificInfo, List<byte[]> matchFilter) {
-                    Log.i(TAG, "onServiceDiscovered: " + serviceSpecificInfo.length +": " + Arrays.toString(serviceSpecificInfo));
+                    Log.i(TAG, "onServiceDiscovered: " + serviceSpecificInfo.length + ": " + Arrays.toString(serviceSpecificInfo));
 
                     String transportType = "NAN";
                     LogMessageEntry logMessageEntry = new LogMessageEntry();
@@ -109,7 +123,7 @@ public class WiFiNaNScanner {
                     StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
                     if (logger != null)
                         logger.logNaN(logMessageEntry.getMsgVersion(), timeNano, peerHandle.hashCode(),
-                                      serviceSpecificInfo, transportType, csvLog);
+                                serviceSpecificInfo, transportType, csvLog);
                 }
             }, null);
         }

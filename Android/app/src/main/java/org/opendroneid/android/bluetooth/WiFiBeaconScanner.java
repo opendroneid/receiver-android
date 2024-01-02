@@ -15,6 +15,7 @@
 
 package org.opendroneid.android.bluetooth;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
@@ -44,7 +46,7 @@ public class WiFiBeaconScanner {
     private static final int CIDLen = 3;
     private static final int DriStartByteOffset = 4;
     private static final int ScanTimerInterval = 2;
-    private static final int[] DRI_CID = { 0xFA, 0x0B, 0xBC };
+    private static final int[] DRI_CID = {0xFA, 0x0B, 0xBC};
     private static final int VendorTypeLen = 1;
     private static final int VendorTypeValue = 0x0D;
     private boolean WiFiScanEnabled = true;
@@ -60,7 +62,9 @@ public class WiFiBeaconScanner {
 
     private static final String TAG = WiFiBeaconScanner.class.getSimpleName();
 
-    public void setLogger(LogWriter logger) { this.logger = logger; }
+    public void setLogger(LogWriter logger) {
+        this.logger = logger;
+    }
 
     public WiFiBeaconScanner(Context context, OpenDroneIdDataManager dataManager, LogWriter logger) {
         this.dataManager = dataManager;
@@ -114,7 +118,7 @@ public class WiFiBeaconScanner {
             dataManager.receiveDataWiFiBeacon(arr, scanResult.BSSID, scanResult.BSSID.hashCode(),
                     scanResult.level, timeNano, logMessageEntry, transportType);
 
-            Log.i(TAG, "Beacon: "+ scanResult.BSSID + ": " + Arrays.toString(arr));
+            Log.i(TAG, "Beacon: " + scanResult.BSSID + ": " + Arrays.toString(arr));
             StringBuilder csvLog = logMessageEntry.getMessageLogEntry();
             if (logger != null)
                 logger.logBeacon(logMessageEntry.getMsgVersion(), timeNano, scanResult, arr, transportType, csvLog);
@@ -130,6 +134,10 @@ public class WiFiBeaconScanner {
         boolean freshScanResult = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
         String action = intent.getAction();
         if (freshScanResult && WifiManager.SCAN_RESULTS_AVAILABLE_ACTION.equals(action)) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.e(TAG, "handleScanResults: Missing location permission");
+                return;
+            }
             List<ScanResult> wifiList = wifiManager.getScanResults();
             for (ScanResult scanResult : wifiList) {
                 try {

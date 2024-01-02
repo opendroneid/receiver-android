@@ -36,7 +36,6 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
-import org.opendroneid.android.R;
 import java.util.Collection;
 import java.util.HashMap;
 

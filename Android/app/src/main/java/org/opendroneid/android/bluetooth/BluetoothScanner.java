@@ -6,6 +6,7 @@
  */
 package org.opendroneid.android.bluetooth;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -16,9 +17,12 @@ import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.ParcelUuid;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import org.opendroneid.android.log.LogEntry;
 import org.opendroneid.android.log.LogMessageEntry;
@@ -36,8 +40,10 @@ public class BluetoothScanner {
     private LogWriter logger;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothLeScanner bluetoothLeScanner;
+    private final Context context;
 
     public BluetoothScanner(Context context, OpenDroneIdDataManager dataManager) {
+        this.context = context;
         this.dataManager = dataManager;
 
         Object object = context.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -46,7 +52,9 @@ public class BluetoothScanner {
         bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
     }
 
-    public void setLogger(LogWriter logger) { this.logger = logger; }
+    public void setLogger(LogWriter logger) {
+        this.logger = logger;
+    }
 
     private static String dumpBytes(byte[] bytes) {
         return LogEntry.toHexString(bytes, bytes.length);
@@ -124,25 +132,32 @@ public class BluetoothScanner {
         scanFilters.add(builder.build());
 
         ScanSettings scanSettings = new ScanSettings.Builder()
-                                    .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                                    .build();
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                .build();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-            bluetoothAdapter.isLeCodedPhySupported() &&
-            bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
+                bluetoothAdapter.isLeCodedPhySupported() &&
+                bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
             // Enable scanning also for devices advertising on an LE Coded PHY S2 or S8
             scanSettings = new ScanSettings.Builder()
-                           .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                           .setLegacy(false)
-                           .setPhy(ScanSettings.PHY_LE_ALL_SUPPORTED)
-                           .build();
+                    .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                    .setLegacy(false)
+                    .setPhy(ScanSettings.PHY_LE_ALL_SUPPORTED)
+                    .build();
         }
 
-        if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled())
+        if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled()) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
             bluetoothLeScanner.startScan(scanFilters, scanSettings, scanCallback);
+        }
     }
 
     public void stopScan() {
         if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled()) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
             bluetoothLeScanner.stopScan(scanCallback);
         }
     }

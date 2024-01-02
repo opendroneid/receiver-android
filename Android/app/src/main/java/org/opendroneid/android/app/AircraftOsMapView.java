@@ -91,9 +91,6 @@ public class AircraftOsMapView extends Fragment {
         observer.stop();
     }
 
-    private static final int DESIRED_ZOOM = 17;
-    private static final int ALLOWED_ZOOM_MARGIN = 2;
-
     private void setupModel() {
         model = new ViewModelProvider(requireActivity()).get(AircraftViewModel.class);
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
@@ -135,8 +132,7 @@ public class AircraftOsMapView extends Fragment {
     @NonNull
     public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         Log.d(TAG, "onCreateView()");
-        View view = layoutInflater.inflate(R.layout.fragment_osm, viewGroup, false);
-        return view;
+        return layoutInflater.inflate(R.layout.fragment_osm, viewGroup, false);
     }
 
     @Override
@@ -173,7 +169,7 @@ public class AircraftOsMapView extends Fragment {
         myLocationoverlay.setDrawAccuracyEnabled(true);
         osvMap.getOverlays().add(myLocationoverlay);
 
-        CompassOverlay compassOverlay = new CompassOverlay(Objects.requireNonNull(getContext()), osvMap);
+        CompassOverlay compassOverlay = new CompassOverlay(requireContext(), osvMap);
         compassOverlay.enableCompass();
         osvMap.getOverlays().add(compassOverlay);
 
