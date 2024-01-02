@@ -9,6 +9,8 @@
 !-->
 <resources>
     <string name="app_name">OpenDroneID</string>
+    <string name="bt_rationale">Bluetooth/Nearby Devices is needed for this app to work.</string>
+    <string name="bt_not_granted">Bluetooth/Nearby Devices permission must be granted for this app to work.</string>
     <string name="bt_not_supported">このデバイスはBluetoothに対応していません。</string>
     <string name="bt_not_enabled_leaving">Bluetoothを有効にしないと、このアプリケーションは動作しません。</string>
     <string name="wifi_not_enabled_leaving">WiFiを有効にしないと、このアプリケーションは動作しません。</string>

@@ -184,7 +184,7 @@ public class DebugActivity extends AppCompatActivity {
         }
         if (BuildConfig.USE_GOOGLE_MAPS)
             return mMapView.changeMapType(item);
-    	return false;
+        return false;
     }
 
     boolean getLogEnabled() {
@@ -208,6 +208,12 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void createNewLogfile() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            showToast(getString(R.string.bt_not_granted));
+            forceStopApp();
+            return;
+        }
         loggerFile = getLoggerFileDir(btScanner.getBluetoothAdapter().getName());
 
         try {
@@ -232,6 +238,23 @@ public class DebugActivity extends AppCompatActivity {
             }
         });
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                finalizeOnCreate();
+            } else {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                } else if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_CONNECT }, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
+                }
+            }
+        } else {
+            finalizeOnCreate();
+        }
+    }
+
+    private void finalizeOnCreate() {
         btScanner = new BluetoothScanner(this, dataManager);
         createNewLogfile();
 
@@ -269,6 +292,7 @@ public class DebugActivity extends AppCompatActivity {
             // Bluetooth is not supported.
             showToast(getString(R.string.bt_not_supported));
             forceStopApp();
+            return;
         }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -369,8 +393,6 @@ public class DebugActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        } else {
-            requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
         }
 
         if (btScanner != null)
@@ -411,6 +433,7 @@ public class DebugActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE) {
             Log.d(TAG, "onRequestPermissionsResult: back from request FINE_LOCATION");
             if (PermissionUtils.isPermissionGranted(permissions, grantResults,
@@ -418,6 +441,36 @@ public class DebugActivity extends AppCompatActivity {
                 initialize();
             } else {
                 showToast(getString(R.string.permission_required_toast));
+                forceStopApp();
+                return;
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (requestCode == Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN) {
+                Log.d(TAG, "onRequestPermissionsResult: back from request BLUETOOTH_SCAN");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    showToast(getString(R.string.bt_not_granted));
+                    forceStopApp();
+                    return;
+                }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+                    finalizeOnCreate();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
+                }
+            }
+            if (requestCode == Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT) {
+                Log.d(TAG, "onRequestPermissionsResult: back from request BLUETOOTH_CONNECT");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    showToast(getString(R.string.bt_not_granted));
+                    forceStopApp();
+                    return;
+                }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+                    finalizeOnCreate();
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                }
             }
         }
     }
