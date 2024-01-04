@@ -100,10 +100,12 @@ public class BluetoothScanner {
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
+            Log.d(TAG, "onBatchScanResults: " + results);
         }
 
         @Override
         public void onScanFailed(int errorCode) {
+            Log.e(TAG, "onScanFailed: errorCode is " + errorCode);
         }
     };
 
@@ -137,7 +139,7 @@ public class BluetoothScanner {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
                 bluetoothAdapter.isLeCodedPhySupported() &&
                 bluetoothAdapter.isLeExtendedAdvertisingSupported()) {
-            // Enable scanning also for devices advertising on an LE Coded PHY S2 or S8
+            Log.d(TAG, "startScan: Enable scanning also for devices advertising on an LE Coded PHY S2 or S8");
             scanSettings = new ScanSettings.Builder()
                     .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
                     .setLegacy(false)
@@ -146,19 +148,30 @@ public class BluetoothScanner {
         }
 
         if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled()) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "startScan: Did not get BLUETOOTH_SCAN permission");
+                    return;
+                }
             }
+            Log.d(TAG, "startScan: Calling bluetoothLeScanner.startScan");
             bluetoothLeScanner.startScan(scanFilters, scanSettings, scanCallback);
+        } else {
+            Log.e(TAG, "startScan: Bluetooth not available");
         }
     }
 
     public void stopScan() {
         if (bluetoothLeScanner != null && bluetoothAdapter.isEnabled()) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "stopScan: Did not get BLUETOOTH_SCAN permission");
+                    return;
+                }
             }
             bluetoothLeScanner.stopScan(scanCallback);
+        } else {
+            Log.d(TAG, "stopScan: Bluetooth not available");
         }
     }
 }
