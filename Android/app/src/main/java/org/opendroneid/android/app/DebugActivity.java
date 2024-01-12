@@ -165,7 +165,8 @@ public class DebugActivity extends AppCompatActivity {
                 if (wiFiBeaconScanner != null)
                     wiFiBeaconScanner.setLogger(logger);
             } else {
-                logger.close();
+                if (logger != null)
+                    logger.close();
                 btScanner.setLogger(null);
                 if (wiFiNaNScanner != null)
                     wiFiNaNScanner.setLogger(null);
@@ -406,7 +407,8 @@ public class DebugActivity extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+            if (mFusedLocationClient != null)
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
             if (btScanner != null)
                 btScanner.startScan();
