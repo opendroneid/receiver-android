@@ -4,7 +4,7 @@ def postDetection(logger, dri_detection, endpoint):
             endpoint,
             json={
                 "time": int(time.time() * 1000),
-                "sensor-id": DRI_SENSOR_ID,
+                "sensor-id": DRI_SENSOR_ID, # 1796 + F + 010 + MACADDRESS
                 "position": {
                     "latitude": float(dri_detection.get('drone',{}).get('latitude',0)),
                     "longitude": float(dri_detection.get('drone',{}).get('longitude',0)),
