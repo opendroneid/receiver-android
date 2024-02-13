@@ -49,5 +49,7 @@ public class Constants {
  * with a higher version number than defined below. It is assumed that newer versions can be
  * decoded but some data elements might be missing in the output. The message version displayed
  * in the detailed info view will be drawn with red color in this case. */
+
+    //Init commit test
     public static final int MAX_MSG_VERSION = 2;
 }
