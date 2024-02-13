@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -36,13 +37,17 @@ import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
+import org.opendroneid.android.views.OSMCustomColorFilter;
+import org.opendroneid.android.views.OSMCustomTilesOverlay;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -160,8 +165,17 @@ public class AircraftOsMapView extends Fragment {
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context));
 
         osvMap = view.findViewById(R.id.map);
-        osvMap.setTileSource(TileSourceFactory.MAPNIK);
         osvMap.setMultiTouchControls(true);
+
+        MapTileProviderBasic tileProvider = new MapTileProviderBasic(osvMap.getContext());
+        tileProvider.setTileSource(TileSourceFactory.MAPNIK);
+        OSMCustomTilesOverlay customOverlay = new OSMCustomTilesOverlay(tileProvider, osvMap);
+
+        int destinationColor = Color.parseColor("#66000000");
+        ColorMatrixColorFilter colorFilter = OSMCustomColorFilter.createCustomFilter(destinationColor);
+        customOverlay.setColorFilter(colorFilter);
+
+        osvMap.getOverlayManager().add(customOverlay);
 
         MyLocationNewOverlay myLocationoverlay = new MyLocationNewOverlay(osvMap);
         myLocationoverlay.enableMyLocation();

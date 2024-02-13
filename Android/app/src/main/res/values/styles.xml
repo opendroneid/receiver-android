@@ -7,11 +7,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/midnight</item>
+        <item name="colorPrimaryDark">@color/midnight</item>
+        <item name="colorAccent">@color/black_overlay</item>
     </style>
 
     <style name="Details.Label" parent="TextAppearance.AppCompat">

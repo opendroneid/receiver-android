@@ -16,11 +16,11 @@ to be uncommented.
     <item
         android:id="@+id/clear"
         android:title="@string/Clear"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/help"
         android:title="@string/Help"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_log"
         android:checkable="true"

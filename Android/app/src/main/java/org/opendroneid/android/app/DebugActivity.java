@@ -7,9 +7,6 @@
 package org.opendroneid.android.app;
 
 import android.Manifest;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -20,13 +17,6 @@ import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,6 +28,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -51,12 +49,13 @@ import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
-import org.opendroneid.android.log.LogWriter;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
-import org.opendroneid.android.bluetooth.WiFiNaNScanner;
-import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
+import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
+import org.opendroneid.android.bluetooth.WiFiNaNScanner;
 import org.opendroneid.android.data.AircraftObject;
+import org.opendroneid.android.log.LogWriter;
+import org.opendroneid.android.views.BoxTopLeftView;
 
 import java.io.File;
 import java.io.IOException;
@@ -246,7 +245,7 @@ public class DebugActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: TIRAMISU");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.NEARBY_WIFI_DEVICES) != PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "onCreate: Requesting NEARBY_WIFI_DEVICES");
-                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.NEARBY_WIFI_DEVICES }, Constants.REQUEST_NEARBY_WIFI_DEVICES_PERMISSION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.NEARBY_WIFI_DEVICES}, Constants.REQUEST_NEARBY_WIFI_DEVICES_PERMISSION);
                 return;
             }
         }
@@ -255,16 +254,17 @@ public class DebugActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: S version");
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "onCreate: Requesting BLUETOOTH_SCAN");
-                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
                 return;
             }
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "onCreate: Requesting BLUETOOTH_CONNECT");
-                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_CONNECT }, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, Constants.REQUEST_BLUETOOTH_PERMISSION_CONNECT);
                 return;
             }
         }
 
+        setClickListeners();
         finalizeOnCreate();
     }
 
@@ -328,6 +328,19 @@ public class DebugActivity extends AppCompatActivity {
         };
     }
 
+    private void setClickListeners() {
+        BoxTopLeftView boxTopLeftView = findViewById(R.id.boxTopLeft);
+        boxTopLeftView.setIcon1ClickListener(() -> {
+            // Handle icon 1 click
+            Toast.makeText(DebugActivity.this, "Icon 1 clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        boxTopLeftView.setIcon2ClickListener(() -> {
+            // Handle icon 2 click
+            Toast.makeText(DebugActivity.this, "Icon 2 clicked", Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void initialize() {
         mModel.setAllAircraft(dataManager.getAircraft());
 
@@ -387,7 +400,7 @@ public class DebugActivity extends AppCompatActivity {
 
     public void addDeviceList() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.holder, new DeviceList()).commitAllowingStateLoss();
+        //   transaction.replace(R.id.holder, new DeviceList()).commitAllowingStateLoss();
     }
 
     @Override
@@ -518,7 +531,7 @@ public class DebugActivity extends AppCompatActivity {
         else {
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
             View snackView = snackbar.getView();
-            TextView snackTextView = (TextView) snackView.findViewById(com.google.android.material.R.id.snackbar_text);
+            TextView snackTextView = (TextView) snackView.findViewById(R.id.snackbar_text);
             snackTextView.setMaxLines(5);
             snackbar.show();
         }
@@ -528,8 +541,8 @@ public class DebugActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 Thread.sleep(3000);
+            } catch (Exception ignored) {
             }
-            catch (Exception ignored) { }
             finish();
         }).start();
     }

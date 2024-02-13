@@ -5,43 +5,61 @@
  SPDX-License-Identifier: Apache-2.0
 
 !-->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
-    When the flag org.gradle.project.map in gradle.properties
-    is defined to google_map, the below must be modified to:
-    class = "org.opendroneid.android.app.AircraftMapView"
-    !-->
+    <!-- Map Fragment -->
     <fragment
         android:id="@+id/mapView"
-        class = "org.opendroneid.android.app.AircraftOsMapView"
+        class="org.opendroneid.android.app.AircraftOsMapView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/attribution"
+        android:layout_alignParentTop="true"/>
 
+    <!-- Attribution TextView at the bottom -->
     <TextView
         android:id="@+id/attribution"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:singleLine="true"
         android:text="@string/copyright_osm"
         android:textColor="#000"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        android:layout_alignParentBottom="true"/>
 
-    <FrameLayout
-        android:id="@+id/holder"
-        android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:layout_gravity="bottom"
-        android:background="#eee"
-        android:minHeight="150dp"
-        android:elevation="2dp"
-        >
+    <!-- Box in Top Left Corner -->
+    <org.opendroneid.android.views.BoxTopLeftView
+        android:id="@+id/boxTopLeft"
+        android:layout_width="80dp"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
 
-    </FrameLayout>
-</LinearLayout>
+    <!-- Box in Top Right Corner -->
+    <org.opendroneid.android.views.BoxTopRightView
+        android:id="@+id/boxTopRight"
+        android:layout_width="80dp"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
+
+    <!-- Box in Bottom Left Corner -->
+    <org.opendroneid.android.views.BoxBottomLeftView
+        android:id="@+id/boxBottomLeft"
+        android:layout_width="80dp"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
+
+    <!-- Box in Bottom Right Corner -->
+    <org.opendroneid.android.views.BoxBottomRightView
+        android:id="@+id/boxBottomRight"
+        android:layout_width="80dp"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

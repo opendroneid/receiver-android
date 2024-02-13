@@ -9,6 +9,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    
+    <color name="paleSky">#e5f1f9</color>
+    <color name="overcast">#bac5cf</color>
+    <color name="sky">#66aadd</color>
+    <color name="midnight">#1a2536</color>
+    <color name="green">#64E669</color>
 
     <color name="black_overlay">#66000000</color>
 </resources>
