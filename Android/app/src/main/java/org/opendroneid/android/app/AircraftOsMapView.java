@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -169,10 +170,9 @@ public class AircraftOsMapView extends Fragment {
 
         MapTileProviderBasic tileProvider = new MapTileProviderBasic(osvMap.getContext());
         tileProvider.setTileSource(TileSourceFactory.MAPNIK);
-        OSMCustomTilesOverlay customOverlay = new OSMCustomTilesOverlay(tileProvider, osvMap);
+        OSMCustomTilesOverlay customOverlay = new OSMCustomTilesOverlay(tileProvider, context, osvMap);
 
-        int destinationColor = Color.parseColor("#66000000");
-        ColorMatrixColorFilter colorFilter = OSMCustomColorFilter.createCustomFilter(destinationColor);
+        ColorFilter colorFilter = OSMCustomColorFilter.createDarkModeFilter() ;
         customOverlay.setColorFilter(colorFilter);
 
         osvMap.getOverlayManager().add(customOverlay);
@@ -181,7 +181,6 @@ public class AircraftOsMapView extends Fragment {
         myLocationoverlay.enableMyLocation();
         myLocationoverlay.disableFollowLocation();
         myLocationoverlay.setDrawAccuracyEnabled(true);
-        osvMap.getOverlays().add(myLocationoverlay);
 
         CompassOverlay compassOverlay = new CompassOverlay(requireContext(), osvMap);
         compassOverlay.enableCompass();
