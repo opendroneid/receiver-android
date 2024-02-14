@@ -20,18 +20,18 @@ public class BoxTopLeftView extends View {
     private final Handler handler = new Handler();
     private Paint paint;
     private Path path;
-    private Drawable firstIcon;
-    private Drawable secondIcon;
-    private IconFirstClickListener iconFirstClickListener;
-    private IconSecondClickListener iconSecondClickListener;
-    private float iconFirstLeft;
-    private float iconFirstTop;
-    private float iconFirstRight;
-    private float iconFirstBottom;
-    private float iconSecondLeft;
-    private float iconSecondTop;
-    private float iconSecondRight;
-    private float iconSecondBottom;
+    private Drawable homeIcon;
+    private Drawable userIcon;
+    private IconHomeClickListener iconHomeClickListener;
+    private IconUserClickListener iconUserClickListener;
+    private float iconHomeLeft;
+    private float iconHomeTop;
+    private float iconHomeRight;
+    private float iconHomeBottom;
+    private float iconUserLeft;
+    private float iconUserTop;
+    private float iconUserRight;
+    private float iconUserBottom;
     private int glowAlpha = 255;
 
     public BoxTopLeftView(Context context) {
@@ -57,8 +57,8 @@ public class BoxTopLeftView extends View {
         path = new Path();
 
         // Fetch icons from resources
-        firstIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_home);
-        secondIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_user);
+        homeIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_home);
+        userIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_user);
     }
 
     @Override
@@ -105,47 +105,47 @@ public class BoxTopLeftView extends View {
         canvas.drawPath(path, paint);
 
         int centerY = height / 3;
-        int totalIconHeight = firstIcon.getIntrinsicHeight() + iconTextSpacing + secondIcon.getIntrinsicHeight();
+        int totalIconHeight = homeIcon.getIntrinsicHeight() + iconTextSpacing + userIcon.getIntrinsicHeight();
 
-        iconFirstTop = centerY - totalIconHeight / 2;
+        iconHomeTop = centerY - (float) totalIconHeight / 2;
 
         Paint textPaint = new Paint();
 
-        // Draw first icon
-        if (firstIcon != null) {
-            iconFirstLeft = (width - firstIcon.getIntrinsicWidth()) / 2;
-            iconFirstRight = iconFirstLeft + firstIcon.getIntrinsicWidth();
-            iconFirstBottom = iconFirstTop + firstIcon.getIntrinsicHeight();
-            firstIcon.setBounds((int) iconFirstLeft, (int) iconFirstTop, (int) iconFirstRight, (int) iconFirstBottom);
-            firstIcon.draw(canvas);
+        // Draw home icon
+        if (homeIcon != null) {
+            iconHomeLeft = (float) (width - homeIcon.getIntrinsicWidth()) / 2;
+            iconHomeRight = iconHomeLeft + homeIcon.getIntrinsicWidth();
+            iconHomeBottom = iconHomeTop + homeIcon.getIntrinsicHeight();
+            homeIcon.setBounds((int) iconHomeLeft, (int) iconHomeTop, (int) iconHomeRight, (int) iconHomeBottom);
+            homeIcon.draw(canvas);
 
-            // Draw text below first icon
-            String text1 = "Home";
+            // Draw text below home icon
+            String textHome = getResources().getString(R.string.menu_home);
             textPaint.setColor(Color.WHITE);
             textPaint.setTextSize(36);
-            float text1Width = textPaint.measureText(text1);
-            float text1X = (width - text1Width) / 2;
-            float text1Y = iconFirstBottom + iconTextSpacing; // Place text below first icon
-            canvas.drawText(text1, text1X, text1Y, textPaint);
+            float textHomeWidth = textPaint.measureText(textHome);
+            float textHomeX = (width - textHomeWidth) / 2;
+            float textHomeY = iconHomeBottom + iconTextSpacing; // Place text below first icon
+            canvas.drawText(textHome, textHomeX, textHomeY, textPaint);
         }
 
-        // Calculate the top position for the second icon
-        iconSecondTop = iconFirstBottom + iconMargin;
+        // Calculate the top position for the user icon
+        iconUserTop = iconHomeBottom + iconMargin;
 
-        // Draw second icon
-        if (secondIcon != null) {
-            iconSecondLeft = (width - secondIcon.getIntrinsicWidth()) / 2;
-            iconSecondRight = iconSecondLeft + secondIcon.getIntrinsicWidth();
-            iconSecondBottom = iconSecondTop + secondIcon.getIntrinsicHeight();
-            secondIcon.setBounds((int) iconSecondLeft, (int) iconSecondTop, (int) iconSecondRight, (int) iconSecondBottom);
-            secondIcon.draw(canvas);
+        // Draw user icon
+        if (userIcon != null) {
+            iconUserLeft = (float) (width - userIcon.getIntrinsicWidth()) / 2;
+            iconUserRight = iconUserLeft + userIcon.getIntrinsicWidth();
+            iconUserBottom = iconUserTop + userIcon.getIntrinsicHeight();
+            userIcon.setBounds((int) iconUserLeft, (int) iconUserTop, (int) iconUserRight, (int) iconUserBottom);
+            userIcon.draw(canvas);
 
-            // Draw text below second icon
-            String text2 = "User";
-            float text2Width = textPaint.measureText(text2);
-            float text2X = (width - text2Width) / 2;
-            float text2Y = iconSecondBottom + iconTextSpacing; // Place text below second icon
-            canvas.drawText(text2, text2X, text2Y, textPaint);
+            // Draw text below user icon
+            String textUser = getResources().getString(R.string.menu_user);
+            float textUserWidth = textPaint.measureText(textUser);
+            float textUserX = (width - textUserWidth) / 2;
+            float textUserY = iconUserBottom + iconTextSpacing; // Place text below second icon
+            canvas.drawText(textUser, textUserX, textUserY, textPaint);
         }
 
         // Schedule a redraw with a delay to create the glowing effect
@@ -161,14 +161,14 @@ public class BoxTopLeftView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             float x = event.getX();
             float y = event.getY();
-            if (isTouchInsideIcon1(x, y)) {
-                if (iconFirstClickListener != null) {
-                    iconFirstClickListener.onIcon1Clicked();
+            if (isTouchInsideHomeIcon(x, y)) {
+                if (iconHomeClickListener != null) {
+                    iconHomeClickListener.onHomeIconClicked();
                     return true; // Event consumed
                 }
-            } else if (isTouchInsideIcon2(x, y)) {
-                if (iconSecondClickListener != null) {
-                    iconSecondClickListener.onIcon2Clicked();
+            } else if (isTouchInsideUserIcon(x, y)) {
+                if (iconUserClickListener != null) {
+                    iconUserClickListener.onUserIconClicked();
                     return true; // Event consumed
                 }
             }
@@ -176,29 +176,29 @@ public class BoxTopLeftView extends View {
         return super.onTouchEvent(event);
     }
 
-    private boolean isTouchInsideIcon1(float x, float y) {
-        // Determine if the touch event is inside the bounds of icon1
-        return x >= iconFirstLeft && x <= iconFirstRight && y >= iconFirstTop && y <= iconFirstBottom;
+    private boolean isTouchInsideHomeIcon(float x, float y) {
+        // Determine if the touch event is inside the bounds of home icon
+        return x >= iconHomeLeft && x <= iconHomeRight && y >= iconHomeTop && y <= iconHomeBottom;
     }
 
-    private boolean isTouchInsideIcon2(float x, float y) {
-        // Determine if the touch event is inside the bounds of icon2
-        return x >= iconSecondLeft && x <= iconSecondRight && y >= iconSecondTop && y <= iconSecondBottom;
+    private boolean isTouchInsideUserIcon(float x, float y) {
+        // Determine if the touch event is inside the bounds of user icon
+        return x >= iconUserLeft && x <= iconUserRight && y >= iconUserTop && y <= iconUserBottom;
     }
 
-    public void setIcon1ClickListener(IconFirstClickListener listener) {
-        this.iconFirstClickListener = listener;
+    public void setHomeIconClickListener(IconHomeClickListener listener) {
+        this.iconHomeClickListener = listener;
     }
 
-    public void setIcon2ClickListener(IconSecondClickListener listener) {
-        this.iconSecondClickListener = listener;
+    public void setUserIconClickListener(IconUserClickListener listener) {
+        this.iconUserClickListener = listener;
     }
 
-    public interface IconFirstClickListener {
-        void onIcon1Clicked();
+    public interface IconHomeClickListener {
+        void onHomeIconClicked();
     }
 
-    public interface IconSecondClickListener {
-        void onIcon2Clicked();
+    public interface IconUserClickListener {
+        void onUserIconClicked();
     }
 }

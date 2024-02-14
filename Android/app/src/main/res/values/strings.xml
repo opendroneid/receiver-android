@@ -121,5 +121,7 @@
         Go back, find the &quot;Developer options&quot; menu, scroll to &quot;Wi-Fi scan throttling&quot; and disable it.&lt;br&gt;</string>
     <string name="nanHelp">Reception of Wi-Fi Neighbor-aware Network remote ID signals is possible only if the device has support for Wi-Fi NaN.&lt;br&gt;
         See the claimed support for this device for this feature in the options menu.&lt;br&gt;</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_user">User</string>
 
 </resources>

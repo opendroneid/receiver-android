@@ -56,6 +56,9 @@ import org.opendroneid.android.bluetooth.WiFiNaNScanner;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.log.LogWriter;
 import org.opendroneid.android.views.BoxTopLeftView;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,7 +86,8 @@ public class DebugActivity extends AppCompatActivity {
     private MenuItem mMenuLogItem;
 
     private AircraftMapView mMapView;
-
+    private AircraftOsMapView mOsMapView;
+    private MapView osvMap;
     private File loggerFile;
     private LogWriter logger;
 
@@ -330,14 +334,33 @@ public class DebugActivity extends AppCompatActivity {
 
     private void setClickListeners() {
         BoxTopLeftView boxTopLeftView = findViewById(R.id.boxTopLeft);
-        boxTopLeftView.setIcon1ClickListener(() -> {
-            // Handle icon 1 click
-            Toast.makeText(DebugActivity.this, "Icon 1 clicked", Toast.LENGTH_SHORT).show();
+        boxTopLeftView.setHomeIconClickListener(() -> {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mFusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(this, location -> {
+                            if (location != null) {
+                                osvMap = findViewById(R.id.map);
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                                IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
+                                osvMap.getMapCenter();
+                                osvMap.getController().animateTo(geoPoint, 10d, 5l);
+
+
+                            } else {
+                                showToast("Unable to get current location");
+                            }
+                        });
+            } else {
+                // Request location permission
+                requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
+            }
         });
 
-        boxTopLeftView.setIcon2ClickListener(() -> {
-            // Handle icon 2 click
-            Toast.makeText(DebugActivity.this, "Icon 2 clicked", Toast.LENGTH_SHORT).show();
+        boxTopLeftView.setUserIconClickListener(() -> {
+            // Handle user icon click
+            showToast("USer Icon clicked");
         });
     }
 
@@ -365,7 +388,7 @@ public class DebugActivity extends AppCompatActivity {
             if (mMapView != null)
                 mMapView.setMapSettings();
         } else {
-            AircraftOsMapView mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+             mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
             if (mOsMapView != null)
                 mOsMapView.setMapSettings();
         }
