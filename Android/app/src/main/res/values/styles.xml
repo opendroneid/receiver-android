@@ -12,6 +12,8 @@
         <item name="colorPrimary">@color/midnight</item>
         <item name="colorPrimaryDark">@color/midnight</item>
         <item name="colorAccent">@color/black_overlay</item>
+        <!-- Set a different background color for the splash screen -->
+        <item name="android:windowBackground">@color/paleSky</item>
     </style>
 
     <style name="Details.Label" parent="TextAppearance.AppCompat">
