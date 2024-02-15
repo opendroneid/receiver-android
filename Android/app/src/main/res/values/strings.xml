@@ -123,5 +123,22 @@
         See the claimed support for this device for this feature in the options menu.&lt;br&gt;</string>
     <string name="menu_home">Home</string>
     <string name="menu_user">User</string>
+    <string name="error_password_missmatch">Password missmatch</string>
+    <string name="button_user_register">Register</string>
+    <string name="title_user_register">Create your free account</string>
+    <string name="button_user_cancel">Cancel</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_password_confirmation">Password Confirmation</string>
+    <string name="hint_email">Email</string>
+    <string name="terms_of_use">I have read and agree to the Terms of Use, Acceptable Use Policy &amp; Privacy Policy</string>
+    <string name="title_sign_in">Sign in to DroneDefence</string>
+    <string name="title_user_sign_in">"Sign in to Drone Defence "</string>
+    <string name="terms_of_use_sign_in">"By using AeroTracker, you are agreeing to the Terms of Use, Acceptable Use Policy &amp; Privacy Policy</string>
+    <string name="title_create_account">Create free account</string>
+    <string name="button_user_sign_in">Sign In\n</string>
+    <string name="title_reset_password">Reset your password</string>
+    <string name="button_user_reset_password">Reset Password</string>
+    <string name="title_forgot_password">Forgot your password?</string>
 
 </resources>

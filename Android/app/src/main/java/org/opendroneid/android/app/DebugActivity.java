@@ -49,6 +49,8 @@ import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
+import org.opendroneid.android.app.dialogs.UserRegisterDialogFragment;
+import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
@@ -345,7 +347,7 @@ public class DebugActivity extends AppCompatActivity {
                                 double longitude = location.getLongitude();
                                 IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
                                 osvMap.getMapCenter();
-                                osvMap.getController().animateTo(geoPoint, 10d, 5l);
+                                osvMap.getController().animateTo(geoPoint, 12d, 2l);
 
 
                             } else {
@@ -358,10 +360,21 @@ public class DebugActivity extends AppCompatActivity {
             }
         });
 
-        boxTopLeftView.setUserIconClickListener(() -> {
-            // Handle user icon click
-            showToast("USer Icon clicked");
-        });
+        // Handle user icon click
+        //TODO: when implemented with backend, perform user signed in check and handle accordingly
+        boxTopLeftView.setUserIconClickListener(this::openSignInDialog);
+    }
+
+    private void openRegisterDialog() {
+        UserRegisterDialogFragment dialog = new UserRegisterDialogFragment();
+        dialog.show(getSupportFragmentManager(), "UserRegisterDialogFragment");
+        dialog.setCancelable(false);
+    }
+
+    private void openSignInDialog() {
+        UserSignInDialogFragment dialog = new UserSignInDialogFragment();
+        dialog.show(getSupportFragmentManager(), "UserSignInDialogFragment");
+        dialog.setCancelable(false);
     }
 
     private void initialize() {

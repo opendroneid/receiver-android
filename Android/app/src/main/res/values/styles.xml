@@ -7,7 +7,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/midnight</item>
         <item name="colorPrimaryDark">@color/midnight</item>
@@ -41,6 +41,15 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="BoxEditText" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="android:textColorHint">@color/overcast</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/midnight</item>
     </style>
 
 </resources>
