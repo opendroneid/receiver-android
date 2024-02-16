@@ -11,6 +11,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,17 +20,20 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.opendroneid.android.R;
+import org.opendroneid.android.UserFlowUtil;
 
 import java.util.Objects;
 
 public class UserSignInDialogFragment extends DialogFragment {
 
     private TextInputEditText emailEditText;
+    private TextInputLayout emailInputLayout;
     private TextInputEditText passwordEditText;
+    private TextInputLayout passwordInputLayout;
     private AppCompatTextView textRegister;
-
     private AppCompatTextView textForgotPassword;
 
     @Override
@@ -39,21 +43,26 @@ public class UserSignInDialogFragment extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_fragment_sign_in_user, null);
 
         emailEditText = dialogView.findViewById(R.id.edit_text_email);
+        emailInputLayout = dialogView.findViewById(R.id.layout_email);
         passwordEditText = dialogView.findViewById(R.id.edit_text_password);
+        passwordInputLayout = dialogView.findViewById(R.id.layout_password);
         textRegister = dialogView.findViewById(R.id.text_register);
         textForgotPassword = dialogView.findViewById(R.id.text_forgot_password);
 
         builder.setView(dialogView)
-                .setPositiveButton(getResources().getString(R.string.button_user_sign_in), (dialog, id) -> {
-                    String email = Objects.requireNonNull(emailEditText.getText()).toString();
-                    String password = Objects.requireNonNull(passwordEditText.getText()).toString();
-                    signIn(email, password);
-                })
+                .setPositiveButton(getResources().getString(R.string.button_user_sign_in), null)
                 .setNegativeButton(R.string.button_user_cancel, (dialog, id) -> {
-                    // Handle Cancel button click
+                    dismiss();
                 });
 
-        setTermsSpan(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button sendButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            sendButton.setOnClickListener(view -> signIn());
+        });
+
+        emailEditText.addTextChangedListener(UserFlowUtil.getEmailTextWatcher(emailInputLayout));
+        passwordEditText.addTextChangedListener(UserFlowUtil.getPasswordTextWatcher(passwordInputLayout));
 
         textRegister.setOnClickListener(view -> {
             dismiss();
@@ -65,7 +74,9 @@ public class UserSignInDialogFragment extends DialogFragment {
             openForgotPasswordDialog();
         });
 
-        return builder.create();
+        setTermsSpan(dialogView);
+
+        return dialog;
     }
 
     private void openRegisterDialog() {
@@ -80,10 +91,34 @@ public class UserSignInDialogFragment extends DialogFragment {
         dialog.setCancelable(false);
     }
 
-    private void signIn(String email, String password) {
-        // Perform sign-up logic here
+    private void signIn() {
+        String email = Objects.requireNonNull(emailEditText.getText()).toString().trim();
+        String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
+
+        boolean isValidEmail = UserFlowUtil.isValidEmail(email);
+        boolean isPasswordValid = UserFlowUtil.isPasswordValid(password);
+
+        if (!isValidEmail) {
+            emailInputLayout.setError(getString(R.string.error_invalid_email_address));
+        } else {
+            emailInputLayout.setError(null);
+        }
+
+        if (!isPasswordValid) {
+            passwordInputLayout.setError(getString(R.string.error_invalid_password));
+        } else {
+            passwordInputLayout.setError(null);
+        }
+
+        if (!isValidEmail || !isPasswordValid) {
+            return;
+        }
+
+        // Perform sign-in logic here
+        dismiss();
         Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
     }
+
 
     private void setTermsSpan(View view) {
         AppCompatTextView termsTextView = view.findViewById(R.id.text_terms_sign_in);
