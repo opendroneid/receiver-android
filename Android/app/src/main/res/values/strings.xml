@@ -140,5 +140,17 @@
     <string name="title_reset_password">Reset your password</string>
     <string name="button_user_reset_password">Reset Password</string>
     <string name="title_forgot_password">Forgot your password?</string>
+    <string name="error_invalid_email_address">Invalid email address</string>
+    <string name="error_invalid_password">Password must be at least 8 characters long and contain at least one uppercase letter and one symbol.</string>
+    <string name="error_invalid_full_name">Name must not be empty</string>
+    <string name="success_registration">Registration successful</string>
+    <string name="error_sign_up_failed">Sign up failed. Please try again.</string>
+    <string name="error_please_accept_the_terms_and_conditions">Please accept the terms and conditions</string>
+    <string name="error_short_sign_up_failed">"Sign up failed: "</string>
+    <string name="success_sign_in">Sign in successful</string>
+    <string name="terms_privacy_policy">https://www.aerotracker.io/static/privacy-policy</string>
+    <string name="terms_acceptable_policy">https://www.aerotracker.io/static/acceptable-use</string>
+    <string name="terms_term_of_use">https://www.aerotracker.io/static/terms-of-use</string>
+    <string name="error_sign_in">Error Login in</string>
 
 </resources>

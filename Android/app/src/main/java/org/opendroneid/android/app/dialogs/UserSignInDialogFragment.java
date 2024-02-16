@@ -26,8 +26,16 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.opendroneid.android.R;
 import org.opendroneid.android.UserFlowUtil;
+import org.opendroneid.android.app.network.ApiClient;
+import org.opendroneid.android.app.network.models.user.UserLogin;
+import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
+import org.opendroneid.android.app.network.service.ApiService;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserSignInDialogFragment extends DialogFragment {
 
@@ -102,12 +110,14 @@ public class UserSignInDialogFragment extends DialogFragment {
 
         if (!isValidEmail) {
             emailInputLayout.setError(getString(R.string.error_invalid_email_address));
+            return;
         } else {
             emailInputLayout.setError(null);
         }
 
         if (!isPasswordValid) {
             passwordInputLayout.setError(getString(R.string.error_invalid_password));
+            return;
         } else {
             passwordInputLayout.setError(null);
         }
@@ -116,9 +126,34 @@ public class UserSignInDialogFragment extends DialogFragment {
             return;
         }
 
-        // Perform sign-in logic here
-        dismiss();
-        Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
+        performSignIn(email, password);
+    }
+
+    private void performSignIn(String email, String password) {
+        UserLogin userLogin = new UserLogin(email, password);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        Call<UserLoginSuccessResponse> call = apiService.postUserLogin(userLogin);
+        call.enqueue(new Callback<UserLoginSuccessResponse>() {
+            @Override
+            public void onResponse(Call<UserLoginSuccessResponse> call, Response<UserLoginSuccessResponse> response) {
+                if (response.isSuccessful()) {
+                    UserLoginSuccessResponse loginResponse = response.body();
+                    // successful login response ( save token for start )
+                    dismiss();
+                    Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
+                } else {
+                    //unsuccessful login response
+                    Toast.makeText(getContext(), getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserLoginSuccessResponse> call, Throwable t) {
+                // Fail
+                Toast.makeText(getContext(), getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
