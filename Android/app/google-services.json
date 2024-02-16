@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "455930414529",
+    "project_id": "drone-defence",
+    "storage_bucket": "drone-defence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455930414529:android:124d798e8e7cb3dfa6db40",
+        "android_client_info": {
+          "package_name": "org.opendroneid.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG6vVH64h1xSKoH_wkMw-Wd6tPh-GIims"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
