@@ -1,7 +1,9 @@
 package org.opendroneid.android.app.dialogs;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -116,7 +118,7 @@ public class UserSignInDialogFragment extends DialogFragment {
 
         // Perform sign-in logic here
         dismiss();
-        Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -127,8 +129,8 @@ public class UserSignInDialogFragment extends DialogFragment {
         ClickableSpan termsClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Terms of Use
-                Toast.makeText(getContext(), "Terms of Use clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_term_of_use);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -142,8 +144,8 @@ public class UserSignInDialogFragment extends DialogFragment {
         ClickableSpan acceptableUsePolicyClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Acceptable Use Policy
-                Toast.makeText(getContext(), "Acceptable Use Policy clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_acceptable_policy);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -157,8 +159,8 @@ public class UserSignInDialogFragment extends DialogFragment {
         ClickableSpan privacyPolicyClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Privacy Policy
-                Toast.makeText(getContext(), "Privacy Policy clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_privacy_policy);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -181,6 +183,11 @@ public class UserSignInDialogFragment extends DialogFragment {
         termsTextView.setText(termsText);
         termsTextView.setMovementMethod(LinkMovementMethod.getInstance());
         termsTextView.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void openUrlInBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
 }

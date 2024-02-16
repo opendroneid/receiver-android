@@ -73,17 +73,20 @@ dependencies {
 //    The below if-else works, but will then fail to compile the AircraftMapView.java or
 //    AircraftOsMapView.java file. How to properly variate this is unclear.
 //    if (project.hasProperty('org.gradle.project.map')) {
-        implementation 'com.google.android.gms:play-services-maps:18.2.0'
-        implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 //    } else {
-        implementation 'androidx.preference:preference:1.2.1'
-        implementation 'org.osmdroid:osmdroid-android:6.1.13'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'org.osmdroid:osmdroid-android:6.1.13'
 //    }
 
     // Import the Firebase BoM
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-analytics")
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
 }

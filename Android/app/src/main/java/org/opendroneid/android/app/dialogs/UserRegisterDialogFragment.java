@@ -1,7 +1,9 @@
 package org.opendroneid.android.app.dialogs;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,7 +14,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,8 +27,16 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.opendroneid.android.R;
 import org.opendroneid.android.UserFlowUtil;
+import org.opendroneid.android.app.network.ApiClient;
+import org.opendroneid.android.app.network.models.user.UserRegistrationResponse;
+import org.opendroneid.android.app.network.models.user.UserRegistration;
+import org.opendroneid.android.app.network.service.ApiService;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserRegisterDialogFragment extends DialogFragment {
 
@@ -133,7 +142,7 @@ public class UserRegisterDialogFragment extends DialogFragment {
 
         if (!isTermsAccepted) {
             // Terms not accepted, show toast message
-            Toast.makeText(getContext(), "Please accept the terms and conditions", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.error_please_accept_the_terms_and_conditions), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -141,11 +150,37 @@ public class UserRegisterDialogFragment extends DialogFragment {
             return;
         }
 
-        // Perform sign-up logic here
-        dismiss();
-        Toast.makeText(getContext(), "Sign up successful", Toast.LENGTH_SHORT).show();
+        performSignUp(fullName, email, password, confirmPassword, 1);
     }
 
+    private void performSignUp(String fullName, String email, String password, String confirmPassword, int tandc) {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        UserRegistration userRegistration = new UserRegistration(fullName, email, password, confirmPassword, tandc);
+
+        Call<UserRegistrationResponse> call = apiService.postUserRegister(userRegistration);
+        call.enqueue(new Callback<UserRegistrationResponse>() {
+            @Override
+            public void onResponse(Call<UserRegistrationResponse> call, Response<UserRegistrationResponse> response) {
+                if (response.isSuccessful()) {
+                    UserRegistrationResponse userRegistrationResponse = response.body();
+                    if (userRegistrationResponse != null && userRegistrationResponse.isSuccess()) {
+                        Toast.makeText(getContext(), getResources().getString(R.string.success_registration), Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.error_short_sign_up_failed) + userRegistrationResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.error_sign_up_failed), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserRegistrationResponse> call, Throwable t) {
+                Toast.makeText(getContext(), getResources().getString(R.string.error_sign_up_failed), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
 
     private void setTermsSpan(View view) {
         AppCompatTextView termsTextView = view.findViewById(R.id.text_terms);
@@ -154,8 +189,8 @@ public class UserRegisterDialogFragment extends DialogFragment {
         ClickableSpan termsClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Terms of Use
-                Toast.makeText(getContext(), "Terms of Use clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_term_of_use);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -169,8 +204,8 @@ public class UserRegisterDialogFragment extends DialogFragment {
         ClickableSpan acceptableUsePolicyClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Acceptable Use Policy
-                Toast.makeText(getContext(), "Acceptable Use Policy clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_acceptable_policy);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -184,8 +219,8 @@ public class UserRegisterDialogFragment extends DialogFragment {
         ClickableSpan privacyPolicyClick = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // Handle click action for Privacy Policy
-                Toast.makeText(getContext(), "Privacy Policy clicked", Toast.LENGTH_SHORT).show();
+                String url = getString(R.string.terms_privacy_policy);
+                openUrlInBrowser(url);
             }
 
             @Override
@@ -208,18 +243,11 @@ public class UserRegisterDialogFragment extends DialogFragment {
         termsTextView.setText(termsText);
         termsTextView.setMovementMethod(LinkMovementMethod.getInstance());
         termsTextView.setHighlightColor(Color.TRANSPARENT);
+    }
 
-        CheckBox checkBox = view.findViewById(R.id.checkbox_terms);
-        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle checkbox state change
-            if (isChecked) {
-                // Checkbox is checked
-                // Perform action
-            } else {
-                // Checkbox is unchecked
-                // Perform action
-            }
-        });
+    private void openUrlInBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
 }
