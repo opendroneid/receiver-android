@@ -30,6 +30,7 @@ import org.opendroneid.android.app.network.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserLogin;
 import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
 import org.opendroneid.android.app.network.service.ApiService;
+import org.opendroneid.android.app.network.models.user.UserManager;
 
 import java.util.Objects;
 
@@ -139,11 +140,24 @@ public class UserSignInDialogFragment extends DialogFragment {
             public void onResponse(Call<UserLoginSuccessResponse> call, Response<UserLoginSuccessResponse> response) {
                 if (response.isSuccessful()) {
                     UserLoginSuccessResponse loginResponse = response.body();
-                    // successful login response ( save token for start )
-                    dismiss();
-                    Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
+                    if (loginResponse != null) {
+                        // Save the token and user
+                        try {
+                            UserManager userManager = new UserManager(requireContext());
+                            userManager.saveToken(loginResponse.getToken());
+                            userManager.saveUser(loginResponse.getUser());
+                            dismiss();
+                            Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // unsuccessful login response
+                        Toast.makeText(getContext(), getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    //unsuccessful login response
+                    // unsuccessful login response
                     Toast.makeText(getContext(), getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -155,7 +169,6 @@ public class UserSignInDialogFragment extends DialogFragment {
             }
         });
     }
-
 
     private void setTermsSpan(View view) {
         AppCompatTextView termsTextView = view.findViewById(R.id.text_terms_sign_in);

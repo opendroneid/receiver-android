@@ -1,6 +1,8 @@
 package org.opendroneid.android.app.network.models.user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int id;
     private String name;
     private String email;

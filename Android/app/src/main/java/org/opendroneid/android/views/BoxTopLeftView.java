@@ -5,15 +5,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
+import org.opendroneid.android.app.network.models.user.UserManager;
 
 public class BoxTopLeftView extends View {
 
@@ -33,6 +37,7 @@ public class BoxTopLeftView extends View {
     private float iconUserRight;
     private float iconUserBottom;
     private int glowAlpha = 255;
+    UserManager userManager = new UserManager(getContext());
 
     public BoxTopLeftView(Context context) {
         super(context);
@@ -111,6 +116,13 @@ public class BoxTopLeftView extends View {
 
         Paint textPaint = new Paint();
 
+        String token = "";
+        try {
+            token = userManager.getToken();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), getResources().getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
         // Draw home icon
         if (homeIcon != null) {
             iconHomeLeft = (float) (width - homeIcon.getIntrinsicWidth()) / 2;
@@ -121,7 +133,7 @@ public class BoxTopLeftView extends View {
 
             // Draw text below home icon
             String textHome = getResources().getString(R.string.menu_home);
-            textPaint.setColor(Color.WHITE);
+            textPaint.setColor(getResources().getColor(R.color.overcast));
             textPaint.setTextSize(36);
             float textHomeWidth = textPaint.measureText(textHome);
             float textHomeX = (width - textHomeWidth) / 2;
@@ -138,6 +150,11 @@ public class BoxTopLeftView extends View {
             iconUserRight = iconUserLeft + userIcon.getIntrinsicWidth();
             iconUserBottom = iconUserTop + userIcon.getIntrinsicHeight();
             userIcon.setBounds((int) iconUserLeft, (int) iconUserTop, (int) iconUserRight, (int) iconUserBottom);
+            if(token != null && !token.equals("")){
+                userIcon.setColorFilter(new PorterDuffColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN));
+            }else{
+                userIcon.setColorFilter(new PorterDuffColorFilter(getResources().getColor(R.color.overcast), PorterDuff.Mode.SRC_IN));
+            }
             userIcon.draw(canvas);
 
             // Draw text below user icon
@@ -145,6 +162,9 @@ public class BoxTopLeftView extends View {
             float textUserWidth = textPaint.measureText(textUser);
             float textUserX = (width - textUserWidth) / 2;
             float textUserY = iconUserBottom + iconTextSpacing; // Place text below second icon
+            if(token != null && !token.equals("")){
+                textPaint.setColor(getResources().getColor(R.color.green));
+            }
             canvas.drawText(textUser, textUserX, textUserY, textPaint);
         }
 
@@ -164,12 +184,12 @@ public class BoxTopLeftView extends View {
             if (isTouchInsideHomeIcon(x, y)) {
                 if (iconHomeClickListener != null) {
                     iconHomeClickListener.onHomeIconClicked();
-                    return true; // Event consumed
+                    return true;
                 }
             } else if (isTouchInsideUserIcon(x, y)) {
                 if (iconUserClickListener != null) {
                     iconUserClickListener.onUserIconClicked();
-                    return true; // Event consumed
+                    return true;
                 }
             }
         }
@@ -177,12 +197,10 @@ public class BoxTopLeftView extends View {
     }
 
     private boolean isTouchInsideHomeIcon(float x, float y) {
-        // Determine if the touch event is inside the bounds of home icon
         return x >= iconHomeLeft && x <= iconHomeRight && y >= iconHomeTop && y <= iconHomeBottom;
     }
 
     private boolean isTouchInsideUserIcon(float x, float y) {
-        // Determine if the touch event is inside the bounds of user icon
         return x >= iconUserLeft && x <= iconUserRight && y >= iconUserTop && y <= iconUserBottom;
     }
 

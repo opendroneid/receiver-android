@@ -1,5 +1,7 @@
 package org.opendroneid.android.app.network.service;
 
+import org.opendroneid.android.app.network.models.user.UserForgotPassword;
+import org.opendroneid.android.app.network.models.user.UserForgotPasswordResponse;
 import org.opendroneid.android.app.network.models.user.UserLogin;
 import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
 import org.opendroneid.android.app.network.models.user.UserRegistrationResponse;
@@ -15,4 +17,7 @@ public interface ApiService {
 
     @POST("login")
     Call<UserLoginSuccessResponse>  postUserLogin(@Body UserLogin data);
+
+    @POST("forgotten-password")
+    Call<UserForgotPasswordResponse>  postUserForgotPassword(@Body UserForgotPassword data);
 }

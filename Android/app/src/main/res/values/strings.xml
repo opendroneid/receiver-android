@@ -143,14 +143,20 @@
     <string name="error_invalid_email_address">Invalid email address</string>
     <string name="error_invalid_password">Password must be at least 8 characters long and contain at least one uppercase letter and one symbol.</string>
     <string name="error_invalid_full_name">Name must not be empty</string>
-    <string name="success_registration">Registration successful</string>
-    <string name="error_sign_up_failed">Sign up failed. Please try again.</string>
+    <string name="success_registration">Registration successful, Verify your email and Log in</string>
+    <string name="error_sign_up_failed">Registration failed. Please try again.</string>
     <string name="error_please_accept_the_terms_and_conditions">Please accept the terms and conditions</string>
-    <string name="error_short_sign_up_failed">"Sign up failed: "</string>
+    <string name="error_short_sign_up_failed">"Registration failed: "</string>
     <string name="success_sign_in">Sign in successful</string>
     <string name="terms_privacy_policy">https://www.aerotracker.io/static/privacy-policy</string>
     <string name="terms_acceptable_policy">https://www.aerotracker.io/static/acceptable-use</string>
     <string name="terms_term_of_use">https://www.aerotracker.io/static/terms-of-use</string>
-    <string name="error_sign_in">Error Login in</string>
+    <string name="error_sign_in">Error Login in, Register or Verify your email address if already registered</string>
+    <string name="menu_log_out">Log Out</string>
+    <string name="menu_about">About</string>
+    <string name="success_log_out">User Loged Out</string>
+    <string name="error_log_out">Error while loging out, please try again</string>
+    <string name="error_forgot_password">"Error sending email. Please try again. "</string>
+    <string name="success_reset_email_sent">Reset email sent successful</string>
 
 </resources>

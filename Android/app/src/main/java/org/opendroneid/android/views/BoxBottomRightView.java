@@ -2,33 +2,63 @@ package org.opendroneid.android.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
+import org.opendroneid.android.app.network.models.user.UserManager;
+
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.cert.CertificateException;
 
 public class BoxBottomRightView extends View {
 
     private Paint paint;
     private Path path;
+    private Drawable logOutIcon;
+    private float iconLogOutLeft;
+    private float iconLogOutTop;
+    private float iconLogOutRight;
+    private float iconLogOutBottom;
+
+    private Drawable aboutIcon;
+    private float iconAboutLeft;
+    private float iconAboutTop;
+    private float iconAboutRight;
+    private float iconAboutBottom;
+    private BoxBottomRightView.IconAboutClickListener iconAboutClickListener;
+    private BoxBottomRightView.IconLogOutClickListener iconLogOutClickListener;
 
     private int glowAlpha = 255;
     private final Handler handler = new Handler();
+    UserManager userManager = new UserManager(getContext());
 
-    public BoxBottomRightView(Context context) {
+    public BoxBottomRightView(Context context) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
         super(context);
         init();
     }
 
-    public BoxBottomRightView(Context context, AttributeSet attrs) {
+    public BoxBottomRightView(Context context, AttributeSet attrs) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
         super(context, attrs);
         init();
     }
 
-    public BoxBottomRightView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BoxBottomRightView(Context context, AttributeSet attrs, int defStyleAttr) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -39,6 +69,10 @@ public class BoxBottomRightView extends View {
         paint.setStyle(Paint.Style.FILL);
 
         path = new Path();
+
+        logOutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_logout);
+        aboutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_about);
+
     }
 
     @Override
@@ -47,6 +81,8 @@ public class BoxBottomRightView extends View {
 
         int width = getWidth();
         int height = getHeight();
+        int iconTextSpacing = getResources().getDimensionPixelSize(R.dimen.icon_text_spacing);
+        int iconMargin = getResources().getDimensionPixelSize(R.dimen.icon_margin);
         int shadowColor = getResources().getColor(R.color.paleSky); // Darker color for the shadow
 
         //Draw first view
@@ -79,11 +115,110 @@ public class BoxBottomRightView extends View {
 
         canvas.drawPath(path, paint);
 
+        int centerY = height / 3;
+        int totalIconHeight = aboutIcon.getIntrinsicHeight() + iconTextSpacing + logOutIcon.getIntrinsicHeight();
+
+        iconAboutTop = centerY - (float) totalIconHeight / 4;
+
+        Paint textPaint = new Paint();
+
+        // Draw about icon
+        if (aboutIcon != null) {
+            iconAboutLeft = (float) (width - aboutIcon.getIntrinsicWidth()) / 2;
+            iconAboutRight = iconAboutLeft + aboutIcon.getIntrinsicWidth();
+            iconAboutBottom = iconAboutTop + aboutIcon.getIntrinsicHeight();
+            aboutIcon.setBounds((int) iconAboutLeft, (int) iconAboutTop, (int) iconAboutRight, (int) iconAboutBottom);
+            aboutIcon.draw(canvas);
+
+            // Draw text below about icon
+            String textAbout= getResources().getString(R.string.menu_about);
+            textPaint.setColor(getResources().getColor(R.color.overcast));
+            textPaint.setTextSize(36);
+            float textAboutWidth = textPaint.measureText(textAbout);
+            float textAboutX = (width - textAboutWidth) / 2;
+            float textAboutY = iconAboutBottom + iconTextSpacing;
+            canvas.drawText(textAbout, textAboutX, textAboutY, textPaint);
+        }
+
+        iconLogOutTop = iconAboutBottom + iconMargin;
+
+        String token = "";
+        try {
+            token = userManager.getToken();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), getResources().getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        if(token != null && !token.equals("")){
+            // Draw logout icon
+            if (logOutIcon != null) {
+                iconLogOutLeft = (float) (width - logOutIcon.getIntrinsicWidth()) / 2;
+                iconLogOutRight = iconLogOutLeft + logOutIcon.getIntrinsicWidth();
+                iconLogOutBottom = iconLogOutTop + logOutIcon.getIntrinsicHeight();
+                logOutIcon.setBounds((int) iconLogOutLeft, (int) iconLogOutTop, (int) iconLogOutRight, (int) iconLogOutBottom);
+
+                logOutIcon.draw(canvas);
+
+                // Draw text below logout icon
+                String textLogOut = getResources().getString(R.string.menu_log_out);
+                float textLogOutWidth = textPaint.measureText(textLogOut);
+                float textLogOutX = (width - textLogOutWidth) / 2;
+                float textLogOutY = iconLogOutBottom + iconTextSpacing;
+                textPaint.setColor(getResources().getColor(R.color.overcast));
+
+                canvas.drawText(textLogOut, textLogOutX, textLogOutY, textPaint);
+            }
+        }
+
         // Schedule a redraw with a delay to create the glowing effect
         handler.postDelayed(() -> {
             glowAlpha = (glowAlpha + 1) % 256;
             invalidate();
         }, 20);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float y = event.getY();
+            if (isTouchInsideAboutIcon(x, y)) {
+                if (iconAboutClickListener != null) {
+                    iconAboutClickListener.onAboutIconClicked();
+                    return true;
+                }
+            } else if (isTouchInsideUserIcon(x, y)) {
+                if (iconLogOutClickListener != null) {
+                    iconLogOutClickListener.onLogOutIconClicked();
+                    return true;
+                }
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private boolean isTouchInsideAboutIcon(float x, float y) {
+        return x >= iconAboutLeft && x <= iconAboutRight && y >= iconAboutTop && y <= iconAboutBottom;
+    }
+
+    private boolean isTouchInsideUserIcon(float x, float y) {
+        return x >= iconLogOutLeft && x <= iconLogOutRight && y >= iconLogOutTop && y <= iconLogOutBottom;
+    }
+
+    public void setAboutIconClickListener(BoxBottomRightView.IconAboutClickListener listener) {
+        this.iconAboutClickListener = listener;
+    }
+
+    public void setLogOutIconClickListener(BoxBottomRightView.IconLogOutClickListener listener) {
+        this.iconLogOutClickListener = listener;
+    }
+
+    public interface IconAboutClickListener {
+        void onAboutIconClicked();
+    }
+
+    public interface IconLogOutClickListener {
+        void onLogOutIconClicked();
     }
 
 }

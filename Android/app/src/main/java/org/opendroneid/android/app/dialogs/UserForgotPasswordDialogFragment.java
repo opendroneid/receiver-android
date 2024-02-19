@@ -19,8 +19,18 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.opendroneid.android.R;
 import org.opendroneid.android.UserFlowUtil;
+import org.opendroneid.android.app.network.ApiClient;
+import org.opendroneid.android.app.network.models.user.UserForgotPassword;
+import org.opendroneid.android.app.network.models.user.UserForgotPasswordResponse;
+import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
+import org.opendroneid.android.app.network.models.user.UserManager;
+import org.opendroneid.android.app.network.service.ApiService;
 
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserForgotPasswordDialogFragment extends DialogFragment {
 
@@ -72,10 +82,39 @@ public class UserForgotPasswordDialogFragment extends DialogFragment {
             emailInputLayout.setError(getString(R.string.error_invalid_email_address));
         } else {
             emailInputLayout.setError(null);
-            Toast.makeText(getContext(), "Reset email sent successful", Toast.LENGTH_SHORT).show();
-            // Implement send reset email
-            dismiss();
+            performForgotPassword(email);
         }
+    }
+
+    private void performForgotPassword(String email){
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        UserForgotPassword userForgotPassword = new UserForgotPassword(email);
+        Call<UserForgotPasswordResponse> call = apiService.postUserForgotPassword(userForgotPassword);
+
+        call.enqueue(new Callback<UserForgotPasswordResponse>() {
+            @Override
+            public void onResponse(Call<UserForgotPasswordResponse> call, Response<UserForgotPasswordResponse> response) {
+                if (response.isSuccessful()) {
+                    UserForgotPasswordResponse userForgotPasswordResponse = response.body();
+                    if (userForgotPasswordResponse.isSuccess()) {
+                        Toast.makeText(getContext(), getString(R.string.success_reset_email_sent), Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    } else {
+                        // unsuccessful login response
+                        Toast.makeText(getContext(), getString(R.string.error_forgot_password), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // unsuccessful login response
+                    Toast.makeText(getContext(), getString(R.string.error_forgot_password), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserForgotPasswordResponse> call, Throwable t) {
+                // Fail
+                Toast.makeText(getContext(), getString(R.string.error_forgot_password), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

@@ -51,12 +51,14 @@ import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
 import org.opendroneid.android.app.dialogs.UserRegisterDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
+import org.opendroneid.android.app.network.models.user.UserManager;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
 import org.opendroneid.android.bluetooth.WiFiNaNScanner;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.log.LogWriter;
+import org.opendroneid.android.views.BoxBottomRightView;
 import org.opendroneid.android.views.BoxTopLeftView;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
@@ -70,21 +72,17 @@ import java.util.Locale;
 import java.util.Set;
 
 public class DebugActivity extends AppCompatActivity {
-    BluetoothScanner btScanner;
-    WiFiNaNScanner wiFiNaNScanner;
-    WiFiBeaconScanner wiFiBeaconScanner;
-
-    private AircraftViewModel mModel;
-    OpenDroneIdDataManager dataManager;
-
+    public static final String SHARED_PREF_NAME = "DebugActivity";
+    public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
+    private static final String TAG = DebugActivity.class.getSimpleName();
     public LocationRequest locationRequest;
     public LocationCallback locationCallback;
     public FusedLocationProviderClient mFusedLocationClient;
-
-    private static final String TAG = DebugActivity.class.getSimpleName();
-
-    public static final String SHARED_PREF_NAME = "DebugActivity";
-    public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
+    BluetoothScanner btScanner;
+    WiFiNaNScanner wiFiNaNScanner;
+    WiFiBeaconScanner wiFiBeaconScanner;
+    OpenDroneIdDataManager dataManager;
+    private AircraftViewModel mModel;
     private MenuItem mMenuLogItem;
 
     private AircraftMapView mMapView;
@@ -336,33 +334,12 @@ public class DebugActivity extends AppCompatActivity {
 
     private void setClickListeners() {
         BoxTopLeftView boxTopLeftView = findViewById(R.id.boxTopLeft);
-        boxTopLeftView.setHomeIconClickListener(() -> {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mFusedLocationClient.getLastLocation()
-                        .addOnSuccessListener(this, location -> {
-                            if (location != null) {
-                                osvMap = findViewById(R.id.map);
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-                                IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
-                                osvMap.getMapCenter();
-                                osvMap.getController().animateTo(geoPoint, 12d, 2l);
-
-
-                            } else {
-                                showToast("Unable to get current location");
-                            }
-                        });
-            } else {
-                // Request location permission
-                requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        });
-
-        // Handle user icon click
-        //TODO: when implemented with backend, perform user signed in check and handle accordingly
+        boxTopLeftView.setHomeIconClickListener(this::navigateToLocation);
         boxTopLeftView.setUserIconClickListener(this::openSignInDialog);
+
+        BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
+        boxBottomRightView.setAboutIconClickListener(this::openAboutDialog);
+        boxBottomRightView.setLogOutIconClickListener(this::logOutUser);
     }
 
     private void openRegisterDialog() {
@@ -372,9 +349,63 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void openSignInDialog() {
-        UserSignInDialogFragment dialog = new UserSignInDialogFragment();
-        dialog.show(getSupportFragmentManager(), "UserSignInDialogFragment");
-        dialog.setCancelable(false);
+        UserManager userManager = new UserManager(getApplicationContext());
+        String token = "";
+        try {
+            token = userManager.getToken();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        if (token != null && !token.equals("")) {
+            //TODO: Show User Dialog
+        } else {
+            UserSignInDialogFragment dialog = new UserSignInDialogFragment();
+            dialog.show(getSupportFragmentManager(), "UserSignInDialogFragment");
+            dialog.setCancelable(false);
+        }
+    }
+
+    private void navigateToLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, location -> {
+                        if (location != null) {
+                            osvMap = findViewById(R.id.map);
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
+                            osvMap.getMapCenter();
+                            osvMap.getController().animateTo(geoPoint, 12d, 2L);
+
+
+                        } else {
+                            showToast("Unable to get current location");
+                        }
+                    });
+        } else {
+            // Request location permission
+            requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    private void logOutUser() {
+        try {
+            UserManager userManager = new UserManager(getApplicationContext());
+            userManager.deleteToken();
+            userManager.deleteUser();
+            BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
+            boxBottomRightView.invalidate();
+            Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void openAboutDialog() {
+
     }
 
     private void initialize() {
@@ -401,7 +432,7 @@ public class DebugActivity extends AppCompatActivity {
             if (mMapView != null)
                 mMapView.setMapSettings();
         } else {
-             mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+            mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
             if (mOsMapView != null)
                 mOsMapView.setMapSettings();
         }
@@ -567,7 +598,7 @@ public class DebugActivity extends AppCompatActivity {
         else {
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content).getRootView(), message, Snackbar.LENGTH_LONG);
             View snackView = snackbar.getView();
-            TextView snackTextView = (TextView) snackView.findViewById(R.id.snackbar_text);
+            TextView snackTextView = snackView.findViewById(R.id.snackbar_text);
             snackTextView.setMaxLines(5);
             snackbar.show();
         }
