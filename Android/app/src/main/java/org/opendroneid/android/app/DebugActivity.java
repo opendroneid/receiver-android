@@ -49,8 +49,11 @@ import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
+import org.opendroneid.android.app.dialogs.AboutDialogFragment;
+import org.opendroneid.android.app.dialogs.UserDialogFragment;
 import org.opendroneid.android.app.dialogs.UserRegisterDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
+import org.opendroneid.android.app.network.models.user.User;
 import org.opendroneid.android.app.network.models.user.UserManager;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
@@ -348,17 +351,19 @@ public class DebugActivity extends AppCompatActivity {
         dialog.setCancelable(false);
     }
 
-    private void openSignInDialog() {
+    private void openSignInDialog() throws IOException, ClassNotFoundException {
         UserManager userManager = new UserManager(getApplicationContext());
         String token = "";
         try {
             token = userManager.getToken();
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         if (token != null && !token.equals("")) {
-            //TODO: Show User Dialog
+            User user = userManager.getUser();
+            if(user != null){
+                openUserDialog(user);
+            }
         } else {
             UserSignInDialogFragment dialog = new UserSignInDialogFragment();
             dialog.show(getSupportFragmentManager(), "UserSignInDialogFragment");
@@ -405,7 +410,15 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void openAboutDialog() {
+        AboutDialogFragment dialog = new AboutDialogFragment();
+        dialog.show(getSupportFragmentManager(), "AboutDialogFragment");
+        dialog.setCancelable(true);
+    }
 
+    private void openUserDialog(User user) {
+        UserDialogFragment dialog = new UserDialogFragment(user);
+        dialog.show(getSupportFragmentManager(), "UserDialogFragment");
+        dialog.setCancelable(false);
     }
 
     private void initialize() {

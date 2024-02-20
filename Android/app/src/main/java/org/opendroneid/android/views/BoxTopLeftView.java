@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat;
 import org.opendroneid.android.R;
 import org.opendroneid.android.app.network.models.user.UserManager;
 
+import java.io.IOException;
+
 public class BoxTopLeftView extends View {
 
     private final Handler handler = new Handler();
@@ -186,11 +188,14 @@ public class BoxTopLeftView extends View {
                     iconHomeClickListener.onHomeIconClicked();
                     return true;
                 }
-            } else if (isTouchInsideUserIcon(x, y)) {
-                if (iconUserClickListener != null) {
-                    iconUserClickListener.onUserIconClicked();
+            } else if (isTouchInsideUserIcon(x, y) && (iconUserClickListener != null)) {
+                    try {
+                        iconUserClickListener.onUserIconClicked();
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                     return true;
-                }
+
             }
         }
         return super.onTouchEvent(event);
@@ -217,6 +222,6 @@ public class BoxTopLeftView extends View {
     }
 
     public interface IconUserClickListener {
-        void onUserIconClicked();
+        void onUserIconClicked() throws IOException, ClassNotFoundException;
     }
 }
