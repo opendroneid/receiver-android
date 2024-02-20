@@ -158,5 +158,16 @@
     <string name="error_log_out">Error while loging out, please try again</string>
     <string name="error_forgot_password">"Error sending email. Please try again. "</string>
     <string name="success_reset_email_sent">Reset email sent successful</string>
+    <string name="title_app_name">Drone Defence</string>
+    <string name="text_about">When used safely, drones are an excellent resource, providing additional eyes from above with added \nbenefits of thermal imaging etc. Drones are often an extremely useful and insightful tool. However, when \nused irresponsibly, drones can breach boundaries and cause nuisance, property violation, trespass or \nprivacy infringement.\nDrone Defence is here to alleviate these issues and we are committed to promoting and facilitating the \nsafe use of drones in authorised airspaces. Our products and technology solutions have been designed to \nsuit a wide variety of situations and environments</string>
+    <string name="button_close">close</string>
+    <string name="text_user_name">Name:</string>
+    <string name="text_user_email">Email:</string>
+    <string name="text_user_drone_range">Drone Range:</string>
+    <string name="text_user_units">Units:</string>
+    <string name="text_user_measurements">Measurements:</string>
+    <string name="dialog_title_log_out_prompt">Are you sure you want to log out?</string>
+    <string name="action_confirm">Yes</string>
+    <string name="action_no">No</string>
 
 </resources>

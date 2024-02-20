@@ -10,6 +10,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,12 +33,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.fingerprintjs.android.fingerprint.Fingerprinter;
+import com.fingerprintjs.android.fingerprint.FingerprinterFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,9 +54,9 @@ import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
+import org.opendroneid.android.SensorUtil;
 import org.opendroneid.android.app.dialogs.AboutDialogFragment;
 import org.opendroneid.android.app.dialogs.UserDialogFragment;
-import org.opendroneid.android.app.dialogs.UserRegisterDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
 import org.opendroneid.android.app.network.models.user.User;
 import org.opendroneid.android.app.network.models.user.UserManager;
@@ -345,12 +350,6 @@ public class DebugActivity extends AppCompatActivity {
         boxBottomRightView.setLogOutIconClickListener(this::logOutUser);
     }
 
-    private void openRegisterDialog() {
-        UserRegisterDialogFragment dialog = new UserRegisterDialogFragment();
-        dialog.show(getSupportFragmentManager(), "UserRegisterDialogFragment");
-        dialog.setCancelable(false);
-    }
-
     private void openSignInDialog() throws IOException, ClassNotFoundException {
         UserManager userManager = new UserManager(getApplicationContext());
         String token = "";
@@ -396,17 +395,25 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void logOutUser() {
-        try {
-            UserManager userManager = new UserManager(getApplicationContext());
-            userManager.deleteToken();
-            userManager.deleteUser();
-            BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
-            boxBottomRightView.invalidate();
-            Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_log_out_prompt, null);
+        new AlertDialog.Builder(this, R.style.CustomAlertDialog)
+                .setCustomTitle(dialogView)
+                .setPositiveButton(R.string.action_confirm, (dialog, whichButton) -> {
+                    try {
+                        UserManager userManager = new UserManager(getApplicationContext());
+                        userManager.deleteToken();
+                        userManager.deleteUser();
+                        BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
+                        boxBottomRightView.invalidate();
+                        Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                })
+                .setNegativeButton(R.string.action_no, null)
+                .show();
     }
 
     private void openAboutDialog() {
