@@ -181,6 +181,7 @@ public class AircraftOsMapView extends Fragment {
         myLocationoverlay.enableMyLocation();
         myLocationoverlay.disableFollowLocation();
         myLocationoverlay.setDrawAccuracyEnabled(true);
+        osvMap.getOverlays().add(myLocationoverlay);
 
         CompassOverlay compassOverlay = new CompassOverlay(requireContext(), osvMap);
         compassOverlay.enableCompass();
