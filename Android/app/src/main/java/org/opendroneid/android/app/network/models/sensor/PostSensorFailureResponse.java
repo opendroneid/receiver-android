@@ -1,4 +1,4 @@
-package org.opendroneid.android.app.network.models.user;
+package org.opendroneid.android.app.network.models.sensor;
 
 import com.google.gson.annotations.SerializedName;
 

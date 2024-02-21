@@ -1,4 +1,4 @@
-package org.opendroneid.android.app.network.models.user;
+package org.opendroneid.android.app.network.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +7,8 @@ import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
+import org.opendroneid.android.app.network.models.user.User;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,10 +43,8 @@ import javax.security.auth.x500.X500Principal;
 
 public class UserManager {
 
-    private static final String KEY_ALIAS = "key_alias";
     private static final String TOKEN_PREFS = "token_prefs";
     private static final String TOKEN_KEY = "token_key";
-    private static final int IV_LENGTH = 16;
     private static final String USER_KEY = "user_key";
 
     private final SharedPreferences sharedPreferences;

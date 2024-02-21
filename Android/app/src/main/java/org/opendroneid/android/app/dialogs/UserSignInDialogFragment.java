@@ -32,8 +32,8 @@ import org.opendroneid.android.UserFlowUtil;
 import org.opendroneid.android.app.network.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserLogin;
 import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
-import org.opendroneid.android.app.network.models.user.UserManager;
-import org.opendroneid.android.app.network.models.user.UserSensorsPostRequest;
+import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.models.sensor.SensorsPostRequest;
 import org.opendroneid.android.app.network.service.ApiService;
 
 import java.util.Objects;
@@ -137,7 +137,7 @@ public class UserSignInDialogFragment extends DialogFragment {
 
     private void performSignIn(String email, String password) {
         UserLogin userLogin = new UserLogin(email, password);
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
 
         Call<UserLoginSuccessResponse> call = apiService.postUserLogin(userLogin);
         call.enqueue(new Callback<UserLoginSuccessResponse>() {
@@ -182,12 +182,12 @@ public class UserSignInDialogFragment extends DialogFragment {
         fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
 
             String deviceId = deviceIdResult.getDeviceId();
-            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
             String id = "1796" + deviceId;
             String phoneSensor = deviceId;
             String ref = deviceId;
 
-            Call<ResponseBody> call = apiService.postSensor("Bearer " + token, new UserSensorsPostRequest(phoneSensor + "-" + id, "#", ref,
+            Call<ResponseBody> call = apiService.postSensor("Bearer " + token, new SensorsPostRequest(phoneSensor + "-" + id, "#", ref,
                     0, 0, "phone", "PHONE", 1, ipV4, phoneSensor));
             call.enqueue(new Callback<ResponseBody>() {
                 @Override

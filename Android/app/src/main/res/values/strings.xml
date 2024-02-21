@@ -169,5 +169,13 @@
     <string name="dialog_title_log_out_prompt">Are you sure you want to log out?</string>
     <string name="action_confirm">Yes</string>
     <string name="action_no">No</string>
+    <string name="menu_change_url">Add URL</string>
+    <string name="title_change_url">Change default URL</string>
+    <string name="hint_url">http://yourendpoint.com/</string>
+    <string name="title_default_url">Change back to default URL</string>
+    <string name="action_change">Change</string>
+    <string name="text_url_changed">URL changed</string>
+    <string name="text_url_default">URL changed back to default</string>
+    <string name="text_url_invalid">The URL entered is empty or not valid</string>
 
 </resources>

@@ -1,8 +1,8 @@
-package org.opendroneid.android.app.network.models.user;
+package org.opendroneid.android.app.network.models.sensor;
 
 import com.google.gson.annotations.SerializedName;
 
-public class UserSensorsPostRequest {
+public class SensorsPostRequest {
     private String service;
 
     private String url;
@@ -26,7 +26,7 @@ public class UserSensorsPostRequest {
     @SerializedName("master_name")
     private String masterName;
 
-    public UserSensorsPostRequest(String service, String url, String ref, int isPublic, int isStatic, String icon, String type, int filter, String ip, String masterName) {
+    public SensorsPostRequest(String service, String url, String ref, int isPublic, int isStatic, String icon, String type, int filter, String ip, String masterName) {
         this.service = service;
         this.url = url;
         this.ref = ref;

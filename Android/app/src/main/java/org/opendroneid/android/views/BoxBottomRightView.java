@@ -2,29 +2,17 @@ package org.opendroneid.android.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
-import org.opendroneid.android.app.network.models.user.UserManager;
-
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.cert.CertificateException;
+import org.opendroneid.android.app.network.manager.UserManager;
 
 public class BoxBottomRightView extends CustomGlowView {
 

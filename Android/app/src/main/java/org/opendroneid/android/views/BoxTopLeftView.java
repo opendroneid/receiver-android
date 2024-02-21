@@ -7,16 +7,14 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
-import org.opendroneid.android.app.network.models.user.UserManager;
+import org.opendroneid.android.app.network.manager.UserManager;
 
 import java.io.IOException;
 
@@ -155,8 +153,8 @@ public class BoxTopLeftView extends CustomGlowView {
             userIcon.setBounds((int) iconUserLeft, (int) iconUserTop, (int) iconUserRight, (int) iconUserBottom);
             if (token != null && !token.equals("")) {
                 userIcon.setColorFilter(new PorterDuffColorFilter(getResources().getColor(R.color.green), PorterDuff.Mode.SRC_IN));
-            } else {
-                userIcon.setColorFilter(new PorterDuffColorFilter(getResources().getColor(R.color.overcast), PorterDuff.Mode.SRC_IN));
+            }else{
+                userIcon.setColorFilter(null);
             }
             userIcon.draw(canvas);
 

@@ -10,7 +10,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -40,8 +39,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.fingerprintjs.android.fingerprint.Fingerprinter;
-import com.fingerprintjs.android.fingerprint.FingerprinterFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -54,18 +51,19 @@ import org.opendroneid.android.BuildConfig;
 import org.opendroneid.android.Constants;
 import org.opendroneid.android.PermissionUtils;
 import org.opendroneid.android.R;
-import org.opendroneid.android.SensorUtil;
 import org.opendroneid.android.app.dialogs.AboutDialogFragment;
+import org.opendroneid.android.app.dialogs.ChangeUrlDialogFragment;
 import org.opendroneid.android.app.dialogs.UserDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
 import org.opendroneid.android.app.network.models.user.User;
-import org.opendroneid.android.app.network.models.user.UserManager;
+import org.opendroneid.android.app.network.manager.UserManager;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
 import org.opendroneid.android.bluetooth.WiFiNaNScanner;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.log.LogWriter;
+import org.opendroneid.android.views.BoxBottomLeftView;
 import org.opendroneid.android.views.BoxBottomRightView;
 import org.opendroneid.android.views.BoxTopLeftView;
 import org.osmdroid.api.IGeoPoint;
@@ -347,7 +345,13 @@ public class DebugActivity extends AppCompatActivity {
 
         BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
         boxBottomRightView.setAboutIconClickListener(this::openAboutDialog);
+
         boxBottomRightView.setLogOutIconClickListener(this::logOutUser);
+
+
+        BoxBottomLeftView boxBottomLeftView = findViewById(R.id.boxBottomLeft);
+        boxBottomLeftView.setUrlClickListener(this::openChangeUrlDialog);
+
     }
 
     private void openSignInDialog() throws IOException, ClassNotFoundException {
@@ -360,7 +364,7 @@ public class DebugActivity extends AppCompatActivity {
         }
         if (token != null && !token.equals("")) {
             User user = userManager.getUser();
-            if(user != null){
+            if (user != null) {
                 openUserDialog(user);
             }
         } else {
@@ -395,13 +399,17 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void logOutUser() {
+        UserManager userManager = new UserManager(getApplicationContext());
+        if(userManager.getToken() == null){
+            return;
+        }
+
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_log_out_prompt, null);
         new AlertDialog.Builder(this, R.style.CustomAlertDialog)
                 .setCustomTitle(dialogView)
                 .setPositiveButton(R.string.action_confirm, (dialog, whichButton) -> {
                     try {
-                        UserManager userManager = new UserManager(getApplicationContext());
                         userManager.deleteToken();
                         userManager.deleteUser();
                         BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
@@ -425,6 +433,16 @@ public class DebugActivity extends AppCompatActivity {
     private void openUserDialog(User user) {
         UserDialogFragment dialog = new UserDialogFragment(user);
         dialog.show(getSupportFragmentManager(), "UserDialogFragment");
+        dialog.setCancelable(false);
+    }
+
+    private void openChangeUrlDialog() {
+        UserManager userManager = new UserManager(getApplicationContext());
+        if(userManager.getToken() != null){
+            return;
+        }
+        ChangeUrlDialogFragment dialog = new ChangeUrlDialogFragment();
+        dialog.show(getSupportFragmentManager(), "ChangeUrlDialogFragment");
         dialog.setCancelable(false);
     }
 

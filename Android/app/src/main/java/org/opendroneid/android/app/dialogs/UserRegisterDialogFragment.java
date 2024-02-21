@@ -154,7 +154,7 @@ public class UserRegisterDialogFragment extends DialogFragment {
     }
 
     private void performSignUp(String fullName, String email, String password, String confirmPassword, int tandc) {
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
         UserRegistration userRegistration = new UserRegistration(fullName, email, password, confirmPassword, tandc);
 
         Call<UserRegistrationResponse> call = apiService.postUserRegister(userRegistration);

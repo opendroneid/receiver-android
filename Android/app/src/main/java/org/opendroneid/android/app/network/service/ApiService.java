@@ -6,7 +6,7 @@ import org.opendroneid.android.app.network.models.user.UserLogin;
 import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
 import org.opendroneid.android.app.network.models.user.UserRegistrationResponse;
 import org.opendroneid.android.app.network.models.user.UserRegistration;
-import org.opendroneid.android.app.network.models.user.UserSensorsPostRequest;
+import org.opendroneid.android.app.network.models.sensor.SensorsPostRequest;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,6 +25,6 @@ public interface ApiService {
     Call<UserForgotPasswordResponse>  postUserForgotPassword(@Body UserForgotPassword data);
 
     @POST("user/sources")
-    Call<ResponseBody> postSensor(@Header("Authorization") String bearerToken, @Body UserSensorsPostRequest postRequest);
+    Call<ResponseBody> postSensor(@Header("Authorization") String bearerToken, @Body SensorsPostRequest postRequest);
 
 }

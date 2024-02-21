@@ -2,9 +2,6 @@ package org.opendroneid.android.app.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +19,6 @@ import org.opendroneid.android.UserFlowUtil;
 import org.opendroneid.android.app.network.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserForgotPassword;
 import org.opendroneid.android.app.network.models.user.UserForgotPasswordResponse;
-import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
-import org.opendroneid.android.app.network.models.user.UserManager;
 import org.opendroneid.android.app.network.service.ApiService;
 
 import java.util.Objects;
@@ -87,7 +82,7 @@ public class UserForgotPasswordDialogFragment extends DialogFragment {
     }
 
     private void performForgotPassword(String email){
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
         UserForgotPassword userForgotPassword = new UserForgotPassword(email);
         Call<UserForgotPasswordResponse> call = apiService.postUserForgotPassword(userForgotPassword);
 
