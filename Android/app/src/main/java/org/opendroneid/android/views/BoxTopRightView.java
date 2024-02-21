@@ -10,13 +10,11 @@ import android.view.View;
 
 import org.opendroneid.android.R;
 
-public class BoxTopRightView extends View {
+public class BoxTopRightView extends CustomGlowView {
 
     private Paint paint;
     private Path path;
-
     private int glowAlpha = 255;
-    private final Handler handler = new Handler();
 
     public BoxTopRightView(Context context) {
         super(context);
@@ -39,12 +37,12 @@ public class BoxTopRightView extends View {
         paint.setStyle(Paint.Style.FILL);
 
         path = new Path();
+
+        startGlowEffect(() -> glowAlpha = (glowAlpha + 1) % 256);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    protected void onCustomDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
         int shadowColor = getResources().getColor(R.color.paleSky);
@@ -59,8 +57,8 @@ public class BoxTopRightView extends View {
 
         paint.setColor(getResources().getColor(R.color.green));
         paint.setStyle(Paint.Style.FILL);
-        paint.setAlpha(glowAlpha);
 
+        paint.setAlpha(glowAlpha);
         canvas.drawPath(path, paint);
 
         // Draw the second view
@@ -79,15 +77,11 @@ public class BoxTopRightView extends View {
         paint.setShadowLayer(10, 0, 0, shadowColor);
 
         canvas.drawPath(path, paint);
-
-        // Schedule a redraw with a delay to create the glowing effect
-        handler.postDelayed(() -> {
-            glowAlpha = (glowAlpha + 1) % 256;
-            invalidate();
-        }, 20);
     }
 
-
-
-
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        onCustomDraw(canvas);
+    }
 }

@@ -4,15 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.View;
 
 import org.opendroneid.android.R;
 
-public class BoxBottomLeftView extends View {
+public class BoxBottomLeftView extends CustomGlowView {
 
-    private final Handler handler = new Handler();
     private Paint paint;
     private Path path;
     private int glowAlpha = 255;
@@ -38,17 +35,17 @@ public class BoxBottomLeftView extends View {
         paint.setStyle(Paint.Style.FILL);
 
         path = new Path();
+
+        startGlowEffect(() -> glowAlpha = (glowAlpha + 1) % 256);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    protected void onCustomDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
         int shadowColor = getResources().getColor(R.color.paleSky);
 
-        //Draw first view
+        // Draw first view
         path.reset();
         path.moveTo(0, height - 10);
         path.lineTo(width, height - 10);
@@ -77,12 +74,11 @@ public class BoxBottomLeftView extends View {
         paint.setShadowLayer(10, 0, 0, shadowColor);
 
         canvas.drawPath(path, paint);
-
-        // Schedule a redraw with a delay to create the glowing effect
-        handler.postDelayed(() -> {
-            glowAlpha = (glowAlpha + 1) % 256;
-            invalidate();
-        }, 20);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        onCustomDraw(canvas);
+    }
 }

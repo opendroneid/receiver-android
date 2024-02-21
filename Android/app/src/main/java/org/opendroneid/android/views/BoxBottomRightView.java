@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.CertificateException;
 
-public class BoxBottomRightView extends View {
+public class BoxBottomRightView extends CustomGlowView {
 
     private Paint paint;
     private Path path;
@@ -41,24 +41,23 @@ public class BoxBottomRightView extends View {
     private float iconAboutTop;
     private float iconAboutRight;
     private float iconAboutBottom;
-    private BoxBottomRightView.IconAboutClickListener iconAboutClickListener;
-    private BoxBottomRightView.IconLogOutClickListener iconLogOutClickListener;
+    private IconAboutClickListener iconAboutClickListener;
+    private IconLogOutClickListener iconLogOutClickListener;
 
+    private UserManager userManager;
     private int glowAlpha = 255;
-    private final Handler handler = new Handler();
-    UserManager userManager = new UserManager(getContext());
 
-    public BoxBottomRightView(Context context) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
+    public BoxBottomRightView(Context context) {
         super(context);
         init();
     }
 
-    public BoxBottomRightView(Context context, AttributeSet attrs) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
+    public BoxBottomRightView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public BoxBottomRightView(Context context, AttributeSet attrs, int defStyleAttr) throws InvalidAlgorithmParameterException, CertificateException, KeyStoreException, NoSuchAlgorithmException, IOException, NoSuchProviderException {
+    public BoxBottomRightView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -73,19 +72,20 @@ public class BoxBottomRightView extends View {
         logOutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_logout);
         aboutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_about);
 
+        userManager = new UserManager(getContext());
+
+        startGlowEffect(() -> glowAlpha = (glowAlpha + 1) % 256);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    protected void onCustomDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
         int iconTextSpacing = getResources().getDimensionPixelSize(R.dimen.icon_text_spacing);
         int iconMargin = getResources().getDimensionPixelSize(R.dimen.icon_margin);
         int shadowColor = getResources().getColor(R.color.paleSky); // Darker color for the shadow
 
-        //Draw first view
+        // Draw first view
         path.reset();
         path.moveTo(0, height - 10);
         path.lineTo(width, height - 10);
@@ -95,8 +95,8 @@ public class BoxBottomRightView extends View {
 
         paint.setColor(getResources().getColor(R.color.green));
         paint.setStyle(Paint.Style.FILL);
-        paint.setAlpha(glowAlpha);
 
+        paint.setAlpha(glowAlpha);
         canvas.drawPath(path, paint);
 
         // Draw the second view
@@ -169,12 +169,12 @@ public class BoxBottomRightView extends View {
                 canvas.drawText(textLogOut, textLogOutX, textLogOutY, textPaint);
             }
         }
+    }
 
-        // Schedule a redraw with a delay to create the glowing effect
-        handler.postDelayed(() -> {
-            glowAlpha = (glowAlpha + 1) % 256;
-            invalidate();
-        }, 20);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        onCustomDraw(canvas);
     }
 
     @Override
@@ -205,11 +205,11 @@ public class BoxBottomRightView extends View {
         return x >= iconLogOutLeft && x <= iconLogOutRight && y >= iconLogOutTop && y <= iconLogOutBottom;
     }
 
-    public void setAboutIconClickListener(BoxBottomRightView.IconAboutClickListener listener) {
+    public void setAboutIconClickListener(IconAboutClickListener listener) {
         this.iconAboutClickListener = listener;
     }
 
-    public void setLogOutIconClickListener(BoxBottomRightView.IconLogOutClickListener listener) {
+    public void setLogOutIconClickListener(IconLogOutClickListener listener) {
         this.iconLogOutClickListener = listener;
     }
 
