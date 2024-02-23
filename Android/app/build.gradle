@@ -90,5 +90,5 @@ dependencies {
 
     //FingerprintJS for getting unique phone identifier
     implementation "com.github.fingerprintjs:fingerprint-android:2.1.0"
-    
+
 }
