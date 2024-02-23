@@ -16,7 +16,7 @@ to be uncommented.
     <item
         android:id="@+id/clear"
         android:title="@string/Clear"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/help"
         android:title="@string/Help"

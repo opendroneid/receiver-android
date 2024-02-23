@@ -4,37 +4,91 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  */
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
-buildscript {
+android {
+    def versionMajor = 3
+    def versionMinor = 5
+    def versionPatch = 4
+    compileSdk 34
 
-    repositories {
-        google()
-        mavenCentral()
+    defaultConfig {
+        applicationId "org.opendroneid.android"
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
-        classpath 'com.google.gms:google-services:4.4.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+    buildTypes {
+        debug {
+            versionNameSuffix ".debug"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url "https://jitpack.io" }        // OSMDroid Bonus Pack
-    }
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.encoding = 'UTF-8'
-            options.compilerArgs << "-Xlint:deprecation"
+            if (project.hasProperty('org.gradle.project.map')) {
+                buildConfigField "boolean", "USE_GOOGLE_MAPS", "true"
+            } else {
+                buildConfigField "boolean", "USE_GOOGLE_MAPS", "false"
+            }
+        }
+
+        release {
+            resValue "string", "app_version", "${defaultConfig.versionName}"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (project.hasProperty('org.gradle.project.map')) {
+                buildConfigField "boolean", "USE_GOOGLE_MAPS", "true"
+            } else {
+                buildConfigField "boolean", "USE_GOOGLE_MAPS", "false"
+            }
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    namespace 'org.opendroneid.android'
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    def support_version = "30.0.0"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'com.mikepenz:fastadapter:3.3.1'
+    implementation 'com.mikepenz:fastadapter-commons:3.2.8'
+    implementation 'com.android.support:recyclerview-v7:' + support_version
+    implementation 'com.android.support:appcompat-v7:' + support_version
+    implementation 'com.android.support:support-fragment:' + support_version
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+//    The below if-else works, but will then fail to compile the AircraftMapView.java or
+//    AircraftOsMapView.java file. How to properly variate this is unclear.
+//    if (project.hasProperty('org.gradle.project.map')) {
+        implementation 'com.google.android.gms:play-services-maps:18.2.0'
+        implementation 'com.google.android.gms:play-services-location:21.0.1'
+//    } else {
+        implementation 'androidx.preference:preference:1.2.1'
+        implementation 'org.osmdroid:osmdroid-android:6.1.13'
+//    }
+
+    // currently only used for app test deployment
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //FingerprintJS for getting unique phone identifier
+    implementation "com.github.fingerprintjs:fingerprint-android:2.1.0"
+
+}

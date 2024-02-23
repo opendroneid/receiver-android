@@ -223,7 +223,7 @@ public class AircraftOsMapView extends Fragment {
                         id = aircraft.getIdentification1().getUasIdAsString();
                     }
                     markerPilot = new Marker(osvMap);
-                    markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot));
+                    markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot_target));
                     markerPilot.setPosition(geoPoint);
                     markerPilot.setTitle(sys.getOperatorLocationType().toString() + "\n" + id);
                     if (markerPilot != null) {
@@ -306,6 +306,7 @@ public class AircraftOsMapView extends Fragment {
                 marker = new Marker(osvMap);
                 marker.setPosition(geoPoint);
                 marker.setTitle("aircraft\n" + id);
+                marker.setIcon(context.getDrawable(R.drawable.ic_drone_fly));
                 if (marker != null) {
                     makerTag = aircraft;
                 }

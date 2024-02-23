@@ -16,7 +16,7 @@
         android:id="@+id/drone_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@mipmap/ic_plane_icon"
+        android:src="@drawable/ic_drone_target"
         android:layout_gravity="center"
         android:contentDescription="@string/drone_icon_content_description"/>
 
@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textSize="16dp"
-            tools:ignore="SpUsage" />
+            tools:ignore="SpUsage"
+            android:textColor="@color/sky"/>
 
         <TextView
             tools:text="small"
@@ -42,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12dp"
-            tools:ignore="SpUsage" />
+            tools:ignore="SpUsage"
+            android:textColor="@color/sky"/>
     </LinearLayout>
 
     <TextView
@@ -51,7 +53,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="10dp"
-        tools:ignore="SpUsage" />
+        tools:ignore="SpUsage"
+        android:textColor="@color/sky"/>
 
     <Button
         android:id="@+id/modButton"
@@ -59,5 +62,6 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text="@string/info"
+        android:textColor="@color/paleSky"
         />
 </LinearLayout>

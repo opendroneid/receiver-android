@@ -5,7 +5,7 @@
 
 !-->
 <resources>
-    <string name="app_name">OpenDroneID</string>
+    <string name="app_name">Drone Defence</string>
     <string name="bt_rationale">Bluetooth/Nearby Devices is needed for this app to work.</string>
     <string name="nearby_not_granted">Nearby Devices/Bluetooth/Wi-Fi permission must be granted for this app to work.</string>
     <string name="bt_not_supported">Bluetooth is not supported on this device.</string>
