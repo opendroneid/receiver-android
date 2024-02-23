@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +56,8 @@ import org.opendroneid.android.app.dialogs.AboutDialogFragment;
 import org.opendroneid.android.app.dialogs.ChangeUrlDialogFragment;
 import org.opendroneid.android.app.dialogs.UserDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
-import org.opendroneid.android.app.network.models.user.User;
 import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.models.user.User;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
 import org.opendroneid.android.bluetooth.WiFiBeaconScanner;
@@ -120,8 +121,7 @@ public class DebugActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.O)
     private void checkBluetoothSupport(Menu menu) {
         Object object = getSystemService(BLUETOOTH_SERVICE);
-        if (object == null)
-            return;
+        if (object == null) return;
         BluetoothAdapter bluetoothAdapter = ((android.bluetooth.BluetoothManager) object).getAdapter();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && bluetoothAdapter.isLeCodedPhySupported()) {
@@ -169,31 +169,23 @@ public class DebugActivity extends AppCompatActivity {
             mMenuLogItem.setChecked(enabled);
             if (enabled) {
                 createNewLogfile();
-                if (wiFiNaNScanner != null)
-                    wiFiNaNScanner.setLogger(logger);
-                if (wiFiBeaconScanner != null)
-                    wiFiBeaconScanner.setLogger(logger);
+                if (wiFiNaNScanner != null) wiFiNaNScanner.setLogger(logger);
+                if (wiFiBeaconScanner != null) wiFiBeaconScanner.setLogger(logger);
             } else {
-                if (logger != null)
-                    logger.close();
+                if (logger != null) logger.close();
                 btScanner.setLogger(null);
-                if (wiFiNaNScanner != null)
-                    wiFiNaNScanner.setLogger(null);
-                if (wiFiBeaconScanner != null)
-                    wiFiBeaconScanner.setLogger(null);
+                if (wiFiNaNScanner != null) wiFiNaNScanner.setLogger(null);
+                if (wiFiBeaconScanner != null) wiFiBeaconScanner.setLogger(null);
             }
             return true;
         } else if (id == R.id.log_location) {
             String message;
-            if (getLogEnabled())
-                message = getString(R.string.Logging_to) + loggerFile;
-            else
-                message = getString(R.string.Logging_not_activated);
+            if (getLogEnabled()) message = getString(R.string.Logging_to) + loggerFile;
+            else message = getString(R.string.Logging_not_activated);
             showToast(message);
             return true;
         }
-        if (BuildConfig.USE_GOOGLE_MAPS)
-            return mMapView.changeMapType(item);
+        if (BuildConfig.USE_GOOGLE_MAPS) return mMapView.changeMapType(item);
         return false;
     }
 
@@ -219,8 +211,7 @@ public class DebugActivity extends AppCompatActivity {
 
     private void createNewLogfile() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 Log.e(TAG, "createNewLogfile:  Did not get BLUETOOTH_SCAN or BLUETOOTH_CONNECT");
                 showToast(getString(R.string.nearby_not_granted));
                 forceStopApp();
@@ -283,8 +274,7 @@ public class DebugActivity extends AppCompatActivity {
         btScanner = new BluetoothScanner(this, dataManager);
         createNewLogfile();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
-                getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && getPackageManager().hasSystemFeature(PackageManager.FEATURE_WIFI_AWARE)) {
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (!wifiManager.isWifiEnabled()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -305,8 +295,7 @@ public class DebugActivity extends AppCompatActivity {
                 startActivityForResult(enableBtIntent, Constants.REQUEST_ENABLE_BT);
             } else {
                 // Check permission
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "finalizeOnCreate: Requesting FINE_LOCATION_PERMISSION_REQUEST_CODE permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
@@ -322,8 +311,7 @@ public class DebugActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = new LocationRequest.Builder(10 * 1000) // 10 seconds
-                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setMinUpdateIntervalMillis(5 * 1000) // 5 seconds
+                .setPriority(Priority.PRIORITY_HIGH_ACCURACY).setMinUpdateIntervalMillis(5 * 1000) // 5 seconds
                 .build();
 
         locationCallback = new LocationCallback() {
@@ -336,6 +324,7 @@ public class DebugActivity extends AppCompatActivity {
                 }
             }
         };
+
     }
 
     private void setClickListeners() {
@@ -375,23 +364,21 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void navigateToLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, location -> {
-                        if (location != null) {
-                            osvMap = findViewById(R.id.map);
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-                            IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
-                            osvMap.getMapCenter();
-                            osvMap.getController().animateTo(geoPoint, 12d, 2L);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    osvMap = findViewById(R.id.map);
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    IGeoPoint geoPoint = new GeoPoint(latitude, longitude);
+                    osvMap.getMapCenter();
+                    osvMap.getController().animateTo(geoPoint, 18d, 3L);
 
 
-                        } else {
-                            showToast("Unable to get current location");
-                        }
-                    });
+                } else {
+                    showToast("Unable to get current location");
+                }
+            });
         } else {
             // Request location permission
             requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
@@ -400,28 +387,24 @@ public class DebugActivity extends AppCompatActivity {
 
     private void logOutUser() {
         UserManager userManager = new UserManager(getApplicationContext());
-        if(userManager.getToken() == null){
+        if (userManager.getToken() == null) {
             return;
         }
 
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_log_out_prompt, null);
-        new AlertDialog.Builder(this, R.style.CustomAlertDialog)
-                .setCustomTitle(dialogView)
-                .setPositiveButton(R.string.action_confirm, (dialog, whichButton) -> {
-                    try {
-                        userManager.deleteToken();
-                        userManager.deleteUser();
-                        BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
-                        boxBottomRightView.invalidate();
-                        Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-                })
-                .setNegativeButton(R.string.action_no, null)
-                .show();
+        new AlertDialog.Builder(this, R.style.CustomAlertDialog).setCustomTitle(dialogView).setPositiveButton(R.string.action_confirm, (dialog, whichButton) -> {
+            try {
+                userManager.deleteToken();
+                userManager.deleteUser();
+                BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
+                boxBottomRightView.invalidate();
+                Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }).setNegativeButton(R.string.action_no, null).show();
     }
 
     private void openAboutDialog() {
@@ -438,7 +421,7 @@ public class DebugActivity extends AppCompatActivity {
 
     private void openChangeUrlDialog() {
         UserManager userManager = new UserManager(getApplicationContext());
-        if(userManager.getToken() != null){
+        if (userManager.getToken() != null) {
             return;
         }
         ChangeUrlDialogFragment dialog = new ChangeUrlDialogFragment();
@@ -448,11 +431,15 @@ public class DebugActivity extends AppCompatActivity {
 
     private void initialize() {
         mModel.setAllAircraft(dataManager.getAircraft());
-
+        FrameLayout frameLayout = findViewById(R.id.holder);
         final Observer<Set<AircraftObject>> listObserver = airCrafts -> {
-            if (airCrafts == null)
-                return;
+            if (airCrafts == null) return;
             setTitle(String.format(Locale.US, "%d drones", airCrafts.size()));
+            if (!airCrafts.isEmpty()) {
+                frameLayout.setVisibility(View.VISIBLE);
+            } else {
+                frameLayout.setVisibility(View.GONE);
+            }
         };
 
         mModel.getAllAircraft().observe(this, listObserver);
@@ -467,12 +454,10 @@ public class DebugActivity extends AppCompatActivity {
 
         if (BuildConfig.USE_GOOGLE_MAPS) {
             mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
-            if (mMapView != null)
-                mMapView.setMapSettings();
+            if (mMapView != null) mMapView.setMapSettings();
         } else {
             mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
-            if (mOsMapView != null)
-                mOsMapView.setMapSettings();
+            if (mOsMapView != null) mOsMapView.setMapSettings();
         }
     }
 
@@ -481,8 +466,7 @@ public class DebugActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     Log.d(TAG, "onMapReady: call request permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
@@ -505,7 +489,7 @@ public class DebugActivity extends AppCompatActivity {
 
     public void addDeviceList() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //   transaction.replace(R.id.holder, new DeviceList()).commitAllowingStateLoss();
+        transaction.replace(R.id.holder, new DeviceList()).commitAllowingStateLoss();
     }
 
     @Override
@@ -523,13 +507,11 @@ public class DebugActivity extends AppCompatActivity {
         };
         handler.post(runnableCode);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (mFusedLocationClient != null)
                 mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
-            if (btScanner != null)
-                btScanner.startScan();
+            if (btScanner != null) btScanner.startScan();
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
@@ -544,8 +526,7 @@ public class DebugActivity extends AppCompatActivity {
     protected void onPause() {
         Log.d(TAG, "onPause");
 
-        if (btScanner != null)
-            btScanner.stopScan();
+        if (btScanner != null) btScanner.stopScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && wiFiNaNScanner != null)
             wiFiNaNScanner.stopScan();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && wiFiBeaconScanner != null)
@@ -561,18 +542,15 @@ public class DebugActivity extends AppCompatActivity {
         Log.d(TAG, "requestLocationPermission: request permission");
 
         // Location permission has not been granted yet, request it.
-        PermissionUtils.requestPermission(this, requestCode,
-                Manifest.permission.ACCESS_FINE_LOCATION, false);
+        PermissionUtils.requestPermission(this, requestCode, Manifest.permission.ACCESS_FINE_LOCATION, false);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE) {
             Log.d(TAG, "onRequestPermissionsResult: back from request FINE_LOCATION");
-            if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 initialize();
             } else {
                 Log.e(TAG, "onRequestPermissionsResult: Did not get ACCESS_FINE_LOCATION");

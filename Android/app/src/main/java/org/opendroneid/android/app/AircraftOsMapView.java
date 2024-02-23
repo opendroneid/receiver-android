@@ -16,7 +16,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -48,7 +47,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -59,17 +57,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class AircraftOsMapView extends Fragment {
+    private static final String TAG = "AircraftOsvMapView";
     private final double P_TOKYO_LATITUDE = 35.681167;
     private final double P_TOKYO_LONGITUDE = 139.767052;
     private final double P_DEFAULT_LATITUDE = 0;
     private final double P_DEFAULT_LONGITUDE = 0;
-
-    private static final String TAG = "AircraftOsvMapView";
+    private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
     private Context context;
     private MapView osvMap;
-    private AircraftViewModel model;
-    private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
-
     private final Util.DiffObserver<AircraftObject> allAircraftObserver = new Util.DiffObserver<AircraftObject>() {
         @Override
         public void onAdded(Collection<AircraftObject> added) {
@@ -85,6 +80,7 @@ public class AircraftOsMapView extends Fragment {
             }
         }
     };
+    private AircraftViewModel model;
 
     private void trackAircraft(AircraftObject aircraftObject) {
         MapObserver observer = new MapObserver(aircraftObject);
@@ -172,7 +168,7 @@ public class AircraftOsMapView extends Fragment {
         tileProvider.setTileSource(TileSourceFactory.MAPNIK);
         OSMCustomTilesOverlay customOverlay = new OSMCustomTilesOverlay(tileProvider, context, osvMap);
 
-        ColorFilter colorFilter = OSMCustomColorFilter.createDarkModeFilter() ;
+        ColorFilter colorFilter = OSMCustomColorFilter.createDarkModeFilter();
         customOverlay.setColorFilter(colorFilter);
 
         osvMap.getOverlayManager().add(customOverlay);
@@ -199,20 +195,63 @@ public class AircraftOsMapView extends Fragment {
         if (getActivity() == null) {
             return;
         }
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         }
     }
 
     class MapObserver implements Observer<LocationData> {
+        private final List<GeoPoint> polylineData;
+        private final AircraftObject aircraft;
+        private final double lastLatitude = 0.0;
+        private final double lastLongitude = 0.0;
         private Marker markerPilot;
         private Object makerPilotTag;
+        private final Observer<SystemData> systemObserver = new Observer<SystemData>() {
+            @Override
+            public void onChanged(@Nullable SystemData ignore) {
+                SystemData sys = aircraft.getSystem();
+                if (sys == null || osvMap == null) {
+                    return;
+                }
+                if (sys.getOperatorLatitude() == 0.0 && sys.getOperatorLongitude() == 0.0) {
+                    return;
+                }
+                GeoPoint geoPoint = new GeoPoint(sys.getOperatorLatitude(), sys.getOperatorLongitude());
+                if (markerPilot == null) {
+                    String id = "ID missing";
+                    if (aircraft.getIdentification1() != null) {
+                        id = aircraft.getIdentification1().getUasIdAsString();
+                    }
+                    markerPilot = new Marker(osvMap);
+                    markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot));
+                    markerPilot.setPosition(geoPoint);
+                    markerPilot.setTitle(sys.getOperatorLocationType().toString() + "\n" + id);
+                    if (markerPilot != null) {
+                        makerPilotTag = new Pair<>(aircraft, this);
+                    }
+
+                    //TODO: Here we will post call when device is first time connected
+
+                    Objects.requireNonNull(markerPilot).setOnMarkerClickListener((marker, mapView) -> {
+                        if (marker != null) {
+                            Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                        }
+                        if (makerPilotTag instanceof AircraftObject) {
+                            model.setActiveAircraft((AircraftObject) makerPilotTag);
+                            return true;
+                        }
+                        return false;
+                    });
+                    osvMap.getOverlays().add(markerPilot);
+                }
+                if (markerPilot != null) {
+                    markerPilot.setPosition(geoPoint);
+                }
+            }
+        };
         private Marker marker;
         private Object makerTag;
-        private final List<GeoPoint> polylineData;
         private Polyline polyline;
-        private final AircraftObject aircraft;
 
         MapObserver(AircraftObject active) {
             aircraft = active;
@@ -241,50 +280,6 @@ public class AircraftOsMapView extends Fragment {
             }
         }
 
-        private final Observer<SystemData> systemObserver = new Observer<SystemData>() {
-            @Override
-            public void onChanged(@Nullable SystemData ignore) {
-                SystemData sys = aircraft.getSystem();
-                if (sys == null || osvMap == null) {
-                    return;
-                }
-                if (sys.getOperatorLatitude() == 0.0 && sys.getOperatorLongitude() == 0.0) {
-                    return;
-                }
-                GeoPoint geoPoint = new GeoPoint(sys.getOperatorLatitude(), sys.getOperatorLongitude());
-                if (markerPilot == null) {
-                    String id = "ID missing";
-                    if (aircraft.getIdentification1() != null) {
-                        id = aircraft.getIdentification1().getUasIdAsString();
-                    }
-                    markerPilot = new Marker(osvMap);
-                    markerPilot.setIcon(context.getDrawable(R.drawable.ic_pilot));
-                    markerPilot.setPosition(geoPoint);
-                    markerPilot.setTitle(sys.getOperatorLocationType().toString() + "\n" + id);
-                    if (markerPilot != null) {
-                        makerPilotTag = new Pair<>(aircraft, this);
-                    }
-                    Objects.requireNonNull(markerPilot).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker, MapView mapView) {
-                            if (marker != null) {
-                                Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
-                            }
-                            if (makerPilotTag instanceof AircraftObject) {
-                                model.setActiveAircraft((AircraftObject) makerPilotTag);
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                    osvMap.getOverlays().add(markerPilot);
-                }
-                if (markerPilot != null) {
-                    markerPilot.setPosition(geoPoint);
-                }
-            }
-        };
-
         @Override
         public void onChanged(@Nullable LocationData ignore) {
             boolean zoom = false;
@@ -295,6 +290,12 @@ public class AircraftOsMapView extends Fragment {
             if (loc.getLatitude() == 0.0 && loc.getLongitude() == 0.0) {
                 return;
             }
+
+            // Check if coordinates have changed
+            if (loc.getLatitude() != lastLatitude || loc.getLongitude() != lastLongitude) {
+                //TODO: Here we will post call every time location for device changed
+            }
+
             GeoPoint geoPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
             // make marker
             if (marker == null) {
