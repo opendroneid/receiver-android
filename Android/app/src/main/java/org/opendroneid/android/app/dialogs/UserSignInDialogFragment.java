@@ -29,6 +29,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.opendroneid.android.R;
 import org.opendroneid.android.SensorUtil;
 import org.opendroneid.android.UserFlowUtil;
+import org.opendroneid.android.app.AircraftMapView;
+import org.opendroneid.android.app.AircraftOsMapView;
 import org.opendroneid.android.app.DebugActivity;
 import org.opendroneid.android.app.network.client.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserLogin;
@@ -36,6 +38,7 @@ import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
 import org.opendroneid.android.app.network.manager.LogedUserManager;
 import org.opendroneid.android.app.network.models.sensor.SensorsPostRequest;
 import org.opendroneid.android.app.network.service.ApiService;
+import org.osmdroid.views.MapView;
 
 import java.util.Objects;
 
@@ -156,6 +159,10 @@ public class UserSignInDialogFragment extends DialogFragment {
                             DebugActivity activity = (DebugActivity) getActivity();
                             if (activity != null) {
                                 activity.initialize();
+                            }
+                            AircraftOsMapView aircraftOsMapView = (AircraftOsMapView) getActivity().getSupportFragmentManager().findFragmentById(R.id.mapView);
+                            if (aircraftOsMapView != null) {
+                                aircraftOsMapView.setupModel();
                             }
 
                             performSilentDeviceRegistration(loginResponse.getToken());

@@ -32,7 +32,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import org.opendroneid.android.R;
+import org.opendroneid.android.app.network.client.ApiClientDetection;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
+import org.opendroneid.android.app.network.models.drone.DroneDetectionPost;
+import org.opendroneid.android.app.network.models.drone.DroneDetectionResponse;
+import org.opendroneid.android.app.network.service.ApiService;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
@@ -55,6 +62,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AircraftOsMapView extends Fragment {
     private static final String TAG = "AircraftOsvMapView";
@@ -93,7 +104,7 @@ public class AircraftOsMapView extends Fragment {
         observer.stop();
     }
 
-    private void setupModel() {
+    public void setupModel() {
         model = new ViewModelProvider(requireActivity()).get(AircraftViewModel.class);
         model.getAllAircraft().observe(getViewLifecycleOwner(), allAircraftObserver);
         model.getActiveAircraft().observe(getViewLifecycleOwner(), new Observer<AircraftObject>() {
@@ -188,7 +199,10 @@ public class AircraftOsMapView extends Fragment {
         GeoPoint centerPoint = new GeoPoint(P_DEFAULT_LATITUDE, P_DEFAULT_LONGITUDE);
         mapController.animateTo(centerPoint);
 
-        setupModel();
+        LogedUserManager logedUserManager = new LogedUserManager(getContext());
+        if(logedUserManager.getToken() != null){
+            setupModel();
+        }
     }
 
     public void setMapSettings() {
@@ -202,8 +216,8 @@ public class AircraftOsMapView extends Fragment {
     class MapObserver implements Observer<LocationData> {
         private final List<GeoPoint> polylineData;
         private final AircraftObject aircraft;
-        private final double lastLatitude = 0.0;
-        private final double lastLongitude = 0.0;
+        private double lastLatitude = 0.0;
+        private double lastLongitude = 0.0;
         private Marker markerPilot;
         private Object makerPilotTag;
         private final Observer<SystemData> systemObserver = new Observer<SystemData>() {
@@ -230,7 +244,13 @@ public class AircraftOsMapView extends Fragment {
                         makerPilotTag = new Pair<>(aircraft, this);
                     }
 
-                    //TODO: Here we will post call when device is first time connected
+                    //post initial detection call
+                    if(aircraft.location.getValue().getLatitude() != 0 && aircraft.location.getValue().getLongitude() != 0){
+                        lastLatitude = aircraft.location.getValue().getLatitude();
+                        lastLongitude = aircraft.location.getValue().getLongitude();
+                        sendDroneData(aircraft);
+
+                    }
 
                     Objects.requireNonNull(markerPilot).setOnMarkerClickListener((marker, mapView) -> {
                         if (marker != null) {
@@ -292,9 +312,15 @@ public class AircraftOsMapView extends Fragment {
             }
 
             // Check if coordinates have changed
-            if (loc.getLatitude() != lastLatitude || loc.getLongitude() != lastLongitude) {
-                //TODO: Here we will post call every time location for device changed
+            if(lastLatitude != 0 && lastLongitude != 0){
+                if (loc.getLatitude() != lastLatitude || loc.getLongitude() != lastLongitude) {
+                    //post movement detection call
+                    sendDroneData(aircraft);
+                    lastLatitude = aircraft.location.getValue().getLatitude();
+                    lastLongitude = aircraft.location.getValue().getLongitude();
+                }
             }
+
 
             GeoPoint geoPoint = new GeoPoint(loc.getLatitude(), loc.getLongitude());
             // make marker
@@ -310,18 +336,15 @@ public class AircraftOsMapView extends Fragment {
                 if (marker != null) {
                     makerTag = aircraft;
                 }
-                Objects.requireNonNull(marker).setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker, MapView mapView) {
-                        if (marker != null) {
-                            Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
-                        }
-                        if (makerTag instanceof AircraftObject) {
-                            model.setActiveAircraft((AircraftObject) makerTag);
-                            return true;
-                        }
-                        return false;
+                Objects.requireNonNull(marker).setOnMarkerClickListener((marker, mapView) -> {
+                    if (marker != null) {
+                        Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
                     }
+                    if (makerTag instanceof AircraftObject) {
+                        model.setActiveAircraft((AircraftObject) makerTag);
+                        return true;
+                    }
+                    return false;
                 });
                 osvMap.getOverlays().add(marker);
                 zoom = true;
@@ -347,6 +370,102 @@ public class AircraftOsMapView extends Fragment {
                 mapController.setZoom(17.0);
                 mapController.animateTo(geoPoint);
             }
+        }
+
+        private void sendDroneData(AircraftObject aircraftObject) {
+            ApiService apiService = ApiClientDetection.getClient(requireContext()).create(ApiService.class);
+
+            if(aircraftObject.system.getValue().getSystemTimestamp() == 0) {
+                return;
+            }
+            DroneDetectionPost droneDetectionPost = new DroneDetectionPost();
+            droneDetectionPost.setTime(aircraftObject.system.getValue().getSystemTimestamp());
+
+            droneDetectionPost.setSensorId(aircraftObject.identification1.getValue().getUasIdAsString());
+
+            ArrayList metaDataList = new ArrayList<DroneDetectionPost.Metadata>();
+
+            DroneDetectionPost.Metadata objectType = new DroneDetectionPost.Metadata();
+            objectType.setKey("type");
+            objectType.setVal("drone");
+            metaDataList.add(objectType);
+
+            DroneDetectionPost.Metadata macAddress = new DroneDetectionPost.Metadata();
+            macAddress.setKey("mac_address");
+            macAddress.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            macAddress.setType("primary");
+            metaDataList.add(macAddress);
+
+            DroneDetectionPost.Metadata source = new DroneDetectionPost.Metadata();
+            source.setKey("source");
+            source.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            source.setType("primary");
+            metaDataList.add(source);
+
+            DroneDetectionPost.Metadata registration = new DroneDetectionPost.Metadata();
+            registration.setKey("registration");
+            registration.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            registration.setType("primary");
+            metaDataList.add(registration);
+
+            DroneDetectionPost.Metadata icao = new DroneDetectionPost.Metadata();
+            icao.setKey("icao");
+            icao.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            icao.setType("primary");
+            metaDataList.add(icao);
+
+            DroneDetectionPost.Metadata sensorLatitude = new DroneDetectionPost.Metadata();
+            sensorLatitude.setKey("sensor_latitude");
+            sensorLatitude.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()));
+            sensorLatitude.setType("primary");
+            metaDataList.add(sensorLatitude);
+
+            DroneDetectionPost.Metadata sensorLongitude = new DroneDetectionPost.Metadata();
+            sensorLongitude.setKey("sensor_longitude");
+            sensorLongitude.setVal(aircraft.location.getValue().getLongitudeAsString(getResources()));
+            sensorLongitude.setType("primary");
+            metaDataList.add(sensorLongitude);
+
+            DroneDetectionPost.Metadata operatorLocation = new DroneDetectionPost.Metadata();
+            operatorLocation.setKey("Operator Location");
+            operatorLocation.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()) + ", " + aircraftObject.location.getValue().getLongitudeAsString(getResources()));
+            operatorLocation.setType("volatile");
+            metaDataList.add(operatorLocation);
+
+            DroneDetectionPost.Metadata altitude = new DroneDetectionPost.Metadata();
+            altitude.setKey("alt");
+            altitude.setVal(aircraftObject.location.getValue().getAltitudeGeodeticAsString(getResources()));
+            altitude.setType("volatile");
+            metaDataList.add(altitude);
+
+            droneDetectionPost.setPosition(new DroneDetectionPost.Position(
+                    aircraftObject.location.getValue().getTimeAccuracy(), // accuracy
+                    aircraftObject.location.getValue().getAltitudeGeodetic(),
+                    aircraftObject.location.getValue().getDirection(),  // bearing
+                    aircraftObject.location.getValue().getLatitude(),
+                    aircraftObject.location.getValue().getLongitude(),
+                    aircraftObject.location.getValue().getSpeedHorizontal() // speed-horizontal
+            ));
+
+            droneDetectionPost.setMetadata(metaDataList);
+
+            Call<DroneDetectionResponse> call = apiService.postDetection(droneDetectionPost);
+            call.enqueue(new Callback<DroneDetectionResponse>() {
+                @Override
+                public void onResponse(Call<DroneDetectionResponse> call, Response<DroneDetectionResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("SENDING_DETECTION", response.message());
+                    } else {
+                        Log.e("SENDING_DETECTION_ERROR", response.message());
+                    }
+                    metaDataList.clear();
+                }
+
+                @Override
+                public void onFailure(Call<DroneDetectionResponse> call, Throwable t) {
+                    Log.e("SENDING_DETECTION_ERROR", t.getMessage());
+                }
+            });
         }
     }
 }
