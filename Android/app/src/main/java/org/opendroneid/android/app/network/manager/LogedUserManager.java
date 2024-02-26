@@ -2,10 +2,6 @@ package org.opendroneid.android.app.network.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.security.KeyPairGeneratorSpec;
-import android.security.keystore.KeyGenParameterSpec;
-import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
 import org.opendroneid.android.app.network.models.user.User;
@@ -15,33 +11,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyPairGenerator;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SecureRandom;
-import java.security.UnrecoverableEntryException;
-import java.security.cert.CertificateException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
-import java.util.Calendar;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.security.auth.x500.X500Principal;
-
-public class UserManager {
+public class LogedUserManager {
 
     private static final String TOKEN_PREFS = "token_prefs";
     private static final String TOKEN_KEY = "token_key";
@@ -49,12 +20,11 @@ public class UserManager {
 
     private final SharedPreferences sharedPreferences;
 
-    public UserManager(Context context) {
+    public LogedUserManager(Context context) {
         sharedPreferences = context.getSharedPreferences(TOKEN_PREFS, Context.MODE_PRIVATE);
     }
 
     public void saveToken(String token) {
-        //TODO: at latter stage, implement basic security
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_KEY, token);
         editor.apply();

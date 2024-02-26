@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
-import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ public class BoxTopLeftView extends CustomGlowView {
     private float iconUserTop;
     private float iconUserRight;
     private float iconUserBottom;
-    private UserManager userManager;
+    private LogedUserManager logedUserManager;
     private int glowAlpha = 255;
 
 
@@ -63,7 +63,7 @@ public class BoxTopLeftView extends CustomGlowView {
         homeIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_home);
         userIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_user);
 
-        userManager = new UserManager(getContext());
+        logedUserManager = new LogedUserManager(getContext());
 
         startGlowEffect(() -> glowAlpha = (glowAlpha + 1) % 256);
     }
@@ -118,7 +118,7 @@ public class BoxTopLeftView extends CustomGlowView {
 
         String token = "";
         try {
-            token = userManager.getToken();
+            token = logedUserManager.getToken();
         } catch (Exception e) {
             Toast.makeText(getContext(), getResources().getString(R.string.error_sign_in), Toast.LENGTH_SHORT).show();
             e.printStackTrace();

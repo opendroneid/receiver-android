@@ -177,5 +177,8 @@
     <string name="text_url_changed">URL changed</string>
     <string name="text_url_default">URL changed back to default</string>
     <string name="text_url_invalid">The URL entered is empty or not valid</string>
+    <string name="title_change_detection_url">Change default detection URL</string>
+    <string name="title_default_detection_url">Change back to default detection URL</string>
+    <string name="hint_detection_url">http://yourdetectionendpoint.com/</string>
 
 </resources>

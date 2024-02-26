@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
-import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
 
 public class BoxBottomLeftView extends CustomGlowView {
 
@@ -24,7 +24,7 @@ public class BoxBottomLeftView extends CustomGlowView {
     private float iconUrlRight;
     private float iconUrlBottom;
     private BoxBottomLeftView.IconUrlClickListener iconUrlClickListener;
-    private UserManager userManager;
+    private LogedUserManager logedUserManager;
     private int glowAlpha = 255;
 
     public BoxBottomLeftView(Context context) {
@@ -49,7 +49,7 @@ public class BoxBottomLeftView extends CustomGlowView {
 
         path = new Path();
 
-        userManager = new UserManager(getContext());
+        logedUserManager = new LogedUserManager(getContext());
 
         urlIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_add_link);
 
@@ -102,7 +102,7 @@ public class BoxBottomLeftView extends CustomGlowView {
 
         String token = "";
         try {
-            token = userManager.getToken();
+            token = logedUserManager.getToken();
         } catch (Exception e) {
             //user is not logged in
         }

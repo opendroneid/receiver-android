@@ -1,8 +1,13 @@
 package org.opendroneid.android.app.network.models.drone;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DroneDetectionResponse {
+    @SerializedName("Status")
     private String status;
+    @SerializedName("Message")
     private String message;
+    @SerializedName("DetectionData")
     private DetectionData detectionData;
 
     public String getStatus() {

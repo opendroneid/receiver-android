@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import org.opendroneid.android.R;
-import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
 
 public class BoxBottomRightView extends CustomGlowView {
 
@@ -32,7 +32,7 @@ public class BoxBottomRightView extends CustomGlowView {
     private IconAboutClickListener iconAboutClickListener;
     private IconLogOutClickListener iconLogOutClickListener;
 
-    private UserManager userManager;
+    private LogedUserManager logedUserManager;
     private int glowAlpha = 255;
 
     public BoxBottomRightView(Context context) {
@@ -60,7 +60,7 @@ public class BoxBottomRightView extends CustomGlowView {
         logOutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_logout);
         aboutIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_about);
 
-        userManager = new UserManager(getContext());
+        logedUserManager = new LogedUserManager(getContext());
 
         startGlowEffect(() -> glowAlpha = (glowAlpha + 1) % 256);
     }
@@ -132,7 +132,7 @@ public class BoxBottomRightView extends CustomGlowView {
 
         String token = "";
         try {
-            token = userManager.getToken();
+            token = logedUserManager.getToken();
         } catch (Exception e) {
             Toast.makeText(getContext(), getResources().getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
             e.printStackTrace();

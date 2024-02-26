@@ -29,10 +29,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.opendroneid.android.R;
 import org.opendroneid.android.SensorUtil;
 import org.opendroneid.android.UserFlowUtil;
-import org.opendroneid.android.app.network.ApiClient;
+import org.opendroneid.android.app.DebugActivity;
+import org.opendroneid.android.app.network.client.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserLogin;
 import org.opendroneid.android.app.network.models.user.UserLoginSuccessResponse;
-import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
 import org.opendroneid.android.app.network.models.sensor.SensorsPostRequest;
 import org.opendroneid.android.app.network.service.ApiService;
 
@@ -148,9 +149,15 @@ public class UserSignInDialogFragment extends DialogFragment {
                     if (loginResponse != null) {
                         // Save the token and user
                         try {
-                            UserManager userManager = new UserManager(requireContext());
-                            userManager.saveToken(loginResponse.getToken());
-                            userManager.saveUser(loginResponse.getUser());
+                            LogedUserManager logedUserManager = new LogedUserManager(requireContext());
+                            logedUserManager.saveToken(loginResponse.getToken());
+                            logedUserManager.saveUser(loginResponse.getUser());
+
+                            DebugActivity activity = (DebugActivity) getActivity();
+                            if (activity != null) {
+                                activity.initialize();
+                            }
+
                             performSilentDeviceRegistration(loginResponse.getToken());
                             dismiss();
                             Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();

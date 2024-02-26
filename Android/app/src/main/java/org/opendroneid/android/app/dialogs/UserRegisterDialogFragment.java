@@ -27,7 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.opendroneid.android.R;
 import org.opendroneid.android.UserFlowUtil;
-import org.opendroneid.android.app.network.ApiClient;
+import org.opendroneid.android.app.network.client.ApiClient;
 import org.opendroneid.android.app.network.models.user.UserRegistration;
 import org.opendroneid.android.app.network.models.user.UserRegistrationResponse;
 import org.opendroneid.android.app.network.service.ApiService;

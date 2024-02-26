@@ -63,4 +63,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_url" />
 
+    ????
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dialog_title_detection_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_16"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:text="@string/title_change_detection_url"
+        android:textSize="@dimen/text_size_18"
+        android:textStyle="bold"
+        android:textColor="@color/overcast"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_reset_default" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_detection_url"
+        android:layout_width="@dimen/dimen_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_marginBottom="@dimen/dimen_8"
+        android:hint="@string/hint_detection_url"
+        app:boxCornerRadiusBottomEnd="@dimen/dimen_4"
+        app:boxCornerRadiusBottomStart="@dimen/dimen_4"
+        app:boxStrokeWidthFocused="@dimen/dimen_2"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title_detection_url"
+        app:boxStrokeWidth="@dimen/dimen_0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_detection_url"
+            style="@style/BoxEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_16"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:textColor="@color/midnight"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_reset_default_detection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/dimen_8"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:text="@string/title_default_detection_url"
+        android:textColor="@color/sky"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_detection_url" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package org.opendroneid.android.app.network;
+package org.opendroneid.android.app.network.client;
 
 import android.content.Context;
 import android.util.Patterns;
@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static String BASE_URL = "http://ec2-18-135-187-150.eu-west-2.compute.amazonaws.com/";
+    private static String BASE_URL = "http://ec2-18-135-187-150.eu-west-2.compute.amazonaws.com/api/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(Context context) {

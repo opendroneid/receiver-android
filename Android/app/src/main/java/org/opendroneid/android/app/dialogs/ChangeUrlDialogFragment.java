@@ -24,6 +24,10 @@ public class ChangeUrlDialogFragment extends DialogFragment {
     private TextInputEditText urlEditText;
     private TextInputLayout urlInputLayout;
     private AppCompatTextView textResetUrl;
+
+    private TextInputEditText urlDetectionEditText;
+    private TextInputLayout urlDetectionInputLayout;
+    private AppCompatTextView textResetDetectionUrl;
     private String url;
 
     @Override
@@ -35,6 +39,11 @@ public class ChangeUrlDialogFragment extends DialogFragment {
         urlEditText = dialogView.findViewById(R.id.edit_text_url);
         urlInputLayout = dialogView.findViewById(R.id.layout_url);
         textResetUrl = dialogView.findViewById(R.id.text_reset_default);
+
+        urlDetectionEditText = dialogView.findViewById(R.id.edit_text_detection_url);
+        urlDetectionInputLayout = dialogView.findViewById(R.id.layout_detection_url);
+        textResetDetectionUrl = dialogView.findViewById(R.id.text_reset_default_detection);
+
 
         builder.setView(dialogView)
                 .setPositiveButton(getResources().getString(R.string.button_user_reset_password), null)
@@ -50,9 +59,16 @@ public class ChangeUrlDialogFragment extends DialogFragment {
         });
 
         urlEditText.addTextChangedListener(UserFlowUtil.getEmailTextWatcher(urlInputLayout));
+        urlDetectionEditText.addTextChangedListener(UserFlowUtil.getEmailTextWatcher(urlDetectionInputLayout));
 
         textResetUrl.setOnClickListener(view -> {
             UrlManager.deleteUrl(requireContext());
+            Toast.makeText(requireContext(), getString(R.string.text_url_default), Toast.LENGTH_SHORT).show();
+            dismiss();
+        });
+
+        textResetDetectionUrl.setOnClickListener(view -> {
+            UrlManager.deleteDetectionUrl(requireContext());
             Toast.makeText(requireContext(), getString(R.string.text_url_default), Toast.LENGTH_SHORT).show();
             dismiss();
         });
@@ -62,8 +78,14 @@ public class ChangeUrlDialogFragment extends DialogFragment {
 
     private void changeUrl() {
         String newUrl = urlEditText.getText().toString().trim();
-        if(isValidUrl(newUrl)){
-            UrlManager.saveUrl(requireContext(), newUrl);
+        String newDetectionUrl = urlDetectionEditText.getText().toString().trim();
+        if(isValidUrl(newUrl) || isValidUrl(newDetectionUrl)){
+            if(!urlEditText.getText().toString().isEmpty()){
+                UrlManager.saveUrl(requireContext(), newUrl);
+            }
+            if(!urlDetectionEditText.getText().toString().isEmpty()){
+                UrlManager.saveDetectionUrl(requireContext(), newUrl);
+            }
             Toast.makeText(requireContext(), getString(R.string.text_url_changed), Toast.LENGTH_SHORT).show();
             dismiss();
         }else{
