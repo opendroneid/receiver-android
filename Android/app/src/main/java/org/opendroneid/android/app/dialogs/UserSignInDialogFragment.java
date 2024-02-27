@@ -25,6 +25,7 @@ import com.fingerprintjs.android.fingerprint.Fingerprinter;
 import com.fingerprintjs.android.fingerprint.FingerprinterFactory;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import org.opendroneid.android.R;
 import org.opendroneid.android.SensorUtil;
@@ -41,6 +42,8 @@ import org.opendroneid.android.app.network.service.ApiService;
 import org.osmdroid.views.MapView;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -156,6 +159,13 @@ public class UserSignInDialogFragment extends DialogFragment {
                             logedUserManager.saveToken(loginResponse.getToken());
                             logedUserManager.saveUser(loginResponse.getUser());
 
+                            // Execute performSilentDeviceRegistration in a separate thread
+                            ExecutorService executor = Executors.newSingleThreadExecutor();
+                            executor.execute(() -> {
+                                performSilentDeviceRegistration(loginResponse.getToken());
+                                executor.shutdown(); // Shut down the executor after task completion
+                            });
+
                             DebugActivity activity = (DebugActivity) getActivity();
                             if (activity != null) {
                                 activity.initialize();
@@ -165,7 +175,6 @@ public class UserSignInDialogFragment extends DialogFragment {
                                 aircraftOsMapView.setupModel();
                             }
 
-                            performSilentDeviceRegistration(loginResponse.getToken());
                             dismiss();
                             Toast.makeText(getContext(), getString(R.string.success_sign_in), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
@@ -193,21 +202,26 @@ public class UserSignInDialogFragment extends DialogFragment {
     private void performSilentDeviceRegistration(String token) {
         String ipV4 = SensorUtil.getDeviceIpAddress();
         Fingerprinter fingerprinter = FingerprinterFactory.create(requireContext());
-        fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
+        ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
 
+        fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
             String deviceId = deviceIdResult.getDeviceId();
-            ApiService apiService = ApiClient.getClient(requireContext()).create(ApiService.class);
             String id = "1796" + deviceId;
             String phoneSensor = deviceId;
             String ref = deviceId;
 
-            Call<ResponseBody> call = apiService.postSensor("Bearer " + token, new SensorsPostRequest(phoneSensor + "-" + id, "#", ref,
-                    0, 0, "phone", "PHONE", 1, ipV4, phoneSensor));
+            SensorsPostRequest sensorsPostRequest = new SensorsPostRequest(phoneSensor + "-" + id, "#", ref,
+                    0, 0, "phone", "PHONE", 1, ipV4, phoneSensor);
+
+            String bearerToken = "Bearer " + token;
+
+            Call<ResponseBody> call = apiService.postSensor(bearerToken, sensorsPostRequest);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful()) {
                         // Handle success response if needed
+
                     } else {
                         // Handle failure response if needed
                     }

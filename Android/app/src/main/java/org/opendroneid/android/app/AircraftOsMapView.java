@@ -32,6 +32,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.fingerprintjs.android.fingerprint.Fingerprinter;
+import com.fingerprintjs.android.fingerprint.FingerprinterFactory;
 import com.google.gson.Gson;
 
 import org.opendroneid.android.R;
@@ -57,10 +59,14 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -200,7 +206,7 @@ public class AircraftOsMapView extends Fragment {
         mapController.animateTo(centerPoint);
 
         LogedUserManager logedUserManager = new LogedUserManager(getContext());
-        if(logedUserManager.getToken() != null){
+        if (logedUserManager.getToken() != null) {
             setupModel();
         }
     }
@@ -245,7 +251,7 @@ public class AircraftOsMapView extends Fragment {
                     }
 
                     //post initial detection call
-                    if(aircraft.location.getValue().getLatitude() != 0 && aircraft.location.getValue().getLongitude() != 0){
+                    if (aircraft.location.getValue().getLatitude() != 0 && aircraft.location.getValue().getLongitude() != 0) {
                         lastLatitude = aircraft.location.getValue().getLatitude();
                         lastLongitude = aircraft.location.getValue().getLongitude();
                         sendDroneData(aircraft);
@@ -312,7 +318,7 @@ public class AircraftOsMapView extends Fragment {
             }
 
             // Check if coordinates have changed
-            if(lastLatitude != 0 && lastLongitude != 0){
+            if (lastLatitude != 0 && lastLongitude != 0) {
                 if (loc.getLatitude() != lastLatitude || loc.getLongitude() != lastLongitude) {
                     //post movement detection call
                     sendDroneData(aircraft);
@@ -372,99 +378,121 @@ public class AircraftOsMapView extends Fragment {
             }
         }
 
+        public long stringToTimeStamp(String dateString) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            try {
+                Date date = dateFormat.parse(dateString);
+                return date.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return -1;
+            }
+        }
+
+
         private void sendDroneData(AircraftObject aircraftObject) {
             ApiService apiService = ApiClientDetection.getClient(requireContext()).create(ApiService.class);
 
-            if(aircraftObject.system.getValue().getSystemTimestamp() == 0) {
+            if (aircraftObject.system.getValue().getSystemTimestamp() == 0) {
                 return;
             }
+
             DroneDetectionPost droneDetectionPost = new DroneDetectionPost();
-            droneDetectionPost.setTime(aircraftObject.system.getValue().getSystemTimestamp());
 
-            droneDetectionPost.setSensorId(aircraftObject.identification1.getValue().getUasIdAsString());
+            long timeStamp = stringToTimeStamp(aircraftObject.system.getValue().getTimestampAsString());
+            droneDetectionPost.setTime(timeStamp);
 
-            ArrayList metaDataList = new ArrayList<DroneDetectionPost.Metadata>();
+            Fingerprinter fingerprinter = FingerprinterFactory.create(requireContext());
+            fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
 
-            DroneDetectionPost.Metadata objectType = new DroneDetectionPost.Metadata();
-            objectType.setKey("type");
-            objectType.setVal("drone");
-            metaDataList.add(objectType);
+                String phoneSensor = deviceIdResult.getDeviceId();
+                droneDetectionPost.setSensorId(phoneSensor);
 
-            DroneDetectionPost.Metadata macAddress = new DroneDetectionPost.Metadata();
-            macAddress.setKey("mac_address");
-            macAddress.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
-            macAddress.setType("primary");
-            metaDataList.add(macAddress);
+                ArrayList metaDataList = new ArrayList<DroneDetectionPost.Metadata>();
 
-            DroneDetectionPost.Metadata source = new DroneDetectionPost.Metadata();
-            source.setKey("source");
-            source.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
-            source.setType("primary");
-            metaDataList.add(source);
+                DroneDetectionPost.Metadata objectType = new DroneDetectionPost.Metadata();
+                objectType.setKey("type");
+                objectType.setVal("drone");
+                metaDataList.add(objectType);
 
-            DroneDetectionPost.Metadata registration = new DroneDetectionPost.Metadata();
-            registration.setKey("registration");
-            registration.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
-            registration.setType("primary");
-            metaDataList.add(registration);
+                DroneDetectionPost.Metadata macAddress = new DroneDetectionPost.Metadata();
+                macAddress.setKey("mac_address");
+                macAddress.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+                macAddress.setType("primary");
+                metaDataList.add(macAddress);
 
-            DroneDetectionPost.Metadata icao = new DroneDetectionPost.Metadata();
-            icao.setKey("icao");
-            icao.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
-            icao.setType("primary");
-            metaDataList.add(icao);
+                DroneDetectionPost.Metadata source = new DroneDetectionPost.Metadata();
+                source.setKey("source");
+                source.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+                source.setType("primary");
+                metaDataList.add(source);
 
-            DroneDetectionPost.Metadata sensorLatitude = new DroneDetectionPost.Metadata();
-            sensorLatitude.setKey("sensor_latitude");
-            sensorLatitude.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()));
-            sensorLatitude.setType("primary");
-            metaDataList.add(sensorLatitude);
+                DroneDetectionPost.Metadata registration = new DroneDetectionPost.Metadata();
+                registration.setKey("registration");
+                registration.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+                registration.setType("primary");
+                metaDataList.add(registration);
 
-            DroneDetectionPost.Metadata sensorLongitude = new DroneDetectionPost.Metadata();
-            sensorLongitude.setKey("sensor_longitude");
-            sensorLongitude.setVal(aircraft.location.getValue().getLongitudeAsString(getResources()));
-            sensorLongitude.setType("primary");
-            metaDataList.add(sensorLongitude);
+                DroneDetectionPost.Metadata icao = new DroneDetectionPost.Metadata();
+                icao.setKey("icao");
+                icao.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+                icao.setType("primary");
+                metaDataList.add(icao);
 
-            DroneDetectionPost.Metadata operatorLocation = new DroneDetectionPost.Metadata();
-            operatorLocation.setKey("Operator Location");
-            operatorLocation.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()) + ", " + aircraftObject.location.getValue().getLongitudeAsString(getResources()));
-            operatorLocation.setType("volatile");
-            metaDataList.add(operatorLocation);
+                DroneDetectionPost.Metadata sensorLatitude = new DroneDetectionPost.Metadata();
+                sensorLatitude.setKey("sensor_latitude");
+                sensorLatitude.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()));
+                sensorLatitude.setType("primary");
+                metaDataList.add(sensorLatitude);
 
-            DroneDetectionPost.Metadata altitude = new DroneDetectionPost.Metadata();
-            altitude.setKey("alt");
-            altitude.setVal(aircraftObject.location.getValue().getAltitudeGeodeticAsString(getResources()));
-            altitude.setType("volatile");
-            metaDataList.add(altitude);
+                DroneDetectionPost.Metadata sensorLongitude = new DroneDetectionPost.Metadata();
+                sensorLongitude.setKey("sensor_longitude");
+                sensorLongitude.setVal(aircraft.location.getValue().getLongitudeAsString(getResources()));
+                sensorLongitude.setType("primary");
+                metaDataList.add(sensorLongitude);
 
-            droneDetectionPost.setPosition(new DroneDetectionPost.Position(
-                    aircraftObject.location.getValue().getTimeAccuracy(), // accuracy
-                    aircraftObject.location.getValue().getAltitudeGeodetic(),
-                    aircraftObject.location.getValue().getDirection(),  // bearing
-                    aircraftObject.location.getValue().getLatitude(),
-                    aircraftObject.location.getValue().getLongitude(),
-                    aircraftObject.location.getValue().getSpeedHorizontal() // speed-horizontal
-            ));
+                DroneDetectionPost.Metadata operatorLocation = new DroneDetectionPost.Metadata();
+                operatorLocation.setKey("Operator Location");
+                operatorLocation.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()) + ", " + aircraftObject.location.getValue().getLongitudeAsString(getResources()));
+                operatorLocation.setType("volatile");
+                metaDataList.add(operatorLocation);
 
-            droneDetectionPost.setMetadata(metaDataList);
+                DroneDetectionPost.Metadata altitude = new DroneDetectionPost.Metadata();
+                altitude.setKey("alt");
+                altitude.setVal(aircraftObject.location.getValue().getAltitudeGeodeticAsString(getResources()));
+                altitude.setType("volatile");
+                metaDataList.add(altitude);
 
-            Call<DroneDetectionResponse> call = apiService.postDetection(droneDetectionPost);
-            call.enqueue(new Callback<DroneDetectionResponse>() {
-                @Override
-                public void onResponse(Call<DroneDetectionResponse> call, Response<DroneDetectionResponse> response) {
-                    if (response.isSuccessful()) {
-                        Log.d("SENDING_DETECTION", response.message());
-                    } else {
-                        Log.e("SENDING_DETECTION_ERROR", response.message());
+                droneDetectionPost.setPosition(new DroneDetectionPost.Position(
+                        aircraftObject.location.getValue().getLatitude(),
+                        aircraftObject.location.getValue().getLongitude(),
+                        aircraftObject.location.getValue().getAltitudeGeodetic(),
+                        aircraftObject.location.getValue().getTimeAccuracy(), // accuracy
+                        aircraftObject.location.getValue().getSpeedHorizontal(), // speed-horizontal
+                        aircraftObject.location.getValue().getDirection()  // bearing
+                ));
+
+                droneDetectionPost.setMetadata(metaDataList);
+
+                Call<DroneDetectionResponse> call = apiService.postDetection(droneDetectionPost);
+                call.enqueue(new Callback<DroneDetectionResponse>() {
+                    @Override
+                    public void onResponse(Call<DroneDetectionResponse> call, Response<DroneDetectionResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("SENDING_DETECTION", response.message());
+                        } else {
+                            Log.e("SENDING_DETECTION_ERROR", response.message());
+                        }
+                        metaDataList.clear();
                     }
-                    metaDataList.clear();
-                }
 
-                @Override
-                public void onFailure(Call<DroneDetectionResponse> call, Throwable t) {
-                    Log.e("SENDING_DETECTION_ERROR", t.getMessage());
-                }
+                    @Override
+                    public void onFailure(Call<DroneDetectionResponse> call, Throwable t) {
+                        Log.e("SENDING_DETECTION_ERROR", t.getMessage());
+                    }
+                });
+
+                return null;
             });
         }
     }

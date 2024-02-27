@@ -53,7 +53,13 @@ public class DroneDetectionPost {
         private double speedHorizontal;
         private double bearing;
 
-        public Position(double v, double v1, double v2, double v3, double v4, double v5) {
+        public Position(double latitude, double longitude, double altitude, double accuracy, double speedHorizontal, double bearing) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.accuracy = accuracy;
+            this.speedHorizontal = speedHorizontal;
+            this.bearing = bearing;
         }
 
         public double getLatitude() {
