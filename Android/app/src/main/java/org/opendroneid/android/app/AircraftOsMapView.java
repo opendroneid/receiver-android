@@ -447,7 +447,7 @@ public class AircraftOsMapView extends Fragment {
 
                 DroneDetectionPost.Metadata sensorLongitude = new DroneDetectionPost.Metadata();
                 sensorLongitude.setKey("sensor_longitude");
-                sensorLongitude.setVal(aircraft.location.getValue().getLongitudeAsString(getResources()));
+                sensorLongitude.setVal(aircraftObject.location.getValue().getLongitudeAsString(getResources()));
                 sensorLongitude.setType("primary");
                 metaDataList.add(sensorLongitude);
 
