@@ -9,8 +9,8 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     def versionMajor = 3
-    def versionMinor = 5
-    def versionPatch = 6
+    def versionMinor = 6
+    def versionPatch = 1
     compileSdk 34
 
     defaultConfig {
