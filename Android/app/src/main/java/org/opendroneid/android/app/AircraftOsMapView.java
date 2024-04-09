@@ -61,6 +61,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -393,14 +394,17 @@ public class AircraftOsMapView extends Fragment {
         private void sendDroneData(AircraftObject aircraftObject) {
             ApiService apiService = ApiClientDetection.getClient(requireContext()).create(ApiService.class);
 
-            if (aircraftObject.system.getValue().getSystemTimestamp() == 0) {
-                return;
-            }
-
             DroneDetectionPost droneDetectionPost = new DroneDetectionPost();
 
-            long timeStamp = stringToTimeStamp(aircraftObject.system.getValue().getTimestampAsString());
-            droneDetectionPost.setTime(timeStamp);
+            if (aircraftObject.system.getValue().getSystemTimestamp() == 0) {
+                long timeStamp = System.currentTimeMillis();
+                droneDetectionPost.setTime(timeStamp);
+            }else{
+                long timeStamp = stringToTimeStamp(aircraftObject.system.getValue().getTimestampAsString());
+                droneDetectionPost.setTime(timeStamp);
+            }
+
+
 
             Fingerprinter fingerprinter = FingerprinterFactory.create(requireContext());
             fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
@@ -479,7 +483,7 @@ public class AircraftOsMapView extends Fragment {
                     @Override
                     public void onResponse(Call<DroneDetectionResponse> call, Response<DroneDetectionResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.d("SENDING_DETECTION", response.message());
+                            Log.d("SENDING_DETECTION_PING", response.message());
                         } else {
                             Log.e("SENDING_DETECTION_ERROR", response.message());
                         }

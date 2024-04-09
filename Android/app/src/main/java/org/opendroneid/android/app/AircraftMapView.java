@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.Manifest;
 import androidx.core.app.ActivityCompat;
 import android.content.pm.PackageManager;
+
+import com.fingerprintjs.android.fingerprint.Fingerprinter;
+import com.fingerprintjs.android.fingerprint.FingerprinterFactory;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -32,17 +35,36 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.opendroneid.android.app.network.client.ApiClientDetection;
+import org.opendroneid.android.app.network.models.drone.DroneDetectionPost;
+import org.opendroneid.android.app.network.models.drone.DroneDetectionResponse;
+import org.opendroneid.android.app.network.service.ApiService;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.Util;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AircraftMapView extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private static final String TAG = "AircraftMapView";
     private GoogleMap googleMap;
     private AircraftViewModel model;
+
+    private double lastLatitude = 0.0;
+    private double lastLongitude = 0.0;
 
     private final HashMap<AircraftObject, MapObserver> aircraftObservers = new HashMap<>();
 
@@ -131,7 +153,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         return false;
     }
 
-    class MapObserver implements Observer<LocationData> {
+    public class MapObserver implements Observer<LocationData> {
         private Marker marker;
         private Marker markerPilot;
         private Polyline polyline;
@@ -148,7 +170,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                     .clickable(true);
         }
 
-        void stop() {
+        public void stop() {
             aircraft.location.removeObserver(this);
             aircraft.system.removeObserver(systemObserver);
             if (marker != null) {
@@ -191,6 +213,16 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
                     if (markerPilot != null)
                         markerPilot.setTag(new Pair<>(aircraft, this));
                 }
+
+
+                //post initial detection call
+                if (aircraft.location.getValue().getLatitude() != 0 && aircraft.location.getValue().getLongitude() != 0) {
+                    lastLatitude = aircraft.location.getValue().getLatitude();
+                    lastLongitude = aircraft.location.getValue().getLongitude();
+                    sendDroneData(aircraft);
+
+                }
+
                 if (markerPilot != null)
                     markerPilot.setPosition(latLng);
             }
@@ -206,6 +238,16 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             // filter out zero data
             if (loc.getLatitude() == 0.0 && loc.getLongitude() == 0.0)
                 return;
+
+            // Check if coordinates have changed
+            if (lastLatitude != 0 && lastLongitude != 0) {
+                if (loc.getLatitude() != lastLatitude || loc.getLongitude() != lastLongitude) {
+                    //post movement detection call
+                    sendDroneData(aircraft);
+                    lastLatitude = aircraft.location.getValue().getLatitude();
+                    lastLongitude = aircraft.location.getValue().getLongitude();
+                }
+            }
 
             LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
             if (marker == null) {
@@ -300,5 +342,125 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
         googleMap.setMyLocationEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnMarkerClickListener(this);
+    }
+
+    private void sendDroneData(AircraftObject aircraftObject) {
+        ApiService apiService = ApiClientDetection.getClient(requireContext()).create(ApiService.class);
+
+        DroneDetectionPost droneDetectionPost = new DroneDetectionPost();
+
+        if (aircraftObject.system.getValue().getSystemTimestamp() == 0) {
+            long timeStamp = System.currentTimeMillis();
+            droneDetectionPost.setTime(timeStamp);
+        }else{
+            long timeStamp = stringToTimeStamp(aircraftObject.system.getValue().getTimestampAsString());
+            droneDetectionPost.setTime(timeStamp);
+        }
+
+
+
+        Fingerprinter fingerprinter = FingerprinterFactory.create(requireContext());
+        fingerprinter.getDeviceId(Fingerprinter.Version.V_5, deviceIdResult -> {
+
+            String phoneSensor = deviceIdResult.getDeviceId();
+            droneDetectionPost.setSensorId(phoneSensor);
+
+            ArrayList metaDataList = new ArrayList<DroneDetectionPost.Metadata>();
+
+            DroneDetectionPost.Metadata objectType = new DroneDetectionPost.Metadata();
+            objectType.setKey("type");
+            objectType.setVal("drone");
+            metaDataList.add(objectType);
+
+            DroneDetectionPost.Metadata macAddress = new DroneDetectionPost.Metadata();
+            macAddress.setKey("mac_address");
+            macAddress.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            macAddress.setType("primary");
+            metaDataList.add(macAddress);
+
+            DroneDetectionPost.Metadata source = new DroneDetectionPost.Metadata();
+            source.setKey("source");
+            source.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            source.setType("primary");
+            metaDataList.add(source);
+
+            DroneDetectionPost.Metadata registration = new DroneDetectionPost.Metadata();
+            registration.setKey("registration");
+            registration.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            registration.setType("primary");
+            metaDataList.add(registration);
+
+            DroneDetectionPost.Metadata icao = new DroneDetectionPost.Metadata();
+            icao.setKey("icao");
+            icao.setVal(Objects.requireNonNull(aircraftObject.connection.getValue()).macAddress);
+            icao.setType("primary");
+            metaDataList.add(icao);
+
+            DroneDetectionPost.Metadata sensorLatitude = new DroneDetectionPost.Metadata();
+            sensorLatitude.setKey("sensor_latitude");
+            sensorLatitude.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()));
+            sensorLatitude.setType("primary");
+            metaDataList.add(sensorLatitude);
+
+            DroneDetectionPost.Metadata sensorLongitude = new DroneDetectionPost.Metadata();
+            sensorLongitude.setKey("sensor_longitude");
+            sensorLongitude.setVal(aircraftObject.location.getValue().getLongitudeAsString(getResources()));
+            sensorLongitude.setType("primary");
+            metaDataList.add(sensorLongitude);
+
+            DroneDetectionPost.Metadata operatorLocation = new DroneDetectionPost.Metadata();
+            operatorLocation.setKey("Operator Location");
+            operatorLocation.setVal(aircraftObject.location.getValue().getLatitudeAsString(getResources()) + ", " + aircraftObject.location.getValue().getLongitudeAsString(getResources()));
+            operatorLocation.setType("volatile");
+            metaDataList.add(operatorLocation);
+
+            DroneDetectionPost.Metadata altitude = new DroneDetectionPost.Metadata();
+            altitude.setKey("alt");
+            altitude.setVal(aircraftObject.location.getValue().getAltitudeGeodeticAsString(getResources()));
+            altitude.setType("volatile");
+            metaDataList.add(altitude);
+
+            droneDetectionPost.setPosition(new DroneDetectionPost.Position(
+                    aircraftObject.location.getValue().getLatitude(),
+                    aircraftObject.location.getValue().getLongitude(),
+                    aircraftObject.location.getValue().getAltitudeGeodetic(),
+                    aircraftObject.location.getValue().getTimeAccuracy(), // accuracy
+                    aircraftObject.location.getValue().getSpeedHorizontal(), // speed-horizontal
+                    aircraftObject.location.getValue().getDirection()  // bearing
+            ));
+
+            droneDetectionPost.setMetadata(metaDataList);
+
+            Call<DroneDetectionResponse> call = apiService.postDetection(droneDetectionPost);
+            call.enqueue(new Callback<DroneDetectionResponse>() {
+                @Override
+                public void onResponse(Call<DroneDetectionResponse> call, Response<DroneDetectionResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("SENDING_DETECTION_DRONE", response.message());
+                    } else {
+                        Log.e("SENDING_DETECTION_ERROR", response.message());
+                    }
+                    metaDataList.clear();
+                }
+
+                @Override
+                public void onFailure(Call<DroneDetectionResponse> call, Throwable t) {
+                    Log.e("SENDING_DETECTION_ERROR", t.getMessage());
+                }
+            });
+
+            return null;
+        });
+    }
+
+    public long stringToTimeStamp(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        try {
+            Date date = dateFormat.parse(dateString);
+            return date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
