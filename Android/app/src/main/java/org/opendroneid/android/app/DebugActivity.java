@@ -56,7 +56,7 @@ import org.opendroneid.android.app.dialogs.AboutDialogFragment;
 import org.opendroneid.android.app.dialogs.ChangeUrlDialogFragment;
 import org.opendroneid.android.app.dialogs.UserDialogFragment;
 import org.opendroneid.android.app.dialogs.UserSignInDialogFragment;
-import org.opendroneid.android.app.network.manager.UserManager;
+import org.opendroneid.android.app.network.manager.LogedUserManager;
 import org.opendroneid.android.app.network.models.user.User;
 import org.opendroneid.android.bluetooth.BluetoothScanner;
 import org.opendroneid.android.bluetooth.OpenDroneIdDataManager;
@@ -299,7 +299,10 @@ public class DebugActivity extends AppCompatActivity {
                     Log.d(TAG, "finalizeOnCreate: Requesting FINE_LOCATION_PERMISSION_REQUEST_CODE permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
-                    initialize();
+                    LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
+                    if(logedUserManager.getToken() != null){
+                        initialize();
+                    }
                 }
             }
         } else {
@@ -337,22 +340,21 @@ public class DebugActivity extends AppCompatActivity {
 
         boxBottomRightView.setLogOutIconClickListener(this::logOutUser);
 
-
         BoxBottomLeftView boxBottomLeftView = findViewById(R.id.boxBottomLeft);
         boxBottomLeftView.setUrlClickListener(this::openChangeUrlDialog);
 
     }
 
     private void openSignInDialog() throws IOException, ClassNotFoundException {
-        UserManager userManager = new UserManager(getApplicationContext());
+        LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
         String token = "";
         try {
-            token = userManager.getToken();
+            token = logedUserManager.getToken();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (token != null && !token.equals("")) {
-            User user = userManager.getUser();
+            User user = logedUserManager.getUser();
             if (user != null) {
                 openUserDialog(user);
             }
@@ -386,8 +388,8 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void logOutUser() {
-        UserManager userManager = new UserManager(getApplicationContext());
-        if (userManager.getToken() == null) {
+        LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
+        if (logedUserManager.getToken() == null) {
             return;
         }
 
@@ -395,10 +397,17 @@ public class DebugActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.dialog_log_out_prompt, null);
         new AlertDialog.Builder(this, R.style.CustomAlertDialog).setCustomTitle(dialogView).setPositiveButton(R.string.action_confirm, (dialog, whichButton) -> {
             try {
-                userManager.deleteToken();
-                userManager.deleteUser();
+                dataManager.getAircraft().clear();
+                mModel.setAllAircraft(dataManager.getAircraft());
+                LogWriter.bumpSession();
+
+                logedUserManager.deleteToken();
+                logedUserManager.deleteUser();
                 BoxBottomRightView boxBottomRightView = findViewById(R.id.boxBottomRight);
                 boxBottomRightView.invalidate();
+
+                recreate();
+
                 Toast.makeText(getBaseContext(), getString(R.string.success_log_out), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Toast.makeText(getBaseContext(), getString(R.string.error_log_out), Toast.LENGTH_SHORT).show();
@@ -420,8 +429,8 @@ public class DebugActivity extends AppCompatActivity {
     }
 
     private void openChangeUrlDialog() {
-        UserManager userManager = new UserManager(getApplicationContext());
-        if (userManager.getToken() != null) {
+        LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
+        if (logedUserManager.getToken() != null) {
             return;
         }
         ChangeUrlDialogFragment dialog = new ChangeUrlDialogFragment();
@@ -429,37 +438,37 @@ public class DebugActivity extends AppCompatActivity {
         dialog.setCancelable(false);
     }
 
-    private void initialize() {
-        mModel.setAllAircraft(dataManager.getAircraft());
-        FrameLayout frameLayout = findViewById(R.id.holder);
-        final Observer<Set<AircraftObject>> listObserver = airCrafts -> {
-            if (airCrafts == null) return;
-            setTitle(String.format(Locale.US, "%d drones", airCrafts.size()));
-            if (!airCrafts.isEmpty()) {
-                frameLayout.setVisibility(View.VISIBLE);
+    public void initialize() {
+            mModel.setAllAircraft(dataManager.getAircraft());
+            FrameLayout frameLayout = findViewById(R.id.holder);
+            final Observer<Set<AircraftObject>> listObserver = airCrafts -> {
+                if (airCrafts == null) return;
+                setTitle(String.format(Locale.US, "%d drones", airCrafts.size()));
+                if (!airCrafts.isEmpty()) {
+                    frameLayout.setVisibility(View.VISIBLE);
+                } else {
+                    frameLayout.setVisibility(View.GONE);
+                }
+            };
+
+            mModel.getAllAircraft().observe(this, listObserver);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
+
+            addDeviceList();
+
+            if (BuildConfig.USE_GOOGLE_MAPS) {
+                mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+                if (mMapView != null) mMapView.setMapSettings();
             } else {
-                frameLayout.setVisibility(View.GONE);
+                mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
+                if (mOsMapView != null) mOsMapView.setMapSettings();
             }
-        };
-
-        mModel.getAllAircraft().observe(this, listObserver);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            wiFiNaNScanner = new WiFiNaNScanner(this, dataManager, logger);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
-
-        addDeviceList();
-
-        if (BuildConfig.USE_GOOGLE_MAPS) {
-            mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
-            if (mMapView != null) mMapView.setMapSettings();
-        } else {
-            mOsMapView = (AircraftOsMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);
-            if (mOsMapView != null) mOsMapView.setMapSettings();
         }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -470,7 +479,10 @@ public class DebugActivity extends AppCompatActivity {
                     Log.d(TAG, "onMapReady: call request permission");
                     requestLocationPermission(Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
-                    initialize();
+                    LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
+                    if(logedUserManager.getToken() != null){
+                        initialize();
+                    }
                 }
             } else {
                 Log.e(TAG, "onActivityResult: User declined to enable Bluetooth, exit the app.");
@@ -551,7 +563,10 @@ public class DebugActivity extends AppCompatActivity {
         if (requestCode == Constants.FINE_LOCATION_PERMISSION_REQUEST_CODE) {
             Log.d(TAG, "onRequestPermissionsResult: back from request FINE_LOCATION");
             if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                initialize();
+                LogedUserManager logedUserManager = new LogedUserManager(getApplicationContext());
+                if(logedUserManager.getToken() != null){
+                    initialize();
+                }
             } else {
                 Log.e(TAG, "onRequestPermissionsResult: Did not get ACCESS_FINE_LOCATION");
                 showToast(getString(R.string.permission_required_toast));

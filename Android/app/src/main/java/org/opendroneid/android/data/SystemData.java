@@ -185,7 +185,7 @@ public class SystemData extends MessageData {
         return getAltitudeAsString(operatorAltitudeGeo, res);
     }
 
-    long getSystemTimestamp() { return systemTimestamp; }
+    public long getSystemTimestamp() { return systemTimestamp; }
     public String getSystemTimestampAsString(Resources res) {
         if (systemTimestamp == 0)
             return res.getString(R.string.unknown);
