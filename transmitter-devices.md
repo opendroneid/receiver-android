@@ -43,6 +43,7 @@ The list is presented in alphabetical order.
 | ------------- | ---- | ---- | ------------ | --------- | --------------------------------------------------- | ------------ |
 | Aerobits idME | ✅   | ✅   | ❌           | ❌        | https://www.aerobits.pl/product/idme/               |              |
 | Aerobits idME Pro | ✅ | ✅ | ✅           | ✅        | https://www.aerobits.pl/product/idme-pro/           |              |
+| AirPlate Remote ID Pro | ✅ | ✅ | ✅           | ❌        | https://airplate.dk/           |              |
 | DroneBeacon db100  | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
 | DroneBeacon db120  | ✅   | ✅   | ✅           | ✅        | https://dronescout.co/dronebeacon-remote-id-transponder/ |              |
 | Dronetag Beacon | ✅ | ✅   | ❌           | ❌        | https://shop.dronetag.cz/en/products/21-dronetag-beacon.html |              |
