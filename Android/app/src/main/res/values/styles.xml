@@ -7,11 +7,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/midnight</item>
+        <item name="colorPrimaryDark">@color/midnight</item>
+        <item name="colorAccent">@color/black_overlay</item>
+        <!-- Set a different background color for the splash screen -->
+        <item name="android:windowBackground">@color/paleSky</item>
     </style>
 
     <style name="Details.Label" parent="TextAppearance.AppCompat">
@@ -39,6 +41,19 @@
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="BoxEditText" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="android:textColorHint">@color/overcast</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/midnight</item>
+    </style>
+
+    <style name="AboutAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/overcast</item>
     </style>
 
 </resources>

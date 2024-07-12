@@ -8,7 +8,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/midnight">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,25 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/midnight">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_drone_blue"
+                android:layout_gravity="center"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:cardElevation="1dp"
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,19 +50,22 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Connection" />
+                    android:text="@string/Connection"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/msgVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
                 <TextView
                     android:id="@+id/receiveTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -60,23 +82,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/RSSI" />
+                        android:text="@string/RSSI"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/conRssi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/MAC" />
+                        android:text="@string/MAC"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/conMac"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -86,23 +112,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Started" />
+                        android:text="@string/Started"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/conStarted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Last_seen" />
+                        android:text="@string/Last_seen"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/conLastUpdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -112,23 +142,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Msg_8710" />
+                        android:text="@string/Msg_8710"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/conMsgDelta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Distance" />
+                        android:text="@string/Distance"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -141,7 +175,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -152,13 +187,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Basic_ID_1" />
+                    android:text="@string/Basic_ID_1"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/infoLastUpdate1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -175,23 +212,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Type" />
+                        android:text="@string/Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/ID_Type" />
+                        android:text="@string/ID_Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoIdType1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -201,14 +242,16 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/UAS_ID" />
+                        android:text="@string/UAS_ID"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoUasId1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -221,7 +264,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -232,13 +276,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Basic_ID_2" />
+                    android:text="@string/Basic_ID_2"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/infoLastUpdate2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -255,23 +301,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Type" />
+                        android:text="@string/Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoType2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/ID_Type" />
+                        android:text="@string/ID_Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoIdType2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -281,14 +331,16 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/UAS_ID" />
+                        android:text="@string/UAS_ID"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/infoUasId2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -301,7 +353,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,13 +365,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Location" />
+                    android:text="@string/Location"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/posLastUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -335,23 +390,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Latitude" />
+                        android:text="@string/Latitude"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/lat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Longitude" />
+                        android:text="@string/Longitude"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/lon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -361,23 +420,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Altitude_Press" />
+                        android:text="@string/Altitude_Press"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/altitudePressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Alt_Geod" />
+                        android:text="@string/Alt_Geod"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/altitudeGeodetic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -387,23 +450,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Direction" />
+                        android:text="@string/Direction"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/direction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Status" />
+                        android:text="@string/Status"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -413,23 +480,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Hori_Speed" />
+                        android:text="@string/Hori_Speed"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/horiSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Vert_Speed" />
+                        android:text="@string/Vert_Speed"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/vertSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -439,23 +510,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Height" />
+                        android:text="@string/Height"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/height"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Height_Over" />
+                        android:text="@string/Height_Over"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/heightType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -465,23 +540,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Hori_Accuracy" />
+                        android:text="@string/Hori_Accuracy"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/horizontalAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Vert_Acc" />
+                        android:text="@string/Vert_Acc"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/verticalAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -491,23 +570,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Baro_Acc" />
+                        android:text="@string/Baro_Acc"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/baroAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Speed_Acc" />
+                        android:text="@string/Speed_Acc"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/speedAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -517,23 +600,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Time_Acc" />
+                        android:text="@string/Time_Acc"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/timeAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Timestamp" />
+                        android:text="@string/Timestamp"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/timestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -546,7 +633,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -557,13 +645,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Self_ID" />
+                    android:text="@string/Self_ID"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/selfIdLastUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -580,23 +670,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Operation" />
+                        android:text="@string/Operation"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/selfIdDescription"
                         android:layout_width="162dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Type" />
+                        android:text="@string/Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/selfIdType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -609,7 +703,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -620,13 +715,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/System_Operator" />
+                    android:text="@string/System_Operator"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/systemLastUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -643,23 +740,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Location_Type" />
+                        android:text="@string/Location_Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/operatorLocationType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/System_Altitude" />
+                        android:text="@string/System_Altitude"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemAltitudeGeo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -669,23 +770,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/System_Latitude" />
+                        android:text="@string/System_Latitude"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemLatitude"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/System_Longitude" />
+                        android:text="@string/System_Longitude"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemLongitude"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -695,23 +800,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Area_Count" />
+                        android:text="@string/Area_Count"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemAreaCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Area_Radius" />
+                        android:text="@string/Area_Radius"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemAreaRadius"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -721,23 +830,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Area_Ceiling" />
+                        android:text="@string/Area_Ceiling"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemAreaCeiling"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Area_Floor" />
+                        android:text="@string/Area_Floor"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemAreaFloor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -747,23 +860,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Classification" />
+                        android:text="@string/Classification"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/classificationType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/System_Timestamp" />
+                        android:text="@string/System_Timestamp"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/systemTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -773,23 +890,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Category" />
+                        android:text="@string/Category"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Class" />
+                        android:text="@string/Class"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/classValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -802,7 +923,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -813,13 +935,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Operator_Info" />
+                    android:text="@string/Operator_Info"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/operatorIdLastUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -836,23 +960,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Operator_ID" />
+                        android:text="@string/Operator_ID"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/operatorId"
                         android:layout_width="162dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/ID_Type" />
+                        android:text="@string/ID_Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/operatorIdType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
                 </TableRow>
 
             </TableLayout>
@@ -864,7 +992,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:cardElevation="1dp"
-            app:contentPadding="8dp">
+            app:contentPadding="8dp"
+            android:backgroundTint="@color/overcast">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -875,13 +1004,15 @@
                     style="@style/Details.Heading"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/Authentication" />
+                    android:text="@string/Authentication"
+                    android:textColor="@color/sky"/>
 
                 <TextView
                     android:id="@+id/authLastUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/unknown" />
+                    android:text="@string/unknown"
+                    android:textColor="@color/midnight"/>
 
             </LinearLayout>
 
@@ -898,23 +1029,27 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Auth_Type" />
+                        android:text="@string/Auth_Type"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/authType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Auth_Length" />
+                        android:text="@string/Auth_Length"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/authLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -924,14 +1059,16 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Auth_Timestamp" />
+                        android:text="@string/Auth_Timestamp"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/authTimestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 
@@ -941,14 +1078,16 @@
 
                     <TextView
                         style="@style/Details.Label"
-                        android:text="@string/Auth_Data" />
+                        android:text="@string/Auth_Data"
+                        android:textColor="@color/midnight"/>
 
                     <TextView
                         android:id="@+id/authData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_span="3"
-                        android:text="@string/unknown" />
+                        android:text="@string/unknown"
+                        android:textColor="@color/midnight"/>
 
                 </TableRow>
 

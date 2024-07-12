@@ -5,10 +5,12 @@
  *
  */
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 android {
     def versionMajor = 3
-    def versionMinor = 5
-    def versionPatch = 0
+    def versionMinor = 6
+    def versionPatch = 1
     compileSdk 34
 
     defaultConfig {
@@ -77,4 +79,16 @@ dependencies {
         implementation 'androidx.preference:preference:1.2.1'
         implementation 'org.osmdroid:osmdroid-android:6.1.13'
 //    }
+
+    // currently only used for app test deployment
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-analytics")
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    //FingerprintJS for getting unique phone identifier
+    implementation "com.github.fingerprintjs:fingerprint-android:2.1.0"
+
 }

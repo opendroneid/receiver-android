@@ -29,7 +29,7 @@ public class AircraftViewModel extends ViewModel {
         selected.postValue(object);
     }
 
-    LiveData<AircraftObject> getActiveAircraft() {
+    public LiveData<AircraftObject> getActiveAircraft() {
         return selected;
     }
 
@@ -37,7 +37,7 @@ public class AircraftViewModel extends ViewModel {
         aircraft.postValue(new HashSet<>(objects.values()));
     }
 
-    LiveData<Set<AircraftObject>> getAllAircraft() {
+    public LiveData<Set<AircraftObject>> getAllAircraft() {
         return aircraft;
     }
 
