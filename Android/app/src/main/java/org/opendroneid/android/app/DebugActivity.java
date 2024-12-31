@@ -474,6 +474,16 @@ public class DebugActivity extends AppCompatActivity {
                     forceStopApp();
                     return;
                 }
+                else
+                {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED) {
+                        finalizeOnCreate();
+                    } else {
+                        Log.d(TAG, "onRequestPermissionsResult: Requesting BLUETOOTH_SCAN");
+                        ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.BLUETOOTH_SCAN }, Constants.REQUEST_BLUETOOTH_PERMISSION_SCAN);
+                        return;
+                    }
+                }
             }
         }
 
