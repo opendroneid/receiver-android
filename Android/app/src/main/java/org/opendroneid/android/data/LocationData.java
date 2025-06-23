@@ -313,7 +313,18 @@ public class LocationData extends MessageData {
     public String getLocationTimestampAsString() {
         if (locationTimestamp == 0xFFFF)
             return "--:--";
-        return String.format(Locale.US,"%02.0f:%02.0f", getTimeStampMinutes(), getTimeStampSeconds());
+
+        double totalSeconds = locationTimestamp / 10.0;
+
+        int minutes = (int)(totalSeconds / 60);
+        int seconds = (int)Math.round(totalSeconds % 60);
+
+        if (seconds == 60) {
+            seconds = 0;
+            minutes += 1;
+        }
+
+        return String.format(Locale.US, "%02d:%02d", minutes, seconds);
     }
     public void setLocationTimestamp(double locationTimestamp) {
         if (locationTimestamp < 0)
