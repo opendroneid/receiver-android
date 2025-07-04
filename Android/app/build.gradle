@@ -7,7 +7,7 @@
 apply plugin: 'com.android.application'
 android {
     def versionMajor = 3
-    def versionMinor = 5
+    def versionMinor = 6
     def versionPatch = 0
     compileSdk 36
 
