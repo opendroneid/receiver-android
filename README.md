@@ -25,7 +25,7 @@ Please note: The user of this receiver application must always visually verify t
 ## How to build
 
 To build the application, use Android Studio.
-Import the project (File -> New -> Import Project) and point to the folder named Android.
+Import the project (File -> New -> Import Project, or just Open on newer versions of Android Studio) and point to the folder named Android.
 Then Build -> Make Project.
 
 By default the application is setup to use Open Street Map.
