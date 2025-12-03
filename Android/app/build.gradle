@@ -18,29 +18,21 @@ android {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def useGoogleMaps = project.hasProperty("org.gradle.project.map") && project.property("org.gradle.project.map") == "google_map"
+        buildConfigField "boolean", "USE_GOOGLE_MAPS", useGoogleMaps.toString()
+
     }
     buildTypes {
         debug {
             versionNameSuffix ".debug"
             resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
-
-            if (project.hasProperty('org.gradle.project.map')) {
-                buildConfigField "boolean", "USE_GOOGLE_MAPS", "true"
-            } else {
-                buildConfigField "boolean", "USE_GOOGLE_MAPS", "false"
-            }
         }
 
         release {
             resValue "string", "app_version", "${defaultConfig.versionName}"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            if (project.hasProperty('org.gradle.project.map')) {
-                buildConfigField "boolean", "USE_GOOGLE_MAPS", "true"
-            } else {
-                buildConfigField "boolean", "USE_GOOGLE_MAPS", "false"
-            }
         }
     }
     compileOptions {

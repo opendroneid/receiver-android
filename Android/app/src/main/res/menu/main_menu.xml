@@ -1,16 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (C) 2019 Intel Corporation
 
  SPDX-License-Identifier: Apache-2.0
+-->
 
-!-->
-
-<!--
-When the flag org.gradle.project.map in gradle.properties
-is defined to google_map, the Map Type element below needs
-to be uncommented.
-!-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
@@ -30,28 +23,33 @@ to be uncommented.
         android:id="@+id/log_location"
         android:title="@string/Show_log_location"
         app:showAsAction="never" />
-    <!--
+    <!-- Google Maps Menu -->
     <item
         android:id="@+id/maptype"
-        app:showAsAction="never"
-        android:title="@string/Map_Type">
-        <menu >
-            <group android:id="@+id/groupmaptype"
+        android:title="@string/Map_Type"
+        app:showAsAction="never">
+        <menu>
+            <group
+                android:id="@+id/groupmaptype"
                 android:checkableBehavior="single">
-                <item android:id="@+id/maptypeNORMAL"
+                <item
+                    android:id="@+id/maptypeNORMAL"
                     android:title="@string/Map_Type_Normal" />
-                <item android:id="@+id/maptypeSATELLITE"
+                <item
+                    android:id="@+id/maptypeSATELLITE"
                     android:title="@string/Map_Type_Satellite" />
-                <item android:id="@+id/maptypeTERRAIN"
+                <item
+                    android:id="@+id/maptypeTERRAIN"
                     android:title="@string/Map_Type_Terrain" />
-                <item android:id="@+id/maptypeHYBRID"
+                <item
+                    android:id="@+id/maptypeHYBRID"
                     android:title="@string/Map_Type_Hybrid" />
-                <item android:id="@+id/maptypeNONE"
+                <item
+                    android:id="@+id/maptypeNONE"
                     android:title="@string/Map_Type_None" />
             </group>
         </menu>
     </item>
-    !-->
     <item
         android:id="@+id/coded_phy"
         android:title="@string/coded_phy_not_supported"

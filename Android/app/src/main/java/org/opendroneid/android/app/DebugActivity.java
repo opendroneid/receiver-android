@@ -97,11 +97,17 @@ public class DebugActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         mMenuLogItem = menu.findItem(R.id.menu_log);
         mMenuLogItem.setChecked(getLogEnabled());
-        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
-           the below code needs to be uncommented:
+        MenuItem mapTypeItem = menu.findItem(R.id.maptype);
+        if (mapTypeItem != null) {
+            mapTypeItem.setVisible(BuildConfig.USE_GOOGLE_MAPS);
+        }
         if (BuildConfig.USE_GOOGLE_MAPS) {
-            menu.findItem(R.id.maptypeHYBRID).setChecked(true); // Configured in AircraftMapView.setMapSettings()
-        }*/
+            MenuItem hybridItem = menu.findItem(R.id.maptypeHYBRID);
+            if (hybridItem != null) {
+                hybridItem.setChecked(true);
+            }
+        }
+
         checkBluetoothSupport(menu);
         checkNaNSupport(menu);
         checkWiFiSupport(menu);
@@ -184,7 +190,9 @@ public class DebugActivity extends AppCompatActivity {
             return true;
         }
         if (BuildConfig.USE_GOOGLE_MAPS)
-            return mMapView.changeMapType(item);
+            if (mMapView != null) {
+                return mMapView.changeMapType(item);
+            }
         return false;
     }
 
@@ -346,6 +354,14 @@ public class DebugActivity extends AppCompatActivity {
             wiFiBeaconScanner = new WiFiBeaconScanner(this, dataManager, logger);
 
         addDeviceList();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (BuildConfig.USE_GOOGLE_MAPS) {
+            ft.replace(R.id.mapView, new AircraftMapView());
+        } else {
+            ft.replace(R.id.mapView, new AircraftOsMapView());
+        }
+        ft.commit();
 
         if (BuildConfig.USE_GOOGLE_MAPS) {
             mMapView = (AircraftMapView) getSupportFragmentManager().findFragmentById(R.id.mapView);

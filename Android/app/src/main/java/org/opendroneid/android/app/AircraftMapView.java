@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import org.opendroneid.android.R;
 import org.opendroneid.android.data.AircraftObject;
 import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SystemData;
@@ -261,8 +262,6 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
     public boolean changeMapType(MenuItem item) {
         if (googleMap == null)
             return false;
-        /* When the flag org.gradle.project.map in gradle.properties is defined to google_map,
-           the below code needs to be uncommented:
         if (item.getItemId() == R.id.maptypeHYBRID) {
             item.setChecked(!item.isChecked());
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -280,7 +279,7 @@ public class AircraftMapView extends SupportMapFragment implements OnMapReadyCal
             googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
         } else {
             return false;
-        }*/
+        }
         return true;
     }
 
