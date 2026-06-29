@@ -165,6 +165,7 @@ We plan to continuously update this list and increase the reliability of informa
 | Smartphone Model | Chipset | Android version | BT 5 LR Basic Support (Elimination criteria) | BT 5 LR Receiver Support | Wi-Fi Beacon | Wi-Fi NAN  | Proof | Note |
 | ---------------- | ------- | --------------- | -------------------------------------------- | ------------------------ | ------------ | ---------- | ----- | ---- |
 | Asus Zenfone 6                                   | Snapdragon 855    | 11 | ✅ 1/2021  | ✅ 7/2021  | ✅ 7/2021  | ✅ 1/2021  | [Link](receiver_proofs/Asus_Zenfone6) | Does not receive Long Range continuously (gaps of up to 5 sec) |
+| Google Pixel 9                                   | Google Tensor G4  | 16 | ✅ 6/2026 | ✅ 6/2026 | ✅ 6/2026 | ✅ 6/2026 | [Link](receiver_proofs/Google_Pixel_9) | Only a few long range packages missed |
 | Google Pixel 8                                   | Google Tensor G3  | 14 | ✅ 1/2024 | ❌ 1/2024 | ✅ 1/2024 | ✅ 1/2024 |      | Long range support is claimed but the signals are never received |
 | Google Pixel 7                                   | Google Tensor G2  | 13 | ✅ 9/2023 | ❌ 9/2023 | ✅ 9/2023 | ✅ 9/2023 |      | Long range support is claimed but the signals are never received |
 | Google Pixel 6                                   | Google Tensor     | 12 | ✅ 11/2021 | ❌ 11/2021 | ✅ 11/2021 | ✅ 11/2021 |      | Long range support is claimed but the signals are never received |
