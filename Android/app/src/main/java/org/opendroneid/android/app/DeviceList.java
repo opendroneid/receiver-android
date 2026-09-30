@@ -141,6 +141,15 @@ public class DeviceList extends Fragment {
         newFragment.show(getParentFragmentManager(), "dialog");
     }
 
+    private void showMessages(AircraftObject aircraft) {
+        if (getActivity() == null)
+            return;
+        DetailViewModel model = new ViewModelProvider(getActivity()).get(DetailViewModel.class);
+        model.select(aircraft);
+        MessagesDialogFragment newFragment = MessagesDialogFragment.newInstance();
+        newFragment.show(getParentFragmentManager(), "messages_dialog");
+    }
+
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
@@ -167,6 +176,10 @@ public class DeviceList extends Fragment {
             Button button = v.findViewById(R.id.modButton);
             button.setText(R.string.info);
             button.setOnClickListener(v1 -> showDetails(aircraft));
+
+            Button msgButton = v.findViewById(R.id.msgButton);
+            msgButton.setText(R.string.message);
+            msgButton.setOnClickListener(v1 -> showMessages(aircraft));
 
             droneIcon = ContextCompat.getDrawable(requireActivity(), R.mipmap.ic_plane_icon);
             iconImageView = v.findViewById(R.id.drone_icon);

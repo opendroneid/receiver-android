@@ -67,6 +67,32 @@
         android:title="@string/wifi_beacon_scan_not_supported"
         app:showAsAction="never" />
     <item
+        android:id="@+id/language"
+        android:title="@string/Language"
+        app:showAsAction="never">
+        <menu>
+            <group
+                android:id="@+id/grouplanguage"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/lang_system"
+                    android:title="@string/Language_System" />
+                <item
+                    android:id="@+id/lang_zh"
+                    android:title="@string/Language_zh" />
+                <item
+                    android:id="@+id/lang_en"
+                    android:title="@string/Language_en" />
+                <item
+                    android:id="@+id/lang_ja"
+                    android:title="@string/Language_ja" />
+                <item
+                    android:id="@+id/lang_fr"
+                    android:title="@string/Language_fr" />
+            </group>
+        </menu>
+    </item>
+    <item
         android:id="@+id/version"
         android:title="@string/app_version"
         app:showAsAction="never" />

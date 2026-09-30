@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Simplified Chinese translation for the OpenDroneID receiver application.
+-->
+<resources>
+    <string name="app_name">OpenDroneID</string>
+    <string name="bt_rationale">本应用需要蓝牙 / 附近设备权限才能正常工作。</string>
+    <string name="nearby_not_granted">必须授予「附近设备 / 蓝牙 / Wi-Fi」权限，本应用才能正常工作。</string>
+    <string name="bt_not_supported">本设备不支持蓝牙。</string>
+    <string name="bt_not_enabled_leaving">不开启蓝牙，本应用无法工作。</string>
+    <string name="wifi_not_enabled_leaving">不开启 Wi-Fi，本应用无法工作。</string>
+    <string name="info">信息</string>
+    <string name="message">报文</string>
+    <string name="messages_title">报文列表</string>
+    <string name="messages_empty">尚未收到报文</string>
+
+    <string name="Clear">清除</string>
+    <string name="Help">帮助</string>
+    <string name="Log_enabled">启用日志</string>
+    <string name="Show_log_location">显示日志位置</string>
+
+    <string name="Language">语言</string>
+    <string name="Language_System">跟随系统</string>
+    <string name="Language_zh">简体中文</string>
+    <string name="Language_en">English</string>
+    <string name="Language_ja">日本語</string>
+    <string name="Language_fr">Français</string>
+
+    <string name="my_location_unavailable">尚未获取手机定位</string>
+
+    <string name="coded_phy_not_supported">不支持 Coded Phy</string>
+    <string name="coded_phy_supported">支持 Coded Phy</string>
+    <string name="ea_not_supported">不支持扩展广播</string>
+    <string name="ea_supported">支持扩展广播</string>
+    <string name="nan_not_supported">不支持 WiFi NaN</string>
+    <string name="nan_supported">支持 WiFi NaN</string>
+
+    <string name="wifi_beacon_scan_not_supported">不支持 WiFi Beacon 扫描</string>
+    <string name="wifi_beacon_scan_supported">支持 WiFi Beacon 扫描</string>
+    <string name="Logging_to">日志写入 </string>
+    <string name="Logging_not_activated">未启用日志</string>
+    <string name="Map_Type">地图类型</string>
+    <string name="Map_Type_Normal">普通</string>
+    <string name="Map_Type_Satellite">卫星</string>
+    <string name="Map_Type_Terrain">地形</string>
+    <string name="Map_Type_Hybrid">混合</string>
+    <string name="Map_Type_None">无</string>
+
+    <string name="copyright_osm">©https://www.openstreetmap.org/copyright 地图贡献者</string>
+
+    <string name="copyright_amap">© 高德地图瓦片 - 非官方接入，仅供测试</string>
+
+    <string name="copyright_google_sat">© Google 影像瓦片 - 非官方接入，仅供测试</string>
+
+    <string name="permission_rationale_location">不开启定位权限，本应用无法工作。</string>
+    <string name="permission_required_toast">本应用需要定位权限才能工作。</string>
+
+    <string name="drone_icon_content_description">无人机图标</string>
+
+    <string name="bluetooth_help_heading">蓝牙</string>
+    <string name="bluetooth_help_text">示例</string>
+    <string name="beacon_help_heading">Wi-Fi Beacon</string>
+    <string name="beacon_help_text">示例</string>
+    <string name="nan_help_heading">Wi-Fi NaN</string>
+    <string name="nan_help_text">示例</string>
+
+    <string name="Connection">连接</string>
+    <string name="unknown">–</string>
+    <string name="RSSI">信号强度</string>
+    <string name="MAC">MAC 地址</string>
+    <string name="Started">开始时间</string>
+    <string name="Last_seen">最后接收</string>
+    <string name="Msg_8710">报文 &#8710;</string>
+    <string name="Distance">距离</string>
+
+    <string name="Basic_ID_1">基本 ID 1</string>
+    <string name="Type">类型</string>
+    <string name="ID_Type">ID 类型</string>
+    <string name="UAS_ID">无人机 ID</string>
+    <string name="Basic_ID_2">基本 ID 2</string>
+
+    <string name="Location">位置</string>
+    <string name="Latitude">纬度</string>
+    <string name="Longitude">经度</string>
+    <string name="Altitude_Press">气压高度</string>
+    <string name="Alt_Geod">大地高度</string>
+    <string name="Direction">方向</string>
+    <string name="Status">状态</string>
+    <string name="Hori_Speed">水平速度</string>
+    <string name="Vert_Speed">垂直速度</string>
+    <string name="Height">高度</string>
+    <string name="Height_Over">高度基准</string>
+    <string name="Hori_Accuracy">水平精度</string>
+    <string name="Vert_Acc">垂直精度</string>
+    <string name="Baro_Acc">气压精度</string>
+    <string name="Speed_Acc">速度精度</string>
+    <string name="Time_Acc">时间精度</string>
+    <string name="Timestamp">时间戳</string>
+
+    <string name="Self_ID">自识别 ID</string>
+    <string name="Operation">作业描述</string>
+
+    <string name="System_Operator">系统 / 操作手</string>
+    <string name="Location_Type">位置类型</string>
+    <string name="System_Altitude">高度</string>
+    <string name="System_Latitude">纬度</string>
+    <string name="System_Longitude">经度</string>
+    <string name="Area_Count">区域数量</string>
+    <string name="Area_Radius">区域半径</string>
+    <string name="Area_Ceiling">区域上限</string>
+    <string name="Area_Floor">区域下限</string>
+    <string name="Classification">分类</string>
+    <string name="Category">类别</string>
+    <string name="Class">等级</string>
+    <string name="System_Timestamp">时间戳</string>
+
+    <string name="Operator_Info">操作手 ID</string>
+    <string name="Operator_ID">操作手 ID</string>
+
+    <string name="Authentication">认证</string>
+    <string name="Auth_Type">类型</string>
+    <string name="Auth_Length">长度</string>
+    <string name="Auth_Timestamp">时间戳</string>
+    <string name="Auth_Data">认证数据</string>
+
+    <string name="bluetoothHelp">所有设备都应该能接收蓝牙 4 传统广播（Legacy Advertising）的 Remote ID 信号。&lt;br&gt;&lt;br&gt;
+        要接收蓝牙 5 长距（Long Range）Remote ID 信号，设备必须同时支持「Coded Phy」和「扩展广播 Extended Advertising」特性。&lt;br&gt;&lt;br&gt;
+        本设备对这些特性的声明支持情况可在选项菜单中查看。&lt;br&gt;&lt;br&gt;
+        请注意：即使设备声明支持这些特性，也不一定能真正接收到长距信号，或者只能在某些时间段内间歇性接收。&lt;br&gt;</string>
+    <string name="beaconHelp">所有运行 Android 6（Marshmallow）及以上版本的设备都应该能接收 Wi-Fi Beacon 的 Remote ID 信号。&lt;br&gt;&lt;br&gt;
+        接收率因设备的硬件和软件不同差异很大。&lt;br&gt;&lt;br&gt;
+        关闭 Wi-Fi 扫描&lt;a href=&quot;https://developer.android.com/guide/topics/connectivity/wifi-scan#wifi-scan-throttling&quot;&gt;节流&lt;/a&gt;限制，可在一定程度上提高 Wi-Fi Beacon Remote ID 信号的接收率。&lt;br&gt;&lt;br&gt;
+        打开系统「设置」应用，启用&lt;a href=&quot;https://developer.android.com/studio/debug/dev-options&quot;&gt;Android 开发者模式&lt;/a&gt;。&lt;br&gt;&lt;br&gt;
+        找到「软件信息」（可能在「关于手机」菜单中），连续点击「版本号」7 次。&lt;br&gt;&lt;br&gt;
+        返回后找到「开发者选项」菜单，滚动到「Wi-Fi 扫描节流」并将其关闭。&lt;br&gt;</string>
+    <string name="nanHelp">只有当设备支持 Wi-Fi NaN 时，才能接收 Wi-Fi 邻近感知网络（Neighbor-aware Network）的 Remote ID 信号。&lt;br&gt;
+        本设备对该特性的声明支持情况可在选项菜单中查看。&lt;br&gt;</string>
+
+</resources>
