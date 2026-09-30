@@ -19,12 +19,17 @@ import org.opendroneid.android.data.AuthenticationData;
 import org.opendroneid.android.data.SelfIdData;
 import org.opendroneid.android.data.OperatorIdData;
 import org.opendroneid.android.data.SystemData;
+import org.opendroneid.android.bluetooth.Gb46750Parser;
 
 public class DetailViewModel extends ViewModel {
     private final MutableLiveData<AircraftObject> selected = new MutableLiveData<>();
 
     void select(AircraftObject item) {
         selected.setValue(item);
+    }
+
+    public AircraftObject getSelected() {
+        return selected.getValue();
     }
 
     final LiveData<Identification> identification1 = Transformations.switchMap(selected,
@@ -50,4 +55,7 @@ public class DetailViewModel extends ViewModel {
 
     final LiveData<OperatorIdData> operatorid = Transformations.switchMap(selected,
             input -> input.operatorid);
+
+    final LiveData<Gb46750Parser.Gb46750Message> gbMessage = Transformations.switchMap(selected,
+            input -> input.gbMessage);
 }

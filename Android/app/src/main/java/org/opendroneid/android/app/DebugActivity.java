@@ -26,8 +26,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.os.LocaleListCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -118,7 +120,42 @@ public class DebugActivity extends AppCompatActivity {
             checkNaNSupport(menu);
         }
         checkWiFiSupport(menu);
+        markCurrentLanguage(menu);
         return true;
+    }
+
+    /** Tick the language entry matching the locale currently applied to the app. */
+    private void markCurrentLanguage(Menu menu) {
+        LocaleListCompat locales = AppCompatDelegate.getApplicationLocales();
+        String tags = locales.isEmpty() ? "" : locales.toLanguageTags();
+        int item;
+        if (tags.startsWith("zh")) {
+            item = R.id.lang_zh;
+        } else if (tags.startsWith("ja")) {
+            item = R.id.lang_ja;
+        } else if (tags.startsWith("fr")) {
+            item = R.id.lang_fr;
+        } else if (tags.startsWith("en")) {
+            item = R.id.lang_en;
+        } else {
+            item = R.id.lang_system;
+        }
+        MenuItem menuItem = menu.findItem(item);
+        if (menuItem != null) {
+            menuItem.setChecked(true);
+        }
+    }
+
+    /**
+     * Switch the app language at runtime. Passing null or an empty tag resets the app
+     * to the device (system) language. The choice is stored by AppCompat and restored
+     * automatically, so it survives a restart of the application.
+     */
+    private void setAppLanguage(String languageTag) {
+        LocaleListCompat locales = (languageTag == null || languageTag.isEmpty())
+                ? LocaleListCompat.getEmptyLocaleList()
+                : LocaleListCompat.forLanguageTags(languageTag);
+        AppCompatDelegate.setApplicationLocales(locales);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -193,6 +230,21 @@ public class DebugActivity extends AppCompatActivity {
             else
                 message = getString(R.string.Logging_not_activated);
             showToast(message);
+            return true;
+        } else if (id == R.id.lang_zh) {
+            setAppLanguage("zh-CN");
+            return true;
+        } else if (id == R.id.lang_en) {
+            setAppLanguage("en");
+            return true;
+        } else if (id == R.id.lang_ja) {
+            setAppLanguage("ja");
+            return true;
+        } else if (id == R.id.lang_fr) {
+            setAppLanguage("fr");
+            return true;
+        } else if (id == R.id.lang_system) {
+            setAppLanguage(null);
             return true;
         }
 
@@ -277,6 +329,12 @@ public class DebugActivity extends AppCompatActivity {
         );
 
         setContentView(R.layout.activity_debug);
+        TextView attribution = findViewById(R.id.attribution);
+        if (BuildConfig.NEEDS_GCJ02) {
+            attribution.setText(R.string.copyright_amap);
+        } else if ("google_sat".equals(BuildConfig.BASE_MAP)) {
+            attribution.setText(R.string.copyright_google_sat);
+        }
         mModel = new ViewModelProvider(this).get(AircraftViewModel.class);
 
         dataManager = new OpenDroneIdDataManager(new OpenDroneIdDataManager.Callback() {

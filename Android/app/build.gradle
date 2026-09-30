@@ -8,6 +8,15 @@ plugins {
     id 'com.android.application'
 }
 
+// Release signing: credentials live in Android/signing.properties, keystore under Android/keystore/.
+// Read at configuration time so `assembleRelease` produces a signed app-release.apk.
+// If the file is absent the release build simply stays unsigned (debug builds are unaffected).
+def signingPropsFile = rootProject.file("signing.properties")
+def signingProps = new Properties()
+if (signingPropsFile.exists()) {
+    signingPropsFile.withInputStream { signingProps.load(it) }
+}
+
 android {
     def versionMajor = 3
     def versionMinor = 7
@@ -24,8 +33,28 @@ android {
 
         def mapProperty = providers.gradleProperty("org.gradle.project.map")
         def useGoogleMaps = mapProperty.isPresent() && mapProperty.get() == "google_map"
+        def baseMapProperty = providers.gradleProperty("org.gradle.project.basemap")
+        def baseMap = baseMapProperty.isPresent() ? baseMapProperty.get() : "osm"
         buildConfigField "boolean", "USE_GOOGLE_MAPS", useGoogleMaps.toString()
+        // Base map rendered by the osmdroid view: "osm" (default), "amap" (Gaode vector),
+        // "amap_sat" (Gaode satellite + road/label overlay) or "google_sat" (Google imagery).
+        // The "amap*" sources are GCJ-02, so Remote ID coordinates and the receiver
+        // position are converted WGS-84 -> GCJ-02. The others stay in WGS-84.
+        buildConfigField "String", "BASE_MAP", "\"" + baseMap + "\""
+        buildConfigField "boolean", "NEEDS_GCJ02", ("amap".equals(baseMap) || "amap_sat".equals(baseMap)).toString()
     }
+
+    signingConfigs {
+        release {
+            if (signingPropsFile.exists()) {
+                storeFile rootProject.file(signingProps['storeFile'])
+                storePassword signingProps['storePassword']
+                keyAlias signingProps['keyAlias']
+                keyPassword signingProps['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         debug {
             versionNameSuffix = ".debug"
@@ -36,6 +65,9 @@ android {
             resValue "string", "app_version", "${defaultConfig.versionName}"
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (signingPropsFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     buildFeatures {

@@ -18,6 +18,7 @@ import org.opendroneid.android.data.LocationData;
 import org.opendroneid.android.data.SelfIdData;
 import org.opendroneid.android.data.SystemData;
 import org.opendroneid.android.data.OperatorIdData;
+import org.opendroneid.android.data.MsgLogEntry;
 import org.opendroneid.android.log.LogMessageEntry;
 
 import java.util.Arrays;
@@ -46,16 +47,69 @@ public class OpenDroneIdDataManager {
 
     void receiveDataBluetooth(byte[] data, ScanResult result, LogMessageEntry logMessageEntry,
                               String transportType) {
+        if (data == null)
+            return;
+        // Locate the ASTM Remote ID service data inside the raw BLE advertising record.
+        // The record may contain other AD structures (e.g. a Flags field) before or after
+        // the Remote ID payload, so a hard-coded offset cannot be assumed. The Remote ID
+        // Service Data is identified by the 16-bit UUID 0xFFFA (bytes FA FF, little-endian)
+        // followed by the AD application code 0x0D, then a 1-byte Message Counter, then the
+        // 25-byte OpenDroneID message (header first). So once the marker FA FF 0D is found at
+        // index i, the message header is at i+4. (When the service data starts at index 2, as
+        // in a bare advertising record, this yields offset 6 — identical to the upstream
+        // reference app — but the scan also stays correct if a Flags field is prepended.)
+        int offset = -1;
+        for (int i = 0; i + 3 <= data.length; i++) {
+            if ((data[i] & 0xFF) == 0xFA && (data[i + 1] & 0xFF) == 0xFF && (data[i + 2] & 0xFF) == 0x0D) {
+                offset = i + 4;
+                break;
+            }
+        }
+
         String macAddress = result.getDevice().getAddress();
         String macAddressCleaned = macAddress.replace(":", "");
         long macAddressLong = Long.parseLong(macAddressCleaned,16);
 
-        OpenDroneIdParser.Message<?> message =
-                OpenDroneIdParser.parseData(data, 6, result.getTimestampNanos(), logMessageEntry, receiverLocation);
-        if (message == null)
-            return;
-        receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(),
-                    message, logMessageEntry, transportType);
+        if (offset > 0) {
+            // ASTM F3411 报文路径
+            OpenDroneIdParser.Message<?> message =
+                    OpenDroneIdParser.parseData(data, offset, result.getTimestampNanos(), logMessageEntry, receiverLocation);
+            if (message == null)
+                return;
+            byte[] msgBytes = Arrays.copyOfRange(data, offset,
+                    Math.min(data.length, offset + Constants.MAX_MESSAGE_SIZE));
+            Log.i(TAG, "BT RX offset=" + offset + " type=" + message.header.type
+                    + " ver=" + message.header.version + " counter=" + message.msgCounter
+                    + " rssi=" + result.getRssi());
+            receiveData(result.getTimestampNanos(), macAddress, macAddressLong, result.getRssi(),
+                        message, logMessageEntry, transportType, msgBytes);
+        } else {
+            // 国标 GB 46750-2025 报文路径：在原始广播数据中寻找国标报文起始标记
+            int gbo = -1;
+            for (int i = 0; i + 2 < data.length; i++) {
+                if (Gb46750Parser.detect(data, i)) {
+                    gbo = i;
+                    break;
+                }
+            }
+            if (gbo < 0)
+                return;
+            Gb46750Parser.Gb46750Message gb = Gb46750Parser.parse(data, gbo);
+            if (gb == null)
+                return;
+            AircraftObject ac = getOrCreateAircraft(macAddress, macAddressLong);
+            ac.getConnection().rssi = result.getRssi();
+            ac.getConnection().transportType = transportType;
+            ac.getConnection().setTimestamp(result.getTimestampNanos());
+            ac.getConnection().lastSeen = System.currentTimeMillis();
+            ac.connection.setValue(ac.connection.getValue());
+            ac.gbMessage.setValue(gb);
+            byte[] rawBytes = Arrays.copyOfRange(data, gbo, data.length);
+            ac.appendMessage(new MsgLogEntry(transportType, "GB46750 V1." + gb.version,
+                    rawBytes, gb.toSummary(), System.currentTimeMillis()));
+            Log.i(TAG, "BT RX GB46750 V1." + gb.version + " items=" + gb.items.size()
+                    + " rssi=" + result.getRssi());
+        }
     }
 
     void receiveDataNaN(byte[] data, int peerHash, long timeNano, LogMessageEntry logMessageEntry,
@@ -64,7 +118,8 @@ public class OpenDroneIdDataManager {
                 OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry, transportType);
+        receiveData(timeNano, "NaN ID: " + peerHash, peerHash, 0, message, logMessageEntry, transportType,
+                Arrays.copyOfRange(data, 1, data.length));
     }
 
     void receiveDataWiFiBeacon(byte[] data, String mac, long macLong, int rssi, long timeNano,
@@ -73,17 +128,17 @@ public class OpenDroneIdDataManager {
                 OpenDroneIdParser.parseData(data, 1, timeNano, logMessageEntry, receiverLocation);
         if (message == null)
             return;
-        receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry, transportType);
+        receiveData(timeNano, mac, macLong, rssi, message, logMessageEntry, transportType,
+                Arrays.copyOfRange(data, 1, data.length));
     }
 
     @SuppressWarnings("unchecked")
     void receiveData(long timeNano, String macAddress, long macAddressLong, int rssi,
-                     OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry, String transportType) {
+                     OpenDroneIdParser.Message<?> message, LogMessageEntry logMessageEntry, String transportType,
+                     byte[] rawMessageBytes) {
 
         // Handle connection
-        AircraftObject acFound = aircraft.get(macAddressLong);
-        boolean isNew = (acFound == null);
-        AircraftObject ac = isNew ? createNewAircraft(macAddress, macAddressLong) : acFound;
+        AircraftObject ac = getOrCreateAircraft(macAddress, macAddressLong);
 
         long currentTime = System.currentTimeMillis();
         ac.getConnection().msgDelta = currentTime - ac.getConnection().lastSeen;
@@ -94,18 +149,29 @@ public class OpenDroneIdDataManager {
         ac.getConnection().setMsgVersion(message.header.version);
         ac.connection.setValue(ac.connection.getValue());
 
-        if (isNew) {
-            aircraft.put(macAddressLong, ac);
-            callback.onNewAircraft(ac);
-        }
-
         if (message.header.type == OpenDroneIdParser.Type.MESSAGE_PACK)
             handleMessagePack(ac, (OpenDroneIdParser.Message<OpenDroneIdParser.MessagePack>) message, timeNano, logMessageEntry, message.msgCounter);
         else
             handleMessages(ac, message);
 
+        // 记录该帧报文到滚动日志（供"报文"按钮弹窗展示）
+        String summary = (message.payload != null) ? message.payload.toString() : "";
+        ac.appendMessage(new MsgLogEntry(transportType, message.header.type.toString(),
+                rawMessageBytes, summary, System.currentTimeMillis()));
+
         // Restore the msgVersion in case the messages embedded in the pack had a different value
         logMessageEntry.setMsgVersion(ac.getConnection().getMsgVersion());
+    }
+
+    /** 获取或创建对应 MAC 的 AircraftObject；新建时登记到回调。 */
+    private AircraftObject getOrCreateAircraft(String macAddress, long macAddressLong) {
+        AircraftObject acFound = aircraft.get(macAddressLong);
+        if (acFound != null)
+            return acFound;
+        AircraftObject ac = createNewAircraft(macAddress, macAddressLong);
+        aircraft.put(macAddressLong, ac);
+        callback.onNewAircraft(ac);
+        return ac;
     }
 
     @SuppressWarnings("unchecked")

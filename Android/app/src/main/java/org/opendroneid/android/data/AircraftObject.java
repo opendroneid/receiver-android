@@ -10,6 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.annotation.NonNull;
 
 import org.opendroneid.android.Constants;
+import org.opendroneid.android.bluetooth.Gb46750Parser;
+
+import java.util.ArrayList;
 
 public class AircraftObject {
     final public MutableLiveData<Connection> connection = new MutableLiveData<>();
@@ -22,6 +25,14 @@ public class AircraftObject {
     final public MutableLiveData<SelfIdData> selfid = new MutableLiveData<>();
     final public MutableLiveData<SystemData> system = new MutableLiveData<>();
     final public MutableLiveData<OperatorIdData> operatorid = new MutableLiveData<>();
+
+    // 最新一条 GB 46750-2025 国标报文（无则为 null）。
+    final public MutableLiveData<Gb46750Parser.Gb46750Message> gbMessage = new MutableLiveData<>();
+
+    // 已接收报文滚动日志（ASTM + GB），最多保留 MAX_MESSAGE_LOG 条，供"报文"按钮弹窗展示。
+    final public ArrayList<MsgLogEntry> messageLog = new ArrayList<>();
+    private static final int MAX_MESSAGE_LOG = 50;
+    private final Object messageLogLock = new Object();
 
     private final long macAddress;
 
@@ -38,6 +49,25 @@ public class AircraftObject {
     public SelfIdData getSelfID() { return selfid.getValue(); }
     public SystemData getSystem() { return system.getValue(); }
     public OperatorIdData getOperatorID() { return operatorid.getValue(); }
+    public Gb46750Parser.Gb46750Message getGbMessage() { return gbMessage.getValue(); }
+
+    /** 追加一条报文记录（线程安全，滚动裁剪到 MAX_MESSAGE_LOG 条）。 */
+    public void appendMessage(MsgLogEntry entry) {
+        if (entry == null)
+            return;
+        synchronized (messageLogLock) {
+            messageLog.add(entry);
+            while (messageLog.size() > MAX_MESSAGE_LOG)
+                messageLog.remove(0);
+        }
+    }
+
+    /** 返回当前报文日志的快照副本（线程安全）。 */
+    public ArrayList<MsgLogEntry> getMessageLogSnapshot() {
+        synchronized (messageLogLock) {
+            return new ArrayList<>(messageLog);
+        }
+    }
 
     // Non-zero authentication data pages do not contain the following fields. Save them for displaying
     private int authLastPageIndexSave;
