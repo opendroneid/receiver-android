@@ -19,6 +19,7 @@
     <string name="Clear">クリア</string>
     <string name="Help">ヘルプ</string>
     <string name="Log_enabled">Log有効</string>
+    <string name="Ridf_log_enabled">RIDFキャプチャも記録</string>
     <string name="Show_log_location">位置情報ログ閲覧</string>
 
     <string name="coded_phy_not_supported">Coded Phy非対応</string>
