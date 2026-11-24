@@ -16,6 +16,7 @@
     <string name="Clear">Clear</string>
     <string name="Help">Help</string>
     <string name="Log_enabled">Log enabled</string>
+    <string name="Ridf_log_enabled">Also write RIDF capture</string>
     <string name="Show_log_location">Show log location</string>
 
     <string name="coded_phy_not_supported">Coded Phy not supported</string>

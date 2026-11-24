@@ -18,6 +18,7 @@
     <string name="Clear">Vider</string>
     <string name="Help">Aide</string>
     <string name="Log_enabled">Journalisation activée</string>
+    <string name="Ridf_log_enabled">Écrire aussi une capture RIDF</string>
     <string name="Show_log_location">Afficher l\'emplacement du journal</string>
 
     <string name="coded_phy_not_supported">Coded Phy non supporté</string>

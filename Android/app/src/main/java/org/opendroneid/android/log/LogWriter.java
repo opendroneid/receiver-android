@@ -35,22 +35,30 @@ public class LogWriter {
     private RidfWriter ridf;
 
     public LogWriter(File file) throws IOException {
+        this(file, false);
+    }
+
+    /**
+     * @param ridfCapture also keep the raw frames in a RIDF capture next to the
+     *                    CSV (opt-in from the settings menu, off by default)
+     */
+    public LogWriter(File file, boolean ridfCapture) throws IOException {
         writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
         exec = Executors.newSingleThreadExecutor();
 
-        // Alongside the CSV, keep the raw frames in a RIDF capture so a log
-        // session can be analyzed by Remote ID forensics tools without losing
-        // data to the CSV columns. Best effort: the CSV log is the primary
-        // artifact and must not fail because of the capture.
-        try {
-            String path = file.getPath();
-            if (path.endsWith(".csv"))
-                path = path.substring(0, path.length() - 4);
-            ridf = new RidfWriter(new File(path + ".ridf"));
-        } catch (IOException e) {
-            Log.e(TAG, "RIDF capture disabled", e);
-            ridf = null;
+        // Best effort: the CSV log is the primary artifact and must not fail
+        // because of the capture.
+        if (ridfCapture) {
+            try {
+                String path = file.getPath();
+                if (path.endsWith(".csv"))
+                    path = path.substring(0, path.length() - 4);
+                ridf = new RidfWriter(new File(path + ".ridf"));
+            } catch (IOException e) {
+                Log.e(TAG, "RIDF capture disabled", e);
+                ridf = null;
+            }
         }
 
         Log.i(TAG, "starting logging to " + file);

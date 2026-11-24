@@ -83,6 +83,7 @@ public class DebugActivity extends AppCompatActivity {
 
     public static final String SHARED_PREF_NAME = "DebugActivity";
     public static final String SHARED_PREF_ENABLE_LOG = "EnableLog";
+    public static final String SHARED_PREF_ENABLE_RIDF_LOG = "EnableRidfLog";
     private MenuItem mMenuLogItem;
 
     private AircraftMapView mMapView;
@@ -102,6 +103,7 @@ public class DebugActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         mMenuLogItem = menu.findItem(R.id.menu_log);
         mMenuLogItem.setChecked(getLogEnabled());
+        menu.findItem(R.id.menu_ridf_log).setChecked(getRidfLogEnabled());
         MenuItem mapTypeItem = menu.findItem(R.id.maptype);
         if (mapTypeItem != null) {
             mapTypeItem.setVisible(BuildConfig.USE_GOOGLE_MAPS);
@@ -186,6 +188,22 @@ public class DebugActivity extends AppCompatActivity {
                     wiFiBeaconScanner.setLogger(null);
             }
             return true;
+        } else if (id == R.id.menu_ridf_log) {
+            boolean enabled = !getRidfLogEnabled();
+            getSharedPreferences(SHARED_PREF_NAME, 0).edit()
+                    .putBoolean(SHARED_PREF_ENABLE_RIDF_LOG, enabled).apply();
+            item.setChecked(enabled);
+            // Takes effect on a new log file; restart the current one if logging
+            if (getLogEnabled()) {
+                if (logger != null)
+                    logger.close();
+                createNewLogfile();
+                if (wiFiNaNScanner != null)
+                    wiFiNaNScanner.setLogger(logger);
+                if (wiFiBeaconScanner != null)
+                    wiFiBeaconScanner.setLogger(logger);
+            }
+            return true;
         } else if (id == R.id.log_location) {
             String message;
             if (getLogEnabled())
@@ -205,6 +223,11 @@ public class DebugActivity extends AppCompatActivity {
     boolean getLogEnabled() {
         SharedPreferences pref = getSharedPreferences(SHARED_PREF_NAME, 0);
         return pref.getBoolean(SHARED_PREF_ENABLE_LOG, true);
+    }
+
+    boolean getRidfLogEnabled() {
+        SharedPreferences pref = getSharedPreferences(SHARED_PREF_NAME, 0);
+        return pref.getBoolean(SHARED_PREF_ENABLE_RIDF_LOG, false);
     }
 
     void setLogEnabled(boolean enabled) {
@@ -234,7 +257,7 @@ public class DebugActivity extends AppCompatActivity {
         loggerFile = getLoggerFileDir(btScanner.getBluetoothAdapter().getName());
 
         try {
-            logger = new LogWriter(loggerFile);
+            logger = new LogWriter(loggerFile, getRidfLogEnabled());
         } catch (IOException e) {
             Log.e(TAG, "createNewLogfile: failed", e);
         }

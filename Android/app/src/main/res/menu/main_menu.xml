@@ -20,6 +20,11 @@
         android:title="@string/Log_enabled"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_ridf_log"
+        android:checkable="true"
+        android:title="@string/Ridf_log_enabled"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/log_location"
         android:title="@string/Show_log_location"
         app:showAsAction="never" />
