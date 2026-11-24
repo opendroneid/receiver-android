@@ -32,11 +32,26 @@ public class LogWriter {
     public static void bumpSession() { session++; }
     private final BlockingQueue<String> logQueue = new LinkedBlockingQueue<>();
     private boolean loggingActive = false;
+    private RidfWriter ridf;
 
     public LogWriter(File file) throws IOException {
         writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
         exec = Executors.newSingleThreadExecutor();
+
+        // Alongside the CSV, keep the raw frames in a RIDF capture so a log
+        // session can be analyzed by Remote ID forensics tools without losing
+        // data to the CSV columns. Best effort: the CSV log is the primary
+        // artifact and must not fail because of the capture.
+        try {
+            String path = file.getPath();
+            if (path.endsWith(".csv"))
+                path = path.substring(0, path.length() - 4);
+            ridf = new RidfWriter(new File(path + ".ridf"));
+        } catch (IOException e) {
+            Log.e(TAG, "RIDF capture disabled", e);
+            ridf = null;
+        }
 
         Log.i(TAG, "starting logging to " + file);
         exec.submit(() -> {
@@ -67,6 +82,8 @@ public class LogWriter {
                     long time = System.currentTimeMillis();
                     if (time - lastTime > 1000) {
                         writer.flush();
+                        if (ridf != null)
+                            ridf.flush();
                         lastTime = time;
                     }
                 }
@@ -92,10 +109,21 @@ public class LogWriter {
         entry.macAddress = result.getDevice().getAddress();
         entry.msgVersion = msgVersion;
         entry.rssi = result.getRssi();
-        if (result.getScanRecord() != null)
-            entry.data = result.getScanRecord().getBytes();
+        byte[] scanBytes = null;
+        if (result.getScanRecord() != null) {
+            scanBytes = result.getScanRecord().getBytes();
+            entry.data = scanBytes;
+        }
         entry.csvLog = csvLog;
         logQueue.add(entry.toString());
+        if (ridf != null) {
+            int transport = "BT5".equals(transportType)
+                    ? RidfWriter.TRANSPORT_BT5 : RidfWriter.TRANSPORT_BT4;
+            // ODID payload starts at offset 6, as parsed by the data manager
+            logRidf(transport, result.getTimestampNanos(), result.getRssi(),
+                    RidfWriter.parseMac(result.getDevice().getAddress()),
+                    RidfWriter.odidPayload(scanBytes, 6));
+        }
     }
 
     public void logNaN(int msgVersion, Long timeNano, int peerHash, byte[] serviceSpecificInfo,
@@ -111,6 +139,11 @@ public class LogWriter {
             entry.data = serviceSpecificInfo;
         entry.csvLog = csvLog;
         logQueue.add(entry.toString());
+        // NAN discovery exposes neither the peer MAC nor RSSI to apps;
+        // ODID payload starts at offset 1, as parsed by the data manager
+        if (ridf != null)
+            logRidf(RidfWriter.TRANSPORT_WIFI_NAN, timeNano, null, null,
+                    RidfWriter.odidPayload(serviceSpecificInfo, 1));
     }
 
     public void logBeacon(int msgVersion, Long timeNano, android.net.wifi.ScanResult scanResult,
@@ -126,9 +159,27 @@ public class LogWriter {
             entry.data = data;
         entry.csvLog = csvLog;
         logQueue.add(entry.toString());
+        if (ridf != null)
+            logRidf(RidfWriter.TRANSPORT_WIFI_BEACON, timeNano, scanResult.level,
+                    RidfWriter.parseMac(scanResult.BSSID),
+                    RidfWriter.odidPayload(data, 1));
+    }
+
+    private void logRidf(int transport, long timeNano, Integer rssi,
+                         byte[] address, byte[] payload) {
+        try {
+            ridf.log(transport, timeNano, rssi, address, payload);
+        } catch (IOException e) {
+            Log.e(TAG, "RIDF capture failed, disabling", e);
+            ridf = null;
+        }
     }
 
     public void close() {
+        if (ridf != null) {
+            ridf.close();
+            ridf = null;
+        }
         loggingActive = false;
         exec.shutdownNow();
         try {
